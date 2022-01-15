@@ -1,0 +1,27 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "About this blog",
+      "description": "Some additional details about the blog",
+      "author": [],
+      "contents": "\nThis is where I should give more details about my blog!\n\n\n\n",
+      "last_modified": "2022-01-15T13:58:14-03:00"
+    },
+    {
+      "path": "gallery.html",
+      "title": "Gallery of featured posts",
+      "author": [],
+      "contents": "\n\n\n\n",
+      "last_modified": "2022-01-15T13:58:15-03:00"
+    },
+    {
+      "path": "index.html",
+      "title": "My Blog",
+      "author": [],
+      "contents": "\n\n\n\n",
+      "last_modified": "2022-01-15T13:58:15-03:00"
+    }
+  ],
+  "collections": ["posts/posts.json"]
+}
