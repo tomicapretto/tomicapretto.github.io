@@ -7,22 +7,47 @@
     <description>This is the blog of Tomás Capretto. Here I want to write stuff!
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 15 Jan 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 28 Jun 2021 00:00:00 +0000</lastBuildDate>
     <item>
-      <title>The Sharpe Ratio</title>
-      <dc:creator>Nora Jones</dc:creator>
-      <link>https://tomicapretto.github.io/posts/2022-01-15-the-sharpe-ratio</link>
-      <description>A short description of the post.</description>
-      <guid>https://tomicapretto.github.io/posts/2022-01-15-the-sharpe-ratio</guid>
-      <pubDate>Sat, 15 Jan 2022 00:00:00 +0000</pubDate>
+      <title>First weeks of GSoC</title>
+      <link>https://tomicapretto.github.io/posts/2021-06-28-first-weeks-of-gsoc</link>
+      <description>First post of a series about my contributions to Bambi
+in this Google Summer of Code season. This post highlights new features related
+to default priors and priors for group-specific effects.</description>
+      <guid>https://tomicapretto.github.io/posts/2021-06-28-first-weeks-of-gsoc</guid>
+      <pubDate>Mon, 28 Jun 2021 00:00:00 +0000</pubDate>
     </item>
     <item>
-      <title>Welcome to My Blog</title>
-      <link>https://tomicapretto.github.io/posts/welcome</link>
-      <description>Welcome to our new blog, My Blog. We hope you enjoy 
-reading what we have to say!</description>
-      <guid>https://tomicapretto.github.io/posts/welcome</guid>
-      <pubDate>Sat, 15 Jan 2022 00:00:00 +0000</pubDate>
+      <title>Design matrices for group-specific effects in formulae and lme4</title>
+      <link>https://tomicapretto.github.io/posts/2021-06-08-group-specific-effects-matrix</link>
+      <description>Bambi uses the library formulae to automatically construct design 
+matrices for both common and group-specific effects. This post compares design 
+matrices for group-specific effects obtained with formulae for a variety of 
+scenarios involving categorical variables with the ones obtained with the R 
+package lme4.</description>
+      <guid>https://tomicapretto.github.io/posts/2021-06-08-group-specific-effects-matrix</guid>
+      <pubDate>Tue, 08 Jun 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://tomicapretto.github.io/posts/2021-06-08-group-specific-effects-matrix/group-specific-effects-matrix_files/figure-html5/unnamed-chunk-10-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Why Bambi?</title>
+      <link>https://tomicapretto.github.io/posts/2021-05-24-bambi-wald</link>
+      <description>An example comparing how to fit a GLM with Bambi and PyMC3. Here I 
+attempt to highlight how Bambi can help us to write a Bayesian GLM in a concise 
+manner, saving us from having to realize error-prone tasks that are sometimes 
+necessary when directly working with PyMC3.</description>
+      <guid>https://tomicapretto.github.io/posts/2021-05-24-bambi-wald</guid>
+      <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://tomicapretto.github.io/posts/2021-05-24-bambi-wald/bambi-wald_files/figure-html5/unnamed-chunk-8-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>How to generate bingo cards in R</title>
+      <link>https://tomicapretto.github.io/posts/2020-11-03-bingo-cards-in-r</link>
+      <description>A walkthrough the process of understanding how bingo cards are composed
+and a set of R functions that let us generate random bingo cards and print them
+in a nice looking .pdf output.</description>
+      <guid>https://tomicapretto.github.io/posts/2020-11-03-bingo-cards-in-r</guid>
+      <pubDate>Tue, 03 Nov 2020 00:00:00 +0000</pubDate>
     </item>
   </channel>
 </rss>

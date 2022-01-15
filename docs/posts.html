@@ -1938,6 +1938,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <div class="nav-right">
 <a href="index.html">Home</a>
+<a href="posts.html">Posts</a>
 <a href="about.html">About</a>
 <a href="https://github.com/tomicapretto">
 <i class="fab fa-github" aria-hidden="true"></i>
@@ -2085,37 +2086,75 @@ function init_posts_list() {
 <div class="posts-container posts-apply-limit l-page">
 <div class="posts-list">
 <h1 class="posts-list-caption" data-caption="Posts">Posts</h1>
-<a href="posts/2022-01-15-the-sharpe-ratio/" class="post-preview">
+<a href="posts/2021-06-28-first-weeks-of-gsoc/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":[]}</script>
 <div class="metadata">
-<div class="publishedDate">Jan. 15, 2022</div>
-<div class="dt-authors">
-<div class="dt-author">Nora Jones</div>
-</div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>The Sharpe Ratio</h2>
-<div class="dt-tags"></div>
-<p>A short description of the post.</p>
-</div>
-</a>
-<a href="posts/welcome/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Jan. 15, 2022</div>
+<div class="publishedDate">June 28, 2021</div>
 <div class="dt-authors"></div>
 </div>
 <div class="thumbnail">
 <img/>
 </div>
 <div class="description">
-<h2>Welcome to My Blog</h2>
+<h2>First weeks of GSoC</h2>
 <div class="dt-tags"></div>
-<p>Welcome to our new blog, My Blog. We hope you enjoy 
-reading what we have to say!</p>
+<p>First post of a series about my contributions to Bambi
+in this Google Summer of Code season. This post highlights new features related
+to default priors and priors for group-specific effects.</p>
+</div>
+</a>
+<a href="posts/2021-06-08-group-specific-effects-matrix/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<div class="metadata">
+<div class="publishedDate">June 8, 2021</div>
+<div class="dt-authors"></div>
+</div>
+<div class="thumbnail">
+<img src="posts/2021-06-08-group-specific-effects-matrix/group-specific-effects-matrix_files/figure-html5/unnamed-chunk-10-1.png"/>
+</div>
+<div class="description">
+<h2>Design matrices for group-specific effects in formulae and lme4</h2>
+<div class="dt-tags"></div>
+<p>Bambi uses the library formulae to automatically construct design 
+matrices for both common and group-specific effects. This post compares design 
+matrices for group-specific effects obtained with formulae for a variety of 
+scenarios involving categorical variables with the ones obtained with the R 
+package lme4.</p>
+</div>
+</a>
+<a href="posts/2021-05-24-bambi-wald/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<div class="metadata">
+<div class="publishedDate">May 24, 2021</div>
+<div class="dt-authors"></div>
+</div>
+<div class="thumbnail">
+<img src="posts/2021-05-24-bambi-wald/bambi-wald_files/figure-html5/unnamed-chunk-8-1.png"/>
+</div>
+<div class="description">
+<h2>Why Bambi?</h2>
+<div class="dt-tags"></div>
+<p>An example comparing how to fit a GLM with Bambi and PyMC3. Here I 
+attempt to highlight how Bambi can help us to write a Bayesian GLM in a concise 
+manner, saving us from having to realize error-prone tasks that are sometimes 
+necessary when directly working with PyMC3.</p>
+</div>
+</a>
+<a href="posts/2020-11-03-bingo-cards-in-r/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<div class="metadata">
+<div class="publishedDate">Nov. 3, 2020</div>
+<div class="dt-authors"></div>
+</div>
+<div class="thumbnail">
+<img/>
+</div>
+<div class="description">
+<h2>How to generate bingo cards in R</h2>
+<div class="dt-tags"></div>
+<p>A walkthrough the process of understanding how bingo cards are composed
+and a set of R functions that let us generate random bingo cards and print them
+in a nice looking .pdf output.</p>
 </div>
 </a>
 </div>
@@ -2150,7 +2189,7 @@ reading what we have to say!</p>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
-<p>Tomas Capretto - Copyright <script>document.write(new Date().getFullYear())</script></p>
+<p>Tomás Capretto - Copyright <script>document.write(new Date().getFullYear())</script></p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
 

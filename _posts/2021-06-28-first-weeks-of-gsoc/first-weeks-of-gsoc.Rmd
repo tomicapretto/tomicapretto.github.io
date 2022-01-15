@@ -1,0 +1,260 @@
+---
+title: "First weeks of GSoC"
+date: 2021-06-28
+output:
+  distill::distill_article:
+    self_contained: false
+description: |
+  First post of a series about my contributions to Bambi
+  in this Google Summer of Code season. This post highlights new features related
+  to default priors and priors for group-specific effects.
+---
+
+```{r plots-setup, echo=FALSE}
+knitr::opts_chunk$set(fig.align = "center", out.width = "95%")
+```
+
+
+I am really happy to participate in this Google Summer of Code season with 
+[NumFOCUS](https://numfocus.org/) to contribute to the [Bambi](https://bambinos.github.io/bambi) library. 
+The coding period ranges from June 7 to August 16, with an intermediate 
+evaluation taking place between July 12 and July 16.
+
+## Overview
+
+My project is called **Extend available models and default priors in Bambi**. 
+The main goal of this project is to add new families of generalized linear 
+models, such as beta regression, robust linear regression
+(i.e. linear model with error following a T-Student distribution)^[
+These two distributions are not members of the exponential family so using them
+as the distribution of the random component does not result in a generalized 
+linear model in a strict sense. But I would usually refer to them as GLMs since
+the linear predictor, link function, and random component properties are still present.] 
+as well as multinomial regression. However, this raises a second problem, which
+is about default priors distributions. 
+
+Default priors in Bambi are limited to the families implemented in the 
+[GLM](https://www.statsmodels.org/stable/glm.html) module in
+[statsmodels](https://www.statsmodels.org/), which does not include the families
+mentioned above. For this reason, it is first necessary to incorporate 
+alternative automatic priors so new families work without requiring the user to 
+manually specify priors.
+
+Therefore, these first weeks of the coding period were centered around 
+understanding how default priors work on other high-level modeling packages
+such as [brms](https://paul-buerkner.github.io/brms/) and 
+[rstanarm](https://mc-stan.org/rstanarm/), how to translate their ideas 
+into [PyMC3](https://docs.pymc.io/) code, and finally how to implement everything
+within Bambi.
+
+## Alternative default priors
+
+Currently, Bambi uses maximum likelihood estimates in the construction of its default 
+priors. There are two limitations associated with this approach. First, current
+default priors don't exist whenever uniquely identifiable maximum likelihood 
+estimates don't exist (e.g. $p > n$ or complete separation scenarios). 
+Secondly, these estimates are obtained via the GLM module in statsmodels, which
+means default priors can only be obtained for families made available in statsmodels.
+
+Based on the available documentation and simulations I've done, I decided to 
+implement alternative default priors that are much like the
+[default priors in rstanarm](https://mc-stan.org/rstanarm/articles/priors.html). 
+These priors aim to be weakly-informative in most scenarios and do not depend on 
+maximum likelihood estimates. Their documentation is excellent and it was a 
+great guide for my implementation. 
+
+[This](https://github.com/bambinos/bambi/pull/360) is the PR where I implement
+alternative default priors inspired on rstanarm default priors. In addition, 
+I also implement LKJ prior for the correlation matrices of group-specific effects. 
+
+### How to invoke alternative default priors
+
+The `Model()` class has gained one new argument, `automatic_priors`, that can
+be equal to `"default"` to use Bambi's default method, or `"rstanarm"` to use
+the alternative implementation^[Both the argument name and the options may change]. 
+
+```python
+model = Model("y ~ x + z", data, automatic_priors="rstanarm")
+```
+
+### How to use LKJ priors for correlation matrices of group-specific effects
+
+Group-specific effects can now have non-independent priors. Instead of using
+independent normal distributions, we can use a multivariate normal distribution
+whose correlation matrix has an LKJ prior distribution. This distribution
+depends on a parameter $\eta > 0$. If $\eta=1$, the LJK prior is jointly uniform
+over all correlation matrices of the same dimension. If $\eta >1$ increases,
+the mode of the distribution is the identity matrix. The larger the value of
+$\eta$ the more sharply peaked the density is at the identity matrix.
+
+`Model` has an argument `priors_cor` where we can pass a dictionary to indicate
+which groups are going to have a LKJ prior. The keys of the dictionary are
+the names of the groups, and the values are the values for $\eta$.
+
+In the following model, we have a varying intercept and varying slope for 
+the groups given by `group`. These varying effects have a multivariate normal 
+prior whose covariance matrix depends on a correlation matrix that has a 
+LKJ hyperprior with $\eta=1$.
+
+```python
+model = Model("y ~ x + (x|group)", data, priors_cor={"group": 1})
+```
+
+<!-- ### Challenges when implementing alternative default priors -->
+
+<!-- rstanarm's [documentation on default priors](https://mc-stan.org/rstanarm/articles/priors.html)  -->
+<!-- is vast and rich and hence it would be pointless to replicate that here.  -->
+<!-- In this section I'm just going to highlight some key points about how their  -->
+<!-- defaults are similar or different to current default priors in Bambi and what -->
+<!-- challenges that carried when implementing new alternatives for Bambi. -->
+
+<!-- In essence, rstanarm's default priors are similar default priors in Bambi. -->
+<!-- There is an extensive use of Normal priors for regression coefficients and  -->
+<!-- right-skewed distributions for auxiliary parameters such as the residual standard  -->
+<!-- deviation for Gaussian models, shape for gamma, reciprocal dispersion for negative binomial, etc. -->
+
+<!-- But there are two important differences. The first, rstanarm computes parameters -->
+<!-- for the priors in a much simpler way. This usually involves standard deviations -->
+<!-- which are always available. The second, the priors for the group-specific terms -->
+<!-- in rstanarm are based on a multivariate Normal distribution with a -->
+<!-- LKJ prior the correlation matrix, while Bambi uses independent Normal priors. -->
+
+
+
+
+<!-- #### Common-level regression coefficients -->
+
+<!-- In both cases we have that the priors for common regression coefficients are -->
+<!-- independent normal distributions centered at 0. However, the differ in how they -->
+<!-- compute the standard deviation of the prior. -->
+
+<!-- ```{r, echo=FALSE} -->
+<!-- data.frame( -->
+<!--   library = c("rstanarm", "Bambi"), -->
+<!--   name = c("Normal", "Normal"), -->
+<!--   mean = c("0", "0"), -->
+<!--   sd = c("$2.5 \\cdot s_y/s_x$", "Complex dependency on ML estimates") -->
+<!-- ) %>% -->
+<!--   kable( -->
+<!--     col.names = c("Library", "Distribution", "$\\mu$", "$\\sigma$"), -->
+<!--     align = "c", -->
+<!--   ) %>% -->
+<!--   kable_styling(full_width = FALSE) -->
+<!-- ``` -->
+
+<!-- For the rstanarm prior we have that  -->
+
+<!-- $$ -->
+<!-- s_y = -->
+<!-- \begin{cases} -->
+<!-- \text{sd}(y) & \text{if } \:\: {\tt family=gaussian(link)}, \\ -->
+<!-- 1 & \text{otherwise}. -->
+<!-- \end{cases} -->
+<!-- $$ -->
+
+<!-- and $s_x$ is simply the standard deviation of the predictor $x$. -->
+
+<!-- On the other hand, with the excepsion of Gaussian linear regression,  -->
+<!-- there's no closed form expression of the standard deviation for these priors in Bambi. -->
+<!-- The whole derivation can be found in the paper  -->
+<!-- [Statistical details of the default priors in the Bambi library](https://arxiv.org/abs/1702.01201). -->
+
+<!-- #### Intercept -->
+
+<!-- Both rstanarm and Bambi use a Gaussian prior for the intercept. The computation of the  -->
+<!-- mean and standard deviation of this distribution depends on the model at hand. -->
+
+<!-- In the case of Gaussian linear regression, the situation is similar to the -->
+<!-- previous comparison. Both priors are normal and centered at the same value, -->
+<!-- the mean of the response. They again differ in how they compute  -->
+<!-- the standard deviation of that normal distribution. rstanarm uses $2.5 s_y$ and -->
+<!-- Bambi uses a function of the variance of the other priors and the predictor data. -->
+
+<!-- For other non-Gaussian models, rstanarm uses a mean of $0$ and a standard deviation -->
+<!-- of $2.5$, while Bambi uses a mean and a standard deviation that are a function -->
+<!-- of the MLE for an intercept-only model. -->
+
+<!-- #### Auxiliary parameters -->
+
+<!-- Both libraries use right-skewed distributions for the default prior on  -->
+<!-- auxiliary parameters (residual standard deviation for -->
+<!-- Gaussian, shape for gamma, reciprocal dispersion for negative binomial, etc.) -->
+<!-- rstanarm uses an exponential distribution with rate $1 / s_y$ and Bambi uses a  -->
+<!-- Half Student's T distribution with $\nu=4$ and $\sigma=s_y$ for Gaussian -->
+<!-- models, and a Half Cauchy distribution with a scale of 1 for non-Gaussian models. -->
+
+<!-- #### Group-level regression coefficients -->
+
+<!-- The main difference in the prior for the group-level effects is that  -->
+<!-- **Bambi uses independent priors, while rstanarm does not**. -->
+
+<!-- In Bambi, we have priors of the form -->
+
+<!-- $$ -->
+<!-- b_{j} \sim \text{Normal} \left(0, \sigma_b\right) -->
+<!-- $$ -->
+
+<!-- with hyperpriors -->
+
+<!-- $$ -->
+<!-- \sigma_b \sim \text{HalfNormal} (\tau) -->
+<!-- $$ -->
+
+<!-- where $\tau$ represents the standard deviation of the hyperprior. -->
+
+<!-- On the other hand, rstanarm puts a multivariate Normal distribution on the  -->
+<!-- prior for all the varying effects of a given group. -->
+
+<!-- Instead of placing independent priors on each $b_j$, it places a multivariate  -->
+<!-- Normal prior on the vector $\boldsymbol{b}$, which allows for correlated  -->
+<!-- group-specific effects. -->
+
+<!-- $$ -->
+<!-- \boldsymbol{b} \sim \text{MvNormal}\left(\boldsymbol{0}, \boldsymbol{\Sigma} \right) -->
+<!-- $$ -->
+
+<!-- In practice, the prior is not set on $\Sigma$. Instead, it is set on the -->
+<!-- correlation matrix $\Omega$, and use the following decomposition to recover the -->
+<!-- covariance matrix -->
+
+<!-- $$ -->
+<!-- \Sigma = \text{diag}(\sigma_b) \ \Omega \ \text{diag}(\sigma_b)  -->
+<!-- $$ -->
+
+<!-- We use an LKJ prior for the correlation matrix -->
+
+<!-- $$ -->
+<!-- \Omega \sim \text{LKJ}(\eta), \ \  \eta > 0 -->
+<!-- $$ -->
+
+<!-- If $\eta = 1$ (our default choice), the prior is jointly uniform over all correlation matrices of the same dimension as $\Omega$. If $\eta > 1$, then the mode of the distribution is the identity matrix. The larger the value of $\eta$ the more sharply peaked the density is at the identity matrix -->
+
+<!-- #### Cholesky decomposition -->
+
+<!-- For efficiency and numerical stability, the correlation matrix $\Omega$ can be parametrized by its (lower-triangular) Cholesky factor $L$, which can be seen as the square root of $\Omega$ -->
+
+<!-- $$ -->
+<!-- \boldsymbol{L}\boldsymbol{L^T} = \Omega = \begin{pmatrix} 1 & \rho_{u_0, u_1} \\ \rho_{u_0, u_1} & 1 \end{pmatrix}  -->
+<!-- $$ -->
+
+<!-- If $\boldsymbol{Z}_{\text{uncorr}}$ is a $2\times n$ matrix where the rows are 2 samples from uncorrelated random variables, then -->
+
+<!-- $$ -->
+<!-- \begin{split} -->
+<!--     \boldsymbol{Z}_{\text{corr}} & = -->
+<!--     \begin{pmatrix} \sigma_{u_0} & 0 \\ 0 & \sigma_{u_1} \end{pmatrix}  -->
+<!--     \boldsymbol{L} -->
+<!--     \boldsymbol{Z}_{\text{uncorr}} \\ -->
+<!--     & = \text{diag}(\sigma_u) \boldsymbol{L} \boldsymbol{Z}_{\text{uncorr}}      -->
+<!-- \end{split} -->
+<!-- $$ -->
+
+
+<!-- Then $\boldsymbol{Z}_{\text{corr}}$, of shape $(2, n)$, contains a sample of size $n$ of two correlated variables with the desired variances $\sigma_{u_0}^2$, $\sigma_{u_1}^2$, and correlation $\rho_{u_0, u_1}$. -->
+
+
+<!-- rstanarm and Bambi use normal priors centered at 0 for the group-level -->
+<!-- regression coefficients. The main difference is that **Bambi uses independent -->
+<!-- priors, while rstanarm does not**. In rstanarm the prior for varying effects -->
+<!-- is a multivariate normal prior whose covariance matrix depends on an LKJ prior  -->
+<!-- for the correlation matrix. Here I am ommiting some details on how the diagonal of the  -->

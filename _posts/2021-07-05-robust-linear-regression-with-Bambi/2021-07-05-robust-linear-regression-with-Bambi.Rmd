@@ -1,0 +1,428 @@
+---
+title: "Robust linear regression in Bambi"
+date: 2021-07-05
+output:
+  distill::distill_article:
+    self_contained: false
+description: |
+  Second post about this Google Summer of Code season. Today I show
+  some of the problems associated with outliers in linear regression and demonstrate
+  how one can implement a robust linear regression in Bambi.
+---
+
+```{r plots-setup, echo=FALSE}
+knitr::opts_chunk$set(fig.align = "center", out.width = "95%")
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+The next thing in my TODO list for this Google Summer of Code season with
+[NumFOCUS](https://numfocus.org/) is to add new families of models to 
+[Bambi](https://bambinos.github.io/bambi). This is still a WIP but I wanted to 
+show you how to build a robust linear regression model using the `Family` class
+in Bambi.
+
+## Setup
+
+```{r r-setup}
+library(ggplot2)
+library(reticulate)
+use_condaenv("bmb", required = TRUE)
+
+BLUE = "#003f5c"
+PURPLE = "#7a5195"
+PINK = "#ef5675"
+```
+
+```{python}
+import numpy as np
+import pandas as pd
+
+from bambi import Model, Family, Prior
+from scipy import stats
+```
+
+## What do we mean with robust?
+
+Before showing how to build a robust regression with Bambi we need to be clear
+about what we mean when we say that a model is robust. Robust to what? How is
+linear regression non-robust?
+
+In this post, we say a method is robust if its inferences aren't (seriously)
+affected by the presence of outliers.
+
+## How do outliers affect linear regression?
+
+I think it will be easier to understand how outliers affect linear regressions 
+via an example based on the least squares method. This is not exactly how linear
+regression works in our Bayesian world, but outlier's bad consequences are similar.
+
+In classic statistics, linear regression models are usually fitted by ordinary 
+least-squares method. This is equivalent to assuming the conditional distribution 
+of the response given the predictors is normal 
+(i.e. $y_i|\boldsymbol{X}_i \sim N(\mu_i, \sigma)$) and using the maximum 
+likelihood estimator.
+
+Let's get started by simulating some toy data.
+
+```{python}
+np.random.seed(1234)
+
+x = np.array([1., 2., 4., 5.])
+y = x + np.random.normal(scale=0.5, size=4)
+```
+
+Then, fit a linear regression between and visualize the result. 
+
+The next plot shows the data, the fitted line, and the contribution
+of each data point to the total (squared) error as a blue square (one way to see
+the least squares method is as the method that minimizes the sum of the areas of 
+the squares associated to all the points).
+
+```{r, echo=FALSE, fig.width=6.77, fig.height=6.77}
+df = data.frame(x = py$x, y = py$y)
+
+model = lm(y ~ x, data = df)
+y_pred = predict(model, df = df)
+
+error = y_pred - df$y
+error_total = sum(error ^ 2)
+
+df_squares = data.frame(
+  xmin = df$x,
+  xmax = df$x + abs(error),
+  ymin = ifelse(df$y < y_pred, df$y, df$y - abs(error)),
+  ymax = ifelse(df$y < y_pred, df$y + abs(error), df$y)
+)
+
+xend = df$x + error * c(0, 1, 0, 1)
+yend = (df_squares$ymin + df_squares$ymax) / 2
+
+
+df_arrows = data.frame(
+  x = xend + c(-0.2, 0.3, -0.3, 0.2),
+  y = yend + c(0.2, -0.3, 0.3, -0.2),
+  xend = xend,
+  yend = yend,
+  y_label = yend + c(0.3, -0.4, 0.4, -0.3),
+  label = round(error ^ 2, 4)
+)
+
+ggplot(df) +
+  geom_rect(
+    aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax),
+    data = df_squares,
+    fill = BLUE,
+    alpha = 0.5,
+    color = "grey10"
+  ) + 
+  geom_point(aes(x, y), size = 3, shape=21, fill=PURPLE, color="black") +
+  geom_line(
+    aes(x, y), 
+    size = 1, 
+    color = "grey20",
+    data = data.frame(x = df$x, y = y_pred)
+  ) + 
+  geom_curve(
+    aes(x = x, y = y, xend = xend, yend = yend),
+    df_arrows,
+    arrow = arrow(length = unit(0.1, "cm"), type = "closed")
+  ) + 
+  geom_text(
+    aes(x = x, y = y_label, label = label),
+    df_arrows
+  ) + 
+  lims(
+    x = c(0.8, 5.8),
+    y = c(0.8, 5.8)
+  ) +
+  labs(
+    title = sprintf("Sum of squares: %s", round(error_total, 4))
+  )
+```
+
+So far so good! It looks like the fitted line is a good representation of the
+relationship between the variables. 
+
+What happens if we introduce an outlier? In other words, what happens if there's
+a new point that deviates too much from the pattern we've just seen above? Let's
+see it!
+
+```{python}
+x = np.insert(x, 2, 2.25)
+y = np.insert(y, 2, 5.8)
+```
+
+
+```{r, echo=FALSE, fig.width=6.77, fig.height=6.77}
+df = data.frame(x = py$x, y = py$y)
+
+model = lm(y ~ x, data = df)
+y_pred = predict(model, df = df)
+
+error = y_pred - df$y
+error_total = sum(error ^ 2)
+
+df_squares = data.frame(
+  xmin = df$x,
+  xmax = df$x + abs(error),
+  ymin = ifelse(df$y < y_pred, df$y, df$y - abs(error)),
+  ymax = ifelse(df$y < y_pred, df$y + abs(error), df$y)
+)
+
+xend = df$x + abs(error) * c(0, 1, 0, 1, 1)
+yend = (df_squares$ymin + df_squares$ymax) / 2
+
+df_arrows = data.frame(
+  x = xend + c(-0.2, 0.3, -0.3, 0.3, 0.2),
+  y = yend + c(0.2, -0.3, 0.3, -0.3, -0.2),
+  xend = xend,
+  yend = yend,
+  y_label = yend + c(0.3, -0.4, 0.4, -0.4, -0.3),
+  label = round(error ^ 2, 4)
+)
+
+ggplot(df) +
+  geom_rect(
+    aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax),
+    data = df_squares,
+    fill = BLUE,
+    alpha = 0.5,
+    color = "grey10"
+  ) + 
+  geom_point(aes(x, y), size = 3, shape=21, fill=PURPLE, color="black") +
+  geom_line(
+    aes(x, y), 
+    size = 1, 
+    color = "grey20",
+    data = data.frame(x = df$x, y = y_pred)
+  ) + 
+  geom_curve(
+    aes(x = x, y = y, xend = xend, yend = yend),
+    df_arrows,
+    arrow = arrow(length = unit(0.1, "cm"), type = "closed")
+  ) + 
+  geom_text(
+    aes(x = x, y = y_label, label = label),
+    df_arrows
+  ) + 
+  lims(
+    x = c(0.8, 5.8),
+    y = c(0.8, 5.8)
+  ) +
+  labs(
+    title = sprintf("Sum of squares: %s", round(error_total, 4))
+  )
+```
+
+
+What a bummer! Why do we have such a huge error? It's almost 10 times the 
+previous error with only one extra data point! Why?!
+
+It happens that each point's contribution to the error grows quadratically as it
+moves away from the rest. Outliers not only contribute **a lot** to the total error,
+they also bias the estimation towards themselves, increasing the error associated 
+with other points too. The final result? the fitted line is not a faithful 
+representation of the relationship between the variables.
+
+## Linear regression in a Bayesian way
+
+Now that we've seen how bad outliers can be above, let's see how one can
+robust a Bayesian linear regression. This part of the post is based on the 
+[Robust Linear Regression](https://docs.pymc.io/pymc-examples/examples/generalized_linear_models/GLM-robust.html) 
+in PyMC3 docs.
+
+Here, we simulate data suitable for a normal linear regression and contaminate
+it with a few outliers.
+
+```{python}
+size = 100
+true_intercept = 1
+true_slope = 2
+
+x = np.linspace(0, 1, size)
+true_regression_line = true_intercept + true_slope * x
+y = true_regression_line + np.random.normal(scale=0.5, size=size)
+
+x_out = np.append(x, [0.1, 0.15, 0.2])
+y_out = np.append(y, [8, 6, 9])
+
+data = pd.DataFrame(dict(x = x_out, y = y_out))
+```
+
+### Normal linear regression
+
+The normal linear regression is as follows
+
+$$
+y_i \sim \text{Normal}(\mu_i, \sigma)
+$$
+
+where $\mu_i = \beta_0 + \beta_1 x_i$, and the priors are of the form
+
+$$
+\begin{array}{c}
+\beta_0 \sim \text{Normal} \\
+\beta_1 \sim \text{Normal}  \\
+\sigma \sim \text{HalfStudentT}
+\end{array}
+$$
+
+with their parameters automatically set by Bambi.
+
+```{python bmb1, cache=TRUE}
+model = Model("y ~ x", data=data)
+idata = model.fit()
+```
+
+```{python posterior1, echo=FALSE, cache=TRUE}
+a = idata.posterior["Intercept"].values.flatten()
+b = idata.posterior["x"].values.flatten()
+```
+
+To evaluate the fit, we use the posterior predictive regression lines. The line
+in black is the true regression line.
+
+```{r plot1, echo=FALSE, cache=TRUE}
+ggplot(py$data) +
+  geom_abline(
+    aes(intercept=a, slope=b),
+    data = data.frame(a = py$a, b = py$b),
+    color = "gray30",
+    alpha = 0.1
+  ) +
+  geom_abline(
+    intercept = py$true_intercept,
+    slope = py$true_slope,
+    size = 1.2,
+    color = "black"
+  ) + 
+  geom_point(aes(x, y), shape=21, fill=PURPLE, color="black", size = 2.2)
+```
+
+As you can see, the posterior distribution fo the regression lines is not 
+centered around the true regression line, which means the estimations are
+**highly biased**. This is the same phenomena we saw above with the least-squares
+toy example.
+
+Why does it happen here? The reason is that the normal distribution does 
+not have a lot of mass in the tails and consequently, an outlier will affect the
+fit strongly. 
+
+Since the problem is the light tails of the Normal distribution we can instead 
+assume that our data is not normally distributed but instead distributed 
+according to the Student T distribution which has heavier tails as shown next.
+
+### Normal and Student-T distributions
+
+Here we plot the pdf of a standard normal distribution and the pdf of a 
+student-t distribution with 3 degrees of freedom.
+
+```{python}
+x = np.linspace(-8, 8, num=200)
+y_normal = stats.norm.pdf(x)
+y_t = stats.t.pdf(x, df = 3)
+```
+
+```{r, echo=FALSE}
+df = data.frame(
+  x = py$x,
+  y_normal = py$y_normal,
+  y_t = py$y_t
+)
+
+df_long = tidyr::pivot_longer(df, cols = c(y_normal, y_t))
+df_arrows = data.frame(
+  x = c(-3, 3),
+  y = c(0.36, 0.31),
+  xend = c(py$x[93], py$x[105]),
+  yend = c(py$y_normal[93], py$y_t[105]),
+  y_label = c(0.37, 0.30),
+  label = c("Normal", "Student-T")
+)
+ggplot(df_long) +
+  geom_line(aes(x, value, color = name), size = 1) + 
+  geom_curve(
+    aes(x = x, y = y, xend = xend, yend = yend),
+    df_arrows,
+    arrow = arrow(length = unit(0.1, "cm"), type = "closed")
+  ) +
+  geom_text(
+    aes(x = x, y = y_label, label = label),
+    df_arrows,
+    size = 5
+  ) +
+  scale_color_manual(values = c(BLUE, PINK)) +
+  theme(legend.position = "none")
+```
+
+As you can see, the probability of values far away from the mean are much more
+likely under the Student-T distribution than under the Normal distribution. 
+
+### Robust linear regression
+
+The difference with the model above is that this one uses a StudentT likelihood
+instead of a Normal one. 
+
+Bambi does not support yet to use the student-t distribution as the likelihood
+function for linear regression. However, we can construct our own custom family
+and Bambi will understand how to work with it.
+
+Custom families are represented by the [`Family`](https://bambinos.github.io/bambi/master/api_reference.html#bambi.priors.Family)
+class in Bambi. Let's see what we need to create a custom family.
+
+First of all, we need a name. In this case the name is going to be just `"t"`.
+Second, there is the `prior` argument. This is where we pass the 
+model likelihood prior. Then we have the link function, which is simply the 
+identity function, and finally the parent indicates the name of the parameter for
+the mean in the likelihood function, which in this case is `"mu"`.
+
+```{python bmb2, cache=TRUE}
+family = Family(
+  name = "t", 
+  prior = Prior("StudentT", sigma=1, nu=2), 
+  link = "identity", 
+  parent = "mu"
+)
+
+# In addition, we pass our custom priors for the terms in the model.
+priors = {
+  "Intercept": Prior("Normal", mu=0, sigma=10),
+  "x": Prior("Normal", mu=0, sigma=10)
+}
+
+# Just add the `prior` and `family` arguments
+model = Model("y ~ x", data, priors=priors, family=family)
+idata = model.fit()
+```
+
+
+```{python posterior2, echo=FALSE, cache=TRUE}
+a = idata.posterior["Intercept"].values.flatten()
+b = idata.posterior["x"].values.flatten()
+```
+
+```{r plot2, echo=FALSE, cache=TRUE}
+a_mean = mean(py$a)
+b_mean = mean(py$b)
+
+ggplot(py$data) +
+  geom_abline(
+    aes(intercept=a, slope=b),
+    data = data.frame(a = py$a, b = py$b),
+    color = "gray30",
+    alpha = 0.1
+  ) +
+  geom_abline(
+    intercept = py$true_intercept,
+    slope = py$true_slope,
+    size = 1.2,
+    color = "black"
+  ) + 
+  geom_point(aes(x, y), shape = 21, fill = PURPLE, color = "black", size = 2.2)
+```
+
+Much better now! The posterior distribution of the regression lines is almost 
+centered around the true regression line, and uncertainty has decreased,
+that's great! The outliers are barely influencing our estimation because our 
+likelihood function assumes that outliers are much more probable than under the 
+Normal distribution.

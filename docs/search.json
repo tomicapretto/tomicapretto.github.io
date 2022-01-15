@@ -6,28 +6,28 @@
       "description": "Some additional details about the blog",
       "author": [],
       "contents": "\nThis is where I should give more details about my blog!\n\n\n\n",
-      "last_modified": "2022-01-15T19:50:21-03:00"
+      "last_modified": "2022-01-15T20:31:49-03:00"
     },
     {
       "path": "gallery.html",
       "title": "Gallery of featured posts",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2022-01-15T19:50:21-03:00"
+      "last_modified": "2022-01-15T20:31:50-03:00"
     },
     {
       "path": "index.html",
       "title": "Tomás Capretto",
       "author": [],
-      "contents": "\n\n          \n          \n          Tomás Capretto\n          \n          \n          Home\n          About\n          \n          \n          \n          ☰\n          \n          \n      \n        \n          \n            Tomás Capretto\n          \n          \n            \n              I’m part-time Statistics PhD student working full-time as Data Scientist.  I speak mainly R and Python and I also enjoy developing  Open Source Software in my free time.\n            \n            \n              I’m part-time Statistics PhD student working full-time as Data Scientist.  I speak mainly R and Python and I also enjoy developing  Open Source Software in my free time.\n            \n          \n\n          \n            \n              \n                  \n                    \n                      Twitter\n                    \n                  \n                \n                                \n                  \n                    \n                      GitHub\n                    \n                  \n                \n                                \n                  \n                    \n                      LinkedIn\n                    \n                  \n                \n                                \n                  \n                    \n                      Email\n                    \n                  \n                \n                              \n          \n\n          \n            \n              \n                                \n                  \n                    Twitter\n                  \n                \n                                \n                  \n                    GitHub\n                  \n                \n                                \n                  \n                    LinkedIn\n                  \n                \n                                \n                  \n                    Email\n                  \n                \n                              \n            \n          \n        \n      \n    \n\n    \n    \n    \n          Tomas Capretto - Copyright document.write(new Date().getFullYear())\n          \n          \n\n    \n  ",
-      "last_modified": "2022-01-15T19:50:21-03:00"
+      "contents": "\n\n          \n          \n          Tomás Capretto\n          \n          \n          Home\n          Posts\n          About\n          \n          \n          \n          ☰\n          \n          \n      \n        \n          \n            Tomás Capretto\n          \n          \n            \n              I’m part-time Statistics PhD student working full-time as Data Scientist.  I speak mainly R and Python and I also enjoy developing  Open Source Software in my free time.\n            \n            \n              I’m part-time Statistics PhD student working full-time as Data Scientist.  I speak mainly R and Python and I also enjoy developing  Open Source Software in my free time.\n            \n          \n\n          \n            \n              \n                  \n                    \n                      Twitter\n                    \n                  \n                \n                                \n                  \n                    \n                      GitHub\n                    \n                  \n                \n                                \n                  \n                    \n                      LinkedIn\n                    \n                  \n                \n                                \n                  \n                    \n                      Email\n                    \n                  \n                \n                              \n          \n\n          \n            \n              \n                                \n                  \n                    Twitter\n                  \n                \n                                \n                  \n                    GitHub\n                  \n                \n                                \n                  \n                    LinkedIn\n                  \n                \n                                \n                  \n                    Email\n                  \n                \n                              \n            \n          \n        \n      \n    \n\n    \n    \n    \n          Tomás Capretto - Copyright document.write(new Date().getFullYear())\n          \n          \n\n    \n  ",
+      "last_modified": "2022-01-15T20:31:50-03:00"
     },
     {
       "path": "posts.html",
       "title": "Posts",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2022-01-15T19:50:22-03:00"
+      "last_modified": "2022-01-15T20:31:50-03:00"
     }
   ],
   "collections": ["posts/posts.json"]
