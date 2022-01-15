@@ -1,14 +1,31 @@
 [
   {
+    "path": "posts/2022-01-15-the-sharpe-ratio/",
+    "title": "The Sharpe Ratio",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Nora Jones",
+        "url": "https://example.com/norajones"
+      }
+    ],
+    "date": "2022-01-15",
+    "categories": [],
+    "contents": "\nDistill is a publication format for scientific and technical writing, native to the web.\nLearn more about using Distill at https://rstudio.github.io/distill.\n\n\n\n",
+    "preview": {},
+    "last_modified": "2022-01-15T16:16:25-03:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/welcome/",
     "title": "Welcome to My Blog",
     "description": "Welcome to our new blog, My Blog. We hope you enjoy \nreading what we have to say!",
     "author": [],
     "date": "2022-01-15",
     "categories": [],
-    "contents": "\n\n\n\n",
+    "contents": "\nHeader 2\nAnd of course I want italics\nLet’s add some links\n\nimport bambi as bmb\nimport numpy as np\nimport pandas as pd\n\ndata = pd.DataFrame({\n    \"y\": np.random.normal(size=50),\n    \"g\": np.random.choice([\"Yes\", \"No\"], size=50),\n    \"x1\": np.random.normal(size=50),\n    \"x2\": np.random.normal(size=50)\n})\n\n\n\nlibrary(dplyr)\nlibrary(palmerpenguins)\n\npenguins %>%\n  mutate(\n    long_flipper = case_when(\n      species == \"Adelie\" & flipper_length_mm > 195 ~ TRUE,\n      species == \"Chinstrap\" & flipper_length_mm > 200 ~ TRUE,\n      species == \"Gentoo\" & flipper_length_mm > 225 ~ TRUE,\n      TRUE ~ FALSE\n    )\n  ) %>%\n  mutate(\n    long_bill = case_when(\n      species == \"Adelie\" & bill_length_mm > 42 ~ TRUE,\n      species == \"Chinstrap\" & bill_length_mm > 52 ~ TRUE,\n      species == \"Gentoo\" & bill_length_mm > 50 ~ TRUE,\n      TRUE ~ FALSE\n    )\n  )\n\n\n\nHeader 3\nNone here!!\n\n\n\n",
     "preview": {},
-    "last_modified": "2022-01-15T13:58:10-03:00",
+    "last_modified": "2022-01-15T17:26:16-03:00",
     "input_file": {}
   }
 ]

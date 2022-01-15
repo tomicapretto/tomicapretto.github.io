@@ -7,15 +7,61 @@ date: 01-15-2022
 output:
   distill::distill_article:
     self_contained: false
+    highlight: haddock
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-
 # Learn more about creating blogs with Distill at:
 # https://rstudio.github.io/distill/blog.html
-
 ```
 
 
 
+## Header 2
+
+And of course I want _italics_
+
+Let's add some [links](example.com)
+
+
+```{python, eval=FALSE}
+import bambi as bmb
+import numpy as np
+import pandas as pd
+
+data = pd.DataFrame({
+    "y": np.random.normal(size=50),
+    "g": np.random.choice(["Yes", "No"], size=50),
+    "x1": np.random.normal(size=50),
+    "x2": np.random.normal(size=50)
+})
+```
+
+
+
+```{r, eval=FALSE}
+library(dplyr)
+library(palmerpenguins)
+
+penguins %>%
+  mutate(
+    long_flipper = case_when(
+      species == "Adelie" & flipper_length_mm > 195 ~ TRUE,
+      species == "Chinstrap" & flipper_length_mm > 200 ~ TRUE,
+      species == "Gentoo" & flipper_length_mm > 225 ~ TRUE,
+      TRUE ~ FALSE
+    )
+  ) %>%
+  mutate(
+    long_bill = case_when(
+      species == "Adelie" & bill_length_mm > 42 ~ TRUE,
+      species == "Chinstrap" & bill_length_mm > 52 ~ TRUE,
+      species == "Gentoo" & bill_length_mm > 50 ~ TRUE,
+      TRUE ~ FALSE
+    )
+  )
+```
+
+### Header 3
+
+None here!!

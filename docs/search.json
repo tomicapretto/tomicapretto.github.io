@@ -6,21 +6,21 @@
       "description": "Some additional details about the blog",
       "author": [],
       "contents": "\nThis is where I should give more details about my blog!\n\n\n\n",
-      "last_modified": "2022-01-15T14:35:48-03:00"
+      "last_modified": "2022-01-15T17:54:57-03:00"
     },
     {
       "path": "gallery.html",
       "title": "Gallery of featured posts",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2022-01-15T14:35:48-03:00"
+      "last_modified": "2022-01-15T17:54:58-03:00"
     },
     {
       "path": "index.html",
       "title": "My Blog",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2022-01-15T14:35:49-03:00"
+      "last_modified": "2022-01-15T17:54:58-03:00"
     }
   ],
   "collections": ["posts/posts.json"]

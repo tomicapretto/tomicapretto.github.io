@@ -2051,8 +2051,105 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   gtag('js', new Date());
   gtag('config', 'UA-217292110-1');
   </script>
+  <style type="text/css">
+  @import url("https://fonts.googleapis.com/css2?family=Sanchez");
+  @import url("https://fonts.googleapis.com/css2?family=Lato");
+
+  html {
+    /*-- Main font colors --*/
+    --header-color: hsl(210, 10%, 40%);
+    --link-dark: hsl(210, 60%, 20%);
+    --link: hsl(200, 60%, 50%);
+    --link-background: hsl(200deg 60% 50% / 10%);
+    --dark: hsl(210, 10%, 25%);
+
+    /* Custom fonts */
+    --heading-font: "Sanchez", helvetica, arial, sans-serif;
+    --nav-font: "Lato", helvetica, arial, sans-serif;
+  }
+
+  p a {
+    background: var(--link-background);
+    border-bottom: 0;
+    border-radius: 2px;
+    color: var(--link);
+    padding: 0.05em 0.2em;
+    text-decoration: none;
+  }
+
+  p a:hover {
+    border-bottom: 0;
+    color: var(--link-dark);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--header-color);
+    font-family: var(--heading-font);
+  }
+
+  d-article h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 400;
+  }
+
+  pre.sourceCode {
+    background: #f5f2f0;
+    border-radius: 3px;
+    border: solid 1px hsl(200, 20%, 88%);
+    padding: 1em;
+  }
+
+  .distill-site-header .title {
+    font-family: var(--nav-font);
+    font-size: 24px;
+    min-width: 150px;
+  }
+
+  .distill-site-nav {
+    background-color: var(--dark);
+    font-weight: 400;
+  }
+
+  .distill-site-nav a {
+    font-family: var(--nav-font);
+    font-size: 22px;
+    text-decoration: none;
+  }
+
+  .posts-list .post-preview h2 {
+    font-family: var(--heading-font);
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.2em;
+    margin: 0 0 6px 0;
+  }
+
+
+  /* Sticky footer */
+
+  body {
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: auto auto 1fr;
+  }
+
+  .distill-site-footer {
+    align-self: end;
+  }
+  </style>
   <!--/radix_placeholder_site_in_header-->
 
+  <link rel="stylesheet" href="theme.css" type="text/css"/>
 
 </head>
 
@@ -2249,7 +2346,11 @@ function init_posts_list() {
 <div class="appendix-bottom"></div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+<p>Tomas Capretto - copyright <script>document.write(new Date().getFullYear())</script></p>
+</div>
 <!--/radix_placeholder_navigation_after_body-->
+
 
 </body>
 

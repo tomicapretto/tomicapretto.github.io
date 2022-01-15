@@ -2,9 +2,6 @@
 title: "The Sharpe Ratio"
 description: |
   A short description of the post.
-author:
-  - name: Nora Jones
-    url: https://example.com/norajones
 date: 2022-01-15
 output:
   distill::distill_article:
