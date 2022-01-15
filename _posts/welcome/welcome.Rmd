@@ -21,7 +21,9 @@ output:
 
 And of course I want _italics_
 
-Let's add some [links](example.com)
+Let's add some [links](www.example.com)
+
+I should try `blocks` of `code`, right?
 
 
 ```{python, eval=FALSE}
@@ -63,5 +65,7 @@ penguins %>%
 ```
 
 ### Header 3
+
+I should try `blocks` of `code`, right?
 
 None here!!

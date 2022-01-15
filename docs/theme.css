@@ -4,7 +4,7 @@
 html {
   /*-- Main font colors --*/
   --header-color: hsl(210, 10%, 40%);
-  --link-dark: hsl(210, 60%, 20%);
+  --link-dark: hsl(210, 60%, 40%);
   --link: hsl(200, 60%, 50%);
   --link-background: hsl(200deg 60% 50% / 10%);
   --dark: hsl(210, 10%, 25%);
@@ -15,17 +15,26 @@ html {
 }
 
 p a {
-  background: var(--link-background);
   border-bottom: 0;
-  border-radius: 2px;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 2.4px;
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  border-radius: 1px;
   color: var(--link);
-  padding: 0.05em 0.2em;
+  font-size: 1.1em;
   text-decoration: none;
 }
 
 p a:hover {
   border-bottom: 0;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 2.4px;
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  border-radius: 1px;
   color: var(--link-dark);
+  text-decoration: none;
 }
 
 h1,
@@ -80,6 +89,23 @@ pre.sourceCode {
   margin: 0 0 6px 0;
 }
 
+/* Inline code formatting */
+p code, li code {
+  color: #fff;
+  font-size: 1.0em;
+  background: hsl(200deg 60% 60% / 100%);
+  border-radius: 3px;
+  padding: 0 3px;
+  margin: 0 3px;
+  word-wrap: break-word;
+  letter-spacing: normal;
+}
+
+/* Button font is the same than headers */
+
+button {
+  font-family: var(--heading-font);
+}
 
 /* Sticky footer */
 

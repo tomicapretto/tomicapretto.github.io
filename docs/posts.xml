@@ -3,7 +3,7 @@
   <channel>
     <title>Tomás Capretto</title>
     <link>https://tomicapretto.github.io/</link>
-    <atom:link href="https://tomicapretto.github.io/index.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="https://tomicapretto.github.io/posts.xml" rel="self" type="application/rss+xml"/>
     <description>This is the blog of Tomás Capretto. Here I want to write stuff!
 </description>
     <generator>Distill</generator>
