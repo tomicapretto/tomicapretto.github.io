@@ -37,7 +37,7 @@ PINK = "#ef5675"
 import numpy as np
 import pandas as pd
 
-from bambi import Model, Family, Prior
+from bambi import Model, Family, Likelihood, Prior
 from scipy import stats
 ```
 
@@ -367,22 +367,32 @@ Bambi does not support yet to use the student-t distribution as the likelihood
 function for linear regression. However, we can construct our own custom family
 and Bambi will understand how to work with it.
 
-Custom families are represented by the [`Family`](https://bambinos.github.io/bambi/master/api_reference.html#bambi.priors.Family)
+Custom families are represented by the 
+[Family](https://bambinos.github.io/bambi/main/api_reference.html#bambi.families.Family)
 class in Bambi. Let's see what we need to create a custom family.
 
 First of all, we need a name. In this case the name is going to be just `"t"`.
-Second, there is the `prior` argument. This is where we pass the 
-model likelihood prior. Then we have the link function, which is simply the 
-identity function, and finally the parent indicates the name of the parameter for
-the mean in the likelihood function, which in this case is `"mu"`.
+Second, there is the `likelihood` function. This is represented by an object
+of class `Likelihood` in Bambi. To define a likelihood function we need the 
+following:
+
+* The name of the distribution in PyMC3. In this case, it is `"StudentT"`.
+* The name of the parent parameter (the mean). It is `"mu"`.
+* The prior distributions for the auxiliary parameters in the distribution. 
+These are `nu` and `sigma` in the StudentT distribution.
+
+Finally, we pass the link function. This can be a string or an object of class
+`Link`. In this case it's simply the identity function, which can be passed as
+a string.
 
 ```{python bmb2, cache=TRUE}
-family = Family(
-  name = "t", 
-  prior = Prior("StudentT", sigma=1, nu=2), 
-  link = "identity", 
-  parent = "mu"
-)
+# Construct likelihood
+nu = Prior("Gamma", alpha=2, beta=0.1)
+sigma = Prior("HalfNormal", sigma=1)
+likelihood = Likelihood(name="StudentT", parent="mu", sigma=sigma, nu=nu)
+
+# Construct family
+t_family = Family(name = "t", likelihood = likelihood, link = "identity")
 
 # In addition, we pass our custom priors for the terms in the model.
 priors = {
@@ -391,7 +401,7 @@ priors = {
 }
 
 # Just add the `prior` and `family` arguments
-model = Model("y ~ x", data, priors=priors, family=family)
+model = Model("y ~ x", data, priors=priors, family=t_family)
 idata = model.fit()
 ```
 

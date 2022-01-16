@@ -1810,7 +1810,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     --nav-font: "Lato", helvetica, arial, sans-serif;
   }
 
-  p a {
+  d-article p a, d-article ul a, d-article li a {
     border-bottom: 0;
     background-image: linear-gradient(currentColor, currentColor);
     background-size: 100% 2.4px;
@@ -1822,7 +1822,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     text-decoration: none;
   }
 
-  p a:hover {
+  d-article p a:hover, d-article ul a:hover, d-article li a:hover {
     border-bottom: 0;
     background-image: linear-gradient(currentColor, currentColor);
     background-size: 100% 2.4px;
@@ -1889,7 +1889,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   p code, li code {
     color: #fff;
     font-size: 1.0em;
-    background: hsl(200deg 60% 60% / 100%);
+    background: hsl(210, 5%, 70%);
     border-radius: 3px;
     padding: 0 3px;
     margin: 0 3px;
@@ -2086,6 +2086,76 @@ function init_posts_list() {
 <div class="posts-container posts-apply-limit l-page">
 <div class="posts-list">
 <h1 class="posts-list-caption" data-caption="Posts">Posts</h1>
+<a href="posts/2021-08-17-gsoc-2021-final-evaluation/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<div class="metadata">
+<div class="publishedDate">Aug. 17, 2021</div>
+<div class="dt-authors"></div>
+</div>
+<div class="thumbnail">
+<img/>
+</div>
+<div class="description">
+<h2>GSOC 2021: Final evaluation</h2>
+<div class="dt-tags"></div>
+<p>Final post about Google Summer of Code 2021. This post sums up my
+contributions to the Bambi library during the ten weeks of this program.</p>
+</div>
+</a>
+<a href="posts/2021-08-03-binomial-family-in-Bambi/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<div class="metadata">
+<div class="publishedDate">Aug. 3, 2021</div>
+<div class="dt-authors"></div>
+</div>
+<div class="thumbnail">
+<img src="posts/2021-08-03-binomial-family-in-Bambi/binomial-family-in-Bambi_files/figure-html5/unnamed-chunk-7-1.png"/>
+</div>
+<div class="description">
+<h2>Binomial family in Bambi</h2>
+<div class="dt-tags"></div>
+<p>My fourth post describing work done during GSoC 2021. On this 
+occasion, I'm introducing the Binomial family. This new family is very useful 
+to build models for binary data when each row in the data set contains the 
+number of successes and the number of trials instead of the results of 
+Bernoulli trials.</p>
+</div>
+</a>
+<a href="posts/2021-07-14-new-families-in-Bambi/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<div class="metadata">
+<div class="publishedDate">July 14, 2021</div>
+<div class="dt-authors"></div>
+</div>
+<div class="thumbnail">
+<img src="posts/2021-07-14-new-families-in-Bambi/new-families-in-Bambi_files/figure-html5/unnamed-chunk-3-1.png"/>
+</div>
+<div class="description">
+<h2>New families in Bambi</h2>
+<div class="dt-tags"></div>
+<p>In this third post about my work during this Google Summer of Code
+I describe two families of models recently added. The first one, is the 
+Student T family, used to make linear regressions more robust. The second, 
+is the Beta family which can be used to model ratings and proportions.</p>
+</div>
+</a>
+<a href="posts/2021-07-05-robust-linear-regression-with-Bambi/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<div class="metadata">
+<div class="publishedDate">July 5, 2021</div>
+<div class="dt-authors"></div>
+</div>
+<div class="thumbnail">
+<img src="posts/2021-07-05-robust-linear-regression-with-Bambi/2021-07-05-robust-linear-regression-with-Bambi_files/figure-html5/unnamed-chunk-3-1.png"/>
+</div>
+<div class="description">
+<h2>Robust linear regression in Bambi</h2>
+<div class="dt-tags"></div>
+<p>Second post about this Google Summer of Code season. Today I show
+some of the problems associated with outliers in linear regression and demonstrate
+how one can implement a robust linear regression in Bambi.</p>
+</div>
+</a>
 <a href="posts/2021-06-28-first-weeks-of-gsoc/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":[]}</script>
 <div class="metadata">
@@ -2110,7 +2180,7 @@ to default priors and priors for group-specific effects.</p>
 <div class="dt-authors"></div>
 </div>
 <div class="thumbnail">
-<img src="posts/2021-06-08-group-specific-effects-matrix/group-specific-effects-matrix_files/figure-html5/unnamed-chunk-10-1.png"/>
+<img data-src="posts/2021-06-08-group-specific-effects-matrix/group-specific-effects-matrix_files/figure-html5/unnamed-chunk-10-1.png"/>
 </div>
 <div class="description">
 <h2>Design matrices for group-specific effects in formulae and lme4</h2>
@@ -2129,7 +2199,7 @@ package lme4.</p>
 <div class="dt-authors"></div>
 </div>
 <div class="thumbnail">
-<img src="posts/2021-05-24-bambi-wald/bambi-wald_files/figure-html5/unnamed-chunk-8-1.png"/>
+<img data-src="posts/2021-05-24-bambi-wald/bambi-wald_files/figure-html5/unnamed-chunk-8-1.png"/>
 </div>
 <div class="description">
 <h2>Why Bambi?</h2>

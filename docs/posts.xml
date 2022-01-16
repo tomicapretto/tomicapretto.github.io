@@ -7,7 +7,48 @@
     <description>This is the blog of Tomás Capretto. Here I want to write stuff!
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Mon, 28 Jun 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 17 Aug 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>GSOC 2021: Final evaluation</title>
+      <link>https://tomicapretto.github.io/posts/2021-08-17-gsoc-2021-final-evaluation</link>
+      <description>Final post about Google Summer of Code 2021. This post sums up my
+contributions to the Bambi library during the ten weeks of this program.</description>
+      <guid>https://tomicapretto.github.io/posts/2021-08-17-gsoc-2021-final-evaluation</guid>
+      <pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Binomial family in Bambi</title>
+      <link>https://tomicapretto.github.io/posts/2021-08-03-binomial-family-in-Bambi</link>
+      <description>My fourth post describing work done during GSoC 2021. On this 
+occasion, I'm introducing the Binomial family. This new family is very useful 
+to build models for binary data when each row in the data set contains the 
+number of successes and the number of trials instead of the results of 
+Bernoulli trials.</description>
+      <guid>https://tomicapretto.github.io/posts/2021-08-03-binomial-family-in-Bambi</guid>
+      <pubDate>Tue, 03 Aug 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://tomicapretto.github.io/posts/2021-08-03-binomial-family-in-Bambi/binomial-family-in-Bambi_files/figure-html5/unnamed-chunk-7-1.png" medium="image" type="image/png" width="1382" height="921"/>
+    </item>
+    <item>
+      <title>New families in Bambi</title>
+      <link>https://tomicapretto.github.io/posts/2021-07-14-new-families-in-Bambi</link>
+      <description>In this third post about my work during this Google Summer of Code
+I describe two families of models recently added. The first one, is the 
+Student T family, used to make linear regressions more robust. The second, 
+is the Beta family which can be used to model ratings and proportions.</description>
+      <guid>https://tomicapretto.github.io/posts/2021-07-14-new-families-in-Bambi</guid>
+      <pubDate>Wed, 14 Jul 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://tomicapretto.github.io/posts/2021-07-14-new-families-in-Bambi/new-families-in-Bambi_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Robust linear regression in Bambi</title>
+      <link>https://tomicapretto.github.io/posts/2021-07-05-robust-linear-regression-with-Bambi</link>
+      <description>Second post about this Google Summer of Code season. Today I show
+some of the problems associated with outliers in linear regression and demonstrate
+how one can implement a robust linear regression in Bambi.</description>
+      <guid>https://tomicapretto.github.io/posts/2021-07-05-robust-linear-regression-with-Bambi</guid>
+      <pubDate>Mon, 05 Jul 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://tomicapretto.github.io/posts/2021-07-05-robust-linear-regression-with-Bambi/2021-07-05-robust-linear-regression-with-Bambi_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="1299" height="1299"/>
+    </item>
     <item>
       <title>First weeks of GSoC</title>
       <link>https://tomicapretto.github.io/posts/2021-06-28-first-weeks-of-gsoc</link>
