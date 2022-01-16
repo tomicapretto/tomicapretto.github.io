@@ -2,32 +2,31 @@
   "articles": [
     {
       "path": "about.html",
-      "title": "About this blog",
-      "description": "Some additional details about the blog",
+      "title": "About",
       "author": [],
-      "contents": "\nThis is where I should give more details about my blog!\n\n\n\n",
-      "last_modified": "2022-01-16T11:49:28-03:00"
+      "contents": "\nI am statistician working full-time as Data Scientist at Grupo San Cristóbal, a company in the insurance and financial industry in Argentina.\nUntil very recently, I was full-time dedicated to study and research thanks to a Doctoral Fellowship by CONICET (Argentina). My place of work was at IMASL in San Luis, Argentina. I’m still a part-time PhD student.\nWhy Statistics?\nI’ve always felt curious about so many things that I couldn’t pick just one. So I studied Statistics. At that time I felt that something like statistics would give me the chance to work (and learn) with different problems from different fields and, consequently, I could chose to specialize in a particular field later in my career.\nNowadays, I am not only very happy to have chosen what I chose, but also eager to keep learning. Hopefully, one day I will be able to contribute with my share to the community and return something of all I have been taught.\nInterests\nStatistical learning\nBayesian statistics\nProgramming languages\nExploratory data analysis\nData visualization\nEducation\nPhD in Statistics - Universidad Nacional de Rosario - 2024 (expected)\nBSc in Statistics - Universidad Nacional de Rosario - 2019\n\n\n\n",
+      "last_modified": "2022-01-16T12:08:11-03:00"
     },
     {
       "path": "gallery.html",
       "title": "Gallery of featured posts",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2022-01-16T11:49:28-03:00"
+      "last_modified": "2022-01-16T12:08:12-03:00"
     },
     {
       "path": "index.html",
       "title": "Tomás Capretto",
       "author": [],
       "contents": "\n\n          \n          \n          Tomás Capretto\n          \n          \n          Home\n          Posts\n          About\n          \n          \n          \n          ☰\n          \n          \n      \n        \n          \n            Tomás Capretto\n          \n          \n            \n              I’m part-time Statistics PhD student working full-time as Data Scientist.  I speak mainly R and Python and I also enjoy developing  Open Source Software in my free time.\n            \n            \n              I’m part-time Statistics PhD student working full-time as Data Scientist.  I speak mainly R and Python and I also enjoy developing  Open Source Software in my free time.\n            \n          \n\n          \n            \n              \n                  \n                    \n                      Twitter\n                    \n                  \n                \n                                \n                  \n                    \n                      GitHub\n                    \n                  \n                \n                                \n                  \n                    \n                      LinkedIn\n                    \n                  \n                \n                                \n                  \n                    \n                      Email\n                    \n                  \n                \n                              \n          \n\n          \n            \n              \n                                \n                  \n                    Twitter\n                  \n                \n                                \n                  \n                    GitHub\n                  \n                \n                                \n                  \n                    LinkedIn\n                  \n                \n                                \n                  \n                    Email\n                  \n                \n                              \n            \n          \n        \n      \n    \n\n    \n    \n    \n          Tomás Capretto - Copyright document.write(new Date().getFullYear())\n          \n          \n\n    \n  ",
-      "last_modified": "2022-01-16T11:49:28-03:00"
+      "last_modified": "2022-01-16T12:08:12-03:00"
     },
     {
       "path": "posts.html",
       "title": "Posts",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2022-01-16T11:49:29-03:00"
+      "last_modified": "2022-01-16T12:08:12-03:00"
     }
   ],
   "collections": ["posts/posts.json"]
