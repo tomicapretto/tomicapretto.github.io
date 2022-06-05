@@ -1,0 +1,29 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Tomás Capretto"
+  site-url: https://tomicapretto.github.io
+  repo-url: https://github.com/tomicapretto/blog
+  navbar:
+    background: primary
+    right:
+      - about.qmd
+      - icon: twitter
+        aria-label: twitter
+        href: https://twitter.com/CaprettoTomas
+      - icon: github
+        aria-label: github
+        href: https://github.com/tomicapretto
+      - icon: person-circle
+        aria-label: website
+        href: https://tomicapretto.github.io
+  page-footer:
+    center: "Copyright 2022, Tomás Capretto"
+    background: primary
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true

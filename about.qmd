@@ -1,0 +1,22 @@
+---
+title: "Tomás Capretto"
+image: "data/imgs/myself.jpeg"
+about:
+    template: jolla
+    links:
+    - text: Twitter
+      url: "https://twitter.com/CaprettoTomas"
+    - text: GitHub
+      url: "https://github.com/tomicapretto"
+    - icon: twitter
+      text: LinkedIn
+      url: "https://www.linkedin.com/in/tom%C3%A1s-capretto-a89873106/"
+    - text: Email
+      url: "mailto:tomicapretto@gmail.com"
+---
+
+I'm Full Stack Data Scientist and a part-time Statistics PhD student.
+<br>
+I speak mainly Python and R, but I'm also experienced with other languages and tools as well.
+<br>
+On top of that, I'm an Open Source Software developer, mostly focusing on [Bambi](https://github.com/bambinos/bambi).
