@@ -140,7 +140,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html">Tomás Capretto</a>
+    <a class="nav-link" href="../../about.html">About me</a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://twitter.com/CaprettoTomas"><i class="bi bi-twitter" role="img" aria-label="twitter">
@@ -407,13 +407,12 @@ NUTS: [x, Intercept]</code></pre>
 
     <div>
       <progress value="4000" class="" max="4000" style="width:300px; height:20px; vertical-align: middle;"></progress>
-      100.00% [4000/4000 00:02&lt;00:00 Sampling 2 chains, 0 divergences]
+      100.00% [4000/4000 00:03&lt;00:00 Sampling 2 chains, 0 divergences]
     </div>
     
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Sampling 2 chains for 1_000 tune and 1_000 draw iterations (2_000 + 2_000 draws total) took 3 seconds.
-The acceptance probability does not match the target. It is 0.8794990003916735, but should be close to 0.8. Try to increase the number of tuning steps.</code></pre>
+<pre><code>Sampling 2 chains for 1_000 tune and 1_000 draw iterations (2_000 + 2_000 draws total) took 4 seconds.</code></pre>
 </div>
 </div>
 <p>and explore the marginal posteriors</p>
@@ -436,17 +435,17 @@ The acceptance probability does not match the target. It is 0.8794990003916735, 
   <tbody>
     <tr>
       <th>Intercept</th>
-      <td>-60.917</td>
-      <td>5.188</td>
-      <td>-70.414</td>
-      <td>-51.186</td>
+      <td>-61.021</td>
+      <td>5.250</td>
+      <td>-70.606</td>
+      <td>-51.311</td>
     </tr>
     <tr>
       <th>x</th>
-      <td>34.382</td>
-      <td>2.918</td>
-      <td>28.968</td>
-      <td>39.777</td>
+      <td>34.443</td>
+      <td>2.954</td>
+      <td>28.933</td>
+      <td>39.745</td>
     </tr>
   </tbody>
 </table>
@@ -519,12 +518,12 @@ NUTS: [x, Intercept]</code></pre>
 
     <div>
       <progress value="4000" class="" max="4000" style="width:300px; height:20px; vertical-align: middle;"></progress>
-      100.00% [4000/4000 00:01&lt;00:00 Sampling 2 chains, 0 divergences]
+      100.00% [4000/4000 00:03&lt;00:00 Sampling 2 chains, 0 divergences]
     </div>
     
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Sampling 2 chains for 1_000 tune and 1_000 draw iterations (2_000 + 2_000 draws total) took 2 seconds.</code></pre>
+<pre><code>Sampling 2 chains for 1_000 tune and 1_000 draw iterations (2_000 + 2_000 draws total) took 3 seconds.</code></pre>
 </div>
 </div>
 <p>Quite simple, right? The code here is very similar to the one for the model with the Bernoulli family. However, the new Binomial family allows us to <strong>use the data in its original form</strong>.</p>
@@ -548,17 +547,17 @@ NUTS: [x, Intercept]</code></pre>
   <tbody>
     <tr>
       <th>Intercept</th>
-      <td>-61.053</td>
-      <td>5.095</td>
-      <td>-69.657</td>
-      <td>-50.276</td>
+      <td>-61.045</td>
+      <td>4.969</td>
+      <td>-69.905</td>
+      <td>-51.495</td>
     </tr>
     <tr>
       <th>x</th>
-      <td>34.462</td>
-      <td>2.861</td>
-      <td>28.477</td>
-      <td>39.293</td>
+      <td>34.452</td>
+      <td>2.793</td>
+      <td>29.185</td>
+      <td>39.552</td>
     </tr>
   </tbody>
 </table>
@@ -568,7 +567,7 @@ NUTS: [x, Intercept]</code></pre>
 <div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>model_bnml.predict(idata_bnml, data<span class="op">=</span>new_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="12">
+<div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>az.plot_hdi(</span>
@@ -588,8 +587,9 @@ NUTS: [x, Intercept]</code></pre>
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Probability of death"</span>)</span>
 <span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r"Dose $\log_</span><span class="sc">{10}</span><span class="vs">CS_2mgl^{-1}$"</span>)</span>
 <span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"family='binomial'"</span>)</span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>fig.set_facecolor(<span class="st">"w"</span>)</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>fig.savefig(<span class="st">"imgs/plot.png"</span>)</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
 </div>
