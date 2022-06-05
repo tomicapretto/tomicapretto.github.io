@@ -1,5 +1,8 @@
 /* css styles */
 
+@import url("https://fonts.googleapis.com/css2?family=Sanchez");
+@import url("https://fonts.googleapis.com/css2?family=Lato");
+
 /* Center output images */
 .img-fluid {
     display: block;
@@ -8,11 +11,11 @@
 }
 
 html {
-    --header-color: hsl(210, 10%, 40%);
+    --header-color: hsl(0, 0%, 25%);
     --link-dark: hsl(210, 60%, 40%);
     --link: hsl(200, 60%, 50%);
     --link-background: hsl(200deg 60% 50% / 10%);
-    --dark: hsl(210, 10%, 25%);
+    --dark: hsl(210, 42%, 45%);
     --heading-font: "Sanchez", helvetica, arial, sans-serif;
     --nav-font: "Lato", helvetica, arial, sans-serif;
 }
@@ -22,6 +25,9 @@ h1, h2, h3, h4, h5, h6 {
     font-family: var(--heading-font);
 }
 
+a {
+    color: var(--dark)
+}
 .navbar, .nav-footer {
     background-color: var(--dark);
     font-weight: 400;
