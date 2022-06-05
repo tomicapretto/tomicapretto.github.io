@@ -1,5 +1,5 @@
 ---
-title: "Tomás Capretto"
+title: "About me"
 image: "data/imgs/myself.jpeg"
 about:
     template: jolla

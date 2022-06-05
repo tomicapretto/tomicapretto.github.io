@@ -1,7 +1,8 @@
 /* css styles */
 
-@import url("https://fonts.googleapis.com/css2?family=Sanchez");
-@import url("https://fonts.googleapis.com/css2?family=Lato");
+@import url("https://fonts.googleapis.com/css2?family=Raleway");
+@import url("https://fonts.googleapis.com/css2?family=Quicksand");
+@import url("https://fonts.googleapis.com/css2?family=Source Code Pro");
 
 /* Center output images */
 .img-fluid {
@@ -16,8 +17,14 @@ html {
     --link: hsl(200, 60%, 50%);
     --link-background: hsl(200deg 60% 50% / 10%);
     --dark: hsl(210, 42%, 45%);
-    --heading-font: "Sanchez", helvetica, arial, sans-serif;
-    --nav-font: "Lato", helvetica, arial, sans-serif;
+    --heading-font: "Raleway", helvetica, arial, sans-serif;
+    --nav-font: "Raleway", helvetica, arial, sans-serif;
+    --global-font: "Quicksand", helvetica, arial, sans-serif;
+    --code-font: "Source Code Pro", helvetica, arial, sans-serif;
+}
+
+* {
+    font-family: var(--global-font);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -25,9 +32,19 @@ h1, h2, h3, h4, h5, h6 {
     font-family: var(--heading-font);
 }
 
+pre > code.sourceCode  span {
+    font-family: var(--code-font);
+}
+
+
 a {
     color: var(--dark)
 }
+
+main.cell {
+    font-family: var(--code-font);
+}
+
 .navbar, .nav-footer {
     background-color: var(--dark);
     font-weight: 400;
@@ -40,6 +57,7 @@ a {
 }
 
 div.quarto-about-jolla .about-link {
+    font-family: var(--all-font);
     border-color: var(--dark);
     border-radius: .25rem;
     border: solid 1px;
