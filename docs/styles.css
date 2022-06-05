@@ -23,7 +23,7 @@ html {
     --code-font: "Source Code Pro", helvetica, arial, sans-serif;
 }
 
-* {
+p, div {
     font-family: var(--global-font);
 }
 
