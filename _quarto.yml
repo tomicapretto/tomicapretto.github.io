@@ -23,6 +23,8 @@ website:
   page-footer:
     center: "Copyright 2022, Tomás Capretto"
     background: primary
+  execute:
+    freeze: auto # re-render only when source changes
 format:
   html:
     theme: cosmo
