@@ -72,3 +72,18 @@ div.quarto-about-jolla .about-link:hover {
     background-color: var(--dark);
     border-color: var(--dark);
 }
+
+
+@media (min-width: 992px) {
+    body.floating .page-columns {
+        display: grid;
+        gap: 0;
+        grid-template-columns:
+            [screen-start] 1.5em [screen-start-inset] 5fr [page-start] minmax(25px, 50px)
+            [page-start-inset] minmax(50px, 150px) [body-start-outset] minmax(25px, 50px)
+            [body-start] 1.5em [body-content-start] minmax(500px, calc(900px - 3em))
+            [body-content-end] 1.5em [body-end] minmax(25px, 50px)
+            [body-end-outset] minmax(50px, 150px) [page-end-inset] minmax(25px, 50px)
+            [page-end] 5fr [screen-end-inset] 1.5em [screen-end];
+    }
+}
