@@ -1,51 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://tomicapretto.github.io/abc.html</loc>
-    <lastmod>2022-06-12T19:06:49.977Z</lastmod>
-  </url>
-  <url>
     <loc>https://tomicapretto.github.io/posts/2021-08-17_gsoc-2021-final-evaluation/index.html</loc>
-    <lastmod>2022-06-12T19:06:50.269Z</lastmod>
+    <lastmod>2022-06-12T22:12:54.671Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2021-07-05_robust-linear-regression-with-Bambi/index.html</loc>
-    <lastmod>2022-06-12T19:06:50.765Z</lastmod>
+    <lastmod>2022-06-12T22:12:55.167Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index.html</loc>
-    <lastmod>2022-06-12T19:06:51.545Z</lastmod>
+    <lastmod>2022-06-12T22:12:55.939Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2021-08-03_binomial-family-in-Bambi/index.html</loc>
-    <lastmod>2022-06-12T19:06:51.925Z</lastmod>
+    <lastmod>2022-06-12T22:12:56.315Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2021-06-08_group-specific-effects-matrix/index.html</loc>
-    <lastmod>2022-06-12T19:06:52.561Z</lastmod>
+    <lastmod>2022-06-12T22:12:56.995Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2021-07-14_new-families-in-Bambi/index.html</loc>
-    <lastmod>2022-06-12T19:06:52.937Z</lastmod>
+    <lastmod>2022-06-12T22:12:57.427Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2020-11-03_bingo-cards-in-r/index.html</loc>
-    <lastmod>2022-06-12T19:06:53.597Z</lastmod>
+    <lastmod>2022-06-12T22:12:58.155Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2021-05-24_why-bambi/index.html</loc>
-    <lastmod>2022-06-12T19:06:53.973Z</lastmod>
+    <lastmod>2022-06-12T22:12:58.555Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2021-06-28_first-weeks-of-gsoc/index.html</loc>
-    <lastmod>2022-06-12T19:06:54.249Z</lastmod>
+    <lastmod>2022-06-12T22:12:58.851Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/about.html</loc>
-    <lastmod>2022-06-12T19:06:54.457Z</lastmod>
+    <lastmod>2022-06-12T22:12:59.075Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/index.html</loc>
-    <lastmod>2022-06-12T19:06:54.805Z</lastmod>
+    <lastmod>2022-06-12T22:12:59.439Z</lastmod>
   </url>
 </urlset>

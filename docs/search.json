@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "abc.html",
-    "href": "abc.html",
-    "title": "Tomás Capretto",
-    "section": "",
-    "text": "with pm.Model(coords={\"subject\": [1, 2, 3]}) as model:\n    lkj = pm.LKJCorr(\"lkj\", eta=1, n=4, dims=\"subject\")\n    \nprint(pm.draw(lkj).shape)\npm.model_to_graphviz(model)\n\n(6,)\n\n\n\n\n\n\nwith model:\n    prior_checks = pm.sample_prior_predictive()\n\nValueError: conflicting sizes for dimension 'subject': length 6 on the data but length 3 on coordinate 'subject'"
-  },
-  {
     "objectID": "posts/2021-08-17_gsoc-2021-final-evaluation/index.html",
     "href": "posts/2021-08-17_gsoc-2021-final-evaluation/index.html",
     "title": "GSOC 2021: Final evaluation",
