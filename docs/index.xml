@@ -13,7 +13,7 @@
 <lastBuildDate>Sun, 12 Jun 2022 03:00:00 GMT</lastBuildDate>
 <item>
   <title>Hierarchical modeling with the LKJ prior in PyMC</title>
-  <link>https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index.html</link>
+  <link>https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index.html</link>
   <description><![CDATA[ 
 
 
@@ -137,7 +137,7 @@ There are J=18 subjects.</code></pre>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1">plot_data(data)<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
+<p><img src="https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>For most of the subjects, there’s a clear positive association between Days and Reaction time. <strong>Reaction times increase as people accumulate more days of sleep deprivation</strong>. Participants differ in the initial reaction times as well as in the association between sleep deprivation and reaction time. Reaction times increase faster for some subjects and slower for others. Finally, the relationship between Days and Reaction time presents some deviations from linearity within the panels, but these are neither substantial nor systematic.</p>
@@ -233,7 +233,7 @@ There are J=18 subjects.</code></pre>
 <div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1">pm.model_to_graphviz(model_independent)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
-<p><img src="https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index_files/figure-html/cell-11-output-1.svg" class="img-fluid"></p>
+<p><img src="https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index_files/figure-html/cell-11-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="11">
@@ -280,7 +280,7 @@ NUTS: [β0, β1, σ_u0, u0, σ_u1, u1, σ]</code></pre>
 <span id="cb16-5">    chain_prop<span class="op" style="color: #5E5E5E;">=</span>{<span class="st" style="color: #20794D;">"ls"</span>: <span class="st" style="color: #20794D;">"-"</span>}</span>
 <span id="cb16-6">)<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
+<p><img src="https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="13">
@@ -306,7 +306,7 @@ NUTS: [β0, β1, σ_u0, u0, σ_u1, u1, σ]</code></pre>
 <div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1">plot_predictions(data, idata_independent)<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
+<p><img src="https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -387,7 +387,7 @@ NUTS: [β0, β1, σ_u0, u0, σ_u1, u1, σ]</code></pre>
 <div class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1">pm.model_to_graphviz(model_lkj_cov)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
-<p><img src="https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index_files/figure-html/cell-17-output-1.svg" class="img-fluid"></p>
+<p><img src="https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index_files/figure-html/cell-17-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="17">
@@ -434,7 +434,7 @@ NUTS: [β0, β1, L, u_raw, σ]</code></pre>
 <span id="cb24-5">    chain_prop<span class="op" style="color: #5E5E5E;">=</span>{<span class="st" style="color: #20794D;">"ls"</span>: <span class="st" style="color: #20794D;">"-"</span>}</span>
 <span id="cb24-6">)<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
+<p><img src="https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>From the traceplot of the correlation coefficient <code>ρ_u</code> it looks like the group-specific intercept and slope are not related since the distribution is centered around zero.</p>
@@ -454,7 +454,7 @@ NUTS: [β0, β1, L, u_raw, σ]</code></pre>
 <span id="cb25-12">ax.axvline(c<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"k"</span>, ls<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"--"</span>, alpha<span class="op" style="color: #5E5E5E;">=</span><span class="fl" style="color: #AD0000;">0.5</span>)</span>
 <span id="cb25-13">ax.<span class="bu" style="color: null;">set</span>(xlabel<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"Subject-specific intercept"</span>, ylabel<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"Subject-specific slope"</span>)<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index_files/figure-html/cell-20-output-1.png" class="img-fluid"></p>
+<p><img src="https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index_files/figure-html/cell-20-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>If we look at the bigger picture, i.e omitting the groups, we can conclude there’s no association between the intercept and slope. In other words, having lower or higher intial reaction times does not say anything about how much sleep deprivation affects the average reaction time on a given subject.</p>
@@ -463,7 +463,7 @@ NUTS: [β0, β1, L, u_raw, σ]</code></pre>
 <div class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1">plot_predictions(data, idata_lkj_cov)<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index_files/figure-html/cell-21-output-1.png" class="img-fluid"></p>
+<p><img src="https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index_files/figure-html/cell-21-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -524,7 +524,7 @@ NUTS: [β0, β1, L, u_raw, σ]</code></pre>
 <div class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1">pm.model_to_graphviz(model_lkj_corr)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="22">
-<p><img src="https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index_files/figure-html/cell-23-output-1.svg" class="img-fluid"></p>
+<p><img src="https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index_files/figure-html/cell-23-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="23">
@@ -571,13 +571,13 @@ NUTS: [β0, β1, u_σ, Ω_triu, u_raw, σ]</code></pre>
 <span id="cb32-5">    chain_prop<span class="op" style="color: #5E5E5E;">=</span>{<span class="st" style="color: #20794D;">"ls"</span>: <span class="st" style="color: #20794D;">"-"</span>}</span>
 <span id="cb32-6">)<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index_files/figure-html/cell-25-output-1.png" class="img-fluid"></p>
+<p><img src="https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index_files/figure-html/cell-25-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1">plot_predictions(data, idata_lkj_corr)<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index_files/figure-html/cell-26-output-1.png" class="img-fluid"></p>
+<p><img src="https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index_files/figure-html/cell-26-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -651,7 +651,7 @@ For the simplex vector <img src="https://latex.codecogs.com/png.latex?%5Cpi"> we
 <div class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb35" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1">pm.model_to_graphviz(model_lkj_corr_2)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="27">
-<p><img src="https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index_files/figure-html/cell-28-output-1.svg" class="img-fluid"></p>
+<p><img src="https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index_files/figure-html/cell-28-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="28">
@@ -696,13 +696,13 @@ NUTS: [β0, β1, σ, τ, π, Ω_triu, u_raw]</code></pre>
 <span id="cb39-3">    var_names<span class="op" style="color: #5E5E5E;">=</span>[<span class="st" style="color: #20794D;">"β0"</span>, <span class="st" style="color: #20794D;">"β1"</span>, <span class="st" style="color: #20794D;">"u0"</span>, <span class="st" style="color: #20794D;">"u1"</span>, <span class="st" style="color: #20794D;">"σ"</span>, <span class="st" style="color: #20794D;">"σ_u0"</span>, <span class="st" style="color: #20794D;">"σ_u1"</span>, <span class="st" style="color: #20794D;">"ρ_u"</span>, <span class="st" style="color: #20794D;">"τ"</span>, <span class="st" style="color: #20794D;">"π"</span>],</span>
 <span id="cb39-4">)<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index_files/figure-html/cell-30-output-1.png" class="img-fluid"></p>
+<p><img src="https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index_files/figure-html/cell-30-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb40" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1">plot_predictions(data, idata_lkj_corr_2)<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index_files/figure-html/cell-31-output-1.png" class="img-fluid"></p>
+<p><img src="https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index_files/figure-html/cell-31-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -727,7 +727,7 @@ NUTS: [β0, β1, σ, τ, π, Ω_triu, u_raw]</code></pre>
 <span id="cb41-16">        ax<span class="op" style="color: #5E5E5E;">=</span>ax[idx],</span>
 <span id="cb41-17">    )</span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index_files/figure-html/cell-32-output-1.png" class="img-fluid"></p>
+<p><img src="https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index_files/figure-html/cell-32-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="32">
@@ -738,7 +738,7 @@ NUTS: [β0, β1, σ, τ, π, Ω_triu, u_raw]</code></pre>
 <span id="cb42-5">    combined<span class="op" style="color: #5E5E5E;">=</span><span class="va" style="color: #111111;">True</span></span>
 <span id="cb42-6">)<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index_files/figure-html/cell-33-output-1.png" class="img-fluid"></p>
+<p><img src="https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index_files/figure-html/cell-33-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -790,7 +790,7 @@ Watermark: 2.3.1
 </section>
 
  ]]></description>
-  <guid>https://tomicapretto.github.io/posts/2022-06-11_lkj-prior/index.html</guid>
+  <guid>https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index.html</guid>
   <pubDate>Sun, 12 Jun 2022 03:00:00 GMT</pubDate>
 </item>
 <item>
