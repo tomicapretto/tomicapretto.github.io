@@ -1,0 +1,5014 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.440">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2022-06-26">
+
+<title>Tomás Capretto - Let’s use tidypolars more</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-217292110-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Tomás Capretto</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About me</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/CaprettoTomas"><i class="bi bi-twitter" role="img" aria-label="twitter">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/tomicapretto"><i class="bi bi-github" role="img" aria-label="github">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://tomicapretto.github.io"><i class="bi bi-person-circle" role="img" aria-label="website">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#lets-use-tidypolars-more" id="toc-lets-use-tidypolars-more" class="nav-link active" data-scroll-target="#lets-use-tidypolars-more">Let’s use tidypolars more</a>
+  <ul class="collapse">
+  <li><a href="#data-wrangling-with-pandas" id="toc-data-wrangling-with-pandas" class="nav-link" data-scroll-target="#data-wrangling-with-pandas">Data wrangling with <strong>pandas</strong></a></li>
+  <li><a href="#data-wrangling-with-tidypolars" id="toc-data-wrangling-with-tidypolars" class="nav-link" data-scroll-target="#data-wrangling-with-tidypolars">Data wrangling with <strong>tidypolars</strong></a></li>
+  <li><a href="#comparison" id="toc-comparison" class="nav-link" data-scroll-target="#comparison">Comparison</a>
+  <ul class="collapse">
+  <li><a href="#with-pandas" id="toc-with-pandas" class="nav-link" data-scroll-target="#with-pandas">With <strong>pandas</strong></a></li>
+  <li><a href="#with-tidypolars" id="toc-with-tidypolars" class="nav-link" data-scroll-target="#with-tidypolars">With <strong>tidypolars</strong></a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Let’s use tidypolars more</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 26, 2022</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<section id="lets-use-tidypolars-more" class="level1">
+<h1>Let’s use tidypolars more</h1>
+<p>In this blogpost I’m going to show how to perform the same task with <a href="https://pandas.pydata.org/">pandas</a>, the most popular library for data analysis in Python, and <a href="https://tidypolars.readthedocs.io/en/latest/">tidypolars</a>, a new library to do data analysis with tabular data inspired on the tidyverse.</p>
+<p>The task consists of computing a variable transformation that relies on grouped aggregations. In particular, we will be computing the standardized version of a numeric variable by group.</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> palmerpenguins</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tidypolars <span class="im">as</span> tp</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tidypolars <span class="im">import</span> col</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I’m going to work with the famous palmer penguins dataset. In Python this can be loaded very easily thanks to the <code>palmerpenguins</code> library.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> palmerpenguins.load_penguins()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.1</td>
+      <td>18.7</td>
+      <td>181.0</td>
+      <td>3750.0</td>
+      <td>male</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.5</td>
+      <td>17.4</td>
+      <td>186.0</td>
+      <td>3800.0</td>
+      <td>female</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>40.3</td>
+      <td>18.0</td>
+      <td>195.0</td>
+      <td>3250.0</td>
+      <td>female</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>36.7</td>
+      <td>19.3</td>
+      <td>193.0</td>
+      <td>3450.0</td>
+      <td>female</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>339</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>55.8</td>
+      <td>19.8</td>
+      <td>207.0</td>
+      <td>4000.0</td>
+      <td>male</td>
+      <td>2009</td>
+    </tr>
+    <tr>
+      <th>340</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>43.5</td>
+      <td>18.1</td>
+      <td>202.0</td>
+      <td>3400.0</td>
+      <td>female</td>
+      <td>2009</td>
+    </tr>
+    <tr>
+      <th>341</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>49.6</td>
+      <td>18.2</td>
+      <td>193.0</td>
+      <td>3775.0</td>
+      <td>male</td>
+      <td>2009</td>
+    </tr>
+    <tr>
+      <th>342</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>50.8</td>
+      <td>19.0</td>
+      <td>210.0</td>
+      <td>4100.0</td>
+      <td>male</td>
+      <td>2009</td>
+    </tr>
+    <tr>
+      <th>343</th>
+      <td>Chinstrap</td>
+      <td>Dream</td>
+      <td>50.2</td>
+      <td>18.7</td>
+      <td>198.0</td>
+      <td>3775.0</td>
+      <td>female</td>
+      <td>2009</td>
+    </tr>
+  </tbody>
+</table>
+<p>344 rows × 8 columns</p>
+</div>
+</div>
+</div>
+<section id="data-wrangling-with-pandas" class="level2">
+<h2 class="anchored" data-anchor-id="data-wrangling-with-pandas">Data wrangling with <strong>pandas</strong></h2>
+<p>Before seeing an example using tidypolars I’m going to perform some basic data wrangling with pandas. One of the first things one usually do with a data frame is exploring its first rows visually. The <code>.head()</code> method comes very handy.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>species</th>
+      <th>island</th>
+      <th>bill_length_mm</th>
+      <th>bill_depth_mm</th>
+      <th>flipper_length_mm</th>
+      <th>body_mass_g</th>
+      <th>sex</th>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.1</td>
+      <td>18.7</td>
+      <td>181.0</td>
+      <td>3750.0</td>
+      <td>male</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>39.5</td>
+      <td>17.4</td>
+      <td>186.0</td>
+      <td>3800.0</td>
+      <td>female</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>40.3</td>
+      <td>18.0</td>
+      <td>195.0</td>
+      <td>3250.0</td>
+      <td>female</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2007</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>Torgersen</td>
+      <td>36.7</td>
+      <td>19.3</td>
+      <td>193.0</td>
+      <td>3450.0</td>
+      <td>female</td>
+      <td>2007</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p>I’m going to work with the <code>species</code>, <code>sex</code>, and <code>body_mass_g</code> columns only. To subset the dataframe we only need to pass the name of these columns as a list within brackets.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data[[<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>]].reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>species</th>
+      <th>sex</th>
+      <th>body_mass_g</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>male</td>
+      <td>3750.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Adelie</td>
+      <td>female</td>
+      <td>3800.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>female</td>
+      <td>3250.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Adelie</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>female</td>
+      <td>3450.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p>I add the <code>.reset_index(drop=True)</code> to avoid some <code>SettingWithCopyWarning</code>s later. I also want to drop any observations with missing values so I use <code>.dropna()</code> to do that.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.dropna()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Suppose now I want to standardize the variable <code>body_mass_g</code>. Pandas vectorized operations make it extremely easy. One can save the result in a new column in a very intuitive way as well.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"body_mass_z"</span>] <span class="op">=</span> (data[<span class="st">"body_mass_g"</span>] <span class="op">-</span> data[<span class="st">"body_mass_g"</span>].mean()) <span class="op">/</span> data[<span class="st">"body_mass_g"</span>].std()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>species</th>
+      <th>sex</th>
+      <th>body_mass_g</th>
+      <th>body_mass_z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>male</td>
+      <td>3750.0</td>
+      <td>-0.567621</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Adelie</td>
+      <td>female</td>
+      <td>3800.0</td>
+      <td>-0.505525</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>female</td>
+      <td>3250.0</td>
+      <td>-1.188572</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>female</td>
+      <td>3450.0</td>
+      <td>-0.940192</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Adelie</td>
+      <td>male</td>
+      <td>3650.0</td>
+      <td>-0.691811</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p>We could consider it is more appropiate to standardize considering the <code>species</code> variable. We still perform the same operation than above, but we do it within each group.</p>
+<p>The way to perform such operations in pandas is to use the <code>.groupby()</code> method. Then one can select the desired column and compute the aggregation.</p>
+<p>For example, to compute the mean body mass by species we can do the following.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>species
+Adelie       3706.164384
+Chinstrap    3733.088235
+Gentoo       5092.436975
+Name: body_mass_g, dtype: float64</code></pre>
+</div>
+</div>
+<p>We obtained a pandas Series with three values, the mean for each species. If we want to obtain a Series of the same length than the original data, it is, for each row the mean of the species the observation belongs to, we can use <code>.transform()</code>.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].transform(<span class="st">"mean"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>0      3706.164384
+1      3706.164384
+2      3706.164384
+4      3706.164384
+5      3706.164384
+          ...     
+339    3733.088235
+340    3733.088235
+341    3733.088235
+342    3733.088235
+343    3733.088235
+Name: body_mass_g, Length: 333, dtype: float64</code></pre>
+</div>
+</div>
+<p>The same can be done with other transformations such as the standard deviation.</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].transform(<span class="st">"std"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>0      458.620135
+1      458.620135
+2      458.620135
+4      458.620135
+5      458.620135
+          ...    
+339    384.335081
+340    384.335081
+341    384.335081
+342    384.335081
+343    384.335081
+Name: body_mass_g, Length: 333, dtype: float64</code></pre>
+</div>
+</div>
+<p>Now, putting all the pieces together, we can compute the standardized body mass by species.</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"body_mass_z"</span>] <span class="op">=</span> (</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    (data[<span class="st">"body_mass_g"</span>] <span class="op">-</span> data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].transform(<span class="st">"mean"</span>)) </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span> data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].transform(<span class="st">"std"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>species</th>
+      <th>sex</th>
+      <th>body_mass_g</th>
+      <th>body_mass_z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>male</td>
+      <td>3750.0</td>
+      <td>0.095582</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Adelie</td>
+      <td>female</td>
+      <td>3800.0</td>
+      <td>0.204604</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>female</td>
+      <td>3250.0</td>
+      <td>-0.994645</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>female</td>
+      <td>3450.0</td>
+      <td>-0.558555</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Adelie</td>
+      <td>male</td>
+      <td>3650.0</td>
+      <td>-0.122464</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p>It’s also possible to add more variables to the groups. For example, this is how we can perform the same compution considering groups given by species and sex.</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"body_mass_z"</span>] <span class="op">=</span> (</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    (data[<span class="st">"body_mass_g"</span>] <span class="op">-</span> data.groupby([<span class="st">"species"</span>, <span class="st">"sex"</span>])[<span class="st">"body_mass_g"</span>].transform(<span class="st">"mean"</span>)) </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span> data.groupby([<span class="st">"species"</span>, <span class="st">"sex"</span>])[<span class="st">"body_mass_g"</span>].transform(<span class="st">"std"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>species</th>
+      <th>sex</th>
+      <th>body_mass_g</th>
+      <th>body_mass_z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Adelie</td>
+      <td>male</td>
+      <td>3750.0</td>
+      <td>-0.846261</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Adelie</td>
+      <td>female</td>
+      <td>3800.0</td>
+      <td>1.600580</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Adelie</td>
+      <td>female</td>
+      <td>3250.0</td>
+      <td>-0.441145</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Adelie</td>
+      <td>female</td>
+      <td>3450.0</td>
+      <td>0.301301</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Adelie</td>
+      <td>male</td>
+      <td>3650.0</td>
+      <td>-1.134602</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p>And finally, I can sort by the standardized body mass in ascending order.</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data.sort_values(<span class="st">"body_mass_z"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>species</th>
+      <th>sex</th>
+      <th>body_mass_g</th>
+      <th>body_mass_z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>314</th>
+      <td>Chinstrap</td>
+      <td>female</td>
+      <td>2700.0</td>
+      <td>-2.899080</td>
+    </tr>
+    <tr>
+      <th>192</th>
+      <td>Gentoo</td>
+      <td>female</td>
+      <td>3950.0</td>
+      <td>-2.591611</td>
+    </tr>
+    <tr>
+      <th>195</th>
+      <td>Gentoo</td>
+      <td>male</td>
+      <td>4750.0</td>
+      <td>-2.346530</td>
+    </tr>
+    <tr>
+      <th>298</th>
+      <td>Chinstrap</td>
+      <td>female</td>
+      <td>2900.0</td>
+      <td>-2.198147</td>
+    </tr>
+    <tr>
+      <th>119</th>
+      <td>Adelie</td>
+      <td>male</td>
+      <td>3325.0</td>
+      <td>-2.071711</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>114</th>
+      <td>Adelie</td>
+      <td>female</td>
+      <td>3900.0</td>
+      <td>1.971803</td>
+    </tr>
+    <tr>
+      <th>109</th>
+      <td>Adelie</td>
+      <td>male</td>
+      <td>4775.0</td>
+      <td>2.109234</td>
+    </tr>
+    <tr>
+      <th>284</th>
+      <td>Chinstrap</td>
+      <td>female</td>
+      <td>4150.0</td>
+      <td>2.182685</td>
+    </tr>
+    <tr>
+      <th>313</th>
+      <td>Chinstrap</td>
+      <td>male</td>
+      <td>4800.0</td>
+      <td>2.377631</td>
+    </tr>
+    <tr>
+      <th>169</th>
+      <td>Gentoo</td>
+      <td>male</td>
+      <td>6300.0</td>
+      <td>2.603039</td>
+    </tr>
+  </tbody>
+</table>
+<p>333 rows × 4 columns</p>
+</div>
+</div>
+</div>
+</section>
+<section id="data-wrangling-with-tidypolars" class="level2">
+<h2 class="anchored" data-anchor-id="data-wrangling-with-tidypolars">Data wrangling with <strong>tidypolars</strong></h2>
+<p>Now it’s time to see the same operations performed with tidypolars. Tidypolars is inspired on the <a href="https://www.tidyverse.org/"><code>tidyverse</code></a>, a set of packages following a consistent design phillosophy that has revolutionated the way we do data science in R and other languages as well.</p>
+<p>Its description says &gt; tidypolars is a data frame library built on top of the blazingly fast <a href="https://github.com/pola-rs/polars">polars</a> library that gives access to methods and functions familiar to R tidyverse users.</p>
+<p>Tidypolars does not rely on any pandas data structure because it’s built on top of polars, not pandas. In addition, it works with a new data frame structure called <code>Tibble</code>, borrowing its name from the <code>tibble</code> in the R package of the same name.</p>
+<p>We can convert a pandas DataFrame to a tibble with the <code>.from_pandas()</code> function.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>tibble <span class="op">=</span> tp.from_pandas(palmerpenguins.load_penguins())</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(tibble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>tidypolars.tibble.Tibble</code></pre>
+</div>
+</div>
+<p>We still have a <code>.head()</code> method that prints the first rows. The representation is very similar to a pandas data frame.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tibble.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+</style>
+<small>shape: (5, 8)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+species
+</th>
+<th>
+island
+</th>
+<th>
+bill_length_mm
+</th>
+<th>
+bill_depth_mm
+</th>
+<th>
+flipper_length_mm
+</th>
+<th>
+body_mass_g
+</th>
+<th>
+sex
+</th>
+<th>
+year
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+f64
+</td>
+<td>
+f64
+</td>
+<td>
+f64
+</td>
+<td>
+f64
+</td>
+<td>
+str
+</td>
+<td>
+i64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+39.1
+</td>
+<td>
+18.7
+</td>
+<td>
+181.0
+</td>
+<td>
+3750.0
+</td>
+<td>
+"male"
+</td>
+<td>
+2007
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+39.5
+</td>
+<td>
+17.4
+</td>
+<td>
+186.0
+</td>
+<td>
+3800.0
+</td>
+<td>
+"female"
+</td>
+<td>
+2007
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+40.3
+</td>
+<td>
+18.0
+</td>
+<td>
+195.0
+</td>
+<td>
+3250.0
+</td>
+<td>
+"female"
+</td>
+<td>
+2007
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+null
+</td>
+<td>
+null
+</td>
+<td>
+null
+</td>
+<td>
+null
+</td>
+<td>
+null
+</td>
+<td>
+2007
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+36.7
+</td>
+<td>
+19.3
+</td>
+<td>
+193.0
+</td>
+<td>
+3450.0
+</td>
+<td>
+"female"
+</td>
+<td>
+2007
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>To filter rows we can use the <code>.filter()</code> method. In the next chunk of code we use <code>col("*")</code> to select all columns, <code>tp.is_not_null()</code> to flag observations with non-null values, and <code>.filter()</code> to use those booleans to actually perform the filtering.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tibble.<span class="bu">filter</span>(tp.is_not_null(col(<span class="st">"*"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+</style>
+<small>shape: (333, 8)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+species
+</th>
+<th>
+island
+</th>
+<th>
+bill_length_mm
+</th>
+<th>
+bill_depth_mm
+</th>
+<th>
+flipper_length_mm
+</th>
+<th>
+body_mass_g
+</th>
+<th>
+sex
+</th>
+<th>
+year
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+f64
+</td>
+<td>
+f64
+</td>
+<td>
+f64
+</td>
+<td>
+f64
+</td>
+<td>
+str
+</td>
+<td>
+i64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+39.1
+</td>
+<td>
+18.7
+</td>
+<td>
+181.0
+</td>
+<td>
+3750.0
+</td>
+<td>
+"male"
+</td>
+<td>
+2007
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+39.5
+</td>
+<td>
+17.4
+</td>
+<td>
+186.0
+</td>
+<td>
+3800.0
+</td>
+<td>
+"female"
+</td>
+<td>
+2007
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+40.3
+</td>
+<td>
+18.0
+</td>
+<td>
+195.0
+</td>
+<td>
+3250.0
+</td>
+<td>
+"female"
+</td>
+<td>
+2007
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+36.7
+</td>
+<td>
+19.3
+</td>
+<td>
+193.0
+</td>
+<td>
+3450.0
+</td>
+<td>
+"female"
+</td>
+<td>
+2007
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+39.3
+</td>
+<td>
+20.6
+</td>
+<td>
+190.0
+</td>
+<td>
+3650.0
+</td>
+<td>
+"male"
+</td>
+<td>
+2007
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+38.9
+</td>
+<td>
+17.8
+</td>
+<td>
+181.0
+</td>
+<td>
+3625.0
+</td>
+<td>
+"female"
+</td>
+<td>
+2007
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+39.2
+</td>
+<td>
+19.6
+</td>
+<td>
+195.0
+</td>
+<td>
+4675.0
+</td>
+<td>
+"male"
+</td>
+<td>
+2007
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+41.1
+</td>
+<td>
+17.6
+</td>
+<td>
+182.0
+</td>
+<td>
+3200.0
+</td>
+<td>
+"female"
+</td>
+<td>
+2007
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+38.6
+</td>
+<td>
+21.2
+</td>
+<td>
+191.0
+</td>
+<td>
+3800.0
+</td>
+<td>
+"male"
+</td>
+<td>
+2007
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+34.6
+</td>
+<td>
+21.1
+</td>
+<td>
+198.0
+</td>
+<td>
+4400.0
+</td>
+<td>
+"male"
+</td>
+<td>
+2007
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+36.6
+</td>
+<td>
+17.8
+</td>
+<td>
+185.0
+</td>
+<td>
+3700.0
+</td>
+<td>
+"female"
+</td>
+<td>
+2007
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"Torgersen"
+</td>
+<td>
+38.7
+</td>
+<td>
+19.0
+</td>
+<td>
+195.0
+</td>
+<td>
+3450.0
+</td>
+<td>
+"female"
+</td>
+<td>
+2007
+</td>
+</tr>
+<tr>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"Dream"
+</td>
+<td>
+45.2
+</td>
+<td>
+16.6
+</td>
+<td>
+191.0
+</td>
+<td>
+3250.0
+</td>
+<td>
+"female"
+</td>
+<td>
+2009
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"Dream"
+</td>
+<td>
+49.3
+</td>
+<td>
+19.9
+</td>
+<td>
+203.0
+</td>
+<td>
+4050.0
+</td>
+<td>
+"male"
+</td>
+<td>
+2009
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"Dream"
+</td>
+<td>
+50.2
+</td>
+<td>
+18.8
+</td>
+<td>
+202.0
+</td>
+<td>
+3800.0
+</td>
+<td>
+"male"
+</td>
+<td>
+2009
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"Dream"
+</td>
+<td>
+45.6
+</td>
+<td>
+19.4
+</td>
+<td>
+194.0
+</td>
+<td>
+3525.0
+</td>
+<td>
+"female"
+</td>
+<td>
+2009
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"Dream"
+</td>
+<td>
+51.9
+</td>
+<td>
+19.5
+</td>
+<td>
+206.0
+</td>
+<td>
+3950.0
+</td>
+<td>
+"male"
+</td>
+<td>
+2009
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"Dream"
+</td>
+<td>
+46.8
+</td>
+<td>
+16.5
+</td>
+<td>
+189.0
+</td>
+<td>
+3650.0
+</td>
+<td>
+"female"
+</td>
+<td>
+2009
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"Dream"
+</td>
+<td>
+45.7
+</td>
+<td>
+17.0
+</td>
+<td>
+195.0
+</td>
+<td>
+3650.0
+</td>
+<td>
+"female"
+</td>
+<td>
+2009
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"Dream"
+</td>
+<td>
+55.8
+</td>
+<td>
+19.8
+</td>
+<td>
+207.0
+</td>
+<td>
+4000.0
+</td>
+<td>
+"male"
+</td>
+<td>
+2009
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"Dream"
+</td>
+<td>
+43.5
+</td>
+<td>
+18.1
+</td>
+<td>
+202.0
+</td>
+<td>
+3400.0
+</td>
+<td>
+"female"
+</td>
+<td>
+2009
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"Dream"
+</td>
+<td>
+49.6
+</td>
+<td>
+18.2
+</td>
+<td>
+193.0
+</td>
+<td>
+3775.0
+</td>
+<td>
+"male"
+</td>
+<td>
+2009
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"Dream"
+</td>
+<td>
+50.8
+</td>
+<td>
+19.0
+</td>
+<td>
+210.0
+</td>
+<td>
+4100.0
+</td>
+<td>
+"male"
+</td>
+<td>
+2009
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"Dream"
+</td>
+<td>
+50.2
+</td>
+<td>
+18.7
+</td>
+<td>
+198.0
+</td>
+<td>
+3775.0
+</td>
+<td>
+"female"
+</td>
+<td>
+2009
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>It’s very easy to select columns with the <code>.select()</code> method.</p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tibble.select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+</style>
+<small>shape: (344, 3)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+species
+</th>
+<th>
+sex
+</th>
+<th>
+body_mass_g
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+3750.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3800.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3250.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+null
+</td>
+<td>
+null
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3450.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+3650.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3625.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4675.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+null
+</td>
+<td>
+3475.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+null
+</td>
+<td>
+4250.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+null
+</td>
+<td>
+3300.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+null
+</td>
+<td>
+3700.0
+</td>
+</tr>
+<tr>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+3250.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+4050.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+3800.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+3525.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+3950.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+3650.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+3650.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+4000.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+3400.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+3775.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+4100.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+3775.0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>What’s even better, we can chain these operations. This is where one can start seeing how powerful this approach is.</p>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    tibble</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(tp.is_not_null(col(<span class="st">"*"</span>)))</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+</style>
+<small>shape: (333, 3)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+species
+</th>
+<th>
+sex
+</th>
+<th>
+body_mass_g
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+3750.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3800.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3250.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3450.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+3650.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3625.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4675.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3200.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+3800.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4400.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3700.0
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3450.0
+</td>
+</tr>
+<tr>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+3250.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+4050.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+3800.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+3525.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+3950.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+3650.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+3650.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+4000.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+3400.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+3775.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+4100.0
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+3775.0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>We then have the <code>.summarise()</code> method to compute summaries (or aggregations) by groups. Note we use functions available in the tidypolars namespace such as <code>tp.mean()</code>.</p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    tibble</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(tp.is_not_null(col(<span class="st">"*"</span>)))</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    .summarise(</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        body_mass_mean<span class="op">=</span>tp.mean(<span class="st">"body_mass_g"</span>),</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        by<span class="op">=</span><span class="st">"species"</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+</style>
+<small>shape: (3, 2)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+species
+</th>
+<th>
+body_mass_mean
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+3706.164384
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+5092.436975
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+3733.088235
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>If we want to get a behavior similar to <code>.groupby()</code> and <code>.transform()</code> in pandas, we can use another verb, <code>mutate()</code>.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    tibble</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(tp.is_not_null(col(<span class="st">"*"</span>)))</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    .mutate(</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        body_mass_mean<span class="op">=</span>tp.mean(<span class="st">"body_mass_g"</span>),</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        by<span class="op">=</span><span class="st">"species"</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+</style>
+<small>shape: (333, 4)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+species
+</th>
+<th>
+sex
+</th>
+<th>
+body_mass_g
+</th>
+<th>
+body_mass_mean
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+f64
+</td>
+<td>
+f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4500.0
+</td>
+<td>
+5092.436975
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+5700.0
+</td>
+<td>
+5092.436975
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4450.0
+</td>
+<td>
+5092.436975
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+5700.0
+</td>
+<td>
+5092.436975
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+5400.0
+</td>
+<td>
+5092.436975
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4550.0
+</td>
+<td>
+5092.436975
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4800.0
+</td>
+<td>
+5092.436975
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+5200.0
+</td>
+<td>
+5092.436975
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4400.0
+</td>
+<td>
+5092.436975
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+5150.0
+</td>
+<td>
+5092.436975
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4650.0
+</td>
+<td>
+5092.436975
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+5550.0
+</td>
+<td>
+5092.436975
+</td>
+</tr>
+<tr>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3400.0
+</td>
+<td>
+3706.164384
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+3475.0
+</td>
+<td>
+3706.164384
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3050.0
+</td>
+<td>
+3706.164384
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+3725.0
+</td>
+<td>
+3706.164384
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3000.0
+</td>
+<td>
+3706.164384
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+3650.0
+</td>
+<td>
+3706.164384
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4250.0
+</td>
+<td>
+3706.164384
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3475.0
+</td>
+<td>
+3706.164384
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3450.0
+</td>
+<td>
+3706.164384
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+3750.0
+</td>
+<td>
+3706.164384
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3700.0
+</td>
+<td>
+3706.164384
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4000.0
+</td>
+<td>
+3706.164384
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>This verb is very powerful. We can compute more complex expressions, such as the one involved in the standardization of a variable.</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    tibble</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(tp.is_not_null(col(<span class="st">"*"</span>)))</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    .mutate(</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>        body_mass_z<span class="op">=</span>(col(<span class="st">"body_mass_g"</span>) <span class="op">-</span> tp.mean(<span class="st">"body_mass_g"</span>)) <span class="op">/</span> tp.sd(<span class="st">"body_mass_g"</span>),</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        by<span class="op">=</span><span class="st">"species"</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+</style>
+<small>shape: (333, 4)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+species
+</th>
+<th>
+sex
+</th>
+<th>
+body_mass_g
+</th>
+<th>
+body_mass_z
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+f64
+</td>
+<td>
+f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4500.0
+</td>
+<td>
+-1.181386
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+5700.0
+</td>
+<td>
+1.211549
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4450.0
+</td>
+<td>
+-1.281092
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+5700.0
+</td>
+<td>
+1.211549
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+5400.0
+</td>
+<td>
+0.613315
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4550.0
+</td>
+<td>
+-1.0816
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4800.0
+</td>
+<td>
+-0.583152
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+5200.0
+</td>
+<td>
+0.214493
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4400.0
+</td>
+<td>
+-1.380797
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+5150.0
+</td>
+<td>
+0.114787
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4650.0
+</td>
+<td>
+-0.882269
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+5550.0
+</td>
+<td>
+0.912432
+</td>
+</tr>
+<tr>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3400.0
+</td>
+<td>
+-0.667577
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+3475.0
+</td>
+<td>
+-0.504043
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3050.0
+</td>
+<td>
+-1.430736
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+3725.0
+</td>
+<td>
+0.041
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3000.0
+</td>
+<td>
+-1.539759
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+3650.0
+</td>
+<td>
+-0.122464
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4250.0
+</td>
+<td>
+1.185808
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3475.0
+</td>
+<td>
+-0.504043
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3450.0
+</td>
+<td>
+-0.558555
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+3750.0
+</td>
+<td>
+0.095582
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3700.0
+</td>
+<td>
+-0.013441
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4000.0
+</td>
+<td>
+0.640695
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>And finally, we can use the <code>.arrange()</code> verb to sort observations by the standardized body mass in ascending order.</p>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    tibble</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(tp.is_not_null(col(<span class="st">"*"</span>)))</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    .mutate(</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>        body_mass_z<span class="op">=</span>(col(<span class="st">"body_mass_g"</span>) <span class="op">-</span> tp.mean(<span class="st">"body_mass_g"</span>)) <span class="op">/</span> tp.sd(<span class="st">"body_mass_g"</span>),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>        by<span class="op">=</span><span class="st">"species"</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    .arrange(<span class="st">"body_mass_z"</span>)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+</style>
+<small>shape: (333, 4)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+species
+</th>
+<th>
+sex
+</th>
+<th>
+body_mass_g
+</th>
+<th>
+body_mass_z
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+f64
+</td>
+<td>
+f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+2700.0
+</td>
+<td>
+-2.687988
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+3950.0
+</td>
+<td>
+-2.278148
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+2900.0
+</td>
+<td>
+-2.167609
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4150.0
+</td>
+<td>
+-1.879326
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+2850.0
+</td>
+<td>
+-1.866827
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+2850.0
+</td>
+<td>
+-1.866827
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4200.0
+</td>
+<td>
+-1.7796
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4200.0
+</td>
+<td>
+-1.7796
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4200.0
+</td>
+<td>
+-1.7796
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+2900.0
+</td>
+<td>
+-1.757804
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+2900.0
+</td>
+<td>
+-1.757804
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+2900.0
+</td>
+<td>
+-1.757804
+</td>
+</tr>
+<tr>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+6050.0
+</td>
+<td>
+1.909489
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4600.0
+</td>
+<td>
+1.948967
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4600.0
+</td>
+<td>
+1.948967
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+4500.0
+</td>
+<td>
+1.995425
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4650.0
+</td>
+<td>
+2.0579
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4675.0
+</td>
+<td>
+2.112501
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+4550.0
+</td>
+<td>
+2.1255
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4700.0
+</td>
+<td>
+2.167013
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4725.0
+</td>
+<td>
+2.221524
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4775.0
+</td>
+<td>
+2.330547
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+6300.0
+</td>
+<td>
+2.408017
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+4800.0
+</td>
+<td>
+2.775994
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>We can make it even clearer if we wrap the standardization operation within a function.</p>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> standardize(name):</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (col(name) <span class="op">-</span> tp.mean(name)) <span class="op">/</span> tp.sd(name)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    tibble</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(tp.is_not_null(col(<span class="st">"*"</span>)))</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    .mutate(</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>        body_mass_z<span class="op">=</span>standardize(<span class="st">"body_mass_g"</span>),</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>        by<span class="op">=</span><span class="st">"species"</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    .arrange(<span class="st">"body_mass_z"</span>)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+</style>
+<small>shape: (333, 4)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+species
+</th>
+<th>
+sex
+</th>
+<th>
+body_mass_g
+</th>
+<th>
+body_mass_z
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+f64
+</td>
+<td>
+f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+2700.0
+</td>
+<td>
+-2.687988
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+3950.0
+</td>
+<td>
+-2.278148
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+2900.0
+</td>
+<td>
+-2.167609
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4150.0
+</td>
+<td>
+-1.879326
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+2850.0
+</td>
+<td>
+-1.866827
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+2850.0
+</td>
+<td>
+-1.866827
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4200.0
+</td>
+<td>
+-1.7796
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4200.0
+</td>
+<td>
+-1.7796
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4200.0
+</td>
+<td>
+-1.7796
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+2900.0
+</td>
+<td>
+-1.757804
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+2900.0
+</td>
+<td>
+-1.757804
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+2900.0
+</td>
+<td>
+-1.757804
+</td>
+</tr>
+<tr>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+6050.0
+</td>
+<td>
+1.909489
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4600.0
+</td>
+<td>
+1.948967
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4600.0
+</td>
+<td>
+1.948967
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+4500.0
+</td>
+<td>
+1.995425
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4650.0
+</td>
+<td>
+2.0579
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4675.0
+</td>
+<td>
+2.112501
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+4550.0
+</td>
+<td>
+2.1255
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4700.0
+</td>
+<td>
+2.167013
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4725.0
+</td>
+<td>
+2.221524
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4775.0
+</td>
+<td>
+2.330547
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+6300.0
+</td>
+<td>
+2.408017
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+4800.0
+</td>
+<td>
+2.775994
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>If we want to carry on the <code>.mutate()</code> operation grouped by more than one variable, we can simply pass the names in a list.</p>
+</section>
+<section id="comparison" class="level2">
+<h2 class="anchored" data-anchor-id="comparison">Comparison</h2>
+<p>Let’s see both approaches in action so we can better appreciate the differences.</p>
+<section id="with-pandas" class="level3">
+<h3 class="anchored" data-anchor-id="with-pandas">With <strong>pandas</strong></h3>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> palmerpenguins.load_penguins()</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data[[<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>]].dropna().reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"body_mass_z"</span>] <span class="op">=</span> (</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    (data[<span class="st">"body_mass_g"</span>] <span class="op">-</span> data.groupby([<span class="st">"species"</span>, <span class="st">"sex"</span>])[<span class="st">"body_mass_g"</span>].transform(<span class="st">"mean"</span>)) </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span> data.groupby([<span class="st">"species"</span>, <span class="st">"sex"</span>])[<span class="st">"body_mass_g"</span>].transform(<span class="st">"std"</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>data.sort_values(<span class="st">"body_mass_z"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>species</th>
+      <th>sex</th>
+      <th>body_mass_g</th>
+      <th>body_mass_z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>303</th>
+      <td>Chinstrap</td>
+      <td>female</td>
+      <td>2700.0</td>
+      <td>-2.899080</td>
+    </tr>
+    <tr>
+      <th>185</th>
+      <td>Gentoo</td>
+      <td>female</td>
+      <td>3950.0</td>
+      <td>-2.591611</td>
+    </tr>
+    <tr>
+      <th>188</th>
+      <td>Gentoo</td>
+      <td>male</td>
+      <td>4750.0</td>
+      <td>-2.346530</td>
+    </tr>
+    <tr>
+      <th>287</th>
+      <td>Chinstrap</td>
+      <td>female</td>
+      <td>2900.0</td>
+      <td>-2.198147</td>
+    </tr>
+    <tr>
+      <th>113</th>
+      <td>Adelie</td>
+      <td>male</td>
+      <td>3325.0</td>
+      <td>-2.071711</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>108</th>
+      <td>Adelie</td>
+      <td>female</td>
+      <td>3900.0</td>
+      <td>1.971803</td>
+    </tr>
+    <tr>
+      <th>103</th>
+      <td>Adelie</td>
+      <td>male</td>
+      <td>4775.0</td>
+      <td>2.109234</td>
+    </tr>
+    <tr>
+      <th>273</th>
+      <td>Chinstrap</td>
+      <td>female</td>
+      <td>4150.0</td>
+      <td>2.182685</td>
+    </tr>
+    <tr>
+      <th>302</th>
+      <td>Chinstrap</td>
+      <td>male</td>
+      <td>4800.0</td>
+      <td>2.377631</td>
+    </tr>
+    <tr>
+      <th>163</th>
+      <td>Gentoo</td>
+      <td>male</td>
+      <td>6300.0</td>
+      <td>2.603039</td>
+    </tr>
+  </tbody>
+</table>
+<p>333 rows × 4 columns</p>
+</div>
+</div>
+</div>
+</section>
+<section id="with-tidypolars" class="level3">
+<h3 class="anchored" data-anchor-id="with-tidypolars">With <strong>tidypolars</strong></h3>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> standardize(name):</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (col(name) <span class="op">-</span> tp.mean(name)) <span class="op">/</span> tp.sd(name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>tibble <span class="op">=</span> tp.from_pandas(palmerpenguins.load_penguins())</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    tibble</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(tp.is_not_null(col(<span class="st">"*"</span>)))</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    .mutate(</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>        body_mass_z<span class="op">=</span>standardize(<span class="st">"body_mass_g"</span>),</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>        by<span class="op">=</span>[<span class="st">"species"</span>, <span class="st">"sex"</span>]</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    .arrange(<span class="st">"body_mass_z"</span>)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+</style>
+<small>shape: (333, 4)</small><table class="dataframe table table-sm table-striped">
+
+<thead>
+<tr>
+<th>
+species
+</th>
+<th>
+sex
+</th>
+<th>
+body_mass_g
+</th>
+<th>
+body_mass_z
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+f64
+</td>
+<td>
+f64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+2700.0
+</td>
+<td>
+-2.899
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+3950.0
+</td>
+<td>
+-2.591611
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+4750.0
+</td>
+<td>
+-2.3465
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+2900.0
+</td>
+<td>
+-2.198147
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+3325.0
+</td>
+<td>
+-2.071711
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+2850.0
+</td>
+<td>
+-1.926035
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+2850.0
+</td>
+<td>
+-1.926035
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+3250.0
+</td>
+<td>
+-1.902511
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+4150.0
+</td>
+<td>
+-1.881329
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+4925.0
+</td>
+<td>
+-1.787708
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+3425.0
+</td>
+<td>
+-1.7833
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+3300.0
+</td>
+<td>
+-1.764442
+</td>
+</tr>
+<tr>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4650.0
+</td>
+<td>
+1.748808
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+6050.0
+</td>
+<td>
+1.804721
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4675.0
+</td>
+<td>
+1.820893
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+5200.0
+</td>
+<td>
+1.847652
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"female"
+</td>
+<td>
+5200.0
+</td>
+<td>
+1.847652
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4700.0
+</td>
+<td>
+1.892979
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4725.0
+</td>
+<td>
+1.965064
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"female"
+</td>
+<td>
+3900.0
+</td>
+<td>
+1.971803
+</td>
+</tr>
+<tr>
+<td>
+"Adelie"
+</td>
+<td>
+"male"
+</td>
+<td>
+4775.0
+</td>
+<td>
+2.109234
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"female"
+</td>
+<td>
+4150.0
+</td>
+<td>
+2.182685
+</td>
+</tr>
+<tr>
+<td>
+"Chinstrap"
+</td>
+<td>
+"male"
+</td>
+<td>
+4800.0
+</td>
+<td>
+2.377631
+</td>
+</tr>
+<tr>
+<td>
+"Gentoo"
+</td>
+<td>
+"male"
+</td>
+<td>
+6300.0
+</td>
+<td>
+2.603039
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<p>Pandas is great, so many people love it, and it will be the most used tool to work with tabular data in Python for a long time. In my case, it made me struggle a lot when I started to do data analysis in Python after working several years with R. Later, and fortunately, I began to understand how it worked and I became better at it.</p>
+<p>However, I never felt as comfortable with pandas as I do with <code>dplyr</code> syntax. Maybe it’s my R background? I don’t know. I just know that one of the things I enjoy the most in R is how easy and clear is to compose data manipulation operations with <code>dplyr</code> and friends. And having that expressiveness in Python is fantastic.</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">Copyright 2022, Tomás Capretto</div>
+  </div>
+</footer>
+
+
+
+</body></html>
