@@ -230,7 +230,7 @@ ga('send', {
 <h1>Let’s use tidypolars more</h1>
 <p>In this blogpost I’m going to show how to perform the same task with <a href="https://pandas.pydata.org/">pandas</a>, the most popular library for data analysis in Python, and <a href="https://tidypolars.readthedocs.io/en/latest/">tidypolars</a>, a new library to do data analysis with tabular data inspired on the tidyverse.</p>
 <p>The task consists of computing a variable transformation that relies on grouped aggregations. In particular, we will be computing the standardized version of a numeric variable by group.</p>
-<div class="cell" data-execution_count="1">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> palmerpenguins</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tidypolars <span class="im">as</span> tp</span>
@@ -238,7 +238,7 @@ ga('send', {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tidypolars <span class="im">import</span> col</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>I’m going to work with the famous palmer penguins dataset. In Python this can be loaded very easily thanks to the <code>palmerpenguins</code> library.</p>
-<div class="cell" data-execution_count="2">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> palmerpenguins.load_penguins()</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -390,7 +390,7 @@ ga('send', {
 <section id="data-wrangling-with-pandas" class="level2">
 <h2 class="anchored" data-anchor-id="data-wrangling-with-pandas">Data wrangling with <strong>pandas</strong></h2>
 <p>Before seeing an example using tidypolars I’m going to perform some basic data wrangling with pandas. One of the first things one usually do with a data frame is exploring its first rows visually. The <code>.head()</code> method comes very handy.</p>
-<div class="cell" data-execution_count="3">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 
@@ -472,7 +472,7 @@ ga('send', {
 </div>
 </div>
 <p>I’m going to work with the <code>species</code>, <code>sex</code>, and <code>body_mass_g</code> columns only. To subset the dataframe we only need to pass the name of these columns as a list within brackets.</p>
-<div class="cell" data-execution_count="4">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data[[<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>]].reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
@@ -525,11 +525,11 @@ ga('send', {
 </div>
 </div>
 <p>I add the <code>.reset_index(drop=True)</code> to avoid some <code>SettingWithCopyWarning</code>s later. I also want to drop any observations with missing values so I use <code>.dropna()</code> to do that.</p>
-<div class="cell" data-execution_count="5">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.dropna()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Suppose now I want to standardize the variable <code>body_mass_g</code>. Pandas vectorized operations make it extremely easy. One can save the result in a new column in a very intuitive way as well.</p>
-<div class="cell" data-execution_count="6">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"body_mass_z"</span>] <span class="op">=</span> (data[<span class="st">"body_mass_g"</span>] <span class="op">-</span> data[<span class="st">"body_mass_g"</span>].mean()) <span class="op">/</span> data[<span class="st">"body_mass_g"</span>].std()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -590,7 +590,7 @@ ga('send', {
 <p>We could consider it is more appropiate to standardize considering the <code>species</code> variable. We still perform the same operation than above, but we do it within each group.</p>
 <p>The way to perform such operations in pandas is to use the <code>.groupby()</code> method. Then one can select the desired column and compute the aggregation.</p>
 <p>For example, to compute the mean body mass by species we can do the following.</p>
-<div class="cell" data-execution_count="7">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>species
@@ -601,7 +601,7 @@ Name: body_mass_g, dtype: float64</code></pre>
 </div>
 </div>
 <p>We obtained a pandas Series with three values, the mean for each species. If we want to obtain a Series of the same length than the original data, it is, for each row the mean of the species the observation belongs to, we can use <code>.transform()</code>.</p>
-<div class="cell" data-execution_count="8">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].transform(<span class="st">"mean"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>0      3706.164384
@@ -619,7 +619,7 @@ Name: body_mass_g, Length: 333, dtype: float64</code></pre>
 </div>
 </div>
 <p>The same can be done with other transformations such as the standard deviation.</p>
-<div class="cell" data-execution_count="9">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].transform(<span class="st">"std"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>0      458.620135
@@ -637,7 +637,7 @@ Name: body_mass_g, Length: 333, dtype: float64</code></pre>
 </div>
 </div>
 <p>Now, putting all the pieces together, we can compute the standardized body mass by species.</p>
-<div class="cell" data-execution_count="10">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"body_mass_z"</span>] <span class="op">=</span> (</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    (data[<span class="st">"body_mass_g"</span>] <span class="op">-</span> data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].transform(<span class="st">"mean"</span>)) </span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span> data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].transform(<span class="st">"std"</span>)</span>
@@ -699,7 +699,7 @@ Name: body_mass_g, Length: 333, dtype: float64</code></pre>
 </div>
 </div>
 <p>It’s also possible to add more variables to the groups. For example, this is how we can perform the same compution considering groups given by species and sex.</p>
-<div class="cell" data-execution_count="11">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"body_mass_z"</span>] <span class="op">=</span> (</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    (data[<span class="st">"body_mass_g"</span>] <span class="op">-</span> data.groupby([<span class="st">"species"</span>, <span class="st">"sex"</span>])[<span class="st">"body_mass_g"</span>].transform(<span class="st">"mean"</span>)) </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span> data.groupby([<span class="st">"species"</span>, <span class="st">"sex"</span>])[<span class="st">"body_mass_g"</span>].transform(<span class="st">"std"</span>)</span>
@@ -761,7 +761,7 @@ Name: body_mass_g, Length: 333, dtype: float64</code></pre>
 </div>
 </div>
 <p>And finally, I can sort by the standardized body mass in ascending order.</p>
-<div class="cell" data-execution_count="12">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data.sort_values(<span class="st">"body_mass_z"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 
@@ -868,17 +868,17 @@ Name: body_mass_g, Length: 333, dtype: float64</code></pre>
 <p>Its description says &gt; tidypolars is a data frame library built on top of the blazingly fast <a href="https://github.com/pola-rs/polars">polars</a> library that gives access to methods and functions familiar to R tidyverse users.</p>
 <p>Tidypolars does not rely on any pandas data structure because it’s built on top of polars, not pandas. In addition, it works with a new data frame structure called <code>Tibble</code>, borrowing its name from the <code>tibble</code> in the R package of the same name.</p>
 <p>We can convert a pandas DataFrame to a tibble with the <code>.from_pandas()</code> function.</p>
-<div class="cell" data-execution_count="3">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>tibble <span class="op">=</span> tp.from_pandas(palmerpenguins.load_penguins())</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(tibble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>tidypolars.tibble.Tibble</code></pre>
 </div>
 </div>
 <p>We still have a <code>.head()</code> method that prints the first rows. The representation is very similar to a pandas data frame.</p>
-<div class="cell" data-execution_count="4">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tibble.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="14">
 
 <div>
 <style scoped="">
@@ -1103,9 +1103,10 @@ null
 </div>
 </div>
 <p>To filter rows we can use the <code>.filter()</code> method. In the next chunk of code we use <code>col("*")</code> to select all columns, <code>tp.is_not_null()</code> to flag observations with non-null values, and <code>.filter()</code> to use those booleans to actually perform the filtering.</p>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tibble.<span class="bu">filter</span>(tp.is_not_null(col(<span class="st">"*"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<p><strong>Update:</strong> See <a href="">this issue</a> where the main author of tidypolars lets me know that we can use the <code>.drop_null()</code> method instead.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tibble.drop_null()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
 
 <div>
 <style scoped="">
@@ -1850,7 +1851,7 @@ i64
 </div>
 </div>
 <p>It’s very easy to select columns with the <code>.select()</code> method.</p>
-<div class="cell" data-execution_count="16">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tibble.select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 
@@ -2192,13 +2193,13 @@ null
 </div>
 </div>
 <p>What’s even better, we can chain these operations. This is where one can start seeing how powerful this approach is.</p>
-<div class="cell" data-execution_count="17">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    tibble</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(tp.is_not_null(col(<span class="st">"*"</span>)))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    .drop_null()</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="16">
 
 <div>
 <style scoped="">
@@ -2538,10 +2539,10 @@ f64
 </div>
 </div>
 <p>We then have the <code>.summarise()</code> method to compute summaries (or aggregations) by groups. Note we use functions available in the tidypolars namespace such as <code>tp.mean()</code>.</p>
-<div class="cell" data-execution_count="18">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    tibble</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(tp.is_not_null(col(<span class="st">"*"</span>)))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    .drop_null()</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    .summarise(</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        body_mass_mean<span class="op">=</span>tp.mean(<span class="st">"body_mass_g"</span>),</span>
@@ -2631,10 +2632,10 @@ f64
 </div>
 </div>
 <p>If we want to get a behavior similar to <code>.groupby()</code> and <code>.transform()</code> in pandas, we can use another verb, <code>mutate()</code>.</p>
-<div class="cell" data-execution_count="6">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    tibble</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(tp.is_not_null(col(<span class="st">"*"</span>)))</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    .drop_null()</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    .mutate(</span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        body_mass_mean<span class="op">=</span>tp.mean(<span class="st">"body_mass_g"</span>),</span>
@@ -3062,10 +3063,10 @@ f64
 </div>
 </div>
 <p>This verb is very powerful. We can compute more complex expressions, such as the one involved in the standardization of a variable.</p>
-<div class="cell" data-execution_count="19">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    tibble</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(tp.is_not_null(col(<span class="st">"*"</span>)))</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    .drop_null()</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    .mutate(</span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>        body_mass_z<span class="op">=</span>(col(<span class="st">"body_mass_g"</span>) <span class="op">-</span> tp.mean(<span class="st">"body_mass_g"</span>)) <span class="op">/</span> tp.sd(<span class="st">"body_mass_g"</span>),</span>
@@ -3493,10 +3494,10 @@ f64
 </div>
 </div>
 <p>And finally, we can use the <code>.arrange()</code> verb to sort observations by the standardized body mass in ascending order.</p>
-<div class="cell" data-execution_count="20">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    tibble</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(tp.is_not_null(col(<span class="st">"*"</span>)))</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    .drop_null()</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    .mutate(</span>
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>        body_mass_z<span class="op">=</span>(col(<span class="st">"body_mass_g"</span>) <span class="op">-</span> tp.mean(<span class="st">"body_mass_g"</span>)) <span class="op">/</span> tp.sd(<span class="st">"body_mass_g"</span>),</span>
@@ -3925,13 +3926,13 @@ f64
 </div>
 </div>
 <p>We can make it even clearer if we wrap the standardization operation within a function.</p>
-<div class="cell" data-execution_count="21">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> standardize(name):</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (col(name) <span class="op">-</span> tp.mean(name)) <span class="op">/</span> tp.sd(name)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    tibble</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(tp.is_not_null(col(<span class="st">"*"</span>)))</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    .drop_null()</span>
 <span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    .mutate(</span>
 <span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>        body_mass_z<span class="op">=</span>standardize(<span class="st">"body_mass_g"</span>),</span>
@@ -4366,7 +4367,7 @@ f64
 <p>Let’s see both approaches in action so we can better appreciate the differences.</p>
 <section id="with-pandas" class="level3">
 <h3 class="anchored" data-anchor-id="with-pandas">With <strong>pandas</strong></h3>
-<div class="cell" data-execution_count="22">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> palmerpenguins.load_penguins()</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data[[<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>]].dropna().reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"body_mass_z"</span>] <span class="op">=</span> (</span>
@@ -4475,15 +4476,15 @@ f64
 </section>
 <section id="with-tidypolars" class="level3">
 <h3 class="anchored" data-anchor-id="with-tidypolars">With <strong>tidypolars</strong></h3>
-<div class="cell" data-execution_count="23">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> standardize(name):</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (col(name) <span class="op">-</span> tp.mean(name)) <span class="op">/</span> tp.sd(name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="24">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>tibble <span class="op">=</span> tp.from_pandas(palmerpenguins.load_penguins())</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    tibble</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(tp.is_not_null(col(<span class="st">"*"</span>)))</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    .drop_null()</span>
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    .mutate(</span>
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>        body_mass_z<span class="op">=</span>standardize(<span class="st">"body_mass_g"</span>),</span>
