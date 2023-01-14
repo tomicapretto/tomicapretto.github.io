@@ -2,6 +2,9 @@ project:
   type: website
   output-dir: docs
 
+execute:
+  freeze: true
+
 website:
   title: "Tomás Capretto"
   site-url: https://tomicapretto.github.io
@@ -21,10 +24,9 @@ website:
         aria-label: website
         href: https://tomicapretto.github.io
   page-footer:
-    center: "Copyright 2022, Tomás Capretto"
+    center: "Copyright 2023, Tomás Capretto"
     background: primary
-  execute:
-    freeze: auto # re-render only when source changes
+
 format:
   html:
     theme: cosmo

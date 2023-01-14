@@ -9,8 +9,362 @@
 <link>https://tomicapretto.github.io/index.html</link>
 <atom:link href="https://tomicapretto.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-0.9.440</generator>
-<lastBuildDate>Sun, 26 Jun 2022 03:00:00 GMT</lastBuildDate>
+<generator>quarto-1.2.280</generator>
+<lastBuildDate>Sat, 14 Jan 2023 03:00:00 GMT</lastBuildDate>
+<item>
+  <title>How to create a custom family in Bambi?</title>
+  <link>https://tomicapretto.github.io/posts/2023-01-14_add_custom_family_bambi/index.html</link>
+  <description><![CDATA[ 
+
+
+
+<p>Bambi is the project I dedicate the vast majority of my open-source development time. My goal is to make it a little better every time I push to the main branch. Lately I’ve been working to expand the class of models that Bambi supports. Until now, Bambi supported Generalized Linear Mixed Models (GLMMs). After the latest changes<sup>1</sup> Bambi supports a wider class known as Generalized Linear Mixed Models for Location, Scale, and Shape. I also like the terminology used in <a href="https://mc-stan.org/users/interfaces/brms">brms</a>, Distributional Models.</p>
+<p>The new additions to the library allow us to work with more flexible custom model families in an easier way. The question is: How to create a custom family in Bambi?</p>
+<section id="imports" class="level2">
+<h2 class="anchored" data-anchor-id="imports">Imports</h2>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;">import</span> arviz <span class="im" style="color: #00769E;">as</span> az</span>
+<span id="cb1-2"><span class="im" style="color: #00769E;">import</span> bambi <span class="im" style="color: #00769E;">as</span> bmb</span>
+<span id="cb1-3"><span class="im" style="color: #00769E;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;">as</span> plt</span>
+<span id="cb1-4"><span class="im" style="color: #00769E;">import</span> numpy <span class="im" style="color: #00769E;">as</span> np</span>
+<span id="cb1-5"><span class="im" style="color: #00769E;">import</span> pandas <span class="im" style="color: #00769E;">as</span> pd</span>
+<span id="cb1-6"><span class="im" style="color: #00769E;">import</span> pymc <span class="im" style="color: #00769E;">as</span> pm</span>
+<span id="cb1-7"></span>
+<span id="cb1-8"><span class="im" style="color: #00769E;">from</span> bambi.plots <span class="im" style="color: #00769E;">import</span> plot_cap</span>
+<span id="cb1-9"><span class="im" style="color: #00769E;">from</span> matplotlib.lines <span class="im" style="color: #00769E;">import</span> Line2D</span>
+<span id="cb1-10"><span class="im" style="color: #00769E;">from</span> scipy.special <span class="im" style="color: #00769E;">import</span> expit</span></code></pre></div>
+</div>
+</section>
+<section id="the-zero-inflated-poisson-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="the-zero-inflated-poisson-distribution">The Zero-Inflated Poisson distribution</h2>
+<p>I’m going to use the Zero-Inflated Poisson distribution to demonstrate how to add a custom family in Bambi. This distribution applies to random variables that show an excess of zeros when describing the number of events that occur in a certain space or time period.</p>
+<p>Quoting Wikipedia <sup>2</sup> <em>“The zero-inflated Poisson (ZIP) model mixes two zero generating processes. The first process generates zeros. The second process is governed by a Poisson distribution that generates counts, some of which may be zero”.</em> The result is a mixture distribution that can be described as follows:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Barray%7D%7Bll%7D%0AP(Y%20=%200)%20=%20(1%20-%20%5Cpsi)%20+%20%5Cpsi%20e%5E%7B-%5Cmu%7D%20%5C%5C%0AP(Y%20=%20y_i)%20=%20%5Cdisplaystyle%20%5Cpsi%20%5Cfrac%7Be%5E%7B-%5Cmu%7D%5Cmu%5Ey_i%7D%7By_i!%7D%20&amp;%20%5Ctext%7Bif%20%7D%20y_i=1,2,3,%5Cldots%0A%5Cend%7Barray%7D%0A"></p>
+<p>Where</p>
+<ul>
+<li><img src="https://latex.codecogs.com/png.latex?y_i"> is the outcome, a non-negative integer</li>
+<li><img src="https://latex.codecogs.com/png.latex?%5Cmu"> is the mean of the Poisson process, <img src="https://latex.codecogs.com/png.latex?%5Cmu%20%5Cge%200"></li>
+<li><img src="https://latex.codecogs.com/png.latex?%5Cpsi"> is the probability of the Poisson process, <img src="https://latex.codecogs.com/png.latex?0%20%3C%20%5Cpsi%20%3C%201"></li>
+</ul>
+<p>The mean is <img src="https://latex.codecogs.com/png.latex?%5Cpsi%5Cmu"> and the variance is <img src="https://latex.codecogs.com/png.latex?%5Cdisplaystyle%20%5Cmu%20+%20%5Cfrac%7B1-%5Cpsi%7D%7B%5Cpsi%7D%5Cmu%5E2">.</p>
+</section>
+<section id="the-zip-regression-model" class="level2">
+<h2 class="anchored" data-anchor-id="the-zip-regression-model">The ZIP Regression model</h2>
+<p>We have a response variable <img src="https://latex.codecogs.com/png.latex?Y">, which represents a count in a given space or time, and <img src="https://latex.codecogs.com/png.latex?p"> predictors <img src="https://latex.codecogs.com/png.latex?X_1,%20%5Ccdots,%20X_p">. In the most general formulation of the model we consider, a function of the parameters in the response distribution is given by a linear combination of the predictors.</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0AY_i%20&amp;%5Csim%20%5Ctext%7BZIPoisson%7D(%5Cmu_i,%20%5Cpsi_i)%20%5C%5C%0Ag(%5Cmu_i)%20&amp;=%20%5Cbeta_0%20+%20%5Cbeta_1%20X_%7B1i%7D%20+%20...%20+%20%5Cbeta_p%20X_%7Bpi%7D%5C%5C%0Ah(%5Cpsi_i)%20&amp;=%20%5Calpha_0%20+%20%5Calpha_1%20X_%7B1i%7D%20+%20...%20+%20%5Calpha_p%20X_%7Bpi%7D%0A%5Cend%7Baligned%7D%0A"></p>
+<ul>
+<li><img src="https://latex.codecogs.com/png.latex?g"> is the link function for the <img src="https://latex.codecogs.com/png.latex?%5Cmu"> parameter</li>
+<li><img src="https://latex.codecogs.com/png.latex?h"> is the link function for the <img src="https://latex.codecogs.com/png.latex?%5Cpsi"> parameter</li>
+</ul>
+<p>It’s possible to see this model written as</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0AY_i%20&amp;%5Csim%20%5Ctext%7BZIPoisson%7D(%5Cmu_i,%20%5Cpsi_i)%20%5C%5C%0A%5Cmu_i%20&amp;=%20g%5E%7B-1%7D(%5Cbeta_0%20+%20%5Cbeta_1%20X_%7B1i%7D%20+%20...)%20%5C%5C%0A%5Cpsi_i%20&amp;=%20h%5E%7B-1%7D(%5Calpha_0%20+%20%5Calpha_1%20X_%7B1i%7D%20+%20...)%0A%5Cend%7Baligned%7D%0A"></p>
+<p>where the requirement that <img src="https://latex.codecogs.com/png.latex?g"> and <img src="https://latex.codecogs.com/png.latex?h"> are both invertible is evident.</p>
+</section>
+<section id="the-simplest-case" class="level2">
+<h2 class="anchored" data-anchor-id="the-simplest-case">The simplest case</h2>
+<p>We start simulating observations from a zero-inflated Poisson distribution using plain NumPy.</p>
+<section id="simulate-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="simulate-the-data">Simulate the data</h3>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1">rng <span class="op" style="color: #5E5E5E;">=</span> np.random.default_rng(<span class="dv" style="color: #AD0000;">121195</span>)</span>
+<span id="cb2-2">x <span class="op" style="color: #5E5E5E;">=</span> np.concatenate([np.zeros(<span class="dv" style="color: #AD0000;">250</span>), rng.poisson(lam<span class="op" style="color: #5E5E5E;">=</span><span class="dv" style="color: #AD0000;">3</span>, size<span class="op" style="color: #5E5E5E;">=</span><span class="dv" style="color: #AD0000;">750</span>)])</span>
+<span id="cb2-3">df <span class="op" style="color: #5E5E5E;">=</span> pd.DataFrame({<span class="st" style="color: #20794D;">"response"</span>: x})</span></code></pre></div>
+</div>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">values, counts <span class="op" style="color: #5E5E5E;">=</span> np.unique(x, return_counts<span class="op" style="color: #5E5E5E;">=</span><span class="va" style="color: #111111;">True</span>)</span>
+<span id="cb3-2">fig, ax <span class="op" style="color: #5E5E5E;">=</span> plt.subplots()</span>
+<span id="cb3-3">ax.bar(values, counts)</span>
+<span id="cb3-4">ax.<span class="bu" style="color: null;">set</span>(xlabel<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"Response"</span>, ylabel<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"Count"</span>, xticks<span class="op" style="color: #5E5E5E;">=</span>values)<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="https://tomicapretto.github.io/posts/2023-01-14_add_custom_family_bambi/index_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="create-the-zeroinflatedpoisson-family" class="level3">
+<h3 class="anchored" data-anchor-id="create-the-zeroinflatedpoisson-family">Create the <code>ZeroInflatedPoisson</code> Family</h3>
+<ul>
+<li>The name of the <code>Likelihood</code> must be the name of a valid PyMC distribution<sup>3</sup>.</li>
+<li><code>params</code> must be the names of the parameters in the corresponding PyMC distribution.</li>
+<li><code>"log"</code> ang <code>"logit"</code> are built-in link functions so we can use their names and Bambi will handle the details. If we want a custom link function, we need to create a <code>bmb.Link</code> object manually.</li>
+</ul>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">likelihood <span class="op" style="color: #5E5E5E;">=</span> bmb.Likelihood(<span class="st" style="color: #20794D;">"ZeroInflatedPoisson"</span>, params<span class="op" style="color: #5E5E5E;">=</span>[<span class="st" style="color: #20794D;">"mu"</span>, <span class="st" style="color: #20794D;">"psi"</span>], parent<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"mu"</span>)</span>
+<span id="cb4-2">links <span class="op" style="color: #5E5E5E;">=</span> {<span class="st" style="color: #20794D;">"mu"</span>: <span class="st" style="color: #20794D;">"log"</span>, <span class="st" style="color: #20794D;">"psi"</span>: <span class="st" style="color: #20794D;">"logit"</span>}</span>
+<span id="cb4-3">zip_family <span class="op" style="color: #5E5E5E;">=</span> bmb.Family(<span class="st" style="color: #20794D;">"zero-inflated-poisson"</span>, likelihood, links)</span>
+<span id="cb4-4">zip_family</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>Family: zero-inflated-poisson
+Likelihood: Likelihood(  
+  name: ZeroInflatedPoisson,
+  params: ['mu', 'psi'],
+  parent: mu
+)
+Link: {'mu': Link(  
+  name: log,
+  link: &lt;ufunc 'log'&gt;,
+  linkinv: &lt;ufunc 'exp'&gt;
+), 'psi': Link(  
+  name: logit,
+  link: &lt;function logit at 0x7f2dd0e6b880&gt;,
+  linkinv: &lt;function expit at 0x7f2dd0e6b7f0&gt;
+)}</code></pre>
+</div>
+</div>
+</section>
+<section id="build-and-fit-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="build-and-fit-the-model">Build and fit the model</h3>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1">priors <span class="op" style="color: #5E5E5E;">=</span> {<span class="st" style="color: #20794D;">"psi"</span>: bmb.Prior(<span class="st" style="color: #20794D;">"Beta"</span>, alpha<span class="op" style="color: #5E5E5E;">=</span><span class="dv" style="color: #AD0000;">3</span>, beta<span class="op" style="color: #5E5E5E;">=</span><span class="dv" style="color: #AD0000;">3</span>)}</span>
+<span id="cb6-2">model <span class="op" style="color: #5E5E5E;">=</span> bmb.Model(<span class="st" style="color: #20794D;">"response ~ 1"</span>, df, family<span class="op" style="color: #5E5E5E;">=</span>zip_family, priors<span class="op" style="color: #5E5E5E;">=</span>priors)</span>
+<span id="cb6-3">model</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>       Formula: response ~ 1
+        Family: zero-inflated-poisson
+          Link: mu = log
+  Observations: 1000
+        Priors: 
+    target = mu
+        Common-level effects
+            Intercept ~ Normal(mu: 0.0, sigma: 2.5)
+        
+        Auxiliary parameters
+            response_psi ~ Beta(alpha: 3.0, beta: 3.0)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1">model.build()</span>
+<span id="cb8-2">model.graph()</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<p><img src="https://tomicapretto.github.io/posts/2023-01-14_add_custom_family_bambi/index_files/figure-html/cell-7-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1">idata <span class="op" style="color: #5E5E5E;">=</span> model.fit()</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (2 chains in 2 jobs)
+NUTS: [response_psi, Intercept]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+    <div>
+      <progress value="4000" class="" max="4000" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.00% [4000/4000 00:04&lt;00:00 Sampling 2 chains, 0 divergences]
+    </div>
+    
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 2 chains for 1_000 tune and 1_000 draw iterations (2_000 + 2_000 draws total) took 4 seconds.</code></pre>
+</div>
+</div>
+</section>
+<section id="does-the-fit-make-sense" class="level3">
+<h3 class="anchored" data-anchor-id="does-the-fit-make-sense">Does the fit make sense?</h3>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1">model.predict(idata, kind<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"pps"</span>)</span>
+<span id="cb12-2">az.plot_ppc(idata)<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="https://tomicapretto.github.io/posts/2023-01-14_add_custom_family_bambi/index_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="a-second-example-now-with-a-predictor" class="level2">
+<h2 class="anchored" data-anchor-id="a-second-example-now-with-a-predictor">A second example, now with a predictor</h2>
+<p>Both <img src="https://latex.codecogs.com/png.latex?%5Cmu"> and <img src="https://latex.codecogs.com/png.latex?%5Cpsi"> change with the predictor.</p>
+<section id="simulate-the-data-1" class="level3">
+<h3 class="anchored" data-anchor-id="simulate-the-data-1">Simulate the data</h3>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1">rng <span class="op" style="color: #5E5E5E;">=</span> np.random.default_rng(<span class="dv" style="color: #AD0000;">121195</span>)</span>
+<span id="cb13-2">x <span class="op" style="color: #5E5E5E;">=</span> np.sort(rng.uniform(<span class="fl" style="color: #AD0000;">0.2</span>, <span class="dv" style="color: #AD0000;">3</span>, size<span class="op" style="color: #5E5E5E;">=</span><span class="dv" style="color: #AD0000;">500</span>))</span>
+<span id="cb13-3"></span>
+<span id="cb13-4">b0, b1 <span class="op" style="color: #5E5E5E;">=</span> <span class="fl" style="color: #AD0000;">0.1</span>, <span class="fl" style="color: #AD0000;">0.9</span></span>
+<span id="cb13-5">a0, a1 <span class="op" style="color: #5E5E5E;">=</span> <span class="fl" style="color: #AD0000;">2.5</span>, <span class="op" style="color: #5E5E5E;">-</span><span class="fl" style="color: #AD0000;">0.7</span></span>
+<span id="cb13-6">mu <span class="op" style="color: #5E5E5E;">=</span> np.exp(b0 <span class="op" style="color: #5E5E5E;">+</span> b1 <span class="op" style="color: #5E5E5E;">*</span> x)</span>
+<span id="cb13-7">psi <span class="op" style="color: #5E5E5E;">=</span> expit(a0 <span class="op" style="color: #5E5E5E;">+</span> a1 <span class="op" style="color: #5E5E5E;">*</span> x)</span>
+<span id="cb13-8"></span>
+<span id="cb13-9">y <span class="op" style="color: #5E5E5E;">=</span> pm.draw(pm.ZeroInflatedPoisson.dist(mu<span class="op" style="color: #5E5E5E;">=</span>mu, psi<span class="op" style="color: #5E5E5E;">=</span>psi))</span>
+<span id="cb13-10">df <span class="op" style="color: #5E5E5E;">=</span> pd.DataFrame({<span class="st" style="color: #20794D;">"y"</span>: y, <span class="st" style="color: #20794D;">"x"</span>: x})</span></code></pre></div>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<p><img src="https://tomicapretto.github.io/posts/2023-01-14_add_custom_family_bambi/index_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<p><img src="https://tomicapretto.github.io/posts/2023-01-14_add_custom_family_bambi/index_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="build-and-fit-the-model-again" class="level3">
+<h3 class="anchored" data-anchor-id="build-and-fit-the-model-again">Build and fit the model (again)</h3>
+<p>Notice we don’t need to create the family again. It’s already there!</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1">formula <span class="op" style="color: #5E5E5E;">=</span> bmb.Formula(<span class="st" style="color: #20794D;">"y ~ x"</span>, <span class="st" style="color: #20794D;">"psi ~ x"</span>)</span>
+<span id="cb14-2">model <span class="op" style="color: #5E5E5E;">=</span> bmb.Model(formula, df, family<span class="op" style="color: #5E5E5E;">=</span>zip_family)</span>
+<span id="cb14-3">model</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>       Formula: y ~ x
+                psi ~ x
+        Family: zero-inflated-poisson
+          Link: mu = log
+                psi = logit
+  Observations: 500
+        Priors: 
+    target = mu
+        Common-level effects
+            Intercept ~ Normal(mu: 0.0, sigma: 5.7833)
+            x ~ Normal(mu: 0.0, sigma: 3.1083)
+    target = psi
+        Common-level effects
+            psi_Intercept ~ Normal(mu: 0.0, sigma: 1.0)
+            psi_x ~ Normal(mu: 0.0, sigma: 1.0)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1">model.build()</span>
+<span id="cb16-2">model.graph()</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<p><img src="https://tomicapretto.github.io/posts/2023-01-14_add_custom_family_bambi/index_files/figure-html/cell-14-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1">idata <span class="op" style="color: #5E5E5E;">=</span> model.fit(random_seed<span class="op" style="color: #5E5E5E;">=</span><span class="dv" style="color: #AD0000;">121195</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (2 chains in 2 jobs)
+NUTS: [Intercept, x, psi_Intercept, psi_x]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+    <div>
+      <progress value="4000" class="" max="4000" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.00% [4000/4000 00:08&lt;00:00 Sampling 2 chains, 0 divergences]
+    </div>
+    
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 2 chains for 1_000 tune and 1_000 draw iterations (2_000 + 2_000 draws total) took 9 seconds.</code></pre>
+</div>
+</div>
+</section>
+<section id="evaluate-the-inference" class="level3">
+<h3 class="anchored" data-anchor-id="evaluate-the-inference">Evaluate the inference</h3>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1">fig, axes <span class="op" style="color: #5E5E5E;">=</span> plt.subplots(<span class="dv" style="color: #AD0000;">2</span>, <span class="dv" style="color: #AD0000;">2</span>, figsize<span class="op" style="color: #5E5E5E;">=</span>(<span class="dv" style="color: #AD0000;">9</span>, <span class="dv" style="color: #AD0000;">7</span>), layout<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"constrained"</span>)</span>
+<span id="cb20-2">az.plot_posterior(</span>
+<span id="cb20-3">    idata,</span>
+<span id="cb20-4">    var_names<span class="op" style="color: #5E5E5E;">=</span>[<span class="st" style="color: #20794D;">"Intercept"</span>, <span class="st" style="color: #20794D;">"x"</span>, <span class="st" style="color: #20794D;">"psi_Intercept"</span>, <span class="st" style="color: #20794D;">"psi_x"</span>], </span>
+<span id="cb20-5">    ref_val<span class="op" style="color: #5E5E5E;">=</span>[<span class="dv" style="color: #AD0000;">0</span>, <span class="fl" style="color: #AD0000;">0.9</span>, <span class="fl" style="color: #AD0000;">2.5</span>, <span class="op" style="color: #5E5E5E;">-</span><span class="fl" style="color: #AD0000;">0.7</span>],</span>
+<span id="cb20-6">    ax<span class="op" style="color: #5E5E5E;">=</span>axes</span>
+<span id="cb20-7">)<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="https://tomicapretto.github.io/posts/2023-01-14_add_custom_family_bambi/index_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="show-off-bambi-a-little-more" class="level3">
+<h3 class="anchored" data-anchor-id="show-off-bambi-a-little-more">Show-off Bambi a little more</h3>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1">fig, axes <span class="op" style="color: #5E5E5E;">=</span> plt.subplots(<span class="dv" style="color: #AD0000;">1</span>, <span class="dv" style="color: #AD0000;">2</span>, figsize<span class="op" style="color: #5E5E5E;">=</span>(<span class="dv" style="color: #AD0000;">12</span>, <span class="dv" style="color: #AD0000;">5</span>))</span>
+<span id="cb21-2"></span>
+<span id="cb21-3">plot_cap(model, idata, <span class="st" style="color: #20794D;">"x"</span>, ax<span class="op" style="color: #5E5E5E;">=</span>axes[<span class="dv" style="color: #AD0000;">0</span>])</span>
+<span id="cb21-4">plot_cap(model, idata, <span class="st" style="color: #20794D;">"x"</span>, target<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"psi"</span>, ax<span class="op" style="color: #5E5E5E;">=</span>axes[<span class="dv" style="color: #AD0000;">1</span>])</span>
+<span id="cb21-5"></span>
+<span id="cb21-6">axes[<span class="dv" style="color: #AD0000;">0</span>].plot(x, mu, color<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"black"</span>, ls<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"--"</span>)</span>
+<span id="cb21-7">axes[<span class="dv" style="color: #AD0000;">1</span>].plot(x, psi, color<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"black"</span>, ls<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"--"</span>)</span>
+<span id="cb21-8"></span>
+<span id="cb21-9">axes[<span class="dv" style="color: #AD0000;">0</span>].set_xlabel(<span class="st" style="color: #20794D;">"Predictor"</span>, size<span class="op" style="color: #5E5E5E;">=</span><span class="dv" style="color: #AD0000;">14</span>)</span>
+<span id="cb21-10">axes[<span class="dv" style="color: #AD0000;">1</span>].set_xlabel(<span class="st" style="color: #20794D;">"Predictor"</span>, size<span class="op" style="color: #5E5E5E;">=</span><span class="dv" style="color: #AD0000;">14</span>)</span>
+<span id="cb21-11">axes[<span class="dv" style="color: #AD0000;">0</span>].set_ylabel(<span class="st" style="color: #20794D;">"$</span><span class="ch" style="color: #20794D;">\\</span><span class="st" style="color: #20794D;">mu$"</span>, size<span class="op" style="color: #5E5E5E;">=</span><span class="dv" style="color: #AD0000;">14</span>)</span>
+<span id="cb21-12">axes[<span class="dv" style="color: #AD0000;">1</span>].set_ylabel(<span class="st" style="color: #20794D;">"$</span><span class="ch" style="color: #20794D;">\\</span><span class="st" style="color: #20794D;">psi$"</span>, size<span class="op" style="color: #5E5E5E;">=</span><span class="dv" style="color: #AD0000;">14</span>)</span>
+<span id="cb21-13"></span>
+<span id="cb21-14"></span>
+<span id="cb21-15">handles <span class="op" style="color: #5E5E5E;">=</span> [Line2D([], [], color<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"black"</span>, ls<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"--"</span>), Line2D([], [], color<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"C0"</span>)]</span>
+<span id="cb21-16">labels <span class="op" style="color: #5E5E5E;">=</span> (<span class="st" style="color: #20794D;">"True"</span>, <span class="st" style="color: #20794D;">"Estimate"</span>)</span>
+<span id="cb21-17">axes[<span class="dv" style="color: #AD0000;">0</span>].legend(handles, labels, loc<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"upper left"</span>)</span>
+<span id="cb21-18">axes[<span class="dv" style="color: #AD0000;">1</span>].legend(handles, labels, loc<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"upper right"</span>)<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="https://tomicapretto.github.io/posts/2023-01-14_add_custom_family_bambi/index_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusions" class="level2">
+<h2 class="anchored" data-anchor-id="conclusions">Conclusions</h2>
+<ul>
+<li>Compute the posterior distribution of parameters of the response distribution using in-sample or out-of-sample data.</li>
+<li>Compute the posterior predictive distribution for in-sample or out-of-sample data.</li>
+<li>Out of the box visualizations to evaluate model fit.</li>
+<li>No need to write any PyMC code or low-level code.</li>
+</ul>
+</section>
+<section id="tldr" class="level2">
+<h2 class="anchored" data-anchor-id="tldr">TL;DR</h2>
+<p>If you want a custom family you need</p>
+<ul>
+<li>Create a Likelihood object</li>
+<li>Define one or more link functions</li>
+<li>Use them to instantiate a Family object</li>
+</ul>
+<div class="sourceCode" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1">likelihood <span class="op" style="color: #5E5E5E;">=</span> bmb.Likelihood(<span class="st" style="color: #20794D;">"ZeroInflatedPoisson"</span>, params<span class="op" style="color: #5E5E5E;">=</span>[<span class="st" style="color: #20794D;">"mu"</span>, <span class="st" style="color: #20794D;">"psi"</span>], parent<span class="op" style="color: #5E5E5E;">=</span><span class="st" style="color: #20794D;">"mu"</span>)</span>
+<span id="cb22-2">links <span class="op" style="color: #5E5E5E;">=</span> {<span class="st" style="color: #20794D;">"mu"</span>: <span class="st" style="color: #20794D;">"log"</span>, <span class="st" style="color: #20794D;">"psi"</span>: <span class="st" style="color: #20794D;">"logit"</span>}</span>
+<span id="cb22-3">zip_family <span class="op" style="color: #5E5E5E;">=</span> bmb.Family(<span class="st" style="color: #20794D;">"zero-inflated-poisson"</span>, likelihood, links)</span></code></pre></div>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>See the PR <a href="https://github.com/bambinos/bambi/pull/607">#607</a>↩︎</p></li>
+<li id="fn2"><p><a href="https://en.wikipedia.org/wiki/Zero-inflated_model#Zero-inflated_Poisson">https://en.wikipedia.org/wiki/Zero-inflated_model#Zero-inflated_Poisson</a>↩︎</p></li>
+<li id="fn3"><p>Custom likelihood functions are also possible but we don’t cover them here↩︎</p></li>
+</ol>
+</section></div> ]]></description>
+  <guid>https://tomicapretto.github.io/posts/2023-01-14_add_custom_family_bambi/index.html</guid>
+  <pubDate>Sat, 14 Jan 2023 03:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Let’s use tidypolars more</title>
   <link>https://tomicapretto.github.io/posts/2022-06-26_tidypolars/index.html</link>
@@ -5930,7 +6284,7 @@ NUTS: [x, Intercept]</code></pre>
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p>This data can be found in An Introduction to Generalized Linear Models by A. J. Dobson and A. G. Barnett, but the original source is (Bliss, 1935).↩︎</p></li>
@@ -6752,7 +7106,7 @@ NUTS: [y_nu, y_sigma, x, Intercept]</code></pre>
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p>These two distributions are not members of the exponential family so using them as the distribution of the random component does not result in a generalized linear model in a strict sense. But I would usually refer to them as GLMs since the linear predictor, link function, and random component properties are still present.↩︎</p></li>
@@ -7047,7 +7401,7 @@ NUTS: [y_nu, y_sigma, x, Intercept]</code></pre>
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p>I was undoubtedly talking to myself was quite disappointed at this time, wondering what I did wrong. Suffering the consequences of mistakes I wasn’t even aware I made. Well, not that dramatic. But now I’m happy the problem wasn’t real 😅↩︎</p></li>
@@ -7312,7 +7666,7 @@ NUTS: [claimcst0_lam, area, gender, C(agecat), Intercept]</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://tomicapretto.github.io/posts/2020-11-03_bingo-cards-in-r/imgs/bingo_card.png" class="img-fluid figure-img"></p>
-<p></p><p></p>
+<p></p><figcaption class="figure-caption">Example bingo card from bingo.es</figcaption><p></p>
 </figure>
 </div>
 </center>
@@ -7325,7 +7679,7 @@ NUTS: [claimcst0_lam, area, gender, C(agecat), Intercept]</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://tomicapretto.github.io/posts/2020-11-03_bingo-cards-in-r/imgs/bingo_strip.PNG" class="img-fluid figure-img"></p>
-<p></p><p></p>
+<p></p><figcaption class="figure-caption">Example bingo strip from bingo.es</figcaption><p></p>
 </figure>
 </div>
 </center>
@@ -7724,7 +8078,7 @@ NUTS: [claimcst0_lam, area, gender, C(agecat), Intercept]</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://tomicapretto.github.io/posts/2020-11-03_bingo-cards-in-r/imgs/bingo_card_own.PNG" class="img-fluid figure-img"></p>
-<p></p><p></p>
+<p></p><figcaption class="figure-caption">First card in the output</figcaption><p></p>
 </figure>
 </div>
 </center>
@@ -7734,7 +8088,7 @@ NUTS: [claimcst0_lam, area, gender, C(agecat), Intercept]</code></pre>
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p>How I dare to call this a project?↩︎</p></li>

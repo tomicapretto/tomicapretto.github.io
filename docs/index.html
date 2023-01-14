@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.440">
+<meta name="generator" content="quarto-1.2.280">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,19 +11,25 @@
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 </style>
+
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
-<meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-listing/list.min.js"></script>
 <script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -31,10 +37,10 @@ ul.task-list{list-style: none;}
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -76,6 +82,12 @@ ul.task-list{list-style: none;}
       window['quarto-listing-loaded']();
     }
   });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
   </script>
 
 <script type="text/javascript">
@@ -103,31 +115,34 @@ ga('send', {
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="./index.html">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Tomás Capretto</span>
-  </a>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html">About me</a>
+    <a class="nav-link" href="./about.html">
+ <span class="menu-text">About me</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://twitter.com/CaprettoTomas"><i class="bi bi-twitter" role="img" aria-label="twitter">
 </i> 
- </a>
+ <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/tomicapretto"><i class="bi bi-github" role="img" aria-label="github">
 </i> 
- </a>
+ <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://tomicapretto.github.io"><i class="bi bi-person-circle" role="img" aria-label="website">
 </i> 
- </a>
+ <span class="menu-text"></span></a>
   </li>  
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
@@ -139,7 +154,7 @@ ga('send', {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
         
     </div>
 <!-- main -->
@@ -155,6 +170,7 @@ ga('send', {
 <div class="quarto-title-meta">
 
     
+  
     
   </div>
   
@@ -167,7 +183,36 @@ ga('send', {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1656212400000" data-listing-file-modified-sort="1656363942865" data-listing-reading-time-sort="4.46">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1673665200000" data-listing-file-modified-sort="1673728203398" data-listing-reading-time-sort="3.245">
+<div class="thumbnail">
+<a href="./posts/2023-01-14_add_custom_family_bambi/index.html">
+<div class="thumbnail-image">
+
+</div>
+</a><p><a href="./posts/2023-01-14_add_custom_family_bambi/index.html"></a></p>
+</div>
+<div class="body">
+<a href="./posts/2023-01-14_add_custom_family_bambi/index.html">
+<h3 class="no-anchor listing-title">
+How to create a custom family in Bambi?
+</h3>
+<div class="listing-subtitle">
+
+</div>
+<div class="listing-description">
+Bambi is the project I dedicate the vast majority of my open-source development time. My goal is to make it a little better every time I push to the main…<sup></sup>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2023-01-14_add_custom_family_bambi/index.html">
+<div class="listing-date">
+Jan 14, 2023
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1656212400000" data-listing-file-modified-sort="1673645984879" data-listing-reading-time-sort="4.46">
 <div class="thumbnail">
 <a href="./posts/2022-06-26_tidypolars/index.html">
 <div class="thumbnail-image">
@@ -184,7 +229,7 @@ Let’s use tidypolars more
 
 </div>
 <div class="listing-description">
-In this blogpost I’m going to show how to perform the same task with pandas, the most popular library for data analysis in Python, and tidypolars, a new library to do data analysis with tabular data inspired on the tidyverse.
+In this blogpost I’m going to show how to perform the same task with pandas, the most popular library for data analysis in Python, and tidypolars, a new library to do data analysis with tabular…
 </div>
 </a>
 </div>
@@ -196,7 +241,7 @@ Jun 26, 2022
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1655002800000" data-listing-file-modified-sort="1656116862524" data-listing-reading-time-sort="10.015">
+<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1655002800000" data-listing-file-modified-sort="1673645984875" data-listing-reading-time-sort="10.015">
 <div class="thumbnail">
 <a href="./posts/2022-06-12_lkj-prior/index.html">
 <div class="thumbnail-image">
@@ -213,7 +258,7 @@ Hierarchical modeling with the LKJ prior in PyMC
 <p>I describe how to use the <code>LKJCholeskyCov</code> and <code>LKJCorr</code> distributions to include correlated priors in Bayesian hierarchical modeling using PyMC.</p>
 </div>
 <div class="listing-description">
-Throughout this blogpost, I will be working with the famous <strong>sleepstudy</strong> dataset. I’m going to estimate a <strong>hierarchical linear regression</strong> with both <strong>varying intercepts</strong> and <strong>varying slopes</strong>. The goal is to understand <strong>how to place non-independent priors for the group-specific effects in PyMC</strong> as efficiently as possible.
+Throughout this blogpost, I will be working with the famous <strong>sleepstudy</strong> dataset. I’m going to estimate a <strong>hierarchical linear regression</strong> with both <strong>varying intercepts</strong> and <strong>varyin…</strong><strong></strong>
 </div>
 </a>
 </div>
@@ -225,7 +270,7 @@ Jun 12, 2022
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1629169200000" data-listing-file-modified-sort="1653355777785" data-listing-reading-time-sort="1.135">
+<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1629169200000" data-listing-file-modified-sort="1673645984839" data-listing-reading-time-sort="1.135">
 <div class="thumbnail">
 <a href="./posts/2021-08-17_gsoc-2021-final-evaluation/index.html">
 <div class="thumbnail-image">
@@ -254,7 +299,7 @@ Aug 17, 2021
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1627959600000" data-listing-file-modified-sort="1654394629659" data-listing-reading-time-sort="4.605">
+<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1627959600000" data-listing-file-modified-sort="1673645984839" data-listing-reading-time-sort="4.605">
 <div class="thumbnail">
 <p><a href="./posts/2021-08-03_binomial-family-in-Bambi/index.html"> <img src="./posts/2021-08-03_binomial-family-in-Bambi/imgs/plot.png" class="thumnail-image"> </a></p>
 </div>
@@ -267,7 +312,7 @@ Binomial family in Bambi
 <p>My fourth post describing work done during GSoC 2021. On this occasion, I’m introducing the Binomial family. This new family is very useful to build models for binary data when each row in the data set contains the number of successes and the number of trials instead of the results of Bernoulli trials.</p>
 </div>
 <div class="listing-description">
-Although GSoC 2021 is close to come to an end, there’s still a lot of exciting things going on around Bambi. Today I’m going to talk about another new family that’s about to be merged into the main branch, the Binomial family.
+Although GSoC 2021 is close to come to an end, there’s still a lot of exciting things going on around Bambi. Today I’m going to talk about another new…
 </div>
 </a>
 </div>
@@ -279,7 +324,7 @@ Aug 3, 2021
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1626231600000" data-listing-file-modified-sort="1654394463126" data-listing-reading-time-sort="3.965">
+<div class="quarto-post image-right" data-index="5" data-listing-date-sort="1626231600000" data-listing-file-modified-sort="1673645984839" data-listing-reading-time-sort="3.965">
 <div class="thumbnail">
 <p><a href="./posts/2021-07-14_new-families-in-Bambi/index.html"> <img src="./posts/2021-07-14_new-families-in-Bambi/imgs/plot.png" class="thumnail-image"> </a></p>
 </div>
@@ -292,7 +337,7 @@ New families in Bambi
 <p>In this third post about my work during this Google Summer of Code I describe two families of models recently added. The first one, is the Student T family, used to make linear regressions more robust. The second, is the Beta family which can be used to model ratings and proportions.</p>
 </div>
 <div class="listing-description">
-I’m very happy I could contribute with many exciting changes to Bambi. Some changes, such as the reorganization of the default priors and built-in families, are not visible to the user but make the codebase more modular and easier to read. Other changes, such as the ones I’m going to describe here, have a direct impact on what you can do with Bambi.
+I’m very happy I could contribute with many exciting changes to Bambi. Some changes, such as the reorganization of the default priors and built-in families, are not visible to the user but make the codebase more modular and easier to read.…
 </div>
 </a>
 </div>
@@ -304,7 +349,7 @@ Jul 14, 2021
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-listing-date-sort="1625454000000" data-listing-file-modified-sort="1654394453338" data-listing-reading-time-sort="4.475">
+<div class="quarto-post image-right" data-index="6" data-listing-date-sort="1625454000000" data-listing-file-modified-sort="1673645984835" data-listing-reading-time-sort="4.475">
 <div class="thumbnail">
 <p><a href="./posts/2021-07-05_robust-linear-regression-with-Bambi/index.html"> <img src="./posts/2021-07-05_robust-linear-regression-with-Bambi/imgs/plot.png" class="thumnail-image"> </a></p>
 </div>
@@ -317,7 +362,7 @@ Robust linear regression in Bambi
 <p>Second post about this Google Summer of Code season. Today I show some of the problems associated with outliers in linear regression and demonstrate how one can implement a robust linear regression in Bambi.</p>
 </div>
 <div class="listing-description">
-The next thing in my TODO list for this Google Summer of Code season with NumFOCUS is to add new families of models to Bambi. This is still a WIP but I wanted to show you how to build a robust linear regression model using the <code>Family</code> class in Bambi.
+The next thing in my TODO list for this Google Summer of Code season with NumFOCUS is to add new families of models to Bambi. This is still a WIP but I wanted to show you how…<code></code>
 </div>
 </a>
 </div>
@@ -329,7 +374,7 @@ Jul 5, 2021
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-listing-date-sort="1624849200000" data-listing-file-modified-sort="1653261962172" data-listing-reading-time-sort="3.135">
+<div class="quarto-post image-right" data-index="7" data-listing-date-sort="1624849200000" data-listing-file-modified-sort="1673645984835" data-listing-reading-time-sort="3.135">
 <div class="thumbnail">
 <a href="./posts/2021-06-28_first-weeks-of-gsoc/index.html">
 <div class="thumbnail-image">
@@ -346,7 +391,7 @@ First weeks of GSoC
 <p>First post of a series about my contributions to Bambi in this Google Summer of Code season. This post highlights new features related to default priors and priors for group-specific effects.</p>
 </div>
 <div class="listing-description">
-I am really happy to participate in this Google Summer of Code season with NumFOCUS to contribute to the Bambi library. The coding period ranges from June 7 to August 16, with an intermediate evaluation taking place between July 12 and July 16.
+I am really happy to participate in this Google Summer of Code season with NumFOCUS to contribute to the Bambi library. The coding period ranges from June 7 to August 16, with…
 </div>
 </a>
 </div>
@@ -358,7 +403,7 @@ Jun 28, 2021
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-listing-date-sort="1623121200000" data-listing-file-modified-sort="1653263151473" data-listing-reading-time-sort="7.775">
+<div class="quarto-post image-right" data-index="8" data-listing-date-sort="1623121200000" data-listing-file-modified-sort="1673645984835" data-listing-reading-time-sort="7.775">
 <div class="thumbnail">
 <a href="./posts/2021-06-08_group-specific-effects-matrix/index.html">
 <div class="thumbnail-image">
@@ -387,7 +432,7 @@ Jun 8, 2021
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-listing-date-sort="1621825200000" data-listing-file-modified-sort="1654394487302" data-listing-reading-time-sort="6.535">
+<div class="quarto-post image-right" data-index="9" data-listing-date-sort="1621825200000" data-listing-file-modified-sort="1673645984835" data-listing-reading-time-sort="6.535">
 <div class="thumbnail">
 <p><a href="./posts/2021-05-24_why-bambi/index.html"> <img src="./posts/2021-05-24_why-bambi/imgs/plot.png" class="thumnail-image"> </a></p>
 </div>
@@ -400,7 +445,7 @@ Why Bambi?
 <p>An example comparing how to fit a GLM with Bambi and PyMC3. Here I attempt to highlight how Bambi can help us to write a Bayesian GLM in a concise manner, saving us from having to realize error-prone tasks that are sometimes necessary when directly working with PyMC3.</p>
 </div>
 <div class="listing-description">
-I’ve been thinking about writing a new blog post for a while now but honestly, there was nothing coming to my mind that made me think “Oh, yeah, this is interesting, it can be useful for someone else”. And it was just a few hours ago that I realized I could write about something quite curious that happened to me while trying to replicate a Bambi model with PyMC3.
+I’ve been thinking about writing a new blog post for a while now but honestly, there was nothing coming to my mind that made me think “Oh, yeah, this is interesting, it can…
 </div>
 </a>
 </div>
@@ -412,7 +457,7 @@ May 24, 2021
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-listing-date-sort="1604372400000" data-listing-file-modified-sort="1653264925072" data-listing-reading-time-sort="20.44">
+<div class="quarto-post image-right" data-index="10" data-listing-date-sort="1604372400000" data-listing-file-modified-sort="1673645984831" data-listing-reading-time-sort="20.44">
 <div class="thumbnail">
 <p><a href="./posts/2020-11-03_bingo-cards-in-r/index.html"> <img src="./posts/2020-11-03_bingo-cards-in-r/imgs/bingo_card.png" class="thumnail-image"> </a></p>
 </div>
@@ -444,6 +489,24 @@ No matching items
 </div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -465,7 +528,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -493,38 +573,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-      <div class="nav-footer-center">Copyright 2022, Tomás Capretto</div>
+      <div class="nav-footer-center">Copyright 2023, Tomás Capretto</div>
   </div>
 </footer>
 
