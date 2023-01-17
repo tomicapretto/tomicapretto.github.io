@@ -16,7 +16,7 @@ website:
       - about.qmd
       - icon: twitter
         aria-label: twitter
-        href: https://twitter.com/CaprettoTomas
+        href: https://twitter.com/tomicapretto
       - icon: github
         aria-label: github
         href: https://github.com/tomicapretto

@@ -43,7 +43,7 @@
 <p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Barray%7D%7Bll%7D%0AP(Y%20=%200)%20=%20(1%20-%20%5Cpsi)%20+%20%5Cpsi%20e%5E%7B-%5Cmu%7D%20%5C%5C%0AP(Y%20=%20y_i)%20=%20%5Cdisplaystyle%20%5Cpsi%20%5Cfrac%7Be%5E%7B-%5Cmu%7D%5Cmu%5Ey_i%7D%7By_i!%7D%20&amp;%20%5Ctext%7Bwith%20%7D%20y_i=1,2,3,%5Cldots%0A%5Cend%7Barray%7D%0A"></p>
 <p>Where</p>
 <ul>
-<li><img src="https://latex.codecogs.com/png.latex?y_i"> is the outcome, a non-negative integer</li>
+<li><img src="https://latex.codecogs.com/png.latex?y_i"> is the outcome, <img src="https://latex.codecogs.com/png.latex?y_i%20%5Cin%20%5Cmathbb%7BZ%7D%5E+"></li>
 <li><img src="https://latex.codecogs.com/png.latex?%5Cmu"> is the mean of the Poisson process, <img src="https://latex.codecogs.com/png.latex?%5Cmu%20%5Cge%200"></li>
 <li><img src="https://latex.codecogs.com/png.latex?%5Cpsi"> is the probability of the Poisson process, <img src="https://latex.codecogs.com/png.latex?0%20%3C%20%5Cpsi%20%3C%201"></li>
 </ul>
@@ -86,7 +86,7 @@
 <h3 class="anchored" data-anchor-id="create-the-link">Create the link</h3>
 <p>Before telling Bambi which link functions we want for the parameters, we need to choose them. I’m going to use the logarithm function for <img src="https://latex.codecogs.com/png.latex?%5Cmu"> and the logit function for <img src="https://latex.codecogs.com/png.latex?%5Cpsi">. In the original formulation of the model we replace <img src="https://latex.codecogs.com/png.latex?g"> with <img src="https://latex.codecogs.com/png.latex?%5Ctext%7Blog%7D"> and <img src="https://latex.codecogs.com/png.latex?h"> with <img src="https://latex.codecogs.com/png.latex?%5Ctext%7Blogit%7D">.</p>
 <p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0AY_i%20&amp;%5Csim%20%5Ctext%7BZIPoisson%7D(%5Cmu_i,%20%5Cpsi_i)%20%5C%5C%0A%5Ctext%7Blog%7D(%5Cmu_i)%20&amp;=%20%5Cbeta_0%20+%20%5Cbeta_1%20X_%7B1i%7D%20+%20...%20+%20%5Cbeta_p%20X_%7Bpi%7D%20%5C%5C%0A%5Ctext%7Blogit%7D(%5Cpsi_i)%20&amp;=%20%5Calpha_0%20+%20%5Calpha_1%20X_%7B1i%7D%20+%20...%20+%20%5Calpha_p%20X_%7Bpi%7D%0A%5Cend%7Baligned%7D%0A"></p>
-<p>Next, we define them in code. Here we could use <code>bmb.Link</code>, but it’s not needed in our case because both the <img src="https://latex.codecogs.com/png.latex?%5Ctext%7Blog%7D"> and <img src="https://latex.codecogs.com/png.latex?%5Ctext%7Blogit%7D"> link functions are already implemented in Bambi. So we just need to pass their names and Bambi will know how to handle it <sup>4</sup>. We just have to create a dictionary where the keys are the names of the parameters and the values are the link functions.</p>
+<p>Next, we define them in code. Here we could use <code>bmb.Link</code>, but it’s not needed in our case because both the <img src="https://latex.codecogs.com/png.latex?%5Ctext%7Blog%7D"> and <img src="https://latex.codecogs.com/png.latex?%5Ctext%7Blogit%7D"> link functions are already implemented in Bambi. We just need to pass their names and Bambi will know how to handle it <sup>4</sup>. We create a dictionary where the keys are the names of the parameters and the values are the link functions.</p>
 <div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">links <span class="op" style="color: #5E5E5E;">=</span> {<span class="st" style="color: #20794D;">"mu"</span>: <span class="st" style="color: #20794D;">"log"</span>, <span class="st" style="color: #20794D;">"psi"</span>: <span class="st" style="color: #20794D;">"logit"</span>}</span></code></pre></div>
 </section>
 <section id="create-the-family" class="level3">
@@ -115,18 +115,18 @@ Link: {'mu': Link(
 )}</code></pre>
 </div>
 </div>
-<p>When we print the family we get information about the name, the likelihood, and the links. It shows many details about the link functions, but it’s not important for us now <sup>5</sup>.</p>
+<p>When we print the family we get information about the name, the likelihood, and the links. It contains many details for the link functions, but they’re not important now <sup>5</sup>.</p>
 <p>Now that we have our brand new custom family, it’s time to test it!</p>
 </section>
 </section>
 <section id="the-simplest-case" class="level2">
 <h2 class="anchored" data-anchor-id="the-simplest-case">The simplest case</h2>
-<p>We need some data to use our new family. What are we going to do? We’re going to simulate it!</p>
-<p>Here we consider the case where we obtain samples from <strong>a single ZIPoisson distribution</strong>. There are no predictors that allow us to distinguish observations. Both <img src="https://latex.codecogs.com/png.latex?%5Cmu"> and <img src="https://latex.codecogs.com/png.latex?%5Cpsi"> are the same for all.</p>
+<p>We need some data to use our new family. How can we get it? Simulation!</p>
+<p>Here we consider the case where we obtain samples from <strong>a single ZIPoisson distribution</strong>. There are no predictors that allow us to distinguish observations. Both <img src="https://latex.codecogs.com/png.latex?%5Cmu"> and <img src="https://latex.codecogs.com/png.latex?%5Cpsi"> are the same for all observations.</p>
 <p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0AY_i%20&amp;%5Csim%20%5Ctext%7BZIPoisson%7D(%5Cmu,%20%5Cpsi)%20%5C%5C%0A%5Cmu%20&amp;%5Csim%20%5Ctext%7BSome%20prior%7D%20%5C%5C%0A%5Cpsi%20&amp;%5Csim%20%5Ctext%7BSome%20prior%7D%0A%5Cend%7Baligned%7D%0A"></p>
 <section id="simulate-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="simulate-the-data">Simulate the data</h3>
-<p>To simulate draws from this ZIPoisson distribution we can use plain NumPy in a very a manual way: we simply concatenate a bunch of zeros to an array with draws from a Poisson distribution and we’re done.</p>
+<p>To simulate draws from this ZIPoisson distribution we can use plain NumPy in a very a manual way, simply concatenate a bunch of zeros to an array with draws from a Poisson distribution and we’re done.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1">rng <span class="op" style="color: #5E5E5E;">=</span> np.random.default_rng(<span class="dv" style="color: #AD0000;">121195</span>)</span>
 <span id="cb6-2">x <span class="op" style="color: #5E5E5E;">=</span> np.concatenate([np.zeros(<span class="dv" style="color: #AD0000;">250</span>), rng.poisson(lam<span class="op" style="color: #5E5E5E;">=</span><span class="dv" style="color: #AD0000;">3</span>, size<span class="op" style="color: #5E5E5E;">=</span><span class="dv" style="color: #AD0000;">750</span>)])</span>
@@ -213,13 +213,13 @@ NUTS: [response_psi, Intercept]</code></pre>
 </section>
 <section id="a-second-example-now-with-a-predictor" class="level2">
 <h2 class="anchored" data-anchor-id="a-second-example-now-with-a-predictor">A second example, now with a predictor</h2>
-<p>Let’s keep testing our <code>zip</code> family. Now we’re going to simulate data again. This time we have a numerical predictor that is associated with both <img src="https://latex.codecogs.com/png.latex?%5Cmu"> and <img src="https://latex.codecogs.com/png.latex?%5Cpsi">.</p>
+<p>Let’s keep testing our <code>zip</code> family. Now we’re going to simulate data again. This time we have a numerical predictor that is related with both <img src="https://latex.codecogs.com/png.latex?%5Cmu"> and <img src="https://latex.codecogs.com/png.latex?%5Cpsi">.</p>
 <p>The model is</p>
 <p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0AY_i%20&amp;%5Csim%20%5Ctext%7BZIPoisson%7D(%5Cmu_i,%20%5Cpsi_i)%20%5C%5C%0A%5Ctext%7Blog%7D(%5Cmu_i)%20&amp;=%20%5Cbeta_0%20+%20%5Cbeta_1%20X_%7B1i%7D%20%5C%5C%0A%5Ctext%7Blogit%7D(%5Cpsi_i)%20&amp;=%20%5Calpha_0%20+%20%5Calpha_1%20X_%7B1i%7D%0A%5Cend%7Baligned%7D%0A"></p>
 <p>but we first need the data…</p>
 <section id="simulate-the-data-1" class="level3">
 <h3 class="anchored" data-anchor-id="simulate-the-data-1">Simulate the data</h3>
-<p>This time we use NumPy to generate some random values for the predictor, but we use <code>pm.draw()</code> to get draws from a <code>ZeroInflatedPoisson</code> distribution.</p>
+<p>This time we use NumPy to generate random values for the predictor, but we use <code>pm.draw()</code> to get draws from a <code>ZeroInflatedPoisson</code> distribution.</p>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1">rng <span class="op" style="color: #5E5E5E;">=</span> np.random.default_rng(<span class="dv" style="color: #AD0000;">121195</span>)</span>
 <span id="cb13-2">x <span class="op" style="color: #5E5E5E;">=</span> np.sort(rng.uniform(<span class="fl" style="color: #AD0000;">0.2</span>, <span class="dv" style="color: #AD0000;">3</span>, size<span class="op" style="color: #5E5E5E;">=</span><span class="dv" style="color: #AD0000;">1000</span>))</span>
@@ -344,7 +344,7 @@ NUTS: [Intercept, x, psi_Intercept, psi_x]</code></pre>
 </section>
 <section id="show-off-bambi-a-little-more" class="level3">
 <h3 class="anchored" data-anchor-id="show-off-bambi-a-little-more">Show-off Bambi a little more</h3>
-<p>Before concluding I would like to show-off another function I’ve been working recently, <code>plot_cap()</code>. This function allows us to see how a model parameter evolves as we change values of one or more predictors. It’s so flexible we get plots for both <img src="https://latex.codecogs.com/png.latex?%5Cmu"> and <img src="https://latex.codecogs.com/png.latex?%5Cpsi">.</p>
+<p>Before concluding I would like to show-off another function I’ve been working recently, <code>plot_cap()</code>. This function allows us to see how a model parameter evolves as we change values of one or more predictors. It’s so flexible we can get plots for both <img src="https://latex.codecogs.com/png.latex?%5Cmu"> and <img src="https://latex.codecogs.com/png.latex?%5Cpsi">.</p>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1">fig, axes <span class="op" style="color: #5E5E5E;">=</span> plt.subplots(<span class="dv" style="color: #AD0000;">1</span>, <span class="dv" style="color: #AD0000;">2</span>, figsize<span class="op" style="color: #5E5E5E;">=</span>(<span class="dv" style="color: #AD0000;">12</span>, <span class="dv" style="color: #AD0000;">5</span>))</span>
 <span id="cb21-2"></span>

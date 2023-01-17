@@ -1,22 +1,28 @@
 ---
 title: "About me"
 image: "data/imgs/myself.jpeg"
+#favicon: utils/imgs/favicon.png
 about:
-    template: jolla
-    links:
-    - text: Twitter
-      url: "https://twitter.com/CaprettoTomas"
-    - text: GitHub
-      url: "https://github.com/tomicapretto"
-    - icon: twitter
-      text: LinkedIn
-      url: "https://www.linkedin.com/in/tom%C3%A1s-capretto-a89873106/"
-    - text: Email
-      url: "mailto:tomicapretto@gmail.com"
+  template: jolla
+  links:
+  - text: Twitter
+    url: "https://twitter.com/tomicapretto"
+    icon: twitter
+  - text: GitHub
+    url: "https://github.com/tomicapretto"
+    icon: github
+  - text: LinkedIn
+    url: "https://www.linkedin.com/in/tom%C3%A1s-capretto-a89873106/"
+    icon: linkedin
+  - text: Email
+    url: "mailto:tomicapretto@gmail.com"
+    icon: envelope
 ---
 
-I'm Full Stack Data Scientist and a part-time Statistics PhD student.
+I'm a Data Scientist at [PyMC-Labs](https://www.pymc-labs.io/) and a part-time Statistics PhD student.
 <br>
 I speak mainly Python and R, but I'm also experienced with other languages and tools as well.
 <br>
-On top of that, I'm an Open Source Software developer, mostly focusing on [Bambi](https://github.com/bambinos/bambi).
+I'm an Open Source Software developer, mostly focusing on [Bambi](https://github.com/bambinos/bambi).
+
+

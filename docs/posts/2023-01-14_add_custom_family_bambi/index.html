@@ -166,7 +166,7 @@ ga('send', {
  <span class="menu-text">About me</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/CaprettoTomas"><i class="bi bi-twitter" role="img" aria-label="twitter">
+    <a class="nav-link" href="https://twitter.com/tomicapretto"><i class="bi bi-twitter" role="img" aria-label="twitter">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
@@ -279,7 +279,7 @@ P(Y = y_i) = \displaystyle \psi \frac{e^{-\mu}\mu^y_i}{y_i!} &amp; \text{with } 
 \]</span></p>
 <p>Where</p>
 <ul>
-<li><span class="math inline">\(y_i\)</span> is the outcome, a non-negative integer</li>
+<li><span class="math inline">\(y_i\)</span> is the outcome, <span class="math inline">\(y_i \in \mathbb{Z}^+\)</span></li>
 <li><span class="math inline">\(\mu\)</span> is the mean of the Poisson process, <span class="math inline">\(\mu \ge 0\)</span></li>
 <li><span class="math inline">\(\psi\)</span> is the probability of the Poisson process, <span class="math inline">\(0 &lt; \psi &lt; 1\)</span></li>
 </ul>
@@ -340,7 +340,7 @@ Y_i &amp;\sim \text{ZIPoisson}(\mu_i, \psi_i) \\
 \text{logit}(\psi_i) &amp;= \alpha_0 + \alpha_1 X_{1i} + ... + \alpha_p X_{pi}
 \end{aligned}
 \]</span></p>
-<p>Next, we define them in code. Here we could use <code>bmb.Link</code>, but it’s not needed in our case because both the <span class="math inline">\(\text{log}\)</span> and <span class="math inline">\(\text{logit}\)</span> link functions are already implemented in Bambi. So we just need to pass their names and Bambi will know how to handle it <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. We just have to create a dictionary where the keys are the names of the parameters and the values are the link functions.</p>
+<p>Next, we define them in code. Here we could use <code>bmb.Link</code>, but it’s not needed in our case because both the <span class="math inline">\(\text{log}\)</span> and <span class="math inline">\(\text{logit}\)</span> link functions are already implemented in Bambi. We just need to pass their names and Bambi will know how to handle it <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. We create a dictionary where the keys are the names of the parameters and the values are the link functions.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>links <span class="op">=</span> {<span class="st">"mu"</span>: <span class="st">"log"</span>, <span class="st">"psi"</span>: <span class="st">"logit"</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="create-the-family" class="level3">
@@ -369,14 +369,14 @@ Link: {'mu': Link(
 )}</code></pre>
 </div>
 </div>
-<p>When we print the family we get information about the name, the likelihood, and the links. It shows many details about the link functions, but it’s not important for us now <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</p>
+<p>When we print the family we get information about the name, the likelihood, and the links. It contains many details for the link functions, but they’re not important now <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</p>
 <p>Now that we have our brand new custom family, it’s time to test it!</p>
 </section>
 </section>
 <section id="the-simplest-case" class="level2">
 <h2 class="anchored" data-anchor-id="the-simplest-case">The simplest case</h2>
-<p>We need some data to use our new family. What are we going to do? We’re going to simulate it!</p>
-<p>Here we consider the case where we obtain samples from <strong>a single ZIPoisson distribution</strong>. There are no predictors that allow us to distinguish observations. Both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\psi\)</span> are the same for all.</p>
+<p>We need some data to use our new family. How can we get it? Simulation!</p>
+<p>Here we consider the case where we obtain samples from <strong>a single ZIPoisson distribution</strong>. There are no predictors that allow us to distinguish observations. Both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\psi\)</span> are the same for all observations.</p>
 <p><span class="math display">\[
 \begin{aligned}
 Y_i &amp;\sim \text{ZIPoisson}(\mu, \psi) \\
@@ -386,7 +386,7 @@ Y_i &amp;\sim \text{ZIPoisson}(\mu, \psi) \\
 \]</span></p>
 <section id="simulate-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="simulate-the-data">Simulate the data</h3>
-<p>To simulate draws from this ZIPoisson distribution we can use plain NumPy in a very a manual way: we simply concatenate a bunch of zeros to an array with draws from a Poisson distribution and we’re done.</p>
+<p>To simulate draws from this ZIPoisson distribution we can use plain NumPy in a very a manual way, simply concatenate a bunch of zeros to an array with draws from a Poisson distribution and we’re done.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">121195</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.concatenate([np.zeros(<span class="dv">250</span>), rng.poisson(lam<span class="op">=</span><span class="dv">3</span>, size<span class="op">=</span><span class="dv">750</span>)])</span>
@@ -473,7 +473,7 @@ NUTS: [response_psi, Intercept]</code></pre>
 </section>
 <section id="a-second-example-now-with-a-predictor" class="level2">
 <h2 class="anchored" data-anchor-id="a-second-example-now-with-a-predictor">A second example, now with a predictor</h2>
-<p>Let’s keep testing our <code>zip</code> family. Now we’re going to simulate data again. This time we have a numerical predictor that is associated with both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\psi\)</span>.</p>
+<p>Let’s keep testing our <code>zip</code> family. Now we’re going to simulate data again. This time we have a numerical predictor that is related with both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\psi\)</span>.</p>
 <p>The model is</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -485,7 +485,7 @@ Y_i &amp;\sim \text{ZIPoisson}(\mu_i, \psi_i) \\
 <p>but we first need the data…</p>
 <section id="simulate-the-data-1" class="level3">
 <h3 class="anchored" data-anchor-id="simulate-the-data-1">Simulate the data</h3>
-<p>This time we use NumPy to generate some random values for the predictor, but we use <code>pm.draw()</code> to get draws from a <code>ZeroInflatedPoisson</code> distribution.</p>
+<p>This time we use NumPy to generate random values for the predictor, but we use <code>pm.draw()</code> to get draws from a <code>ZeroInflatedPoisson</code> distribution.</p>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">121195</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.sort(rng.uniform(<span class="fl">0.2</span>, <span class="dv">3</span>, size<span class="op">=</span><span class="dv">1000</span>))</span>
@@ -610,7 +610,7 @@ NUTS: [Intercept, x, psi_Intercept, psi_x]</code></pre>
 </section>
 <section id="show-off-bambi-a-little-more" class="level3">
 <h3 class="anchored" data-anchor-id="show-off-bambi-a-little-more">Show-off Bambi a little more</h3>
-<p>Before concluding I would like to show-off another function I’ve been working recently, <code>plot_cap()</code>. This function allows us to see how a model parameter evolves as we change values of one or more predictors. It’s so flexible we get plots for both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\psi\)</span>.</p>
+<p>Before concluding I would like to show-off another function I’ve been working recently, <code>plot_cap()</code>. This function allows us to see how a model parameter evolves as we change values of one or more predictors. It’s so flexible we can get plots for both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\psi\)</span>.</p>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
