@@ -18,15 +18,6 @@ website:
         href: blog.qmd
       - text: About me
         href: about.qmd
-      - icon: twitter
-        aria-label: twitter
-        href: https://twitter.com/tomicapretto
-      - icon: github
-        aria-label: github
-        href: https://github.com/tomicapretto
-      - icon: person-circle
-        aria-label: website
-        href: https://tomicapretto.github.io
   page-footer:
     center: "Copyright 2023, Tomás Capretto"
     background: primary

@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://tomicapretto.github.io/index.html</loc>
+    <lastmod>2023-01-30T23:45:45.385Z</lastmod>
+  </url>
+  <url>
     <loc>https://tomicapretto.github.io/about.html</loc>
-    <lastmod>2023-01-30T02:17:53.072Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tomicapretto.github.io/posts/2021-06-28_first-weeks-of-gsoc/index.html</loc>
-    <lastmod>2023-01-30T00:00:48.966Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tomicapretto.github.io/posts/2021-08-17_gsoc-2021-final-evaluation/index.html</loc>
-    <lastmod>2023-01-30T00:00:49.794Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tomicapretto.github.io/posts/2021-07-14_new-families-in-Bambi/index.html</loc>
-    <lastmod>2023-01-30T00:00:51.874Z</lastmod>
+    <lastmod>2023-01-30T23:45:45.685Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2020-11-03_bingo-cards-in-r/index.html</loc>
-    <lastmod>2023-01-30T00:00:48.622Z</lastmod>
+    <lastmod>2023-01-30T23:45:46.537Z</lastmod>
   </url>
   <url>
-    <loc>https://tomicapretto.github.io/posts/2021-07-05_robust-linear-regression-with-Bambi/index.html</loc>
-    <lastmod>2023-01-30T00:00:51.034Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tomicapretto.github.io/posts/2022-06-26_tidypolars/index.html</loc>
-    <lastmod>2023-01-30T00:00:53.562Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tomicapretto.github.io/posts/2021-06-08_group-specific-effects-matrix/index.html</loc>
-    <lastmod>2023-01-30T00:00:53.058Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tomicapretto.github.io/posts/2021-05-24_why-bambi/index.html</loc>
-    <lastmod>2023-01-30T00:00:52.310Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tomicapretto.github.io/posts/2021-08-03_binomial-family-in-Bambi/index.html</loc>
-    <lastmod>2023-01-30T00:00:51.442Z</lastmod>
+    <loc>https://tomicapretto.github.io/posts/2021-06-28_first-weeks-of-gsoc/index.html</loc>
+    <lastmod>2023-01-30T23:45:46.869Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2023-01-14_add_custom_family_bambi/index.html</loc>
-    <lastmod>2023-01-30T00:00:49.538Z</lastmod>
+    <lastmod>2023-01-30T23:45:47.433Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tomicapretto.github.io/posts/2021-08-17_gsoc-2021-final-evaluation/index.html</loc>
+    <lastmod>2023-01-30T23:45:47.709Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index.html</loc>
-    <lastmod>2023-01-30T00:00:50.586Z</lastmod>
+    <lastmod>2023-01-30T23:45:48.617Z</lastmod>
   </url>
   <url>
-    <loc>https://tomicapretto.github.io/index.html</loc>
-    <lastmod>2023-01-30T12:45:01.333Z</lastmod>
+    <loc>https://tomicapretto.github.io/posts/2021-07-05_robust-linear-regression-with-Bambi/index.html</loc>
+    <lastmod>2023-01-30T23:45:49.153Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tomicapretto.github.io/posts/2021-08-03_binomial-family-in-Bambi/index.html</loc>
+    <lastmod>2023-01-30T23:45:49.573Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tomicapretto.github.io/posts/2021-07-14_new-families-in-Bambi/index.html</loc>
+    <lastmod>2023-01-30T23:45:49.993Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tomicapretto.github.io/posts/2021-05-24_why-bambi/index.html</loc>
+    <lastmod>2023-01-30T23:45:50.429Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tomicapretto.github.io/posts/2021-06-08_group-specific-effects-matrix/index.html</loc>
+    <lastmod>2023-01-30T23:45:51.181Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tomicapretto.github.io/posts/2022-06-26_tidypolars/index.html</loc>
+    <lastmod>2023-01-30T23:45:51.829Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/blog.html</loc>
-    <lastmod>2023-01-30T02:17:46.244Z</lastmod>
+    <lastmod>2023-01-30T23:45:52.273Z</lastmod>
   </url>
 </urlset>
