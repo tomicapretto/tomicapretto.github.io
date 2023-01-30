@@ -88,6 +88,14 @@ div.quarto-about-jolla .about-link:hover {
     }
 }
 
+@media (max-width: 576px) {
+    .card-img {
+        width: 50%;
+    }
+}
+
+
+
 .card-title {
     font-size: 1.2rem;
     font-weight: 600;

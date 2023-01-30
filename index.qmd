@@ -25,7 +25,7 @@ I enjoy sharing what I do on this website.
 ::: {.g-col-12}
 <div class="card">
 <div class="grid grid-card">
-<div class="g-col-10">
+<div class="g-col-12 g-col-sm-10 order-2 order-sm-1 text-center text-sm-start">
 <div class="card-body">
 <h5 class="card-title">Statistical Consulting</h5>
 <p class="card-text">
@@ -38,7 +38,7 @@ I enjoy sharing what I do on this website.
 </p>
 </div>
 </div>
-<div class="g-col-2 grid-img">
+<div class="g-col-12 g-col-sm-2 order-1 order-sm-2 text-center text-sm-start grid-img">
 <p class="no-margin">
 <img src="imgs/pymc-labs.png" class="card-img">
 </p>
@@ -50,7 +50,7 @@ I enjoy sharing what I do on this website.
 ::: {.g-col-12}
 <div class="card">
 <div class="grid grid-card">
-<div class="g-col-10">
+<div class="g-col-12 g-col-sm-10 order-2 order-sm-1 text-center text-sm-start">
 <div class="card-body">
 <h5 class="card-title">Intuitive Bayes</h5>
 <p class="card-text">
@@ -63,7 +63,7 @@ I enjoy sharing what I do on this website.
 </p>
 </div>
 </div>
-<div class="g-col-2 grid-img">
+<div class="g-col-12 g-col-sm-2 order-1 order-sm-2 text-center text-sm-start grid-img">
 <p class="no-margin">
 <img src="imgs/ib.png" class="card-img">
 </p>
@@ -75,7 +75,7 @@ I enjoy sharing what I do on this website.
 ::: {.g-col-12}
 <div class="card">
 <div class="grid grid-card">
-<div class="g-col-10">
+<div class="g-col-12 g-col-sm-10 order-2 order-sm-1 text-center text-sm-start">
 <div class="card-body">
 <h5 class="card-title">Bambi: Bayesian Model Building Interface</h5>
 <p class="card-text">
@@ -88,7 +88,7 @@ I enjoy sharing what I do on this website.
 </p>
 </div>
 </div>
-<div class="g-col-2 grid-img">
+<div class="g-col-12 g-col-sm-2 order-1 order-sm-2 text-center text-sm-start grid-img">
 <p class="no-margin">
 <img src="imgs/bambi.png" class="card-img">
 </p>
