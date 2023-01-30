@@ -6,14 +6,18 @@ execute:
   freeze: true
 
 website:
-  title: "Tomás Capretto"
+  title: "Tomi Capretto"
   site-url: https://tomicapretto.github.io
   repo-url: https://github.com/tomicapretto/blog
   google-analytics: "UA-217292110-1"
+  favicon: imgs/mate.png
   navbar:
     background: primary
     right:
-      - about.qmd
+      - text: Blog
+        href: blog.qmd
+      - text: About me
+        href: about.qmd
       - icon: twitter
         aria-label: twitter
         href: https://twitter.com/tomicapretto

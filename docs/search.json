@@ -2,9 +2,9 @@
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "About me",
+    "title": "Who am I?",
     "section": "",
-    "text": "I’m a Data Scientist at PyMC-Labs and a part-time Statistics PhD student.  I speak mainly Python and R, but I’m also experienced with other languages and tools as well.  I’m an Open Source Software developer, mostly focusing on Bambi."
+    "text": "I’m a Data Scientist at PyMC-Labs and a statistics PhD student.  I speak mainly Python and R, but I’m also experienced with other languages and tools as well.  I’m an Open Source Software developer, mostly focusing on Bambi."
   },
   {
     "objectID": "posts/2021-06-28_first-weeks-of-gsoc/index.html",
@@ -324,8 +324,36 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Tomás Capretto",
+    "title": "Hi, I’m Tomi 👋",
+    "section": "",
+    "text": "I’m a Data Scientist at PyMC Labs.\nI create tools to make statistics easier for everybody.\nI write educational content and I teach.\nI enjoy sharing what I do on this website.\n\n    \n    \n  \n\n\n\nWhat I’m working on\n\n\n\n\n\n\n\nStatistical Consulting\n\n\nWe use statistics to help companies solve challenging business problems.\n\n\n Learn more about our work \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIntuitive Bayes\n\n\nI’m co-developing interactive courses to teach Statistics intuitively.\n\n\n Sign up for the Advanced Regression course \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nBambi: Bayesian Model Building Interface\n\n\nA Python library to make Bayesian modeling easier and more flexible.\n\n\n Check the repository"
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog - cause it’s better when it’s shared",
     "section": "",
     "text": "How to create a custom family in Bambi?\n\n\n\n\n\n\n\n\n\n\n\n\nJan 14, 2023\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLet’s use tidypolars more\n\n\n\n\n\n\n\n\n\n\n\n\nJun 26, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHierarchical modeling with the LKJ prior in PyMC\n\n\nI describe how to use the LKJCholeskyCov and LKJCorr distributions to include correlated priors in Bayesian hierarchical modeling using PyMC.\n\n\n\n\n\n\n\n\n\nJun 12, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGSOC 2021: Final evaluation\n\n\nFinal post about Google Summer of Code 2021. This post sums up my contributions to the Bambi library during the ten weeks of this program.\n\n\n\n\n\n\n\n\n\nAug 17, 2021\n\n\n\n\n\n\n  \n\n\n\n\nBinomial family in Bambi\n\n\nMy fourth post describing work done during GSoC 2021. On this occasion, I’m introducing the Binomial family. This new family is very useful to build models for binary data when each row in the data set contains the number of successes and the number of trials instead of the results of Bernoulli trials.\n\n\n\n\n\n\n\n\n\nAug 3, 2021\n\n\n\n\n\n\n  \n\n\n\n\nNew families in Bambi\n\n\nIn this third post about my work during this Google Summer of Code I describe two families of models recently added. The first one, is the Student T family, used to make linear regressions more robust. The second, is the Beta family which can be used to model ratings and proportions.\n\n\n\n\n\n\n\n\n\nJul 14, 2021\n\n\n\n\n\n\n  \n\n\n\n\nRobust linear regression in Bambi\n\n\nSecond post about this Google Summer of Code season. Today I show some of the problems associated with outliers in linear regression and demonstrate how one can implement a robust linear regression in Bambi.\n\n\n\n\n\n\n\n\n\nJul 5, 2021\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFirst weeks of GSoC\n\n\nFirst post of a series about my contributions to Bambi in this Google Summer of Code season. This post highlights new features related to default priors and priors for group-specific effects.\n\n\n\n\n\n\n\n\n\nJun 28, 2021\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDesign matrices for group-specific effects in formulae and lme4\n\n\nBambi uses the library formulae to automatically construct design matrices for both common and group-specific effects. This post compares design matrices for group-specific effects obtained with formulae for a variety of scenarios involving categorical variables with the ones obtained with the R package lme4.\n\n\n\n\n\n\n\n\n\nJun 8, 2021\n\n\n\n\n\n\n  \n\n\n\n\nWhy Bambi?\n\n\nAn example comparing how to fit a GLM with Bambi and PyMC3. Here I attempt to highlight how Bambi can help us to write a Bayesian GLM in a concise manner, saving us from having to realize error-prone tasks that are sometimes necessary when directly working with PyMC3.\n\n\n\n\n\n\n\n\n\nMay 24, 2021\n\n\n\n\n\n\n  \n\n\n\n\nHow to generate bingo cards in R\n\n\nA walkthrough the process of understanding how bingo cards are composed and a set of R functions that let us generate random bingo cards and print them in a nice looking .pdf output.\n\n\n\n\n\n\n\n\n\nNov 3, 2020\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html#hey",
+    "href": "about.html#hey",
+    "title": "Hi, I’m Tomi",
+    "section": "Hey?",
+    "text": "Hey?\n\n\n\n\n\nAbout me, my interests and experience, and my work as a Research Software Engineer.\n\n\nABOUT\n\n\n\n\n\n\n\n\nI sometimes write about what I’m doing and learning, mostly about  and building websites.\n\n\nPOSTS\n\n\n\n\n\n\n\n\nSlides and resources from talks I’ve given at R and RLadies user groups and conferences.\n\n\nTALKS\n\n\n\n\n\n\n\n\nI develop R packages. Here are links to their repos, websites and any other resources.\n\n\nPACKAGES\n\n\n\n\n\n\n\n\nI love the R community! Here’s how to get involved, and groups I help organise or contribute to.\n\n\nCOMMUNITY\n\n\n\n\n\n\n\n\nWhere to find me online and how to get in touch. I’d love to hear from you!\n\n\nCONTACT"
+  },
+  {
+    "objectID": "index.html#what-im-doing-right-now",
+    "href": "index.html#what-im-doing-right-now",
+    "title": "Hi, I’m Tomi",
+    "section": "What I’m doing right now",
+    "text": "What I’m doing right now"
+  },
+  {
+    "objectID": "index.html#what-im-doing-right-now-asdf-sadf",
+    "href": "index.html#what-im-doing-right-now-asdf-sadf",
+    "title": "Hi, I’m Tomi",
+    "section": "What I’m doing right now? asdf sadf",
+    "text": "What I’m doing right now? asdf sadf"
   }
 ]

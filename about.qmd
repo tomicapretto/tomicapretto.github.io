@@ -1,7 +1,6 @@
 ---
-title: "About me"
+title: "Who am I?"
 image: "data/imgs/myself.jpeg"
-#favicon: utils/imgs/favicon.png
 about:
   template: jolla
   links:
@@ -19,10 +18,8 @@ about:
     icon: envelope
 ---
 
-I'm a Data Scientist at [PyMC-Labs](https://www.pymc-labs.io/) and a part-time Statistics PhD student.
+I'm a Data Scientist at [PyMC-Labs](https://www.pymc-labs.io/) and a statistics PhD student.
 <br>
 I speak mainly Python and R, but I'm also experienced with other languages and tools as well.
 <br>
 I'm an Open Source Software developer, mostly focusing on [Bambi](https://github.com/bambinos/bambi).
-
-

@@ -87,3 +87,27 @@ div.quarto-about-jolla .about-link:hover {
             [page-end] 5fr [screen-end-inset] 1.5em [screen-end];
     }
 }
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.card {
+    border: 2px solid hsl(0, 0%, 75%);
+    border-radius: 5px;
+}
+
+.grid-card {
+    gap: 0.5rem
+}
+
+.grid-img {
+    align-self: center;
+    justify-self: center;
+    padding: 0.2rem;
+}
+
+.no-margin {
+    margin: 0;
+}
