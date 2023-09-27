@@ -1,6 +1,6 @@
 ---
 title: "Hi, I'm Tomi 👋"
-image: "data/imgs/myself.jpeg"
+image: "data/imgs/profile_2023.png"
 about:
   id: summary
   template: solana

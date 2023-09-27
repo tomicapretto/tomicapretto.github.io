@@ -1,6 +1,6 @@
 ---
 title: "Who am I?"
-image: "data/imgs/myself.jpeg"
+image: "data/imgs/profile_2023.png"
 about:
   template: jolla
   links:
@@ -18,7 +18,7 @@ about:
     icon: envelope
 ---
 
-I use data science to solve problems at [PyMC-Labs](https://www.pymc-labs.io/), <br>
+I use data science to solve problems at [PyMC Labs](https://www.pymc-labs.io/), <br>
 I teach statistics at Universidad Nacional de Rosario,<br>
 and because I'm always learning, I'm still a (part-time) PhD student.
 <br>

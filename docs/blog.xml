@@ -10,7 +10,7 @@
 <atom:link href="https://tomicapretto.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.2.280</generator>
-<lastBuildDate>Sat, 14 Jan 2023 03:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 13 Jan 2023 23:00:00 GMT</lastBuildDate>
 <item>
   <title>How to create a custom family in Bambi?</title>
   <link>https://tomicapretto.github.io/posts/2023-01-14_add_custom_family_bambi/index.html</link>
@@ -416,7 +416,7 @@ NUTS: [Intercept, x, psi_Intercept, psi_x]</code></pre>
 </ol>
 </section></div> ]]></description>
   <guid>https://tomicapretto.github.io/posts/2023-01-14_add_custom_family_bambi/index.html</guid>
-  <pubDate>Sat, 14 Jan 2023 03:00:00 GMT</pubDate>
+  <pubDate>Fri, 13 Jan 2023 23:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Let’s use tidypolars more</title>
@@ -5124,7 +5124,7 @@ f64
 
  ]]></description>
   <guid>https://tomicapretto.github.io/posts/2022-06-26_tidypolars/index.html</guid>
-  <pubDate>Sun, 26 Jun 2022 03:00:00 GMT</pubDate>
+  <pubDate>Sat, 25 Jun 2022 22:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Hierarchical modeling with the LKJ prior in PyMC</title>
@@ -5906,7 +5906,7 @@ Watermark: 2.3.1
 
  ]]></description>
   <guid>https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index.html</guid>
-  <pubDate>Sun, 12 Jun 2022 03:00:00 GMT</pubDate>
+  <pubDate>Sat, 11 Jun 2022 22:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSOC 2021: Final evaluation</title>
@@ -5933,7 +5933,7 @@ Watermark: 2.3.1
 
  ]]></description>
   <guid>https://tomicapretto.github.io/posts/2021-08-17_gsoc-2021-final-evaluation/index.html</guid>
-  <pubDate>Tue, 17 Aug 2021 03:00:00 GMT</pubDate>
+  <pubDate>Mon, 16 Aug 2021 22:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Binomial family in Bambi</title>
@@ -6344,7 +6344,7 @@ NUTS: [x, Intercept]</code></pre>
 </ol>
 </section></div> ]]></description>
   <guid>https://tomicapretto.github.io/posts/2021-08-03_binomial-family-in-Bambi/index.html</guid>
-  <pubDate>Tue, 03 Aug 2021 03:00:00 GMT</pubDate>
+  <pubDate>Mon, 02 Aug 2021 22:00:00 GMT</pubDate>
   <media:content url="https://tomicapretto.github.io/posts/2021-08-03_binomial-family-in-Bambi/imgs/plot.png" medium="image" type="image/png" height="101" width="144"/>
 </item>
 <item>
@@ -6778,7 +6778,7 @@ The number of effective samples is smaller than 10% for some parameters.</code><
 
  ]]></description>
   <guid>https://tomicapretto.github.io/posts/2021-07-14_new-families-in-Bambi/index.html</guid>
-  <pubDate>Wed, 14 Jul 2021 03:00:00 GMT</pubDate>
+  <pubDate>Tue, 13 Jul 2021 22:00:00 GMT</pubDate>
   <media:content url="https://tomicapretto.github.io/posts/2021-07-14_new-families-in-Bambi/imgs/plot.png" medium="image" type="image/png" height="77" width="144"/>
 </item>
 <item>
@@ -7120,7 +7120,7 @@ NUTS: [y_nu, y_sigma, x, Intercept]</code></pre>
 
  ]]></description>
   <guid>https://tomicapretto.github.io/posts/2021-07-05_robust-linear-regression-with-Bambi/index.html</guid>
-  <pubDate>Mon, 05 Jul 2021 03:00:00 GMT</pubDate>
+  <pubDate>Sun, 04 Jul 2021 22:00:00 GMT</pubDate>
   <media:content url="https://tomicapretto.github.io/posts/2021-07-05_robust-linear-regression-with-Bambi/imgs/plot.png" medium="image" type="image/png" height="144" width="144"/>
 </item>
 <item>
@@ -7167,7 +7167,7 @@ NUTS: [y_nu, y_sigma, x, Intercept]</code></pre>
 </ol>
 </section></div> ]]></description>
   <guid>https://tomicapretto.github.io/posts/2021-06-28_first-weeks-of-gsoc/index.html</guid>
-  <pubDate>Mon, 28 Jun 2021 03:00:00 GMT</pubDate>
+  <pubDate>Sun, 27 Jun 2021 22:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Design matrices for group-specific effects in formulae and lme4</title>
@@ -7462,7 +7462,7 @@ NUTS: [y_nu, y_sigma, x, Intercept]</code></pre>
 </ol>
 </section></div> ]]></description>
   <guid>https://tomicapretto.github.io/posts/2021-06-08_group-specific-effects-matrix/index.html</guid>
-  <pubDate>Tue, 08 Jun 2021 03:00:00 GMT</pubDate>
+  <pubDate>Mon, 07 Jun 2021 22:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Why Bambi?</title>
@@ -7699,7 +7699,7 @@ NUTS: [claimcst0_lam, area, gender, C(agecat), Intercept]</code></pre>
 
  ]]></description>
   <guid>https://tomicapretto.github.io/posts/2021-05-24_why-bambi/index.html</guid>
-  <pubDate>Mon, 24 May 2021 03:00:00 GMT</pubDate>
+  <pubDate>Sun, 23 May 2021 22:00:00 GMT</pubDate>
   <media:content url="https://tomicapretto.github.io/posts/2021-05-24_why-bambi/imgs/plot.png" medium="image" type="image/png" height="77" width="144"/>
 </item>
 <item>
@@ -8153,7 +8153,7 @@ NUTS: [claimcst0_lam, area, gender, C(agecat), Intercept]</code></pre>
 </ol>
 </section></div> ]]></description>
   <guid>https://tomicapretto.github.io/posts/2020-11-03_bingo-cards-in-r/index.html</guid>
-  <pubDate>Tue, 03 Nov 2020 03:00:00 GMT</pubDate>
+  <pubDate>Mon, 02 Nov 2020 23:00:00 GMT</pubDate>
   <media:content url="https://tomicapretto.github.io/posts/2020-11-03_bingo-cards-in-r/imgs/bingo_card.png" medium="image" type="image/png" height="63" width="144"/>
 </item>
 </channel>
