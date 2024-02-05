@@ -1,6 +1,6 @@
 project:
   type: website
-  output-dir: docs
+  output-dir: _site
 
 execute:
   freeze: true
@@ -8,7 +8,7 @@ execute:
 website:
   title: "Tomi Capretto"
   site-url: https://tomicapretto.github.io
-  repo-url: https://github.com/tomicapretto/blog
+  repo-url: https://github.com/tomicapretto/tomicapretto.github.io
   google-analytics: "G-78XRDSRQC8"
   favicon: imgs/mate.png
   navbar:
@@ -16,14 +16,16 @@ website:
     right:
       - text: Blog
         href: blog.qmd
+      - text: Reading
+        href: reading.qmd
       - text: About me
         href: about.qmd
   page-footer:
-    center: "Copyright 2023, Tomás Capretto"
+    center: "Copyright 2024, Tomás Capretto"
     background: primary
 
 format:
   html:
     theme: cosmo
-    css: styles.css
+    css: styles.scss
     toc: true

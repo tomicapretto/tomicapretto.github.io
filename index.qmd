@@ -1,6 +1,7 @@
 ---
 title: "Hi, I'm Tomi 👋"
 image: "data/imgs/profile_2023.png"
+toc: false
 about:
   id: summary
   template: solana
@@ -8,7 +9,7 @@ about:
 
 :::{#summary}
 
-I'm a Data Scientist at [PyMC Labs](https://www.pymc-labs.io/).
+I'm a Data Scientist at [PyMC Labs](https://www.pymc-labs.com/).
 
 I create tools to make statistics easier for everybody.
 
@@ -23,6 +24,7 @@ I enjoy sharing what I do on this website.
 ::: {.grid}
 
 ::: {.g-col-12}
+
 <div class="card">
 <div class="grid grid-card">
 <div class="g-col-12 g-col-sm-10 order-2 order-sm-1 text-center text-sm-start">
@@ -32,7 +34,7 @@ I enjoy sharing what I do on this website.
     We use statistics to help companies solve challenging business problems.
 </p>
 <p class="no-margin">
-<a href="https://pymc-labs.io/" class="stretched-link">
+<a href="https://pymc-labs.com/" class="stretched-link">
     Learn more about our work
 </a>
 </p>
@@ -45,9 +47,11 @@ I enjoy sharing what I do on this website.
 </div>
 </div>
 </div>
+
 :::
 
 ::: {.g-col-12}
+
 <div class="card">
 <div class="grid grid-card">
 <div class="g-col-12 g-col-sm-10 order-2 order-sm-1 text-center text-sm-start">
@@ -70,9 +74,11 @@ I enjoy sharing what I do on this website.
 </div>
 </div>
 </div>
+
 :::
 
 ::: {.g-col-12}
+
 <div class="card">
 <div class="grid grid-card">
 <div class="g-col-12 g-col-sm-10 order-2 order-sm-1 text-center text-sm-start">
@@ -95,7 +101,7 @@ I enjoy sharing what I do on this website.
 </div>
 </div>
 </div>
-:::
 
 :::
 
+:::

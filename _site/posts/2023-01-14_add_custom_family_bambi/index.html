@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2023-01-14">
+
+<title>Tomi Capretto - How to create a custom family in Bambi?</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../imgs/mate.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-78XRDSRQC8"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.scss">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Tomi Capretto</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../reading.html"> 
+<span class="menu-text">Reading</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About me</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#imports" id="toc-imports" class="nav-link active" data-scroll-target="#imports">Imports</a></li>
+  <li><a href="#the-zero-inflated-poisson-distribution" id="toc-the-zero-inflated-poisson-distribution" class="nav-link" data-scroll-target="#the-zero-inflated-poisson-distribution">The Zero-Inflated Poisson distribution</a></li>
+  <li><a href="#the-zip-regression-model" id="toc-the-zip-regression-model" class="nav-link" data-scroll-target="#the-zip-regression-model">The ZIP Regression model</a></li>
+  <li><a href="#create-the-zeroinflatedpoisson-family" id="toc-create-the-zeroinflatedpoisson-family" class="nav-link" data-scroll-target="#create-the-zeroinflatedpoisson-family">Create the <code>ZeroInflatedPoisson</code> Family</a>
+  <ul class="collapse">
+  <li><a href="#create-the-likelihood" id="toc-create-the-likelihood" class="nav-link" data-scroll-target="#create-the-likelihood">Create the likelihood</a></li>
+  <li><a href="#create-the-link" id="toc-create-the-link" class="nav-link" data-scroll-target="#create-the-link">Create the link</a></li>
+  <li><a href="#create-the-family" id="toc-create-the-family" class="nav-link" data-scroll-target="#create-the-family">Create the family</a></li>
+  </ul></li>
+  <li><a href="#the-simplest-case" id="toc-the-simplest-case" class="nav-link" data-scroll-target="#the-simplest-case">The simplest case</a>
+  <ul class="collapse">
+  <li><a href="#simulate-the-data" id="toc-simulate-the-data" class="nav-link" data-scroll-target="#simulate-the-data">Simulate the data</a></li>
+  <li><a href="#build-and-fit-the-model" id="toc-build-and-fit-the-model" class="nav-link" data-scroll-target="#build-and-fit-the-model">Build and fit the model</a></li>
+  </ul></li>
+  <li><a href="#a-second-example-now-with-a-predictor" id="toc-a-second-example-now-with-a-predictor" class="nav-link" data-scroll-target="#a-second-example-now-with-a-predictor">A second example, now with a predictor</a>
+  <ul class="collapse">
+  <li><a href="#simulate-the-data-1" id="toc-simulate-the-data-1" class="nav-link" data-scroll-target="#simulate-the-data-1">Simulate the data</a></li>
+  <li><a href="#build-and-fit-the-model-again" id="toc-build-and-fit-the-model-again" class="nav-link" data-scroll-target="#build-and-fit-the-model-again">Build and fit the model (again)</a></li>
+  <li><a href="#evaluate-the-inference" id="toc-evaluate-the-inference" class="nav-link" data-scroll-target="#evaluate-the-inference">Evaluate the inference</a></li>
+  <li><a href="#show-off-bambi-a-little-more" id="toc-show-off-bambi-a-little-more" class="nav-link" data-scroll-target="#show-off-bambi-a-little-more">Show-off Bambi a little more</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#tl-dr" id="toc-tl-dr" class="nav-link" data-scroll-target="#tl-dr">TL;DR</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">How to create a custom family in Bambi?</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 14, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Bambi is the project I dedicate the vast majority of my open-source development time. My goal is to make it a little better every time I push to the main branch. Lately I’ve been working to expand the class of models that Bambi supports. Until now, Bambi supported Generalized Linear Mixed Models (GLMMs). After the latest changes<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Bambi supports a wider class known as Generalized Linear Mixed Models for Location, Scale, and Shape. I also like the terminology used in <a href="https://mc-stan.org/users/interfaces/brms">brms</a>, Distributional Models.</p>
+<p>The new additions to the library allow us to work with more flexible custom model families in an easier way. The question is: How to create a custom family in Bambi?</p>
+<p>🚨 You don’t have time or simply don’t want to read the whole thing? Here’s your <a href="#tl-dr">TL;DR</a></p>
+<section id="imports" class="level2">
+<h2 class="anchored" data-anchor-id="imports">Imports</h2>
+<div id="2ae38f65" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> bambi <span class="im">as</span> bmb</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bambi.plots <span class="im">import</span> plot_cap</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.lines <span class="im">import</span> Line2D</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> expit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-zero-inflated-poisson-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="the-zero-inflated-poisson-distribution">The Zero-Inflated Poisson distribution</h2>
+<p>I’m going to use the Zero-Inflated Poisson distribution to demonstrate how to add a custom family in Bambi. This distribution applies to random variables that show an excess of zeros when describing the number of events that occur in a certain space or time period.</p>
+<p>Quoting Wikipedia <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <em>“The zero-inflated Poisson (ZIP) model mixes two zero generating processes. The first process generates zeros. The second process is governed by a Poisson distribution that generates counts, some of which may be zero”.</em> The result is a mixture distribution that can be described as follows:</p>
+<p><span class="math display">\[
+\begin{array}{ll}
+P(Y = 0) = (1 - \psi) + \psi e^{-\mu} \\
+P(Y = y_i) = \displaystyle \psi \frac{e^{-\mu}\mu^y_i}{y_i!} &amp; \text{with } y_i=1,2,3,\ldots
+\end{array}
+\]</span></p>
+<p>Where</p>
+<ul>
+<li><span class="math inline">\(y_i\)</span> is the outcome, <span class="math inline">\(y_i \in \mathbb{Z}^+\)</span></li>
+<li><span class="math inline">\(\mu\)</span> is the mean of the Poisson process, <span class="math inline">\(\mu \ge 0\)</span></li>
+<li><span class="math inline">\(\psi\)</span> is the probability of the Poisson process, <span class="math inline">\(0 &lt; \psi &lt; 1\)</span></li>
+</ul>
+<p>The mean is <span class="math inline">\(\psi\mu\)</span> and the variance is <span class="math inline">\(\displaystyle \mu + \frac{1-\psi}{\psi}\mu^2\)</span>.</p>
+</section>
+<section id="the-zip-regression-model" class="level2">
+<h2 class="anchored" data-anchor-id="the-zip-regression-model">The ZIP Regression model</h2>
+<p>We have a response variable <span class="math inline">\(Y\)</span>, which represents the number of events that occur in a certain space or time period, and <span class="math inline">\(p\)</span> predictors <span class="math inline">\(X_1, \cdots, X_p\)</span>. In the most general formulation of the model we consider, a function of the parameters in the response distribution is given by a linear combination of the predictors.</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_i &amp;\sim \text{ZIPoisson}(\mu_i, \psi_i) \\
+g(\mu_i) &amp;= \beta_0 + \beta_1 X_{1i} + ... + \beta_p X_{pi}\\
+h(\psi_i) &amp;= \alpha_0 + \alpha_1 X_{1i} + ... + \alpha_p X_{pi}
+\end{aligned}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(g\)</span> is the link function for the <span class="math inline">\(\mu\)</span> parameter</li>
+<li><span class="math inline">\(h\)</span> is the link function for the <span class="math inline">\(\psi\)</span> parameter</li>
+</ul>
+<p>It’s possible to see this model written as</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_i &amp;\sim \text{ZIPoisson}(\mu_i, \psi_i) \\
+\mu_i &amp;= g^{-1}(\beta_0 + \beta_1 X_{1i} + ...) \\
+\psi_i &amp;= h^{-1}(\alpha_0 + \alpha_1 X_{1i} + ...)
+\end{aligned}
+\]</span></p>
+<p>where the requirement that <span class="math inline">\(g\)</span> and <span class="math inline">\(h\)</span> are both invertible becomes evident.</p>
+</section>
+<section id="create-the-zeroinflatedpoisson-family" class="level2">
+<h2 class="anchored" data-anchor-id="create-the-zeroinflatedpoisson-family">Create the <code>ZeroInflatedPoisson</code> Family</h2>
+<p>It comes one of the most important parts of the blogpost. If you care about creating new model families, this is what you need. Spoiler: it’s very easy.</p>
+<p>To create a model family, we first need to understand <em>what is</em> a family. A family is an entity that is defined by the combination of two objects</p>
+<ul>
+<li>A <strong>likelihood</strong> function – the probability distribution for the response variable</li>
+<li>A <strong>link</strong> function for the parameters of the likelihood function.</li>
+</ul>
+<p>Each of these three objects have their own class in Bambi. Families are created with the <code>Family</code> class, likelihood functions are created with the <code>Likelihood</code> class, and for link functions, well, we have <code>Link</code>.</p>
+<section id="create-the-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="create-the-likelihood">Create the likelihood</h3>
+<p>Let’s get started with the likelihood function. Here we need:</p>
+<ul>
+<li>The name of the likelihood, which must be a valid PyMC distribution <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></li>
+<li>The names of the parameters in the PyMC distribution</li>
+<li>The identification of a <em>parent</em> or <em>main</em> parameter. In regression settings this is usually the mean</li>
+</ul>
+<p>In our case, we want to use the ZeroInflatedPoisson distribution from PyMC, which has parameters <code>mu</code> and <code>psi</code>, and <code>mu</code> is the parent parameter.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>likelihood <span class="op">=</span> bmb.Likelihood(<span class="st">"ZeroInflatedPoisson"</span>, params<span class="op">=</span>[<span class="st">"mu"</span>, <span class="st">"psi"</span>], parent<span class="op">=</span><span class="st">"mu"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>That’s it! We have our custom likelihood function.</p>
+</section>
+<section id="create-the-link" class="level3">
+<h3 class="anchored" data-anchor-id="create-the-link">Create the link</h3>
+<p>Before telling Bambi which link functions we want for the parameters, we need to choose them. I’m going to use the logarithm function for <span class="math inline">\(\mu\)</span> and the logit function for <span class="math inline">\(\psi\)</span>. In the original formulation of the model we replace <span class="math inline">\(g\)</span> with <span class="math inline">\(\text{log}\)</span> and <span class="math inline">\(h\)</span> with <span class="math inline">\(\text{logit}\)</span>.</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_i &amp;\sim \text{ZIPoisson}(\mu_i, \psi_i) \\
+\text{log}(\mu_i) &amp;= \beta_0 + \beta_1 X_{1i} + ... + \beta_p X_{pi} \\
+\text{logit}(\psi_i) &amp;= \alpha_0 + \alpha_1 X_{1i} + ... + \alpha_p X_{pi}
+\end{aligned}
+\]</span></p>
+<p>Next, we define them in code. Here we could use <code>bmb.Link</code>, but it’s not needed in our case because both the <span class="math inline">\(\text{log}\)</span> and <span class="math inline">\(\text{logit}\)</span> link functions are already implemented in Bambi. We just need to pass their names and Bambi will know how to handle it <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. We create a dictionary where the keys are the names of the parameters and the values are the link functions.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>links <span class="op">=</span> {<span class="st">"mu"</span>: <span class="st">"log"</span>, <span class="st">"psi"</span>: <span class="st">"logit"</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="create-the-family" class="level3">
+<h3 class="anchored" data-anchor-id="create-the-family">Create the family</h3>
+<p>Finally we can put the pieces together to create the family. Here we have all the code again so we see how simple it is. Notice we need to give the family a name. We can pass whatever we want here.</p>
+<div id="aab2b373" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>likelihood <span class="op">=</span> bmb.Likelihood(<span class="st">"ZeroInflatedPoisson"</span>, params<span class="op">=</span>[<span class="st">"mu"</span>, <span class="st">"psi"</span>], parent<span class="op">=</span><span class="st">"mu"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>links <span class="op">=</span> {<span class="st">"mu"</span>: <span class="st">"log"</span>, <span class="st">"psi"</span>: <span class="st">"logit"</span>}</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>zip_family <span class="op">=</span> bmb.Family(<span class="st">"zip"</span>, likelihood, links)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>zip_family</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>Family: zip
+Likelihood: Likelihood(  
+  name: ZeroInflatedPoisson,
+  params: ['mu', 'psi'],
+  parent: mu
+)
+Link: {'mu': Link(  
+  name: log,
+  link: &lt;ufunc 'log'&gt;,
+  linkinv: &lt;ufunc 'exp'&gt;
+), 'psi': Link(  
+  name: logit,
+  link: &lt;function logit at 0x7f2fecbb7880&gt;,
+  linkinv: &lt;function expit at 0x7f2fecbb77f0&gt;
+)}</code></pre>
+</div>
+</div>
+<p>When we print the family we get information about the name, the likelihood, and the links. It contains many details for the link functions, but they’re not important now <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</p>
+<p>Now that we have our brand new custom family, it’s time to test it!</p>
+</section>
+</section>
+<section id="the-simplest-case" class="level2">
+<h2 class="anchored" data-anchor-id="the-simplest-case">The simplest case</h2>
+<p>We need some data to use our new family. How can we get it? Simulation!</p>
+<p>Here we consider the case where we obtain samples from <strong>a single ZIPoisson distribution</strong>. There are no predictors that allow us to distinguish observations. Both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\psi\)</span> are the same for all observations.</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_i &amp;\sim \text{ZIPoisson}(\mu, \psi) \\
+\mu &amp;\sim \text{Some prior} \\
+\psi &amp;\sim \text{Some prior}
+\end{aligned}
+\]</span></p>
+<section id="simulate-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="simulate-the-data">Simulate the data</h3>
+<p>To simulate draws from this ZIPoisson distribution we can use plain NumPy in a very a manual way, simply concatenate a bunch of zeros to an array with draws from a Poisson distribution and we’re done.</p>
+<div id="7d6fcc62" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">121195</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.concatenate([np.zeros(<span class="dv">250</span>), rng.poisson(lam<span class="op">=</span><span class="dv">3</span>, size<span class="op">=</span><span class="dv">750</span>)])</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">"response"</span>: x})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s explore the data now. A simple barchart is enough to get the information we need.</p>
+<div id="b08917d9" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Definetely, it looks like a Poisson distribution but the bar at zero is unusually high, indicating excess of zeros or zero-inflation.</p>
+</section>
+<section id="build-and-fit-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="build-and-fit-the-model">Build and fit the model</h3>
+<p>Without much preamble we’re going to build the model. In this basic model we don’t have predictors for any of the parameters. This means we specify an intercept-only model for <span class="math inline">\(\mu\)</span>, and a prior distribution for <span class="math inline">\(\psi\)</span>. Here I use a Beta distribution that guarantees the values of <span class="math inline">\(\psi\)</span> are bounded between 0 and 1.</p>
+<div id="ff463924" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>priors <span class="op">=</span> {<span class="st">"psi"</span>: bmb.Prior(<span class="st">"Beta"</span>, alpha<span class="op">=</span><span class="dv">3</span>, beta<span class="op">=</span><span class="dv">3</span>)}</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> bmb.Model(<span class="st">"response ~ 1"</span>, df, family<span class="op">=</span>zip_family, priors<span class="op">=</span>priors)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>       Formula: response ~ 1
+        Family: zip
+          Link: mu = log
+  Observations: 1000
+        Priors: 
+    target = mu
+        Common-level effects
+            Intercept ~ Normal(mu: 0.0, sigma: 2.5)
+        
+        Auxiliary parameters
+            response_psi ~ Beta(alpha: 3.0, beta: 3.0)</code></pre>
+</div>
+</div>
+<p>And now… let’s get the sampler running!</p>
+<div id="18327ad6" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> model.fit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (2 chains in 2 jobs)
+NUTS: [response_psi, Intercept]
+Sampling 2 chains for 1_000 tune and 1_000 draw iterations (2_000 + 2_000 draws total) took 6 seconds.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+    <div>
+      <progress value="4000" class="" max="4000" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.00% [4000/4000 00:05&lt;00:00 Sampling 2 chains, 0 divergences]
+    </div>
+    
+</div>
+</div>
+<p>It worked fast, without warnings or errors, I would say that’s a great start. The next question is: does the fit make sense? I’m not going to investigate it thoroughly now. A visualization of the posterior predictive distribution will be enough.</p>
+<div id="4658b537" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>model.predict(idata, kind<span class="op">=</span><span class="st">"pps"</span>) <span class="co"># get draws from the posterior predictive distribution</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(idata)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Awesome! Feels like magic. We created a custom family and it just… worked.</p>
+</section>
+</section>
+<section id="a-second-example-now-with-a-predictor" class="level2">
+<h2 class="anchored" data-anchor-id="a-second-example-now-with-a-predictor">A second example, now with a predictor</h2>
+<p>Let’s keep testing our <code>zip</code> family. Now we’re going to simulate data again. This time we have a numerical predictor that is related with both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\psi\)</span>.</p>
+<p>The model is</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_i &amp;\sim \text{ZIPoisson}(\mu_i, \psi_i) \\
+\text{log}(\mu_i) &amp;= \beta_0 + \beta_1 X_{1i} \\
+\text{logit}(\psi_i) &amp;= \alpha_0 + \alpha_1 X_{1i}
+\end{aligned}
+\]</span></p>
+<p>but we first need the data…</p>
+<section id="simulate-the-data-1" class="level3">
+<h3 class="anchored" data-anchor-id="simulate-the-data-1">Simulate the data</h3>
+<p>This time we use NumPy to generate random values for the predictor, but we use <code>pm.draw()</code> to get draws from a <code>ZeroInflatedPoisson</code> distribution.</p>
+<div id="0a9e057f" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">121195</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.sort(rng.uniform(<span class="fl">0.2</span>, <span class="dv">3</span>, size<span class="op">=</span><span class="dv">1000</span>))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>b0, b1 <span class="op">=</span> <span class="fl">0.2</span>, <span class="fl">0.9</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>a0, a1 <span class="op">=</span> <span class="fl">2.5</span>, <span class="op">-</span><span class="fl">0.7</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> np.exp(b0 <span class="op">+</span> b1 <span class="op">*</span> x)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>psi <span class="op">=</span> expit(a0 <span class="op">+</span> a1 <span class="op">*</span> x)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> pm.draw(pm.ZeroInflatedPoisson.dist(mu<span class="op">=</span>mu, psi<span class="op">=</span>psi))</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">"y"</span>: y, <span class="st">"x"</span>: x})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Visualizations are the key to understand how the predictor is associated with the parameters of the likelihood.</p>
+<div id="7a1eccc5" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here we have two main takeaways</p>
+<ul>
+<li>The mean of the Poisson process increases with the value of the predictor</li>
+<li>The importance of the Poisson process in the mixture decreases with the value of the predictor</li>
+</ul>
+<p>Finally, why not displaying the observations in a scatterplot of the predictor versus the response.</p>
+<div id="0624fe34" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>See how the response values tend to increase as the predictor is larger, but also it tends to be more observations with a zero count.</p>
+</section>
+<section id="build-and-fit-the-model-again" class="level3">
+<h3 class="anchored" data-anchor-id="build-and-fit-the-model-again">Build and fit the model (again)</h3>
+<p>It’s time to define the new model. Since we model both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\psi\)</span> components as a function of the predictor, they both need a model formula. This is when we use <code>bmb.Formula()</code>. The first formula is the one for the <code>parent</code> parameter, which is <span class="math inline">\(\mu\)</span>, and the following formulas are for the non-parent parameters. In this case, we only have <span class="math inline">\(\psi\)</span>. Finally notice we don’t need to create the family again, we just reuse it.</p>
+<div id="0c0c4ea3" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> bmb.Formula(<span class="st">"y ~ x"</span>, <span class="st">"psi ~ x"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> bmb.Model(formula, df, family<span class="op">=</span>zip_family)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>       Formula: y ~ x
+                psi ~ x
+        Family: zip
+          Link: mu = log
+                psi = logit
+  Observations: 1000
+        Priors: 
+    target = mu
+        Common-level effects
+            Intercept ~ Normal(mu: 0.0, sigma: 5.7176)
+            x ~ Normal(mu: 0.0, sigma: 3.0682)
+    target = psi
+        Common-level effects
+            psi_Intercept ~ Normal(mu: 0.0, sigma: 1.0)
+            psi_x ~ Normal(mu: 0.0, sigma: 1.0)</code></pre>
+</div>
+</div>
+<p>The model summary contains so much information. It shows the priors for the parameters in the linear predictors of both parameters in different sections. First we have the priors for <code>mu</code> below <code>target = mu</code>, and then the priors for <code>psi</code> below <code>target = psi</code>.</p>
+<p>It’s also helpful to show a graph representation of the model.</p>
+<div id="eb20e79b" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>model.build()</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>model.graph()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-13-output-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Model fitting is the same way as always.</p>
+<div id="3d73acec" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> model.fit(random_seed<span class="op">=</span><span class="dv">121195</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (2 chains in 2 jobs)
+NUTS: [Intercept, x, psi_Intercept, psi_x]
+Sampling 2 chains for 1_000 tune and 1_000 draw iterations (2_000 + 2_000 draws total) took 11 seconds.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+    <div>
+      <progress value="4000" class="" max="4000" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.00% [4000/4000 00:10&lt;00:00 Sampling 2 chains, 0 divergences]
+    </div>
+    
+</div>
+</div>
+</section>
+<section id="evaluate-the-inference" class="level3">
+<h3 class="anchored" data-anchor-id="evaluate-the-inference">Evaluate the inference</h3>
+<p>Because it’s a simulated scenario, we know the true parameter values. This allows us to verify if the posteriors are recovering them.</p>
+<div id="d5b2d3bf" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">7</span>), layout<span class="op">=</span><span class="st">"constrained"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    idata,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"Intercept"</span>, <span class="st">"x"</span>, <span class="st">"psi_Intercept"</span>, <span class="st">"psi_x"</span>], </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    ref_val<span class="op">=</span>[b0, b1, a0, a1],</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span>axes</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Great news! The true values are contained with the 94% HDIs, meaning the model and the inference process is able to recover true parameter values.</p>
+</section>
+<section id="show-off-bambi-a-little-more" class="level3">
+<h3 class="anchored" data-anchor-id="show-off-bambi-a-little-more">Show-off Bambi a little more</h3>
+<p>Before concluding I would like to show-off another function I’ve been working recently, <code>plot_cap()</code>. This function allows us to see how a model parameter evolves as we change values of one or more predictors. It’s so flexible we can get plots for both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\psi\)</span>.</p>
+<div id="e6784d54" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>plot_cap(model, idata, <span class="st">"x"</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>]) <span class="co"># By default it plots the "parent" parameter</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>plot_cap(model, idata, <span class="st">"x"</span>, target<span class="op">=</span><span class="st">"psi"</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(x, mu, color<span class="op">=</span><span class="st">"black"</span>, ls<span class="op">=</span><span class="st">"--"</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(x, psi, color<span class="op">=</span><span class="st">"black"</span>, ls<span class="op">=</span><span class="st">"--"</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">"Predictor"</span>, size<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">"Predictor"</span>, size<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">"$</span><span class="ch">\\</span><span class="st">mu$"</span>, size<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">"$</span><span class="ch">\\</span><span class="st">psi$"</span>, size<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>handles <span class="op">=</span> [Line2D([], [], color<span class="op">=</span><span class="st">"black"</span>, ls<span class="op">=</span><span class="st">"--"</span>), Line2D([], [], color<span class="op">=</span><span class="st">"C0"</span>)]</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> (<span class="st">"True"</span>, <span class="st">"Estimate"</span>)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].legend(handles, labels, loc<span class="op">=</span><span class="st">"upper left"</span>)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].legend(handles, labels, loc<span class="op">=</span><span class="st">"upper right"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Notice the majority of the code handles Matplotlib specific details. To get the estimated lines and the credible bands we used the same one-liner twice, <code>plot_cap()</code>, and it did the magic for us.</p>
+<p>Leaving that parise aside, this is a different way to see the model is recovering parameters very well. We can compare the estimated curves for both parameters with the real ones, and see they’re so close.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>We work a lot to make Bambi as flexible as possible, without asking users to do too much on their end. I think custom families is a subject where all the work starts to pay off. In this blogpost we were able to define a custom family in just three lines of code (!). What’s more, we got so many things for free in exchange for our effort. To mention a few</p>
+<ul>
+<li>Compute the posterior distribution of parameters of the response distribution
+<ul>
+<li>This works for both in-sample and out-of-sample data</li>
+</ul></li>
+<li>Compute the posterior predictive distribution
+<ul>
+<li>Also works for in-sample or out-of-sample data</li>
+</ul></li>
+<li>Out of the box visualizations to evaluate model fit</li>
+<li>No need to write any PyMC code or low-level code</li>
+</ul>
+<p>I hope you found this writeup useful and needless to say I’m happy to collect feedback, suggestions, and questions.</p>
+</section>
+<section id="tl-dr" class="level2">
+<h2 class="anchored" data-anchor-id="tl-dr">TL;DR</h2>
+<p>If you want a custom family you need to</p>
+<ul>
+<li>Create a Likelihood instance</li>
+<li>Define link functions</li>
+<li>Use them to instantiate a Family object</li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>likelihood <span class="op">=</span> bmb.Likelihood(<span class="st">"ZeroInflatedPoisson"</span>, params<span class="op">=</span>[<span class="st">"mu"</span>, <span class="st">"psi"</span>], parent<span class="op">=</span><span class="st">"mu"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>links <span class="op">=</span> {<span class="st">"mu"</span>: <span class="st">"log"</span>, <span class="st">"psi"</span>: <span class="st">"logit"</span>}</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>zip_family <span class="op">=</span> bmb.Family(<span class="st">"zero-inflated-poisson"</span>, likelihood, links)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>See the PR <a href="https://github.com/bambinos/bambi/pull/607">#607</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a href="https://en.wikipedia.org/wiki/Zero-inflated_model#Zero-inflated_Poisson">https://en.wikipedia.org/wiki/Zero-inflated_model#Zero-inflated_Poisson</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Custom likelihood functions are also possible but we don’t cover them here<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>It’s possible to create custom link functions with <code>bmb.Link</code> as well<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>If you’re curious, check the docs. If you’re awesome, provide feedback 😄<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright 2024, Tomás Capretto</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

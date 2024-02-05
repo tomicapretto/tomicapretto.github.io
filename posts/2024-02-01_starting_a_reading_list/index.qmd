@@ -1,0 +1,44 @@
+---
+title: "I'm starting a reading list!"
+date: "2024-02-01"
+---
+
+I never considered myself a bookworm. I didn't grow up in a place where reading was 
+encouraged nor am I talking about books with people all the time, 
+at least not to the extent that some friends do.
+
+Being connected with so many people that always share excellent reading recommendations 
+is great, but it has its downsides. In my case, I started to feel I was falling behind. 
+Stumbling upon countless must read books is as exciting as overwhelming.
+
+It didn't take me long to realize that I actually read a significant amount of books, 
+of all kinds, and that I shouldn't feel so bad for not being able to read everything. 
+At the end of the day, out of the multitude of titles that are released every year our 
+finite time allows us to read only a bunch of them.
+
+The next question I asked myself was whether I read more books on statistics than on other
+topics. Curiously, a first review of the latest books led me to conclude that most of the 
+books I read have nothing to do with statistics. No shame in that, I really enjoy them.
+
+At the same time I was doing this mental exercise, I realized it would be nice to keep a 
+list of the books I read. Until now, I always had to have a look at my bookshelf to become
+aware of the books I read over time. 
+
+I can only imagine positive outcomes for a reading list. It will make my reading be 
+more organized, consistent, and, why not, prolific. Also, it will be fun to see the 
+evolution of my reading habits over time and share it with others.
+
+So officially, today, I'm starting [a reading list](../../reading.qmd)! 
+
+```{r}
+#| echo: false
+caption <- "Photo by <a href='https://unsplash.com/aaronburden'>Aaron Burden</a> on <a href='https://unsplash.com/photos/6jYoil2GhVk'>Unsplash</a>"
+```
+
+```{r}
+#| echo: false
+#| out-width: 70%
+#| fig-align: center
+#| fig-cap: !expr caption
+knitr::include_graphics("reading.jpg") 
+```

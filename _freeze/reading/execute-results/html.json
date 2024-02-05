@@ -1,0 +1,15 @@
+{
+  "hash": "df5f11964b2ea44e044cf04bce51ecd5",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"What I read 📖\" \ntoc: false\n---\n\n\nand what I want to read...\n\n\n::: {.cell}\n\n```{.r .cell-code}\nmake_unsplash_caption <- function(author, handle, code, msg = \"\") {\n    template <- paste(\n        msg,\n        \"Foto de <a href='https://unsplash.com/%s'>%s</a>\",\n        \"en <a href='https://unsplash.com/photos/%s'>Unsplash</a>\"\n    )\n    return(sprintf(template, handle, author, code))\n}\n```\n:::\n\n\n## In progress\n\n\n## 2024\n\n- [Rosario: La historia detrás de la mafia narco que se adueñó de la ciudad](https://www.penguinlibros.com/ar/biografias/336529-libro-rosario-9789500769815).<br> Germán de los Santos, Hernán Lascano (2023)\n- [El Nudo: Por qué el conurbano bonaerense modela la política argentina](https://www.planetadelibros.com/libro-el-nudo/375124).<br> Carlos Pagni (2023)\n\n\n---\n\nIf you want to know why I created this list, check [I'm starting a reading list!](posts/2024-02-01_starting_a_reading_list/index.qmd).\n\nIf you want my opinion on some title, make any recommendation, or simply discuss about some book, just reach me out by e-mail.",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
