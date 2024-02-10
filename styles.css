@@ -140,10 +140,9 @@ div.quarto-about-jolla .about-link:hover {
 /*
 Without this the 'about' is in the very bottom of the page
 */
-.page-columns .content {
+div.quarto-about-solana.column-body.content {
     grid-row: auto !important;
 }
-
 
 figure figcaption {     
     text-align: center;  
