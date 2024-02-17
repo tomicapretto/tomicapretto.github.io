@@ -1,9 +1,7 @@
 ---
-title: "What I read 📖" 
+title: "Reading 📖" 
 toc: false
 ---
-
-And what I want to read...
 
 ---
 
@@ -11,58 +9,107 @@ If you want to know why I created this list, check [I'm starting a reading list!
 
 If you want my opinion on some title, make any recommendation, or simply discuss about some book, just reach me out by e-mail.
 
-**NOTE** This is not fully done yet. 
-
 ---
+
+```{r}
+#| echo: false
+library(htmltools)
+
+generate_book_card <- function(title, subtitle, author, img_source) {
+    tags$div(
+        class = "book-card",
+        tags$img(
+            src = img_source
+            #, style = "border: solid 1px red;"
+        ),
+        tags$div(
+            class = "book-card-content",
+            #style = "border: solid 1px red ;",
+            tags$div(
+                tags$h3(title, class = "card-title"),
+                tags$p(subtitle),
+                class = "book-header"
+            ),
+            tags$p(author, class = "book-author")
+        )
+    )
+}
+data <- jsonlite::read_json(here::here("data", "readings.json"))
+```
+
 
 ## In progress
 
-Nothing for now!
 
-## Non-technical
+```{r}
+#| echo: false
+#| results: asis
+data_wip <- list()
+for (i in seq_along(data)) {
+    entry <- data[[i]]
+    if (entry$year_read == "wip") {
+        data_wip <- c(data_wip, list(entry))
+    }
+}
 
-### 2024
+output <- lapply(
+    data_wip,
+    function(entry) {
+        as.character(
+            generate_book_card(
+                entry$title,
+                entry$subtitle,
+                entry$author,
+                paste0("data/books/", entry$cover)
+            )
+        )
+    }
+)
 
-- [Rosario: La historia detrás de la mafia narco que se adueñó de la ciudad](https://www.penguinlibros.com/ar/biografias/336529-libro-rosario-9789500769815).<br> Germán de los Santos, Hernán Lascano (2023)
-- [El Nudo: Por qué el conurbano bonaerense modela la política argentina](https://www.planetadelibros.com/libro-el-nudo/375124).<br> Carlos Pagni (2023)
-
-### 2023
-
-- [Gallardo Eterno: Últimos 4 años y balance de una historia hermosísima](https://www.penguinlibros.com/ar/tiempo-libre/327302-libro-gallardo-eterno-9789877353242).<br> Diego Borinsky (2023)
-- [Téngase Presente: El mundo según Carlos Maslatón](https://tienda.planetadelibros.com.ar/products/tengase-presente). <br> Carlos Maslatón (2023)
-- [Born](https://www.google.com.ar/books/edition/BORN/ViL8CAAAQBAJ).<br> Maria O' Donnell (2015)
-- [El Jefe: Vida y Obra de Carlos Saúl Menem](https://gabrielacerruti.com.ar/portfolio_page/el-jefe-vida-y-obra-de-carlos-saul-menem/). <br> Gabriela Cerruti (1993)
-- [La ciencia de las (buenas) ideas](https://sigloxxieditores.com.ar/libro/la-ciencia-de-las-buenas-ideas/). <br> Diego Golombek (2022)
-
-### 2022
-
-- [Repartir el pastel](https://www.google.com.ar/books/edition/Repartir_el_pastel/q5bQEAAAQBAJ). <br> Barry Nalebuff (2022)
-- [En Corea del Norte](https://www.penguinlibros.com/ar/economia-politica-y-actualidad/157126-libro-en-corea-del-norte-9789873752964). <br> Florencia Grieco (2018)
-- [El fútbol según Bielsa](https://www.penguinlibros.com/ar/tiempo-libre/258875-libro-el-futbol-segun-bielsa-9789877352597). <br> Salim Lamrani (2021)
-- [El mundo ha vivido equivocado y otros cuentos](https://www.planetadelibros.com.ar/libro-el-mundo-ha-vivido-equivocado-ne/355260). <br> Roberto Fontanarrosa (TBD)
+output <- c("<div class = 'books-listing'>", output, "</div>")
+cat(
+    "```{=html}\n", 
+    paste(output, collapse="\n"), 
+    "\n```"
+)
+```
 
 
-### 2019
+## General
 
-- [Gallardo Monumental](https://www.penguinlibros.com/ar/tiempo-libre/162489-ebook-gallardo-monumental-9789877351248). <br> Diego Borinsky (2015)
-- [Gallardo Eterno](https://www.penguinlibros.com/ar/biografias/162765-libro-gallardo-recargado-9789877352221). <br> Diego Borinsky (2019)
-- [En defensa del modelo](https://www.penguinlibros.com/ar/economia-politica-y-actualidad/145501-libro-en-defensa-del-modelo-9789500758437). <br> Guillermo Moreno (2017)
-- [El último teorema de Fermat](https://www.cianavierailimitada.com/productos/el-ultimo-teorema-de-fermat-simon-singh/). <br> Simon Singh
-- [You Look Like a Thing and I Love You](https://books.google.com.ar/books/about/You_Look_Like_a_Thing_and_I_Love_You.html?id=9kOezQEACAAJ). <br> Janelle Shane (2019)
-- [Big data](https://www.google.com.ar/books/edition/_/wm7ADwAAQBAJ). <br> Walter Sosa Escudero (2019)
+```{r}
+#| echo: false
+#| results: asis
 
-### 2018
+data_done <- list()
+for (i in seq_along(data)) {
+    entry <- data[[i]]
+    if (entry$year_read != "wip") {
+        data_done <- c(data_done, list(entry))
+    }
+}
 
-- [Qué es (y qué no es) la estadística](https://www.google.com.ar/books/edition/_/lrIDoQEACAAJ). <br> Walter Sosa Escudero (2014)
-- [¡7500 millones de personas! ¿qué es y para qué sirve la demografía?](https://sigloxxieditores.com.ar/libro/7500-millones-de-personas/). <br> Jorge Paz (2018)
-- [El barman científico](https://sigloxxieditores.com.ar/libro/el-barman-cientifico/). <br> Facundo Di Génova (2016).
-- [El personal trainer científico](https://sigloxxieditores.com.ar/libro/el-personal-trainer-cientifico/). <br> Germán Laurora (2013)
+output <- lapply(
+    data_done,
+    function(entry) {
+        as.character(
+            generate_book_card(
+                entry$title,
+                entry$subtitle,
+                entry$author,
+                paste0("data/books/", entry$cover)
+            )
+        )
+    }
+)
 
-### Earlier...
-
-- [Una realidad aparte](https://books.google.com.ar/books/about/Una_realidad_aparte.html?id=Gc9XxgEACAAJ). <br> Carlos Castañeda (1974)
-- [Ficciones](https://books.google.com.ar/books?id=LY9dAAAAMAAJ). <br> Jorge Luis Borges (1944)
-
+output <- c("<div class = 'books-listing'>", output, "</div>")
+cat(
+    "```{=html}\n", 
+    paste(output, collapse="\n"), 
+    "\n```"
+)
+```
 
 ## Technical
 

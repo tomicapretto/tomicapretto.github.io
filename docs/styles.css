@@ -147,3 +147,77 @@ div.quarto-about-solana.column-body.content {
 figure figcaption {     
     text-align: center;  
 }
+
+.books-listing {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.book-card {
+    display: flex;
+    gap: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;     
+    border: 1px solid hsl(0, 0%, 75%);
+    border-radius: 5px;
+    box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+    /*cursor: pointer;*/
+    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), 
+                .3s box-shadow,
+                .3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+}
+
+.book-card:hover {
+    transform: scale(1.005);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+
+.book-card img {
+    width: 4.5rem;
+    border: 1px solid hsl(0, 0%, 60%);
+    border-radius: 4px;
+}
+
+.book-card h3 {
+    margin-top: 0;
+}
+
+.book-card  book-header p {
+    margin-bottom: 0.5rem;
+}
+
+.book-header {
+    flex: 1;
+}
+
+.book-author {
+    margin-bottom: 0rem !important;
+    font-weight: 600;
+}
+
+.book-card-content {
+    display: flex; 
+    flex-direction: column; 
+    margin: 0;
+    flex: 1;
+}
+
+/*
+    .two-column-layout {
+        display:block ;
+    }
+
+    .two-column-layout > * {
+        padding: 1rem;
+    }
+
+    @media (min-width: 768px) {
+        .two-column-layout {
+            display:grid; 
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+*/

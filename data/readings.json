@@ -1,0 +1,194 @@
+[
+    {
+        "title": "Téngase presente",
+        "subtitle": "El mundo según Carlos Maslatón",
+        "author": "Carlos Maslatón",
+        "year_book": "2023",
+        "year_read": "2023",
+        "cover": "tengase_presente.png"
+    },
+    {
+        "title": "Rosario",
+        "subtitle": "La historia detrás de la mafia narco que se adueñó de la ciudad",
+        "author": "Germán de los Santos, Hernán Lascano",
+        "year_book": "2023",
+        "year_read": "2024",
+        "cover": "rosario.png"
+    },
+    {
+        "title": "El nudo",
+        "subtitle": "Por qué el conurbano bonaerense modela la política argentina",
+        "author": "Carlos Pagni",
+        "year_book": "2023",
+        "year_read": "2024",
+        "cover": "el_nudo.png"
+    },
+    {
+        "title": "Gallardo eterno",
+        "subtitle": "Últimos 4 años y balance de una historia hermosísima",
+        "author": "Diego Borinsky",
+        "year_book": "2023",
+        "year_read": "2023",
+        "cover": "gallardo_eterno.webp"
+    },
+    {
+        "title": "Born",
+        "subtitle": "",
+        "author": "Maria O' Donnell",
+        "year_book": "2023",
+        "year_read": "2015",
+        "cover": "born.webp"
+    },
+    {
+        "title": "El jefe",
+        "subtitle": "Vida y obra del doctor Carlos Saúl Menem",
+        "author": "Gabriela Cerruti",
+        "year_book": "XXX",
+        "year_read": "2015",
+        "cover": "el_jefe.jpg"
+    },
+    {
+        "title": "La ciencia de las buenas ideas",
+        "subtitle": "Manual de evidencias para la creatividad, la innovación y el pensamiento disruptivo",
+        "author": "Diego Golombek",
+        "year_book": "2022",
+        "year_read": "2023",
+        "cover": "ciencia_de_las_buenas_ideas.jpg"
+    },
+    {
+        "title": "Repartir el pastel",
+        "subtitle": "Una manera radical de negociar",
+        "author": "Barry Nalebuff",
+        "year_book": "2022",
+        "year_read": "2022",
+        "cover": "repartir_el_pastel.webp"
+    },
+    {
+        "title": "En Corea del Norte",
+        "subtitle": "Viaje a la última dinastía comunista",
+        "author": "Florencia Grieco",
+        "year_book": "2018",
+        "year_read": "2022",
+        "cover": "en_corea_del_norte.webp"
+    },
+    {
+        "title": "El fútbol según Bielsa",
+        "subtitle": "La extraordinaria epopeya en el Leeds United",
+        "author": "Salim Lamrani",
+        "year_book": "2021",
+        "year_read": "2022",
+        "cover": "el_futbol_segun_bielsa.webp"
+    },
+    {
+        "title": "El mundo ha vivido equivocado y otros cuentos",
+        "subtitle": "Biblioteca Fontanarrosa",
+        "author": "Roberto Fontanarrosa",
+        "year_book": "2013",
+        "year_read": "2022",
+        "cover": "el_mundo_ha_vivido_equivocado.webp"
+    },
+    {
+        "title": "Gallardo monumental",
+        "subtitle": "Vida, pensamiento y método de un líder",
+        "author": "Diego Borinsky",
+        "year_book": "2015",
+        "year_read": "2019",
+        "cover": "gallardo_monumental.webp"
+    },
+    {
+        "title": "Gallardo recargado",
+        "subtitle": "Tres años inolvidables y una final soñada",
+        "author": "Diego Borinsky",
+        "year_book": "2019",
+        "year_read": "2019",
+        "cover": "gallardo_recargado.webp"
+    },
+    {
+        "title": "En defensa del modelo",
+        "subtitle": "",
+        "author": "Guillermo Moreno",
+        "year_book": "2017",
+        "year_read": "2019",
+        "cover": "en_defensa_del_modelo.jpg"
+    },
+    {
+        "title": "En último teorema de Fermat",
+        "subtitle": "La aventura matemática mas grande de todos los tiempos",
+        "author": "Simon Singh",
+        "year_book": "2017",
+        "year_read": "XXX",
+        "cover": "el_ultimo_teorema_de_fermat.webp"
+    },
+    {
+        "title": "You look like a thing and I love you",
+        "subtitle": "How artificial intelligence works and why it's making the world a weirder place",
+        "author": "Janelle Shane",
+        "year_book": "2019",
+        "year_read": "2019",
+        "cover": "you_look_like_a_thing.jpg"
+    },
+    {
+        "title": "Big data",
+        "subtitle": "Breve manual para conocer la ciencia de datos que ya invadió nuestras vidas",
+        "author": "Walter Sosa Escudero",
+        "year_book": "2019",
+        "year_read": "2019",
+        "cover": "big_data.jpg"
+    },
+    {
+        "title": "Qué es (y que no es) la estadística",
+        "subtitle": "Usos y abusos de una disciplina clave en la vida de los países y las personas",
+        "author": "Walter Sosa Escudero",
+        "year_book": "2014",
+        "year_read": "2018",
+        "cover": "que_es_y_que_no_es_la_estadistica.webp"
+    },
+    {
+        "title": "¡7500 millones de personas!",
+        "subtitle": "¿Qué es y para qué sirve la demografía?",
+        "author": "Jorge Paz",
+        "year_book": "2018",
+        "year_read": "2018",
+        "cover": "7500_millones.jpg"
+    },
+    {
+        "title": "El barman científico",
+        "subtitle": "Tratado de alcohología",
+        "author": "Facundo Di Genova",
+        "year_book": "2016",
+        "year_read": "2018",
+        "cover": "el_barman_cientifico.jpg"
+    },
+    {
+        "title": "El personal trainer científico",
+        "subtitle": "Todo lo que hay que saber para lucir un cuerpo esbelto y saludable",
+        "author": "Germán Laurora",
+        "year_book": "2013",
+        "year_read": "2018",
+        "cover": "el_personal_trainer_cientifico.jpg"
+    },
+    {
+        "title": "Una realidad aparte",
+        "subtitle": "",
+        "author": "Carlos Castaneda",
+        "year_book": "",
+        "year_read": "2017",
+        "cover": "una_realidad_aparte.webp"
+    },
+    {
+        "title": "Ficciones",
+        "subtitle": "",
+        "author": "Jorge Luis Borges",
+        "year_book": "",
+        "year_read": "2018",
+        "cover": "ficciones.jpeg"
+    },
+    {
+        "title": "Conurbano salvaje",
+        "subtitle": "Relatos extraordinarios sobre un territorio en el que se juega el destino de la Argentina",
+        "author": "Carlos M. Reymundo Roberts, Daniel Bilotta",
+        "year_book": "2023",
+        "year_read": "wip",
+        "cover": "conurbano_salvaje.webp"
+    }
+]
