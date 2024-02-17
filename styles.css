@@ -176,9 +176,15 @@ figure figcaption {
 }
 
 .book-card img {
+    height: auto;
     width: 4.5rem;
     border: 1px solid hsl(0, 0%, 60%);
     border-radius: 4px;
+}
+
+.book-card .img-container {
+    display: flex;
+    align-items: center;
 }
 
 .book-card h3 {
@@ -204,6 +210,8 @@ figure figcaption {
     margin: 0;
     flex: 1;
 }
+
+
 
 /*
     .two-column-layout {

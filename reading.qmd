@@ -18,8 +18,9 @@ library(htmltools)
 generate_book_card <- function(title, subtitle, author, img_source) {
     tags$div(
         class = "book-card",
-        tags$img(
-            src = img_source
+        tags$div(
+            class = "img-container",
+            tags$img(src = img_source),
             #, style = "border: solid 1px red;"
         ),
         tags$div(
