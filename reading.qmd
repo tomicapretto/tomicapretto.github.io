@@ -35,82 +35,67 @@ generate_book_card <- function(title, subtitle, author, img_source) {
         )
     )
 }
-data <- jsonlite::read_json(here::here("data", "readings.json"))
-```
 
+generate_book_listing <- function(data) {
+    body <- apply(
+        data,
+        1,
+        function(entry) {
+            # Convert df of only one row to a list so `$` works as intended
+            entry <- as.list(entry)
+            as.character(
+                generate_book_card(
+                    entry$title,
+                    entry$subtitle,
+                    entry$author,
+                    paste0("data/books/", entry$cover)
+                )
+            )
+        }
+    )
+    div <- paste(c("<div class = 'books-listing'>", body, "</div>"), collapse="\n")
+    cat("```{=html}\n", div, "\n```")
+}
+
+df_book <- jsonlite::fromJSON(here::here("data", "readings.json"))
+df_book <- dplyr::arrange(df_book, desc(year_book), title)
+```
 
 ## In progress
 
+```{r}
+#| echo: false
+#| results: asis
+df_wip <- df_book[df_book$status == "wip", ]
+if (nrow(df_wip) > 0) {
+    generate_book_listing(df_wip)
+} else {
+    cat("Nothing for now...")
+}
+```
+
+## Books in queue
 
 ```{r}
 #| echo: false
 #| results: asis
-data_wip <- list()
-for (i in seq_along(data)) {
-    entry <- data[[i]]
-    if (entry$year_read == "wip") {
-        data_wip <- c(data_wip, list(entry))
-    }
+df_todo <- df_book[df_book$status == "to do", ]
+if (nrow(df_todo) > 0) {
+    generate_book_listing(df_todo)
+} else {
+    cat("Nothing for now...")
 }
-
-output <- lapply(
-    data_wip,
-    function(entry) {
-        as.character(
-            generate_book_card(
-                entry$title,
-                entry$subtitle,
-                entry$author,
-                paste0("data/books/", entry$cover)
-            )
-        )
-    }
-)
-
-output <- c("<div class = 'books-listing'>", output, "</div>")
-cat(
-    "```{=html}\n", 
-    paste(output, collapse="\n"), 
-    "\n```"
-)
 ```
 
-
-## General
+## Completed books
 
 ```{r}
 #| echo: false
 #| results: asis
-
-data_done <- list()
-for (i in seq_along(data)) {
-    entry <- data[[i]]
-    if (entry$year_read != "wip") {
-        data_done <- c(data_done, list(entry))
-    }
-}
-
-output <- lapply(
-    data_done,
-    function(entry) {
-        as.character(
-            generate_book_card(
-                entry$title,
-                entry$subtitle,
-                entry$author,
-                paste0("data/books/", entry$cover)
-            )
-        )
-    }
-)
-
-output <- c("<div class = 'books-listing'>", output, "</div>")
-cat(
-    "```{=html}\n", 
-    paste(output, collapse="\n"), 
-    "\n```"
-)
+df_done <- df_book[df_book$status == "done", ]  
+generate_book_listing(df_done)
 ```
+
 
 ## Technical
 

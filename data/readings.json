@@ -3,192 +3,288 @@
         "title": "Téngase presente",
         "subtitle": "El mundo según Carlos Maslatón",
         "author": "Carlos Maslatón",
-        "year_book": "2023",
-        "year_read": "2023",
-        "cover": "tengase_presente.png"
+        "year_book": 2023,
+        "year_read": 2023,
+        "cover": "tengase_presente.png",
+        "status": "done"
     },
     {
         "title": "Rosario",
         "subtitle": "La historia detrás de la mafia narco que se adueñó de la ciudad",
         "author": "Germán de los Santos, Hernán Lascano",
-        "year_book": "2023",
-        "year_read": "2024",
-        "cover": "rosario.png"
+        "year_book": 2023,
+        "year_read": 2024,
+        "cover": "rosario.png",
+        "status": "done"
     },
     {
         "title": "El nudo",
         "subtitle": "Por qué el conurbano bonaerense modela la política argentina",
         "author": "Carlos Pagni",
-        "year_book": "2023",
-        "year_read": "2024",
-        "cover": "el_nudo.png"
+        "year_book": 2023,
+        "year_read": 2024,
+        "cover": "el_nudo.png",
+        "status": "done"
     },
     {
         "title": "Gallardo eterno",
         "subtitle": "Últimos 4 años y balance de una historia hermosísima",
         "author": "Diego Borinsky",
-        "year_book": "2023",
-        "year_read": "2023",
-        "cover": "gallardo_eterno.webp"
+        "year_book": 2023,
+        "year_read": 2023,
+        "cover": "gallardo_eterno.webp",
+        "status": "done"
     },
     {
         "title": "Born",
         "subtitle": "",
-        "author": "Maria O' Donnell",
-        "year_book": "2023",
-        "year_read": "2015",
-        "cover": "born.webp"
+        "author": "María O'Donnell",
+        "year_book": 2015,
+        "year_read": 2023,
+        "cover": "born.webp",
+        "status": "done"
     },
     {
         "title": "El jefe",
         "subtitle": "Vida y obra del doctor Carlos Saúl Menem",
         "author": "Gabriela Cerruti",
-        "year_book": "XXX",
-        "year_read": "2015",
-        "cover": "el_jefe.jpg"
+        "year_book": null,
+        "year_read": 2015,
+        "cover": "el_jefe.jpg",
+        "status": "done"
     },
     {
         "title": "La ciencia de las buenas ideas",
         "subtitle": "Manual de evidencias para la creatividad, la innovación y el pensamiento disruptivo",
         "author": "Diego Golombek",
-        "year_book": "2022",
-        "year_read": "2023",
-        "cover": "ciencia_de_las_buenas_ideas.jpg"
+        "year_book": 2022,
+        "year_read": 2023,
+        "cover": "ciencia_de_las_buenas_ideas.jpg",
+        "status": "done"
     },
     {
         "title": "Repartir el pastel",
         "subtitle": "Una manera radical de negociar",
         "author": "Barry Nalebuff",
-        "year_book": "2022",
-        "year_read": "2022",
-        "cover": "repartir_el_pastel.webp"
+        "year_book": 2022,
+        "year_read": 2022,
+        "cover": "repartir_el_pastel.webp",
+        "status": "done"
     },
     {
         "title": "En Corea del Norte",
         "subtitle": "Viaje a la última dinastía comunista",
         "author": "Florencia Grieco",
-        "year_book": "2018",
-        "year_read": "2022",
-        "cover": "en_corea_del_norte.webp"
+        "year_book": 2018,
+        "year_read": 2022,
+        "cover": "en_corea_del_norte.webp",
+        "status": "done"
     },
     {
         "title": "El fútbol según Bielsa",
         "subtitle": "La extraordinaria epopeya en el Leeds United",
         "author": "Salim Lamrani",
-        "year_book": "2021",
-        "year_read": "2022",
-        "cover": "el_futbol_segun_bielsa.webp"
+        "year_book": 2021,
+        "year_read": 2022,
+        "cover": "el_futbol_segun_bielsa.webp",
+        "status": "done"
     },
     {
         "title": "El mundo ha vivido equivocado y otros cuentos",
         "subtitle": "Biblioteca Fontanarrosa",
         "author": "Roberto Fontanarrosa",
-        "year_book": "2013",
-        "year_read": "2022",
-        "cover": "el_mundo_ha_vivido_equivocado.webp"
+        "year_book": 2013,
+        "year_read": 2022,
+        "cover": "el_mundo_ha_vivido_equivocado.webp",
+        "status": "done"
     },
     {
         "title": "Gallardo monumental",
         "subtitle": "Vida, pensamiento y método de un líder",
         "author": "Diego Borinsky",
-        "year_book": "2015",
-        "year_read": "2019",
-        "cover": "gallardo_monumental.webp"
+        "year_book": 2015,
+        "year_read": 2019,
+        "cover": "gallardo_monumental.webp",
+        "status": "done"
     },
     {
         "title": "Gallardo recargado",
         "subtitle": "Tres años inolvidables y una final soñada",
         "author": "Diego Borinsky",
-        "year_book": "2019",
-        "year_read": "2019",
-        "cover": "gallardo_recargado.webp"
+        "year_book": 2019,
+        "year_read": 2019,
+        "cover": "gallardo_recargado.webp",
+        "status": "done"
     },
     {
         "title": "En defensa del modelo",
         "subtitle": "",
         "author": "Guillermo Moreno",
-        "year_book": "2017",
-        "year_read": "2019",
-        "cover": "en_defensa_del_modelo.jpg"
+        "year_book": 2017,
+        "year_read": 2019,
+        "cover": "en_defensa_del_modelo.jpg",
+        "status": "done"
     },
     {
         "title": "En último teorema de Fermat",
         "subtitle": "La aventura matemática mas grande de todos los tiempos",
         "author": "Simon Singh",
-        "year_book": "2017",
-        "year_read": "XXX",
-        "cover": "el_ultimo_teorema_de_fermat.webp"
+        "year_book": 2017,
+        "year_read": null,
+        "cover": "el_ultimo_teorema_de_fermat.webp",
+        "status": "done"
     },
     {
         "title": "You look like a thing and I love you",
         "subtitle": "How artificial intelligence works and why it's making the world a weirder place",
         "author": "Janelle Shane",
-        "year_book": "2019",
-        "year_read": "2019",
-        "cover": "you_look_like_a_thing.jpg"
+        "year_book": 2019,
+        "year_read": 2019,
+        "cover": "you_look_like_a_thing.jpg",
+        "status": "done"
     },
     {
         "title": "Big data",
         "subtitle": "Breve manual para conocer la ciencia de datos que ya invadió nuestras vidas",
         "author": "Walter Sosa Escudero",
-        "year_book": "2019",
-        "year_read": "2019",
-        "cover": "big_data.jpg"
+        "year_book": 2019,
+        "year_read": 2019,
+        "cover": "big_data.jpg",
+        "status": "done"
     },
     {
         "title": "Qué es (y que no es) la estadística",
         "subtitle": "Usos y abusos de una disciplina clave en la vida de los países y las personas",
         "author": "Walter Sosa Escudero",
-        "year_book": "2014",
-        "year_read": "2018",
-        "cover": "que_es_y_que_no_es_la_estadistica.webp"
+        "year_book": 2014,
+        "year_read": 2018,
+        "cover": "que_es_y_que_no_es_la_estadistica.webp",
+        "status": "done"
     },
     {
         "title": "¡7500 millones de personas!",
         "subtitle": "¿Qué es y para qué sirve la demografía?",
         "author": "Jorge Paz",
-        "year_book": "2018",
-        "year_read": "2018",
-        "cover": "7500_millones.jpg"
+        "year_book": 2018,
+        "year_read": 2018,
+        "cover": "7500_millones.jpg",
+        "status": "done"
     },
     {
         "title": "El barman científico",
         "subtitle": "Tratado de alcohología",
         "author": "Facundo Di Genova",
-        "year_book": "2016",
-        "year_read": "2018",
-        "cover": "el_barman_cientifico.jpg"
+        "year_book": 2016,
+        "year_read": 2018,
+        "cover": "el_barman_cientifico.jpg",
+        "status": "done"
     },
     {
         "title": "El personal trainer científico",
         "subtitle": "Todo lo que hay que saber para lucir un cuerpo esbelto y saludable",
         "author": "Germán Laurora",
-        "year_book": "2013",
-        "year_read": "2018",
-        "cover": "el_personal_trainer_cientifico.jpg"
+        "year_book": 2013,
+        "year_read": 2018,
+        "cover": "el_personal_trainer_cientifico.jpg",
+        "status": "done"
     },
     {
         "title": "Una realidad aparte",
         "subtitle": "",
         "author": "Carlos Castaneda",
-        "year_book": "",
-        "year_read": "2017",
-        "cover": "una_realidad_aparte.webp"
+        "year_book": null,
+        "year_read": 2017,
+        "cover": "una_realidad_aparte.webp",
+        "status": "done"
     },
     {
         "title": "Ficciones",
         "subtitle": "",
         "author": "Jorge Luis Borges",
-        "year_book": "",
-        "year_read": "2018",
-        "cover": "ficciones.jpeg"
+        "year_book": null,
+        "year_read": 2018,
+        "cover": "ficciones.jpeg",
+        "status": "done"
     },
     {
         "title": "Conurbano salvaje",
         "subtitle": "Relatos extraordinarios sobre un territorio en el que se juega el destino de la Argentina",
         "author": "Carlos M. Reymundo Roberts, Daniel Bilotta",
-        "year_book": "2023",
-        "year_read": "wip",
-        "cover": "conurbano_salvaje.webp"
+        "year_book": 2023,
+        "year_read": 2024,
+        "cover": "conurbano_salvaje.webp",
+        "status": "done"
+    },
+    {
+        "title": "La marroquineria política",
+        "subtitle": "",
+        "author": "Jorge Asís",
+        "year_book": 2006 ,
+        "year_read": null,
+        "cover": "la_marroquineria_politica.jpg",
+        "status": "wip"
+    },
+    {
+        "title": "El loco",
+        "subtitle": "La vida desconocida de Javier Milei y su irrupción en la política argentina",
+        "author": "Juan Luis González",
+        "year_book": 2023,
+        "year_read": null,
+        "cover": "el_loco.png",
+        "status": "wip"
+    },
+    {
+        "title": "Born y Quieto",
+        "subtitle": "La negociación secreta entre el magnate y el montonero",
+        "author": "María O'Donnell",
+        "year_book": 2023,
+        "year_read": null,
+        "cover": "born_y_quieto.jpg",
+        "status": "to do"
+    },
+    {
+        "title": "La última encrucijada",
+        "subtitle": "Los dilemas de la democracia argentina",
+        "author": "Jorge Liotti",
+        "year_book": 2023,
+        "year_read": null,
+        "cover": "la_ultima_encrucijada.jpg",
+        "status": "to do"
+    },
+    {
+        "title": "Desenredar la Argentina",
+        "subtitle": "Diagnósticos y propuestas para quebrar la decadencia",
+        "author": "Luciano Laspina",
+        "year_book": 2023,
+        "year_read": null,
+        "cover": "desenredar_la_argentina.webp",
+        "status": "to do"
+    },
+    {
+        "title": "La vuelta al mundo en 80 días",
+        "subtitle": "",
+        "author": "Jules Verne",
+        "year_book": 2022,
+        "year_read": null,
+        "cover": "la_vuelta_al_mundo_en_80_dias.jpeg",
+        "status": "to do"
+    },
+    {
+        "title": "Nuevas Aguafuertes",
+        "subtitle": "",
+        "author": "Roberto Arlt",
+        "year_book": 1999,
+        "year_read": null,
+        "cover": "nuevas_aguafuertes.webp",
+        "status": "to do"
+    },
+    {
+        "title": "Estos años de gente",
+        "subtitle": "Crónicas desde el borde",
+        "author": "María Victoria Cano",
+        "year_book": 2021,
+        "year_read": null,
+        "cover": "estos_años_de_gente.png",
+        "status": "to do"
     }
 ]
