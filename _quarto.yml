@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 execute:
-  freeze: true
+  freeze: auto
 
 website:
   title: "Tomi Capretto"

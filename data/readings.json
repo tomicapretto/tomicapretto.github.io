@@ -229,9 +229,9 @@
         "subtitle": "La vida desconocida de Javier Milei y su irrupción en la política argentina",
         "author": "Juan Luis González",
         "year_book": 2023,
-        "year_read": null,
+        "year_read": 2024,
         "cover": "el_loco.png",
-        "status": "wip"
+        "status": "done"
     },
     {
         "title": "Born y Quieto",
@@ -285,6 +285,6 @@
         "year_book": 2021,
         "year_read": null,
         "cover": "estos_años_de_gente.png",
-        "status": "to do"
+        "status": "wip"
     }
 ]
