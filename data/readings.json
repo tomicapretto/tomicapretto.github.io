@@ -240,7 +240,7 @@
         "year_book": 2023,
         "year_read": null,
         "cover": "born_y_quieto.jpg",
-        "status": "to do"
+        "status": "wip"
     },
     {
         "title": "La última encrucijada",
@@ -276,7 +276,7 @@
         "year_book": 1999,
         "year_read": null,
         "cover": "nuevas_aguafuertes.webp",
-        "status": "to do"
+        "status": "wip"
     },
     {
         "title": "Estos años de gente",
@@ -285,6 +285,6 @@
         "year_book": 2021,
         "year_read": null,
         "cover": "estos_años_de_gente.png",
-        "status": "wip"
+        "status": "done"
     }
 ]
