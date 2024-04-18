@@ -240,7 +240,7 @@
         "year_book": 2023,
         "year_read": null,
         "cover": "born_y_quieto.jpg",
-        "status": "wip"
+        "status": "done"
     },
     {
         "title": "La última encrucijada",
@@ -286,5 +286,34 @@
         "year_read": null,
         "cover": "estos_años_de_gente.png",
         "status": "done"
+    },
+    {
+        "title": "Liderazgo",
+        "subtitle": "Seis estudios sobre estrategia mundial",
+        "author": "Henry Kissinger",
+        "year_book": 2023,
+        "year_read": null,
+        "cover": "liderazgo.webp",
+        "status": "to do"
+    },
+    {
+        "title": "Pensar rápido, pensar despacio",
+        "subtitle": "",
+        "author": "Daniel Kahneman",
+        "year_book": 2011,
+        "year_read": null,
+        "cover": "pensar_rapido_pensar_despacio.webp",
+        "status": "to do"
+    },
+    {
+        "title": "Los monos",
+        "subtitle": "Historia de la familia narco que transformó a Rosario en un infierno",
+        "author": "Germán de los Santos, Hernán Lascano",
+        "year_book": 2017,
+        "year_read": null,
+        "cover": "los_monos.jpg",
+        "status": "wip"
     }
 ]
+
+

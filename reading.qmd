@@ -85,7 +85,6 @@ if (nrow(df_todo) > 0) {
 } else {
     cat("Nothing for now...")
 }
-
 ```
 
 ## Completed books
