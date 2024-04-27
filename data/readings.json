@@ -249,7 +249,7 @@
         "year_book": 2023,
         "year_read": null,
         "cover": "la_ultima_encrucijada.jpg",
-        "status": "to do"
+        "status": "wip"
     },
     {
         "title": "Desenredar la Argentina",
@@ -312,7 +312,7 @@
         "year_book": 2017,
         "year_read": null,
         "cover": "los_monos.jpg",
-        "status": "wip"
+        "status": "done"
     }
 ]
 
