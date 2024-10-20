@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="dcterms.date" content="2022-06-12">
 
-<title>Tomi Capretto - Hierarchical modeling with the LKJ prior in PyMC</title>
+<title>Hierarchical modeling with the LKJ prior in PyMC – Tomi Capretto</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -34,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -115,7 +115,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -160,7 +160,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -179,7 +179,7 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -225,7 +225,7 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -296,7 +296,7 @@ window.Quarto = {
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -526,8 +526,7 @@ u_{1j} \sim \text{Normal} \left(0, \sigma_{u_1}\right) &amp; \text{for all } j:1
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 2 jobs)
-NUTS: [β0, β1, σ_u0, u0, σ_u1, u1, σ]
-Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 33 seconds.</code></pre>
+NUTS: [β0, β1, σ_u0, u0, σ_u1, u1, σ]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 
@@ -552,14 +551,17 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
     </div>
     
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 33 seconds.</code></pre>
+</div>
 </div>
 <div id="cell-24" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>az.plot_trace(</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    idata_independent, </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"β0"</span>, <span class="st">"β1"</span>, <span class="st">"u0"</span>, <span class="st">"u1"</span>, <span class="st">"σ"</span>, <span class="st">"σ_u0"</span>, <span class="st">"σ_u1"</span>],</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    combined<span class="op">=</span><span class="va">True</span>, </span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    chain_prop<span class="op">=</span>{<span class="st">"ls"</span>: <span class="st">"-"</span>}</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>az.plot_trace(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    idata_independent, </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"β0"</span>, <span class="st">"β1"</span>, <span class="st">"u0"</span>, <span class="st">"u1"</span>, <span class="st">"σ"</span>, <span class="st">"σ_u0"</span>, <span class="st">"σ_u1"</span>],</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    combined<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    chain_prop<span class="op">=</span>{<span class="st">"ls"</span>: <span class="st">"-"</span>}</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -569,27 +571,27 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </div>
 </div>
 <div id="cell-25" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_predictions(data, idata, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="fl">7.5</span>)):</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot the data</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    fig, axes <span class="op">=</span> plot_data(data, figsize<span class="op">=</span>figsize)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract predicted mean</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    reaction_mean <span class="op">=</span> idata.posterior[<span class="st">"μ"</span>]</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subject, ax <span class="kw">in</span> <span class="bu">zip</span>(subjects, axes.ravel()):</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        idx <span class="op">=</span> (data[<span class="st">"Subject"</span>]<span class="op">==</span> subject).values</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        days <span class="op">=</span> data.loc[idx, <span class="st">"Days"</span>].values</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Plot highest density interval / credibility interval</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        az.plot_hdi(days, reaction_mean[..., idx], color<span class="op">=</span><span class="st">"C0"</span>, ax<span class="op">=</span>ax)</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Plot mean regression line</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        ax.plot(days, reaction_mean[..., idx].mean((<span class="st">"chain"</span>, <span class="st">"draw"</span>)), color<span class="op">=</span><span class="st">"C0"</span>)</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig ,axes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_predictions(data, idata, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="fl">7.5</span>)):</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot the data</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    fig, axes <span class="op">=</span> plot_data(data, figsize<span class="op">=</span>figsize)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract predicted mean</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    reaction_mean <span class="op">=</span> idata.posterior[<span class="st">"μ"</span>]</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subject, ax <span class="kw">in</span> <span class="bu">zip</span>(subjects, axes.ravel()):</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        idx <span class="op">=</span> (data[<span class="st">"Subject"</span>]<span class="op">==</span> subject).values</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        days <span class="op">=</span> data.loc[idx, <span class="st">"Days"</span>].values</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Plot highest density interval / credibility interval</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>        az.plot_hdi(days, reaction_mean[..., idx], color<span class="op">=</span><span class="st">"C0"</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Plot mean regression line</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>        ax.plot(days, reaction_mean[..., idx].mean((<span class="st">"chain"</span>, <span class="st">"draw"</span>)), color<span class="op">=</span><span class="st">"C0"</span>)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig ,axes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-26" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>plot_predictions(data, idata_independent)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>plot_predictions(data, idata_independent)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -686,53 +688,53 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <p>PyMC conveniently implements a distribution called <code>LKJCholeskyCov</code>. Here, <code>n</code> represents the dimension of the correlation matrix. <code>eta</code> is the parameter of the LKJ distribution. <code>sd_dist</code> is the prior distribution for the standard deviations of the group-specific effects. <code>compute_corr=True</code> means we want it to also return the correlation between the group-specific parameters and their standard deviations. <code>store_in_trace=False</code> means we don’t want to store the correlation and the standard deviations in the trace.</p>
 <p>Before seeing the code, we note that <code>sd_dist</code> is not a random variable, but a stateless distribution (i.e.&nbsp;the result of <code>pm.Distribution.dist()</code>).</p>
 <div id="cell-31" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>coords.update({<span class="st">"effect"</span>: [<span class="st">"intercept"</span>, <span class="st">"slope"</span>]})</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model_lkj_cov:</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">## Common effects</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    β<span class="dv">0</span> <span class="op">=</span> pm.Normal(<span class="st">"β0"</span>, mu<span class="op">=</span>y_mean, sigma<span class="op">=</span><span class="dv">50</span>)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    β<span class="dv">1</span> <span class="op">=</span> pm.Normal(<span class="st">"β1"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">## Group-specific effects</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Hyper prior for the standard deviations</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    u_σ <span class="op">=</span> pm.HalfNormal.dist(sigma<span class="op">=</span>np.array([<span class="dv">50</span>, <span class="dv">10</span>]), shape<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Obtain Cholesky factor for the covariance</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    L, ρ_u, σ_u <span class="op">=</span> pm.LKJCholeskyCov(</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"L"</span>, n<span class="op">=</span><span class="dv">2</span>, eta<span class="op">=</span><span class="dv">1</span>, sd_dist<span class="op">=</span>u_σ, compute_corr<span class="op">=</span><span class="va">True</span>, store_in_trace<span class="op">=</span><span class="va">False</span></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parameters</span></span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    u_raw <span class="op">=</span> pm.Normal(<span class="st">"u_raw"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">1</span>, dims<span class="op">=</span>(<span class="st">"effect"</span>, <span class="st">"subject"</span>)) </span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> pm.Deterministic(<span class="st">"u"</span>, at.dot(L, u_raw).T, dims<span class="op">=</span>(<span class="st">"subject"</span>, <span class="st">"effect"</span>))</span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">## Separate group-specific terms </span></span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Intercept</span></span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    u0 <span class="op">=</span> pm.Deterministic(<span class="st">"u0"</span>, u[:, <span class="dv">0</span>], dims<span class="op">=</span><span class="st">"subject"</span>)</span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    σ_u0 <span class="op">=</span> pm.Deterministic(<span class="st">"σ_u0"</span>, σ_u[<span class="dv">0</span>])</span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Slope</span></span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    u1 <span class="op">=</span> pm.Deterministic(<span class="st">"u1"</span>, u[:, <span class="dv">1</span>], dims<span class="op">=</span><span class="st">"subject"</span>)</span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    σ_u1 <span class="op">=</span> pm.Deterministic(<span class="st">"σ_u1"</span>, σ_u[<span class="dv">1</span>])</span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Correlation</span></span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>    ρ_u <span class="op">=</span> pm.Deterministic(<span class="st">"ρ_u"</span>, ρ_u[<span class="dv">0</span>, <span class="dv">1</span>])</span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Construct intercept and slope</span></span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>    intercept <span class="op">=</span> pm.Deterministic(<span class="st">"intercept"</span>, β<span class="dv">0</span> <span class="op">+</span> u0[subjects_idx]) </span>
-<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>    slope <span class="op">=</span> pm.Deterministic(<span class="st">"slope"</span>, (β<span class="dv">1</span> <span class="op">+</span> u1[subjects_idx]) <span class="op">*</span> days) </span>
-<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Conditional mean</span></span>
-<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>    μ <span class="op">=</span> pm.Deterministic(<span class="st">"μ"</span>, intercept <span class="op">+</span> slope)</span>
-<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">## Residual standard deviation</span></span>
-<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>    σ <span class="op">=</span> pm.HalfStudentT(<span class="st">"σ"</span>, nu<span class="op">=</span><span class="dv">4</span>, sigma<span class="op">=</span><span class="dv">56</span>)</span>
-<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>    <span class="co">## Response</span></span>
-<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>μ, sigma<span class="op">=</span>σ, observed<span class="op">=</span>data[<span class="st">"Reaction"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>coords.update({<span class="st">"effect"</span>: [<span class="st">"intercept"</span>, <span class="st">"slope"</span>]})</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model_lkj_cov:</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">## Common effects</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    β<span class="dv">0</span> <span class="op">=</span> pm.Normal(<span class="st">"β0"</span>, mu<span class="op">=</span>y_mean, sigma<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    β<span class="dv">1</span> <span class="op">=</span> pm.Normal(<span class="st">"β1"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">## Group-specific effects</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Hyper prior for the standard deviations</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    u_σ <span class="op">=</span> pm.HalfNormal.dist(sigma<span class="op">=</span>np.array([<span class="dv">50</span>, <span class="dv">10</span>]), shape<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Obtain Cholesky factor for the covariance</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    L, ρ_u, σ_u <span class="op">=</span> pm.LKJCholeskyCov(</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"L"</span>, n<span class="op">=</span><span class="dv">2</span>, eta<span class="op">=</span><span class="dv">1</span>, sd_dist<span class="op">=</span>u_σ, compute_corr<span class="op">=</span><span class="va">True</span>, store_in_trace<span class="op">=</span><span class="va">False</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parameters</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    u_raw <span class="op">=</span> pm.Normal(<span class="st">"u_raw"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">1</span>, dims<span class="op">=</span>(<span class="st">"effect"</span>, <span class="st">"subject"</span>)) </span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> pm.Deterministic(<span class="st">"u"</span>, at.dot(L, u_raw).T, dims<span class="op">=</span>(<span class="st">"subject"</span>, <span class="st">"effect"</span>))</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">## Separate group-specific terms </span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Intercept</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    u0 <span class="op">=</span> pm.Deterministic(<span class="st">"u0"</span>, u[:, <span class="dv">0</span>], dims<span class="op">=</span><span class="st">"subject"</span>)</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    σ_u0 <span class="op">=</span> pm.Deterministic(<span class="st">"σ_u0"</span>, σ_u[<span class="dv">0</span>])</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Slope</span></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    u1 <span class="op">=</span> pm.Deterministic(<span class="st">"u1"</span>, u[:, <span class="dv">1</span>], dims<span class="op">=</span><span class="st">"subject"</span>)</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>    σ_u1 <span class="op">=</span> pm.Deterministic(<span class="st">"σ_u1"</span>, σ_u[<span class="dv">1</span>])</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Correlation</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    ρ_u <span class="op">=</span> pm.Deterministic(<span class="st">"ρ_u"</span>, ρ_u[<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Construct intercept and slope</span></span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>    intercept <span class="op">=</span> pm.Deterministic(<span class="st">"intercept"</span>, β<span class="dv">0</span> <span class="op">+</span> u0[subjects_idx]) </span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    slope <span class="op">=</span> pm.Deterministic(<span class="st">"slope"</span>, (β<span class="dv">1</span> <span class="op">+</span> u1[subjects_idx]) <span class="op">*</span> days) </span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Conditional mean</span></span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>    μ <span class="op">=</span> pm.Deterministic(<span class="st">"μ"</span>, intercept <span class="op">+</span> slope)</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">## Residual standard deviation</span></span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>    σ <span class="op">=</span> pm.HalfStudentT(<span class="st">"σ"</span>, nu<span class="op">=</span><span class="dv">4</span>, sigma<span class="op">=</span><span class="dv">56</span>)</span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>    <span class="co">## Response</span></span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>μ, sigma<span class="op">=</span>σ, observed<span class="op">=</span>data[<span class="st">"Reaction"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-32" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pm.model_to_graphviz(model_lkj_cov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pm.model_to_graphviz(model_lkj_cov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <div>
 <figure class="figure">
@@ -742,14 +744,13 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </div>
 </div>
 <div id="cell-33" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_lkj_cov:</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    idata_lkj_cov <span class="op">=</span> pm.sample(draws<span class="op">=</span><span class="dv">1000</span>, chains<span class="op">=</span><span class="dv">4</span>, random_seed<span class="op">=</span><span class="dv">1234</span>, target_accept<span class="op">=</span><span class="fl">0.9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_lkj_cov:</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    idata_lkj_cov <span class="op">=</span> pm.sample(draws<span class="op">=</span><span class="dv">1000</span>, chains<span class="op">=</span><span class="dv">4</span>, random_seed<span class="op">=</span><span class="dv">1234</span>, target_accept<span class="op">=</span><span class="fl">0.9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 2 jobs)
-NUTS: [β0, β1, L, u_raw, σ]
-Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 66 seconds.</code></pre>
+NUTS: [β0, β1, L, u_raw, σ]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 
@@ -774,14 +775,17 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
     </div>
     
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 66 seconds.</code></pre>
+</div>
 </div>
 <div id="cell-34" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>az.plot_trace(</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    idata_lkj_cov, </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"β0"</span>, <span class="st">"β1"</span>, <span class="st">"u0"</span>, <span class="st">"u1"</span>, <span class="st">"σ"</span>, <span class="st">"σ_u0"</span>, <span class="st">"σ_u1"</span>, <span class="st">"ρ_u"</span>],</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    combined<span class="op">=</span><span class="va">True</span>, </span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    chain_prop<span class="op">=</span>{<span class="st">"ls"</span>: <span class="st">"-"</span>}</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>az.plot_trace(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    idata_lkj_cov, </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"β0"</span>, <span class="st">"β1"</span>, <span class="st">"u0"</span>, <span class="st">"u1"</span>, <span class="st">"σ"</span>, <span class="st">"σ_u0"</span>, <span class="st">"σ_u1"</span>, <span class="st">"ρ_u"</span>],</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    combined<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    chain_prop<span class="op">=</span>{<span class="st">"ls"</span>: <span class="st">"-"</span>}</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -793,19 +797,19 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <p>From the traceplot of the correlation coefficient <code>ρ_u</code> it looks like the group-specific intercept and slope are not related since the distribution is centered around zero.</p>
 <p>But there’s another question we haven’t answered yet: Are the initial reaction times associated with how much the sleep deprivation affects the evolution of reaction times? Let’s create a scatterplot to visualize the joint posterior of the subject-specific intercepts and slopes. This chart uses different colors for the individuals.</p>
 <div id="cell-36" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>posterior_u0 <span class="op">=</span> idata_lkj_cov.posterior[<span class="st">"u0"</span>].values</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>posterior_u1 <span class="op">=</span> idata_lkj_cov.posterior[<span class="st">"u1"</span>].values</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> subject <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">18</span>):</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Not all the samples are drawn</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> posterior_u0[::<span class="dv">10</span>, :, subject]</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> posterior_u1[::<span class="dv">10</span>, :, subject]</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    ax.scatter(x, y, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>ax.axhline(c<span class="op">=</span><span class="st">"k"</span>, ls<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>ax.axvline(c<span class="op">=</span><span class="st">"k"</span>, ls<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Subject-specific intercept"</span>, ylabel<span class="op">=</span><span class="st">"Subject-specific slope"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>posterior_u0 <span class="op">=</span> idata_lkj_cov.posterior[<span class="st">"u0"</span>].values</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>posterior_u1 <span class="op">=</span> idata_lkj_cov.posterior[<span class="st">"u1"</span>].values</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> subject <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">18</span>):</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Not all the samples are drawn</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> posterior_u0[::<span class="dv">10</span>, :, subject]</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> posterior_u1[::<span class="dv">10</span>, :, subject]</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    ax.scatter(x, y, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>ax.axhline(c<span class="op">=</span><span class="st">"k"</span>, ls<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>ax.axvline(c<span class="op">=</span><span class="st">"k"</span>, ls<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Subject-specific intercept"</span>, ylabel<span class="op">=</span><span class="st">"Subject-specific slope"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -818,7 +822,7 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <p>On the other hand, if we look at the joint posterior for a given individual, we can see a negative correlation between the intercept and the slope. This is telling that, conditional on a given subject, the intercept and slope posteriors are not independent. However, it doesn’t imply anything about the overall relationship between the intercept and the slope, which is what we need if we want to know whether the initial time is associated with how much sleep deprivation affects the reaction time.</p>
 <p>Let’s check predictions</p>
 <div id="cell-39" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>plot_predictions(data, idata_lkj_cov)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>plot_predictions(data, idata_lkj_cov)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -833,57 +837,57 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <p>One problem with <code>LKJCholeskyCov</code> is that its <code>sd_dist</code> argument must be a stateless distribution and thus <strong>we cannot use a customized distribution for the standard deviations of the group-specific effects</strong>.</p>
 <p>If we want to use a random variable instead of a stateless distribution for the standard deviation of the group-specific effects, then we need to perform many steps manually. Let’s see how we can implement it!</p>
 <div id="cell-41" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model_lkj_corr:</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Common part</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    β<span class="dv">0</span> <span class="op">=</span> pm.Normal(<span class="st">"β0"</span>, mu<span class="op">=</span>y_mean, sigma<span class="op">=</span><span class="dv">50</span>)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    β<span class="dv">1</span> <span class="op">=</span> pm.Normal(<span class="st">"β1"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Group-specific part   </span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    σ_u <span class="op">=</span> pm.HalfNormal(<span class="st">"u_σ"</span>, sigma<span class="op">=</span>np.array([<span class="dv">50</span>, <span class="dv">10</span>]), dims<span class="op">=</span><span class="st">"effect"</span>)</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Triangular upper part of the correlation matrix</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    Ω_triu <span class="op">=</span> pm.LKJCorr(<span class="st">"Ω_triu"</span>, eta<span class="op">=</span><span class="dv">1</span>, n<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Construct correlation matrix</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    Ω <span class="op">=</span> pm.Deterministic(</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Ω"</span>, </span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>        at.fill_diagonal(Ω_triu[np.zeros((<span class="dv">2</span>, <span class="dv">2</span>), dtype<span class="op">=</span>np.int64)], <span class="dv">1</span>)</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Construct diagonal matrix of standard deviation</span></span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    σ_diagonal <span class="op">=</span> pm.Deterministic(<span class="st">"σ_diagonal"</span>, at.eye(<span class="dv">2</span>) <span class="op">*</span> σ_u)</span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute covariance matrix</span></span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>    Σ <span class="op">=</span> at.nlinalg.matrix_dot(σ_diagonal, Ω, σ_diagonal)</span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cholesky decomposition of covariance matrix</span></span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>    L <span class="op">=</span> pm.Deterministic(<span class="st">"L"</span>, at.slinalg.cholesky(Σ))</span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># And finally get group-specific coefficients</span></span>
-<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>    u_raw <span class="op">=</span> pm.Normal(<span class="st">"u_raw"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">1</span>, dims<span class="op">=</span>(<span class="st">"effect"</span>, <span class="st">"subject"</span>)) </span>
-<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> pm.Deterministic(<span class="st">"u"</span>, at.dot(L, u_raw).T, dims<span class="op">=</span>(<span class="st">"subject"</span>, <span class="st">"effect"</span>))</span>
-<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>    u0 <span class="op">=</span> pm.Deterministic(<span class="st">"u0"</span>, u[:, <span class="dv">0</span>], dims<span class="op">=</span><span class="st">"subject"</span>)</span>
-<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>    σ_u0 <span class="op">=</span> pm.Deterministic(<span class="st">"σ_u0"</span>, σ_u[<span class="dv">0</span>])</span>
-<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>    u1 <span class="op">=</span> pm.Deterministic(<span class="st">"u1"</span>, u[:, <span class="dv">1</span>], dims<span class="op">=</span><span class="st">"subject"</span>)</span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>    σ_u1 <span class="op">=</span> pm.Deterministic(<span class="st">"σ_u1"</span>, σ_u[<span class="dv">1</span>])</span>
-<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Correlation</span></span>
-<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>    ρ_u <span class="op">=</span> pm.Deterministic(<span class="st">"ρ_u"</span>, Ω[<span class="dv">0</span>, <span class="dv">1</span>])</span>
-<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>         </span>
-<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Construct intercept and slope</span></span>
-<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>    intercept <span class="op">=</span> pm.Deterministic(<span class="st">"intercept"</span>, β<span class="dv">0</span> <span class="op">+</span> u0[subjects_idx]) </span>
-<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>    slope <span class="op">=</span> pm.Deterministic(<span class="st">"slope"</span>, (β<span class="dv">1</span> <span class="op">+</span> u1[subjects_idx]) <span class="op">*</span> days) </span>
-<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Conditional mean</span></span>
-<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>    μ <span class="op">=</span> pm.Deterministic(<span class="st">"μ"</span>, intercept <span class="op">+</span> slope)</span>
-<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a>    σ <span class="op">=</span> pm.HalfStudentT(<span class="st">"σ"</span>, nu<span class="op">=</span><span class="dv">4</span>, sigma<span class="op">=</span><span class="dv">50</span>)</span>
-<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>μ, sigma<span class="op">=</span>σ, observed<span class="op">=</span>data[<span class="st">"Reaction"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model_lkj_corr:</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Common part</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    β<span class="dv">0</span> <span class="op">=</span> pm.Normal(<span class="st">"β0"</span>, mu<span class="op">=</span>y_mean, sigma<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    β<span class="dv">1</span> <span class="op">=</span> pm.Normal(<span class="st">"β1"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Group-specific part   </span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    σ_u <span class="op">=</span> pm.HalfNormal(<span class="st">"u_σ"</span>, sigma<span class="op">=</span>np.array([<span class="dv">50</span>, <span class="dv">10</span>]), dims<span class="op">=</span><span class="st">"effect"</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Triangular upper part of the correlation matrix</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    Ω_triu <span class="op">=</span> pm.LKJCorr(<span class="st">"Ω_triu"</span>, eta<span class="op">=</span><span class="dv">1</span>, n<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Construct correlation matrix</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    Ω <span class="op">=</span> pm.Deterministic(</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Ω"</span>, </span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>        at.fill_diagonal(Ω_triu[np.zeros((<span class="dv">2</span>, <span class="dv">2</span>), dtype<span class="op">=</span>np.int64)], <span class="dv">1</span>)</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Construct diagonal matrix of standard deviation</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    σ_diagonal <span class="op">=</span> pm.Deterministic(<span class="st">"σ_diagonal"</span>, at.eye(<span class="dv">2</span>) <span class="op">*</span> σ_u)</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute covariance matrix</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>    Σ <span class="op">=</span> at.nlinalg.matrix_dot(σ_diagonal, Ω, σ_diagonal)</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cholesky decomposition of covariance matrix</span></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>    L <span class="op">=</span> pm.Deterministic(<span class="st">"L"</span>, at.slinalg.cholesky(Σ))</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># And finally get group-specific coefficients</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>    u_raw <span class="op">=</span> pm.Normal(<span class="st">"u_raw"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">1</span>, dims<span class="op">=</span>(<span class="st">"effect"</span>, <span class="st">"subject"</span>)) </span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> pm.Deterministic(<span class="st">"u"</span>, at.dot(L, u_raw).T, dims<span class="op">=</span>(<span class="st">"subject"</span>, <span class="st">"effect"</span>))</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>    u0 <span class="op">=</span> pm.Deterministic(<span class="st">"u0"</span>, u[:, <span class="dv">0</span>], dims<span class="op">=</span><span class="st">"subject"</span>)</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>    σ_u0 <span class="op">=</span> pm.Deterministic(<span class="st">"σ_u0"</span>, σ_u[<span class="dv">0</span>])</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>    u1 <span class="op">=</span> pm.Deterministic(<span class="st">"u1"</span>, u[:, <span class="dv">1</span>], dims<span class="op">=</span><span class="st">"subject"</span>)</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>    σ_u1 <span class="op">=</span> pm.Deterministic(<span class="st">"σ_u1"</span>, σ_u[<span class="dv">1</span>])</span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Correlation</span></span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>    ρ_u <span class="op">=</span> pm.Deterministic(<span class="st">"ρ_u"</span>, Ω[<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>         </span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Construct intercept and slope</span></span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>    intercept <span class="op">=</span> pm.Deterministic(<span class="st">"intercept"</span>, β<span class="dv">0</span> <span class="op">+</span> u0[subjects_idx]) </span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>    slope <span class="op">=</span> pm.Deterministic(<span class="st">"slope"</span>, (β<span class="dv">1</span> <span class="op">+</span> u1[subjects_idx]) <span class="op">*</span> days) </span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Conditional mean</span></span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a>    μ <span class="op">=</span> pm.Deterministic(<span class="st">"μ"</span>, intercept <span class="op">+</span> slope)</span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a>    σ <span class="op">=</span> pm.HalfStudentT(<span class="st">"σ"</span>, nu<span class="op">=</span><span class="dv">4</span>, sigma<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>μ, sigma<span class="op">=</span>σ, observed<span class="op">=</span>data[<span class="st">"Reaction"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-42" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pm.model_to_graphviz(model_lkj_corr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>pm.model_to_graphviz(model_lkj_corr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="22">
 <div>
 <figure class="figure">
@@ -893,14 +897,13 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </div>
 </div>
 <div id="cell-43" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_lkj_corr:</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    idata_lkj_corr <span class="op">=</span> pm.sample(draws<span class="op">=</span><span class="dv">1000</span>, chains<span class="op">=</span><span class="dv">2</span>, random_seed<span class="op">=</span><span class="dv">1234</span>, target_accept<span class="op">=</span><span class="fl">0.9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_lkj_corr:</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    idata_lkj_corr <span class="op">=</span> pm.sample(draws<span class="op">=</span><span class="dv">1000</span>, chains<span class="op">=</span><span class="dv">2</span>, random_seed<span class="op">=</span><span class="dv">1234</span>, target_accept<span class="op">=</span><span class="fl">0.9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (2 chains in 2 jobs)
-NUTS: [β0, β1, u_σ, Ω_triu, u_raw, σ]
-Sampling 2 chains for 1_000 tune and 1_000 draw iterations (2_000 + 2_000 draws total) took 76 seconds.</code></pre>
+NUTS: [β0, β1, u_σ, Ω_triu, u_raw, σ]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 
@@ -925,14 +928,17 @@ Sampling 2 chains for 1_000 tune and 1_000 draw iterations (2_000 + 2_000 draws 
     </div>
     
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 2 chains for 1_000 tune and 1_000 draw iterations (2_000 + 2_000 draws total) took 76 seconds.</code></pre>
+</div>
 </div>
 <div id="cell-44" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>az.plot_trace(</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    idata_lkj_corr, </span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"β0"</span>, <span class="st">"β1"</span>, <span class="st">"u0"</span>, <span class="st">"u1"</span>, <span class="st">"σ"</span>, <span class="st">"σ_u0"</span>, <span class="st">"σ_u1"</span>, <span class="st">"ρ_u"</span>],</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    combined<span class="op">=</span><span class="va">True</span>, </span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    chain_prop<span class="op">=</span>{<span class="st">"ls"</span>: <span class="st">"-"</span>}</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>az.plot_trace(</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    idata_lkj_corr, </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"β0"</span>, <span class="st">"β1"</span>, <span class="st">"u0"</span>, <span class="st">"u1"</span>, <span class="st">"σ"</span>, <span class="st">"σ_u0"</span>, <span class="st">"σ_u1"</span>, <span class="st">"ρ_u"</span>],</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    combined<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    chain_prop<span class="op">=</span>{<span class="st">"ls"</span>: <span class="st">"-"</span>}</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -942,7 +948,7 @@ Sampling 2 chains for 1_000 tune and 1_000 draw iterations (2_000 + 2_000 draws 
 </div>
 </div>
 <div id="cell-45" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>plot_predictions(data, idata_lkj_corr)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>plot_predictions(data, idata_lkj_corr)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -963,64 +969,64 @@ For the simplex vector <span class="math inline">\(\pi\)</span> we use a symmetr
 </blockquote>
 <p>On top of that, the <span class="math inline">\(J\tau^2\pi\)</span> is scaled by the residual standard deviation as explained in <a href="https://github.com/stan-dev/rstanarm/issues/531#issuecomment-861875451">this comment</a>.</p>
 <div id="cell-48" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>J <span class="op">=</span> <span class="dv">2</span> <span class="co"># Order of covariance matrix</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model_lkj_corr_2:</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Common part</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    β<span class="dv">0</span> <span class="op">=</span> pm.Normal(<span class="st">"β0"</span>, mu<span class="op">=</span>y_mean, sigma<span class="op">=</span><span class="dv">50</span>)</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    β<span class="dv">1</span> <span class="op">=</span> pm.Normal(<span class="st">"β1"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Residual SD </span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    σ <span class="op">=</span> pm.HalfStudentT(<span class="st">"σ"</span>, nu<span class="op">=</span><span class="dv">4</span>, sigma<span class="op">=</span><span class="dv">50</span>)</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Group-specific part</span></span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Begin of rstanarm approach ----------------------------------</span></span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    τ <span class="op">=</span> pm.Gamma(<span class="st">"τ"</span>, alpha<span class="op">=</span><span class="dv">1</span>, beta<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    Σ_trace <span class="op">=</span> J <span class="op">*</span> τ <span class="op">**</span> <span class="dv">2</span></span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    π <span class="op">=</span> pm.Dirichlet(<span class="st">"π"</span>, a<span class="op">=</span>np.ones(J), dims<span class="op">=</span><span class="st">"effect"</span>)</span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>    σ_u <span class="op">=</span> pm.Deterministic(<span class="st">"b_σ"</span>, σ <span class="op">*</span> π <span class="op">*</span> (Σ_trace) <span class="op">**</span> <span class="fl">0.5</span>)</span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># End of rstanarm approach ------------------------------------</span></span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Triangular upper part of the correlation matrix</span></span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>    Ω_triu <span class="op">=</span> pm.LKJCorr(<span class="st">"Ω_triu"</span>, eta<span class="op">=</span><span class="dv">1</span>, n<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>     </span>
-<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Correlation matrix</span></span>
-<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>    Ω <span class="op">=</span> pm.Deterministic(</span>
-<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Ω"</span>, at.fill_diagonal(Ω_triu[np.zeros((<span class="dv">2</span>, <span class="dv">2</span>), dtype<span class="op">=</span>np.int64)], <span class="fl">1.</span>)</span>
-<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Construct diagonal matrix of standard deviation</span></span>
-<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>    σ_u_diagonal <span class="op">=</span> pm.Deterministic(<span class="st">"σ_u_diagonal"</span>, at.eye(<span class="dv">2</span>) <span class="op">*</span> σ_u)</span>
-<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Covariance matrix</span></span>
-<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a>    Σ <span class="op">=</span> at.nlinalg.matrix_dot(σ_u_diagonal, Ω, σ_u_diagonal)</span>
-<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cholesky decomposition, lower triangular matrix.</span></span>
-<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a>    L <span class="op">=</span> pm.Deterministic(<span class="st">"L"</span>, at.slinalg.cholesky(Σ))</span>
-<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a>    u_raw <span class="op">=</span> pm.Normal(<span class="st">"u_raw"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">1</span>, dims<span class="op">=</span>(<span class="st">"effect"</span>, <span class="st">"subject"</span>)) </span>
-<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> pm.Deterministic(<span class="st">"u"</span>, at.dot(L, u_raw).T, dims<span class="op">=</span>(<span class="st">"subject"</span>, <span class="st">"effect"</span>))</span>
-<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a>                         </span>
-<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a>    u0 <span class="op">=</span> pm.Deterministic(<span class="st">"u0"</span>, u[:, <span class="dv">0</span>], dims<span class="op">=</span><span class="st">"subject"</span>)</span>
-<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a>    σ_u0 <span class="op">=</span> pm.Deterministic(<span class="st">"σ_u0"</span>, σ_u[<span class="dv">0</span>])</span>
-<span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb31-42"><a href="#cb31-42" aria-hidden="true" tabindex="-1"></a>    u1 <span class="op">=</span> pm.Deterministic(<span class="st">"u1"</span>, u[:, <span class="dv">1</span>], dims<span class="op">=</span><span class="st">"subject"</span>)</span>
-<span id="cb31-43"><a href="#cb31-43" aria-hidden="true" tabindex="-1"></a>    σ_u1 <span class="op">=</span> pm.Deterministic(<span class="st">"σ_u1"</span>, σ_u[<span class="dv">1</span>])</span>
-<span id="cb31-44"><a href="#cb31-44" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb31-45"><a href="#cb31-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Correlation</span></span>
-<span id="cb31-46"><a href="#cb31-46" aria-hidden="true" tabindex="-1"></a>    ρ_u <span class="op">=</span> pm.Deterministic(<span class="st">"ρ_u"</span>, Ω[<span class="dv">0</span>, <span class="dv">1</span>])</span>
-<span id="cb31-47"><a href="#cb31-47" aria-hidden="true" tabindex="-1"></a>         </span>
-<span id="cb31-48"><a href="#cb31-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Construct intercept and slope</span></span>
-<span id="cb31-49"><a href="#cb31-49" aria-hidden="true" tabindex="-1"></a>    intercept <span class="op">=</span> pm.Deterministic(<span class="st">"intercept"</span>, β<span class="dv">0</span> <span class="op">+</span> u0[subjects_idx]) </span>
-<span id="cb31-50"><a href="#cb31-50" aria-hidden="true" tabindex="-1"></a>    slope <span class="op">=</span> pm.Deterministic(<span class="st">"slope"</span>, (β<span class="dv">1</span> <span class="op">+</span> u1[subjects_idx]) <span class="op">*</span> days) </span>
-<span id="cb31-51"><a href="#cb31-51" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb31-52"><a href="#cb31-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Conditional mean</span></span>
-<span id="cb31-53"><a href="#cb31-53" aria-hidden="true" tabindex="-1"></a>    μ <span class="op">=</span> pm.Deterministic(<span class="st">"μ"</span>, intercept <span class="op">+</span> slope)</span>
-<span id="cb31-54"><a href="#cb31-54" aria-hidden="true" tabindex="-1"></a>       </span>
-<span id="cb31-55"><a href="#cb31-55" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>μ, sigma<span class="op">=</span>σ, observed<span class="op">=</span>data[<span class="st">"Reaction"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>J <span class="op">=</span> <span class="dv">2</span> <span class="co"># Order of covariance matrix</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model_lkj_corr_2:</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Common part</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    β<span class="dv">0</span> <span class="op">=</span> pm.Normal(<span class="st">"β0"</span>, mu<span class="op">=</span>y_mean, sigma<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    β<span class="dv">1</span> <span class="op">=</span> pm.Normal(<span class="st">"β1"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Residual SD </span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    σ <span class="op">=</span> pm.HalfStudentT(<span class="st">"σ"</span>, nu<span class="op">=</span><span class="dv">4</span>, sigma<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Group-specific part</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Begin of rstanarm approach ----------------------------------</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>    τ <span class="op">=</span> pm.Gamma(<span class="st">"τ"</span>, alpha<span class="op">=</span><span class="dv">1</span>, beta<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>    Σ_trace <span class="op">=</span> J <span class="op">*</span> τ <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>    π <span class="op">=</span> pm.Dirichlet(<span class="st">"π"</span>, a<span class="op">=</span>np.ones(J), dims<span class="op">=</span><span class="st">"effect"</span>)</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>    σ_u <span class="op">=</span> pm.Deterministic(<span class="st">"b_σ"</span>, σ <span class="op">*</span> π <span class="op">*</span> (Σ_trace) <span class="op">**</span> <span class="fl">0.5</span>)</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># End of rstanarm approach ------------------------------------</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Triangular upper part of the correlation matrix</span></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>    Ω_triu <span class="op">=</span> pm.LKJCorr(<span class="st">"Ω_triu"</span>, eta<span class="op">=</span><span class="dv">1</span>, n<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>     </span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Correlation matrix</span></span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>    Ω <span class="op">=</span> pm.Deterministic(</span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Ω"</span>, at.fill_diagonal(Ω_triu[np.zeros((<span class="dv">2</span>, <span class="dv">2</span>), dtype<span class="op">=</span>np.int64)], <span class="fl">1.</span>)</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Construct diagonal matrix of standard deviation</span></span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a>    σ_u_diagonal <span class="op">=</span> pm.Deterministic(<span class="st">"σ_u_diagonal"</span>, at.eye(<span class="dv">2</span>) <span class="op">*</span> σ_u)</span>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Covariance matrix</span></span>
+<span id="cb34-31"><a href="#cb34-31" aria-hidden="true" tabindex="-1"></a>    Σ <span class="op">=</span> at.nlinalg.matrix_dot(σ_u_diagonal, Ω, σ_u_diagonal)</span>
+<span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cholesky decomposition, lower triangular matrix.</span></span>
+<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a>    L <span class="op">=</span> pm.Deterministic(<span class="st">"L"</span>, at.slinalg.cholesky(Σ))</span>
+<span id="cb34-35"><a href="#cb34-35" aria-hidden="true" tabindex="-1"></a>    u_raw <span class="op">=</span> pm.Normal(<span class="st">"u_raw"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">1</span>, dims<span class="op">=</span>(<span class="st">"effect"</span>, <span class="st">"subject"</span>)) </span>
+<span id="cb34-36"><a href="#cb34-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-37"><a href="#cb34-37" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> pm.Deterministic(<span class="st">"u"</span>, at.dot(L, u_raw).T, dims<span class="op">=</span>(<span class="st">"subject"</span>, <span class="st">"effect"</span>))</span>
+<span id="cb34-38"><a href="#cb34-38" aria-hidden="true" tabindex="-1"></a>                         </span>
+<span id="cb34-39"><a href="#cb34-39" aria-hidden="true" tabindex="-1"></a>    u0 <span class="op">=</span> pm.Deterministic(<span class="st">"u0"</span>, u[:, <span class="dv">0</span>], dims<span class="op">=</span><span class="st">"subject"</span>)</span>
+<span id="cb34-40"><a href="#cb34-40" aria-hidden="true" tabindex="-1"></a>    σ_u0 <span class="op">=</span> pm.Deterministic(<span class="st">"σ_u0"</span>, σ_u[<span class="dv">0</span>])</span>
+<span id="cb34-41"><a href="#cb34-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-42"><a href="#cb34-42" aria-hidden="true" tabindex="-1"></a>    u1 <span class="op">=</span> pm.Deterministic(<span class="st">"u1"</span>, u[:, <span class="dv">1</span>], dims<span class="op">=</span><span class="st">"subject"</span>)</span>
+<span id="cb34-43"><a href="#cb34-43" aria-hidden="true" tabindex="-1"></a>    σ_u1 <span class="op">=</span> pm.Deterministic(<span class="st">"σ_u1"</span>, σ_u[<span class="dv">1</span>])</span>
+<span id="cb34-44"><a href="#cb34-44" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-45"><a href="#cb34-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Correlation</span></span>
+<span id="cb34-46"><a href="#cb34-46" aria-hidden="true" tabindex="-1"></a>    ρ_u <span class="op">=</span> pm.Deterministic(<span class="st">"ρ_u"</span>, Ω[<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb34-47"><a href="#cb34-47" aria-hidden="true" tabindex="-1"></a>         </span>
+<span id="cb34-48"><a href="#cb34-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Construct intercept and slope</span></span>
+<span id="cb34-49"><a href="#cb34-49" aria-hidden="true" tabindex="-1"></a>    intercept <span class="op">=</span> pm.Deterministic(<span class="st">"intercept"</span>, β<span class="dv">0</span> <span class="op">+</span> u0[subjects_idx]) </span>
+<span id="cb34-50"><a href="#cb34-50" aria-hidden="true" tabindex="-1"></a>    slope <span class="op">=</span> pm.Deterministic(<span class="st">"slope"</span>, (β<span class="dv">1</span> <span class="op">+</span> u1[subjects_idx]) <span class="op">*</span> days) </span>
+<span id="cb34-51"><a href="#cb34-51" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-52"><a href="#cb34-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Conditional mean</span></span>
+<span id="cb34-53"><a href="#cb34-53" aria-hidden="true" tabindex="-1"></a>    μ <span class="op">=</span> pm.Deterministic(<span class="st">"μ"</span>, intercept <span class="op">+</span> slope)</span>
+<span id="cb34-54"><a href="#cb34-54" aria-hidden="true" tabindex="-1"></a>       </span>
+<span id="cb34-55"><a href="#cb34-55" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>μ, sigma<span class="op">=</span>σ, observed<span class="op">=</span>data[<span class="st">"Reaction"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-49" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>pm.model_to_graphviz(model_lkj_corr_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>pm.model_to_graphviz(model_lkj_corr_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="27">
 <div>
 <figure class="figure">
@@ -1030,14 +1036,13 @@ For the simplex vector <span class="math inline">\(\pi\)</span> we use a symmetr
 </div>
 </div>
 <div id="cell-50" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_lkj_corr_2:</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    idata_lkj_corr_2 <span class="op">=</span> pm.sample(draws<span class="op">=</span><span class="dv">1000</span>, chains<span class="op">=</span><span class="dv">4</span>, random_seed<span class="op">=</span><span class="dv">1234</span>, target_accept<span class="op">=</span><span class="fl">0.9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_lkj_corr_2:</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    idata_lkj_corr_2 <span class="op">=</span> pm.sample(draws<span class="op">=</span><span class="dv">1000</span>, chains<span class="op">=</span><span class="dv">4</span>, random_seed<span class="op">=</span><span class="dv">1234</span>, target_accept<span class="op">=</span><span class="fl">0.9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 2 jobs)
-NUTS: [β0, β1, σ, τ, π, Ω_triu, u_raw]
-Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 181 seconds.</code></pre>
+NUTS: [β0, β1, σ, τ, π, Ω_triu, u_raw]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 
@@ -1062,12 +1067,15 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
     </div>
     
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 181 seconds.</code></pre>
+</div>
 </div>
 <div id="cell-51" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>az.plot_trace(</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    idata_lkj_corr_2,</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"β0"</span>, <span class="st">"β1"</span>, <span class="st">"u0"</span>, <span class="st">"u1"</span>, <span class="st">"σ"</span>, <span class="st">"σ_u0"</span>, <span class="st">"σ_u1"</span>, <span class="st">"ρ_u"</span>, <span class="st">"τ"</span>, <span class="st">"π"</span>],</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>az.plot_trace(</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    idata_lkj_corr_2,</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"β0"</span>, <span class="st">"β1"</span>, <span class="st">"u0"</span>, <span class="st">"u1"</span>, <span class="st">"σ"</span>, <span class="st">"σ_u0"</span>, <span class="st">"σ_u1"</span>, <span class="st">"ρ_u"</span>, <span class="st">"τ"</span>, <span class="st">"π"</span>],</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1077,7 +1085,7 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </div>
 </div>
 <div id="cell-52" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>plot_predictions(data, idata_lkj_corr_2)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>plot_predictions(data, idata_lkj_corr_2)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1090,23 +1098,23 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <section id="compare-inferences" class="level2">
 <h2 class="anchored" data-anchor-id="compare-inferences">Compare inferences</h2>
 <div id="cell-54" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>groups <span class="op">=</span> [</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"β0"</span>, <span class="st">"β1"</span>, <span class="st">"σ"</span>],</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"u0"</span>, <span class="st">"σ_u0"</span>],</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"u1"</span>, <span class="st">"σ_u1"</span>],</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>model_names <span class="op">=</span> [<span class="st">"Indepentent"</span>, <span class="st">"LKJCholeskyCov"</span>, <span class="st">"LKJCorr"</span>, <span class="st">"LKJCorr + rstanarm"</span>]</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize <span class="op">=</span> (<span class="dv">20</span>, <span class="dv">10</span>))</span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx, group <span class="kw">in</span> <span class="bu">enumerate</span>(groups):</span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    az.plot_forest(</span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>        [idata_independent, idata_lkj_cov, idata_lkj_corr, idata_lkj_corr_2],</span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>        model_names<span class="op">=</span>model_names,</span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>        var_names<span class="op">=</span>group,</span>
-<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>        combined<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>        ax<span class="op">=</span>ax[idx],</span>
-<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>groups <span class="op">=</span> [</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"β0"</span>, <span class="st">"β1"</span>, <span class="st">"σ"</span>],</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"u0"</span>, <span class="st">"σ_u0"</span>],</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"u1"</span>, <span class="st">"σ_u1"</span>],</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>model_names <span class="op">=</span> [<span class="st">"Indepentent"</span>, <span class="st">"LKJCholeskyCov"</span>, <span class="st">"LKJCorr"</span>, <span class="st">"LKJCorr + rstanarm"</span>]</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize <span class="op">=</span> (<span class="dv">20</span>, <span class="dv">10</span>))</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx, group <span class="kw">in</span> <span class="bu">enumerate</span>(groups):</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    az.plot_forest(</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>        [idata_independent, idata_lkj_cov, idata_lkj_corr, idata_lkj_corr_2],</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>        model_names<span class="op">=</span>model_names,</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>        var_names<span class="op">=</span>group,</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>        combined<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>        ax<span class="op">=</span>ax[idx],</span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1116,12 +1124,12 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </div>
 </div>
 <div id="cell-55" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>az.plot_forest(</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    [idata_lkj_cov, idata_lkj_corr, idata_lkj_corr_2],</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    model_names<span class="op">=</span>model_names[<span class="dv">1</span>:],</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"ρ_u"</span>],</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    combined<span class="op">=</span><span class="va">True</span></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>az.plot_forest(</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    [idata_lkj_cov, idata_lkj_corr, idata_lkj_corr_2],</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    model_names<span class="op">=</span>model_names[<span class="dv">1</span>:],</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"ρ_u"</span>],</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    combined<span class="op">=</span><span class="va">True</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1151,8 +1159,8 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <li>It would be good to check if there’s something in the LKJCorr/LKJCholeskyCov that could be improved. I plan to use <code>LKJCholeskyCov</code> within <a href="https://github.com/bambinos/bambi">Bambi</a> in the future and I would like it to work as better as possible.</li>
 </ul>
 <div id="cell-57" class="cell" data-execution_count="33">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext watermark</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>watermark <span class="op">-</span>n <span class="op">-</span>u <span class="op">-</span>v <span class="op">-</span>iv <span class="op">-</span>w</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext watermark</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>watermark <span class="op">-</span>n <span class="op">-</span>u <span class="op">-</span>v <span class="op">-</span>iv <span class="op">-</span>w</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Last updated: Sun Jun 12 2022
 
@@ -1214,18 +1222,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1257,7 +1254,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/tomicapretto\.github\.io");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -1292,7 +1329,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');

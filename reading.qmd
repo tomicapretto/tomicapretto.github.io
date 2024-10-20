@@ -1,6 +1,7 @@
 ---
 title: "Reading 📖" 
 toc: false
+freeze: false
 ---
 
 ---

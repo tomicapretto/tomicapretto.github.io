@@ -5,7 +5,7 @@
         "author": "Carlos Maslatón",
         "year_book": 2023,
         "year_read": 2023,
-        "cover": "tengase_presente.png",
+        "cover": "tengase_presente.webp",
         "status": "done"
     },
     {
@@ -14,7 +14,7 @@
         "author": "Germán de los Santos, Hernán Lascano",
         "year_book": 2023,
         "year_read": 2024,
-        "cover": "rosario.png",
+        "cover": "rosario.webp",
         "status": "done"
     },
     {
@@ -23,7 +23,7 @@
         "author": "Carlos Pagni",
         "year_book": 2023,
         "year_read": 2024,
-        "cover": "el_nudo.png",
+        "cover": "el_nudo.webp",
         "status": "done"
     },
     {
@@ -50,7 +50,7 @@
         "author": "Gabriela Cerruti",
         "year_book": null,
         "year_read": 2015,
-        "cover": "el_jefe.jpg",
+        "cover": "el_jefe.webp",
         "status": "done"
     },
     {
@@ -59,7 +59,7 @@
         "author": "Diego Golombek",
         "year_book": 2022,
         "year_read": 2023,
-        "cover": "ciencia_de_las_buenas_ideas.jpg",
+        "cover": "ciencia_de_las_buenas_ideas.webp",
         "status": "done"
     },
     {
@@ -122,7 +122,7 @@
         "author": "Guillermo Moreno",
         "year_book": 2017,
         "year_read": 2019,
-        "cover": "en_defensa_del_modelo.jpg",
+        "cover": "en_defensa_del_modelo.webp",
         "status": "done"
     },
     {
@@ -140,7 +140,7 @@
         "author": "Janelle Shane",
         "year_book": 2019,
         "year_read": 2019,
-        "cover": "you_look_like_a_thing.jpg",
+        "cover": "you_look_like_a_thing.webp",
         "status": "done"
     },
     {
@@ -149,7 +149,7 @@
         "author": "Walter Sosa Escudero",
         "year_book": 2019,
         "year_read": 2019,
-        "cover": "big_data.jpg",
+        "cover": "big_data.webp",
         "status": "done"
     },
     {
@@ -167,7 +167,7 @@
         "author": "Jorge Paz",
         "year_book": 2018,
         "year_read": 2018,
-        "cover": "7500_millones.jpg",
+        "cover": "7500_millones.webp",
         "status": "done"
     },
     {
@@ -176,7 +176,7 @@
         "author": "Facundo Di Genova",
         "year_book": 2016,
         "year_read": 2018,
-        "cover": "el_barman_cientifico.jpg",
+        "cover": "el_barman_cientifico.webp",
         "status": "done"
     },
     {
@@ -185,7 +185,7 @@
         "author": "Germán Laurora",
         "year_book": 2013,
         "year_read": 2018,
-        "cover": "el_personal_trainer_cientifico.jpg",
+        "cover": "el_personal_trainer_cientifico.webp",
         "status": "done"
     },
     {
@@ -203,7 +203,7 @@
         "author": "Jorge Luis Borges",
         "year_book": null,
         "year_read": 2018,
-        "cover": "ficciones.jpeg",
+        "cover": "ficciones.webp",
         "status": "done"
     },
     {
@@ -221,8 +221,8 @@
         "author": "Jorge Asís",
         "year_book": 2006 ,
         "year_read": null,
-        "cover": "la_marroquineria_politica.jpg",
-        "status": "wip"
+        "cover": "la_marroquineria_politica.webp",
+        "status": "done"
     },
     {
         "title": "El loco",
@@ -230,7 +230,7 @@
         "author": "Juan Luis González",
         "year_book": 2023,
         "year_read": 2024,
-        "cover": "el_loco.png",
+        "cover": "el_loco.webp",
         "status": "done"
     },
     {
@@ -239,7 +239,7 @@
         "author": "María O'Donnell",
         "year_book": 2023,
         "year_read": null,
-        "cover": "born_y_quieto.jpg",
+        "cover": "born_y_quieto.webp",
         "status": "done"
     },
     {
@@ -248,7 +248,7 @@
         "author": "Jorge Liotti",
         "year_book": 2023,
         "year_read": null,
-        "cover": "la_ultima_encrucijada.jpg",
+        "cover": "la_ultima_encrucijada.webp",
         "status": "wip"
     },
     {
@@ -266,7 +266,7 @@
         "author": "Jules Verne",
         "year_book": 2022,
         "year_read": null,
-        "cover": "la_vuelta_al_mundo_en_80_dias.jpeg",
+        "cover": "la_vuelta_al_mundo_en_80_dias.webp",
         "status": "to do"
     },
     {
@@ -274,9 +274,9 @@
         "subtitle": "",
         "author": "Roberto Arlt",
         "year_book": 1999,
-        "year_read": null,
+        "year_read": 2024,
         "cover": "nuevas_aguafuertes.webp",
-        "status": "wip"
+        "status": "done"
     },
     {
         "title": "Estos años de gente",
@@ -284,7 +284,7 @@
         "author": "María Victoria Cano",
         "year_book": 2021,
         "year_read": null,
-        "cover": "estos_años_de_gente.png",
+        "cover": "estos_años_de_gente.webp",
         "status": "done"
     },
     {
@@ -294,7 +294,7 @@
         "year_book": 2023,
         "year_read": null,
         "cover": "liderazgo.webp",
-        "status": "to do"
+        "status": "wip"
     },
     {
         "title": "Pensar rápido, pensar despacio",
@@ -311,9 +311,65 @@
         "author": "Germán de los Santos, Hernán Lascano",
         "year_book": 2017,
         "year_read": null,
-        "cover": "los_monos.jpg",
+        "cover": "los_monos.webp",
         "status": "done"
+    },
+    {
+        "title": "Diario de una temporada en el quinto piso",
+        "subtitle": "Episodios de política económica en los años de Alfonsín",
+        "author": "Juan Carlos Torre",
+        "year_book": 2021,
+        "year_read": 2024,
+        "cover": "diario_de_una_temporada.webp",
+        "status": "done"
+    },
+    {
+        "title": "Historia de la clase media argentina",
+        "subtitle": "Apogeo y decadencia de una ilusión",
+        "author": "Ezequiel Adamovsky",
+        "year_book": 2009,
+        "year_read": null,
+        "cover": "historia_de_clase_media_argentina.webp",
+        "status": "to do"
+    },
+    {
+        "title": "La caída 1955",
+        "subtitle": "",
+        "author": "Pablo Gerchunoff",
+        "year_book": 2024,
+        "year_read": null,
+        "cover": "la_caida.webp",
+        "status": "to do"
+    },
+    {
+        "title": "Cora",
+        "subtitle": "",
+        "author": "Jorge Fernández Díaz",
+        "year_book": 2024,
+        "year_read": null,
+        "cover": "cora.webp",
+        "status": "to do"
+    },
+    {
+        "title": "La traición",
+        "subtitle": "",
+        "author": "Jorge Fernández Díaz",
+        "year_book": 2020,
+        "year_read": null,
+        "cover": "la_traicion.webp",
+        "status": "to do"
+    },
+    {
+        "title": "La ciudad de las ranas",
+        "subtitle": "",
+        "author": "Hugo Alconada Mon",
+        "year_book": 2022,
+        "year_read": null,
+        "cover": "ciudad_de_las_ranas.webp",
+        "status": "to do"
     }
+     
+
 ]
 
 
