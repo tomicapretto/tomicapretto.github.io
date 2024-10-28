@@ -19,7 +19,7 @@
 
 
 
-<p>Earlier this year, I started tracking the books I read, which led to the creation of the <a href="reading.qmd">Reading</a> section on my website. There, I applied some of the CSS and HTML skills I learned to design book cards. These book cards concisely display information about each book, including the title, subtitle, author, and cover image.</p>
+<p>Earlier this year, I started tracking the books I read, which led to the creation of the <a href="../../reading.html">Reading</a> section on my website. There, I applied some of the CSS and HTML skills I learned to design book cards. These book cards concisely display information about each book, including the title, subtitle, author, and cover image.</p>
 <p>All the data related to the books live under the same repository as this website. On one hand, I have a <a href="https://github.com/tomicapretto/tomicapretto.github.io/blob/main/data/readings.json"><code>readings.json</code></a> file, which I manually update when needed, and on the other hand I have a <a href="https://github.com/tomicapretto/tomicapretto.github.io/tree/main/data/books"><code>books</code></a> directory containing various files with the book covers. The information required to map books to covers is in the JSON file I already mentioned.</p>
 <p>When I want to load a new book, I roughly follow these steps:</p>
 <ul>

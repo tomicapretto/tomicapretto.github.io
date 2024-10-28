@@ -4,7 +4,7 @@ date: "2024-10-20"
 ---
 
 Earlier this year, I started tracking the books I read, which led to the creation of the
-[Reading](reading.qmd) section on my website. There, I applied some of the CSS and HTML skills I
+[Reading](/reading.qmd) section on my website. There, I applied some of the CSS and HTML skills I
 learned to design book cards. These book cards concisely display information about each book,
 including the title, subtitle, author, and cover image.
 
