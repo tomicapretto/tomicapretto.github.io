@@ -1,0 +1,81 @@
+---
+title: "How I resize images for my reading list"
+date: "2024-10-20"
+---
+
+Earlier this year, I started tracking the books I read, which led to the creation of the
+[Reading](reading.qmd) section on my website. There, I applied some of the CSS and HTML skills I
+learned to design book cards. These book cards concisely display information about each book,
+including the title, subtitle, author, and cover image.
+
+All the data related to the books live under the same repository as this website. On one hand,
+I have a [`readings.json`](https://github.com/tomicapretto/tomicapretto.github.io/blob/main/data/readings.json)
+file, which I manually update when needed, and on the other hand I have a
+[`books`](https://github.com/tomicapretto/tomicapretto.github.io/tree/main/data/books) directory
+containing various files with the book covers. The information required to map books to covers is in
+the JSON file I already mentioned.
+
+When I want to load a new book, I roughly follow these steps:
+
+* Search, download, and store a picture of the cover image of the book under `books`.
+* Add a new entry to `readings.json`.
+* Render the website.
+* Push to GitHub.
+
+It's a bit manual, but it's not too painful, and more importantly, it works.
+However, I realized I was storing the book covers in a very inconsistent manner, with different
+file formats and a wide range of image sizes. I wanted to fix it. I wanted to use the same format,
+webp, and the same size (actually, the same width, since not all images have the same aspect ratio).
+
+How did I do it? I wrote a simple Python program that does the following:
+
+* Get a list of files under the `books` directory.
+* Iterate over the cover images files
+    * If it is of the expected format and size, do nothing.
+    * Otherwise, convert it to the desired dimensions and store it in the desired format.
+
+For more details, have a look at the code below.
+
+```python
+from PIL import Image
+import os
+import pathlib
+
+# The desired width is 200px
+new_width = 200
+
+# List all files under the 'books' directory
+base_dir = pathlib.Path("../../data/books").resolve()
+available_images = os.listdir(base_dir)
+
+# Iterate over images
+for image_file in available_images:
+    image_path = base_dir / image_file
+    image_webp_path = base_dir / (image_path.stem + ".webp")
+
+    # Open image
+    with Image.open(image_path) as img:
+        # If it's of the desired format and width, continue with the next image
+        if image_path.suffix == ".webp" and img.size[0] == new_width:
+            continue
+
+        # Calculate the new height to maintain the aspect ratio
+        width_percent = new_width / img.size[0]
+        new_height = int(img.size[1] * width_percent)
+
+        # Resize the image
+        resized_img = img.resize((new_width, new_height), Image.LANCZOS)
+
+        # Store the image in '.webp' format
+        resized_img.save(image_webp_path, "webp")
+
+    # Remove the original file
+    # Only if it was not already '.webp', otherwise we would remove files right after creation
+    if image_path.suffix != ".webp":
+        os.remove(image_path)
+```
+
+What have I learned with this?
+
+* It's so easy to manipulate images with the PIL library.
+* The pathlib library makes one feel safe when working with paths. Use it!

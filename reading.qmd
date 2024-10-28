@@ -93,11 +93,12 @@ if (nrow(df_todo) > 0) {
 ```{r}
 #| echo: false
 #| results: asis
-df_done <- df_book[df_book$status == "done", ]  
+df_done <- df_book[df_book$status == "done", ]
 generate_book_listing(df_done)
 ```
 
 
+<!--
 ## Technical
 
 I rarely read statistics and technical books from cover to cover, so I'm not going to 
@@ -122,3 +123,4 @@ books for a second read.
 - [Bayesian Modeling and Computation in Python](https://www.routledge.com/Bayesian-Modeling-and-Computation-in-Python/Martin-Kumar-Lao/p/book/9780367894368). <br> Osvaldo A. Martin, Ravin Kumar, and Junpeng Lao (2022)
 - [Bayes Rules!](https://www.routledge.com/Bayes-Rules-An-Introduction-to-Applied-Bayesian-Modeling/Johnson-Ott-Dogucu/p/book/9780367255398). <br> Alicia A. Johnson, Miles Q. Ott, and Mine Dogucu (2022)
 - ...
+-->

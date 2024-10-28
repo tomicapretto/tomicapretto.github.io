@@ -190,37 +190,67 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 </header>
 
 
-<div id="cell-1" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
+<p>Earlier this year, I started tracking the books I read, which led to the creation of the <a href="reading.qmd">Reading</a> section on my website. There, I applied some of the CSS and HTML skills I learned to design book cards. These book cards concisely display information about each book, including the title, subtitle, author, and cover image.</p>
+<p>All the data related to the books live under the same repository as this website. On one hand, I have a <a href="https://github.com/tomicapretto/tomicapretto.github.io/blob/main/data/readings.json"><code>readings.json</code></a> file, which I manually update when needed, and on the other hand I have a <a href="https://github.com/tomicapretto/tomicapretto.github.io/tree/main/data/books"><code>books</code></a> directory containing various files with the book covers. The information required to map books to covers is in the JSON file I already mentioned.</p>
+<p>When I want to load a new book, I roughly follow these steps:</p>
+<ul>
+<li>Search, download, and store a picture of the cover image of the book under <code>books</code>.</li>
+<li>Add a new entry to <code>readings.json</code>.</li>
+<li>Render the website.</li>
+<li>Push to GitHub.</li>
+</ul>
+<p>It’s a bit manual, but it’s not too painful, and more importantly, it works. However, I realized I was storing the book covers in a very inconsistent manner, with different file formats and a wide range of image sizes. I wanted to fix it. I wanted to use the same format, webp, and the same size (actually, the same width, since not all images have the same aspect ratio).</p>
+<p>How did I do it? I wrote a simple Python program that does the following:</p>
+<ul>
+<li>Get a list of files under the <code>books</code> directory.</li>
+<li>Iterate over the cover images files
+<ul>
+<li>If it is of the expected format and size, do nothing.</li>
+<li>Otherwise, convert it to the desired dimensions and store it in the desired format.</li>
+</ul></li>
+</ul>
+<p>For more details, have a look at the code below.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pathlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-2" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>base_dir <span class="op">=</span> pathlib.Path(<span class="st">"../../data/books"</span>).resolve()</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>available_images <span class="op">=</span> os.listdir(base_dir)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>new_width <span class="op">=</span> <span class="dv">200</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> image_file <span class="kw">in</span> available_images:</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    image_path <span class="op">=</span> base_dir <span class="op">/</span> image_file</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    image_webp_path <span class="op">=</span> base_dir <span class="op">/</span> (image_path.stem <span class="op">+</span> <span class="st">".webp"</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> Image.<span class="bu">open</span>(image_path) <span class="im">as</span> img:</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> image_path.suffix <span class="op">==</span> <span class="st">".webp"</span> <span class="kw">and</span> img.size[<span class="dv">0</span>] <span class="op">==</span> new_width:</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate the new height to maintain the aspect ratios</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        width_percent <span class="op">=</span> new_width <span class="op">/</span> img.size[<span class="dv">0</span>]</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        new_height <span class="op">=</span> <span class="bu">int</span>(img.size[<span class="dv">1</span>] <span class="op">*</span> width_percent)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Resize the image</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        resized_img <span class="op">=</span> img.resize((new_width, new_height), Image.LANCZOS)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        resized_img.save(image_webp_path, <span class="st">"webp"</span>)</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> image_path.suffix <span class="op">!=</span> <span class="st">".webp"</span>:</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        os.remove(image_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pathlib</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># The desired width is 200px</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>new_width <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># List all files under the 'books' directory</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>base_dir <span class="op">=</span> pathlib.Path(<span class="st">"../../data/books"</span>).resolve()</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>available_images <span class="op">=</span> os.listdir(base_dir)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over images</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> image_file <span class="kw">in</span> available_images:</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    image_path <span class="op">=</span> base_dir <span class="op">/</span> image_file</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    image_webp_path <span class="op">=</span> base_dir <span class="op">/</span> (image_path.stem <span class="op">+</span> <span class="st">".webp"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Open image</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> Image.<span class="bu">open</span>(image_path) <span class="im">as</span> img:</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># If it's of the desired format and width, continue with the next image</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> image_path.suffix <span class="op">==</span> <span class="st">".webp"</span> <span class="kw">and</span> img.size[<span class="dv">0</span>] <span class="op">==</span> new_width:</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate the new height to maintain the aspect ratio</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        width_percent <span class="op">=</span> new_width <span class="op">/</span> img.size[<span class="dv">0</span>]</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        new_height <span class="op">=</span> <span class="bu">int</span>(img.size[<span class="dv">1</span>] <span class="op">*</span> width_percent)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Resize the image</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        resized_img <span class="op">=</span> img.resize((new_width, new_height), Image.LANCZOS)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Store the image in '.webp' format</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        resized_img.save(image_webp_path, <span class="st">"webp"</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Remove the original file</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Only if it was not already '.webp', otherwise we would remove files right after creation</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> image_path.suffix <span class="op">!=</span> <span class="st">".webp"</span>:</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>        os.remove(image_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>What have I learned with this?</p>
+<ul>
+<li>It’s so easy to manipulate images with the PIL library.</li>
+<li>The pathlib library makes one feel safe when working with paths. Use it!</li>
+</ul>
 
 
 
