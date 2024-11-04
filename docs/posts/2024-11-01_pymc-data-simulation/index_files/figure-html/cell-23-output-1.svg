@@ -22,7 +22,7 @@
 <text text-anchor="middle" x="50.03" y="-182.07" font-family="Times,serif" font-size="14.00">Gamma</text>
 </g>
 <!-- y -->
-<g id="node4" class="node">
+<g id="node5" class="node">
 <title>y</title>
 <ellipse fill="none" stroke="black" cx="167.03" cy="-83.5" rx="48.97" ry="42.25"/>
 <text text-anchor="middle" x="167.03" y="-96.07" font-family="Times,serif" font-size="14.00">y</text>
@@ -64,7 +64,7 @@
 <polygon fill="black" stroke="black" points="223.83,-102.56 213.25,-102.07 221.21,-109.05 223.83,-102.56"/>
 </g>
 <!-- x -->
-<g id="node5" class="node">
+<g id="node4" class="node">
 <title>x</title>
 <ellipse fill="none" stroke="black" cx="167.03" cy="-204" rx="48.97" ry="42.25"/>
 <text text-anchor="middle" x="167.03" y="-216.57" font-family="Times,serif" font-size="14.00">x</text>

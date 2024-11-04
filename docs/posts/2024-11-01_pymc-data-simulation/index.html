@@ -335,15 +335,15 @@ Y_i \mid \mu, \sigma    &amp;\sim \text{Normal}(\mu, \sigma^2) \\
 <div id="cell-10" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pm.draw(mu)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>array(0.33388657)</code></pre>
+<pre><code>array(-0.32857606)</code></pre>
 </div>
 </div>
 <p>Do you want many values? No problem.</p>
 <div id="cell-12" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pm.draw(mu, draws<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>array([ 0.44834317,  0.92087444,  0.8250887 ,  0.20647806, -1.0498745 ,
-        0.52382478,  0.31448367,  1.57681399,  0.49070938,  0.35036557])</code></pre>
+<pre><code>array([ 1.92105562,  0.29831206, -0.90112025,  0.01240051, -0.73141058,
+        0.62951793,  0.25498252,  1.24128921,  1.2926445 ,  0.19844168])</code></pre>
 </div>
 </div>
 <p>And reproducibility? It has you covered with <code>random_seed</code>. One can pass an integer seed or a random number generator. I prefer the latter and I will use it everywhere in this blog post.</p>
@@ -374,7 +374,7 @@ Y_i \mid \mu, \sigma    &amp;\sim \text{Normal}(\mu, \sigma^2) \\
 </div>
 </div>
 </div>
-<p>In this new instance, the nodes for <code>mu</code> and <code>sigma</code> got updated. They don’t represent random variables anymore, they represent and contain constant values.</p>
+<p>In this new instance, the nodes for <code>mu</code> and <code>sigma</code> got updated. They don’t represent random variables anymore, they represent and “contain” constant values.</p>
 <p>Now that parameter values are fixed, we need to simulate values from the outcome variable <code>y</code>. Again, we use <code>pm.draw()</code>. Notice we access the random variable <code>y</code> from the model object, as there’s no global variable that represents it.</p>
 <div id="cell-20" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>y_values <span class="op">=</span> pm.draw(model_fixed_parameters[<span class="st">"y"</span>], random_seed<span class="op">=</span>rng)</span>
@@ -409,7 +409,7 @@ NUTS: [mu, sigma]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"21d91a052f0f475faeff293eef7910ae","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+{"model_id":"d4d2c257661242058c452aabfbf3abca","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
 </div>
 <div class="cell-output cell-output-display">
@@ -466,14 +466,14 @@ NUTS: [mu, sigma]</code></pre>
 <div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(idata, ref_val<span class="op">=</span>[mu_value, sigma_value])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Before moving on to the next example, some clarification notes:</p>
 <ul>
-<li>You don’t need to use the prior to simulate parameter values. You could do <code>pm.do()</code> with arbitrary values, long as they are within the parameter domain.</li>
-<li>This is not a post about thorough parameter recovery, just something basic that conveys the idea.</li>
+<li>You don’t need to use the prior to simulate parameter values. You could do <code>pm.do()</code> with arbitrary values, as long as they are within the parameter domain.</li>
+<li>This is not a post about thorough parameter recovery, just something basic that conveys the idea. Don’t take it as a gold standard.</li>
 </ul>
 </section>
 </section>
 <section id="simple-linear-regression" class="level2">
 <h2 class="anchored" data-anchor-id="simple-linear-regression">Simple linear regression</h2>
-<p>Let’s work with the following simple linear regression model.</p>
+<p>Let’s work with the following simple linear regression model:</p>
 <p><span class="math display">\[
 \begin{aligned}
 Y_i \mid \mu_i &amp;\sim \text{Normal}(\mu_i, \sigma^2) \\
@@ -486,7 +486,7 @@ Y_i \mid \mu_i &amp;\sim \text{Normal}(\mu_i, \sigma^2) \\
 <p>with <span class="math inline">\(i = 1, \dots, N\)</span></p>
 <section id="known-covariate-values" class="level3">
 <h3 class="anchored" data-anchor-id="known-covariate-values">Known covariate values</h3>
-<p>Usually, the values of the covariate are assumed to be fixed and known. We start with a scenario where we have the values of the predictor, and later, we show how to simulate data for both covariate and outcome variables.</p>
+<p>Usually, the values of the covariate are assumed to be fixed and known. We start with a scenario where we have the values for it, and later, we show how to simulate data for both covariate and outcome variables.</p>
 <div id="cell-32" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>x_values <span class="op">=</span> np.array(</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    [</span>
@@ -593,7 +593,7 @@ NUTS: [alpha, beta, sigma]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"71a0106ba151448f9978cfeb24e67098","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+{"model_id":"af77321ca5f04a659ba2b6831f3889d4","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
 </div>
 <div class="cell-output cell-output-display">
@@ -603,7 +603,7 @@ NUTS: [alpha, beta, sigma]</code></pre>
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 2 seconds.</code></pre>
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 1 seconds.</code></pre>
 </div>
 </div>
 <p>Again, the true parameter value is very well contained in the posterior distribution.</p>
@@ -617,7 +617,7 @@ NUTS: [alpha, beta, sigma]</code></pre>
 </div>
 </div>
 </div>
-<p>We can also simulate some draws of the posterior regressin line.</p>
+<p>We can also simulate some draws of the posterior regression line.</p>
 <div id="cell-46" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>posterior_draws <span class="op">=</span> az.extract(</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    idata, group<span class="op">=</span><span class="st">"posterior"</span>, var_names<span class="op">=</span>[<span class="st">"alpha"</span>, <span class="st">"beta"</span>], num_samples<span class="op">=</span><span class="dv">15</span></span>
@@ -675,7 +675,7 @@ NUTS: [alpha, beta, sigma]</code></pre>
 <span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"beta:"</span>, beta_value)</span>
 <span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"sigma:"</span>, sigma_value)</span>
 <span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">x values:</span><span class="ch">\n</span><span class="st">"</span>, x_values)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">x values:"</span>, x_values, sep<span class="op">=</span><span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Set parameters to the sampled values</span></span>
 <span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>model_fixed_parameters <span class="op">=</span> pm.do(</span>
@@ -690,7 +690,7 @@ beta: 0.6008524215503052
 sigma: 1.1351657143542704
 
 x values:
- [-0.07292669 -0.54826599 -0.46954908  0.26994204  1.00053203  0.65220785
+[-0.07292669 -0.54826599 -0.46954908  0.26994204  1.00053203  0.65220785
  -1.52515351  0.51970338 -0.51429822 -0.26137883 -0.47653569  0.16923646
  -0.93059417  0.45502837 -1.05738506 -0.61663942 -0.52632527  0.34543959
  -0.04647066  1.32000584]</code></pre>
@@ -706,10 +706,10 @@ x values:
 <div id="cell-51" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate values for the outcome variable</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>y_values <span class="op">=</span> pm.draw(model_fixed_parameters[<span class="st">"y"</span>], random_seed<span class="op">=</span>rng)</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"y values:</span><span class="ch">\n</span><span class="st">"</span>, y_values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"y values:"</span>, y_values, sep<span class="op">=</span><span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>y values:
- [ 1.71790428 -0.0682522  -1.26126753 -0.9484205  -0.06096033  0.28471004
+[ 1.71790428 -0.0682522  -1.26126753 -0.9484205  -0.06096033  0.28471004
  -0.40986102  0.38968251 -2.03112939  1.44298618  0.99584892 -0.46963706
   0.99470417  0.2107016   0.50460528 -0.72376308  1.58806132  0.28525278
   0.71371689  2.99055351]</code></pre>
@@ -753,7 +753,7 @@ NUTS: [alpha, beta, sigma]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"3f9636c6aa854bfe8e3d7c5134e3cc52","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+{"model_id":"bd7afb72f7574df2adb204490e98b229","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
 </div>
 <div class="cell-output cell-output-display">
@@ -763,7 +763,7 @@ NUTS: [alpha, beta, sigma]</code></pre>
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 2 seconds.</code></pre>
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 1 seconds.</code></pre>
 </div>
 </div>
 <div id="cell-58" class="cell" data-execution_count="28">
@@ -933,7 +933,7 @@ NUTS: [mu, sigma]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"0f3dc5b7a7994739aa071e26f96a8eec","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+{"model_id":"7ff9b2b3a39b431a951902e107a9f9b7","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
 </div>
 <div class="cell-output cell-output-display">
@@ -943,7 +943,7 @@ NUTS: [mu, sigma]</code></pre>
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 2 seconds.</code></pre>
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 1 seconds.</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -962,7 +962,7 @@ NUTS: [mu, sigma]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"1d29dbdb437f4509a1ced01c623018bb","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+{"model_id":"9225efcba8954753bf974409be8ad02d","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
 </div>
 <div class="cell-output cell-output-display">
@@ -1024,12 +1024,14 @@ Y_i     &amp;\sim \text{Normal}(\mu_{j[i]}, \sigma^2) \\
 <div id="cell-82" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>mu_values, sigma_value, group_idx_values <span class="op">=</span> pm.draw([mu, sigma, group_idx], random_seed<span class="op">=</span>rng)</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"mu:"</span>, mu_values, <span class="st">"| sigma:"</span>, sigma_value)</span>
-<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"group indexes:</span><span class="ch">\n</span><span class="st">"</span>, group_idx_values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"mu:"</span>, mu_values)</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"sigma:"</span>, sigma_value)</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"group indexes:"</span>, group_idx_values, sep<span class="op">=</span><span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>mu: [ 4.39222186  3.06006526 -1.82575653  3.42869414] | sigma: 0.36418924500311767
+<pre><code>mu: [ 4.39222186  3.06006526 -1.82575653  3.42869414]
+sigma: 0.36418924500311767
 group indexes:
- [2 0 0 2 1 3 2 0 2 2 3 3 3 3 3 0 3 0 3 3 3 0 3 1 2 2 1 2 2 0 3 0 3 2 3 0 0
+[2 0 0 2 1 3 2 0 2 2 3 3 3 3 3 0 3 0 3 3 3 0 3 1 2 2 1 2 2 0 3 0 3 2 3 0 0
  0 1 0 1 0 0 2 0 0 2 3]</code></pre>
 </div>
 </div>
@@ -1094,21 +1096,28 @@ group indexes:
 <span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>    ]</span>
 <span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-92" class="cell" data-execution_count="44">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model:</span>
-<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Register 'x' in the model</span></span>
-<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>    x_data <span class="op">=</span> pm.Data(<span class="st">"x"</span>, x_values)</span>
-<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a>    alpha <span class="op">=</span> pm.Normal(<span class="st">"alpha"</span>)</span>
-<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> pm.Normal(<span class="st">"beta"</span>)</span>
-<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> alpha <span class="op">+</span> beta <span class="op">*</span> x_data <span class="co"># Use 'x_data' instead of 'x'</span></span>
-<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.Gamma(<span class="st">"sigma"</span>, alpha<span class="op">=</span><span class="dv">2</span>, beta<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a>    pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, shape<span class="op">=</span>N)</span>
-<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-14"><a href="#cb71-14" aria-hidden="true" tabindex="-1"></a>model.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-92" class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-49"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-49-1"><a href="#annotated-cell-49-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">20</span></span>
+<span id="annotated-cell-49-2"><a href="#annotated-cell-49-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-49-3"><a href="#annotated-cell-49-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model:</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-49" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-49-4" class="code-annotation-target"><a href="#annotated-cell-49-4" aria-hidden="true" tabindex="-1"></a>    x_data <span class="op">=</span> pm.Data(<span class="st">"x"</span>, x_values)</span>
+<span id="annotated-cell-49-5"><a href="#annotated-cell-49-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-49-6"><a href="#annotated-cell-49-6" aria-hidden="true" tabindex="-1"></a>    alpha <span class="op">=</span> pm.Normal(<span class="st">"alpha"</span>)</span>
+<span id="annotated-cell-49-7"><a href="#annotated-cell-49-7" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> pm.Normal(<span class="st">"beta"</span>)</span>
+<span id="annotated-cell-49-8"><a href="#annotated-cell-49-8" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> alpha <span class="op">+</span> beta <span class="op">*</span> x_data <span class="co"># Use 'x_data' instead of 'x'</span></span>
+<span id="annotated-cell-49-9"><a href="#annotated-cell-49-9" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.Gamma(<span class="st">"sigma"</span>, alpha<span class="op">=</span><span class="dv">2</span>, beta<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="annotated-cell-49-10"><a href="#annotated-cell-49-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-49-11"><a href="#annotated-cell-49-11" aria-hidden="true" tabindex="-1"></a>    pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, shape<span class="op">=</span>N)</span>
+<span id="annotated-cell-49-12"><a href="#annotated-cell-49-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-49-13"><a href="#annotated-cell-49-13" aria-hidden="true" tabindex="-1"></a>model.to_graphviz()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-49" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-49" data-code-lines="4" data-code-annotation="1">Registers <code>"x"</code> in the model.</span>
+</dd>
+</dl>
+</div>
 <div class="cell-output cell-output-display" data-execution_count="44">
 <div>
 <figure class="figure">
@@ -1118,24 +1127,24 @@ group indexes:
 </div>
 </div>
 <p>And when we modify the model, the <code>Data</code> for <code>x</code> is still there.</p>
-<div id="cell-94" class="cell" data-execution_count="45">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate values for the parameters</span></span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>alpha_value, beta_value, sigma_value <span class="op">=</span> pm.draw([alpha, beta, sigma], random_seed<span class="op">=</span>rng)</span>
-<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix parameter values in the mdoel</span></span>
-<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>model_fixed_parameters <span class="op">=</span> pm.do(</span>
-<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>    model,</span>
-<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"alpha"</span>: alpha_value, <span class="st">"beta"</span>: beta_value, <span class="st">"sigma"</span>: sigma_value}</span>
-<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb72-10"><a href="#cb72-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate values for the outcome variable</span></span>
-<span id="cb72-11"><a href="#cb72-11" aria-hidden="true" tabindex="-1"></a>y_values <span class="op">=</span> pm.draw(model_fixed_parameters[<span class="st">"y"</span>], random_seed<span class="op">=</span>rng)</span>
-<span id="cb72-12"><a href="#cb72-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb72-13"><a href="#cb72-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the outcome values as observed in the original model</span></span>
-<span id="cb72-14"><a href="#cb72-14" aria-hidden="true" tabindex="-1"></a>model_observed_data <span class="op">=</span> pm.observe(model, {<span class="st">"y"</span>: y_values})</span>
-<span id="cb72-15"><a href="#cb72-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb72-16"><a href="#cb72-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize graph</span></span>
-<span id="cb72-17"><a href="#cb72-17" aria-hidden="true" tabindex="-1"></a>model_observed_data.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-95" class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate values for the parameters</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>alpha_value, beta_value, sigma_value <span class="op">=</span> pm.draw([alpha, beta, sigma], random_seed<span class="op">=</span>rng)</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix parameter values in the mdoel</span></span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>model_fixed_parameters <span class="op">=</span> pm.do(</span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>    model,</span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"alpha"</span>: alpha_value, <span class="st">"beta"</span>: beta_value, <span class="st">"sigma"</span>: sigma_value}</span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate values for the outcome variable</span></span>
+<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a>y_values <span class="op">=</span> pm.draw(model_fixed_parameters[<span class="st">"y"</span>], random_seed<span class="op">=</span>rng)</span>
+<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the outcome values as observed in the original model</span></span>
+<span id="cb71-14"><a href="#cb71-14" aria-hidden="true" tabindex="-1"></a>model_observed_data <span class="op">=</span> pm.observe(model, {<span class="st">"y"</span>: y_values})</span>
+<span id="cb71-15"><a href="#cb71-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-16"><a href="#cb71-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize graph</span></span>
+<span id="cb71-17"><a href="#cb71-17" aria-hidden="true" tabindex="-1"></a>model_observed_data.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="45">
 <div>
 <figure class="figure">
@@ -1147,13 +1156,13 @@ group indexes:
 </section>
 <section id="use-coords-and-dims" class="level3">
 <h3 class="anchored" data-anchor-id="use-coords-and-dims">Use <code>coords</code> and <code>dims</code></h3>
-<p>In this blog post, we have always used <code>shape</code> to indicate that a variable was not scalar. It works fine, but it’s not the recommended approach when using PyMC. A more robust practice is to use <code>dims</code>, which allows us to specify the real-world entities that each dimension of the variable corresponds to.</p>
+<p>In this blog post, we have always used <code>shape</code> to indicate the dimensions of a variable. It works fine, but it’s not the recommended approach when using PyMC. A more robust practice is to use <code>dims</code>, which allows us to specify the real-world entities that each dimension of the variable corresponds to.</p>
 <p>For example:</p>
-<div id="cell-97" class="cell" data-execution_count="46">
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model:</span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>    pm.Normal(<span class="st">"mu"</span>, shape<span class="op">=</span><span class="dv">4</span>, dims<span class="op">=</span><span class="st">"group"</span>)</span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>pm.model_to_graphviz(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-98" class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model:</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>    pm.Normal(<span class="st">"mu"</span>, shape<span class="op">=</span><span class="dv">4</span>, dims<span class="op">=</span><span class="st">"group"</span>)</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>pm.model_to_graphviz(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="46">
 <div>
 <figure class="figure">
@@ -1163,15 +1172,15 @@ group indexes:
 </div>
 </div>
 <p>makes it clearer that the lenght of <code>mu</code> is 4 because there are 4 groups.</p>
-<p>This becomes truly powerful when combined with the usage of <code>coords</code>. While <code>dims</code> defines the dimensions of a variable, <code>coords</code> provides the length of the dimesions and the labels for the positions within those dimensions.</p>
-<div id="cell-99" class="cell" data-execution_count="47">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {</span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"group"</span>: [<span class="st">"Big"</span>, <span class="st">"Medium"</span>, <span class="st">"Small"</span>, <span class="st">"Very small"</span>]</span>
-<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model:</span>
-<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>    pm.Normal(<span class="st">"mu"</span>, dims<span class="op">=</span><span class="st">"group"</span>)</span>
-<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>pm.model_to_graphviz(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This becomes truly powerful when combined with the usage of <code>coords</code>. While <code>dims</code> defines the dimensions of a variable, <code>coords</code> provides the length of the dimesions and the labels for the positions (or indices) within those dimensions.</p>
+<div id="cell-100" class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"group"</span>: [<span class="st">"Big"</span>, <span class="st">"Medium"</span>, <span class="st">"Small"</span>, <span class="st">"Very small"</span>]</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model:</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>    pm.Normal(<span class="st">"mu"</span>, dims<span class="op">=</span><span class="st">"group"</span>)</span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>pm.model_to_graphviz(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="47">
 <div>
 <figure class="figure">
@@ -1183,24 +1192,24 @@ group indexes:
 <p>Notice it was not necessary to specify the <code>shape</code> manually. It was inferred from the coordinates.</p>
 <p>If two variables have the same <code>dims</code>, they will have the same shape, and it will be clear their dimensions are mapped to the same entities.</p>
 <p>This is how we could have used <code>coords</code> and <code>dims</code> in our simple linear regression model:</p>
-<div id="cell-102" class="cell" data-execution_count="48">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {</span>
-<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"obs_idx"</span>: np.arange(N)</span>
-<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model:</span>
-<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>    x_data <span class="op">=</span> pm.Data(<span class="st">"x"</span>, value<span class="op">=</span>x_values, dims<span class="op">=</span><span class="st">"obs_idx"</span>)</span>
-<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>    alpha <span class="op">=</span> pm.Normal(<span class="st">"alpha"</span>)</span>
-<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> pm.Normal(<span class="st">"beta"</span>)</span>
-<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> alpha <span class="op">+</span> beta <span class="op">*</span> x_data</span>
-<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.Gamma(<span class="st">"sigma"</span>, alpha<span class="op">=</span><span class="dv">2</span>, beta<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb75-14"><a href="#cb75-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-15"><a href="#cb75-15" aria-hidden="true" tabindex="-1"></a>    pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, dims<span class="op">=</span><span class="st">"obs_idx"</span>)</span>
-<span id="cb75-16"><a href="#cb75-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-17"><a href="#cb75-17" aria-hidden="true" tabindex="-1"></a>model.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-103" class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {</span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"obs_idx"</span>: np.arange(N)</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model:</span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a>    x_data <span class="op">=</span> pm.Data(<span class="st">"x"</span>, value<span class="op">=</span>x_values, dims<span class="op">=</span><span class="st">"obs_idx"</span>)</span>
+<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>    alpha <span class="op">=</span> pm.Normal(<span class="st">"alpha"</span>)</span>
+<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> pm.Normal(<span class="st">"beta"</span>)</span>
+<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> alpha <span class="op">+</span> beta <span class="op">*</span> x_data</span>
+<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.Gamma(<span class="st">"sigma"</span>, alpha<span class="op">=</span><span class="dv">2</span>, beta<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-15"><a href="#cb74-15" aria-hidden="true" tabindex="-1"></a>    pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, dims<span class="op">=</span><span class="st">"obs_idx"</span>)</span>
+<span id="cb74-16"><a href="#cb74-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-17"><a href="#cb74-17" aria-hidden="true" tabindex="-1"></a>model.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="48">
 <div>
 <figure class="figure">
@@ -1210,22 +1219,22 @@ group indexes:
 </div>
 </div>
 <p>And this is how we could have done it for the normal model for multiple groups:</p>
-<div id="cell-104" class="cell" data-execution_count="49">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>J <span class="op">=</span> <span class="dv">4</span>    <span class="co"># Number of groups</span></span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">48</span>   <span class="co"># Total number of observations</span></span>
-<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {</span>
-<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"group"</span>: [<span class="st">"Group 1"</span>, <span class="st">"Group 2"</span>, <span class="st">"Group 3"</span>, <span class="st">"Group 4"</span>],</span>
-<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"obs_idx"</span>: np.arange(N)</span>
-<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model:</span>
-<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a>    group_idx <span class="op">=</span> pm.DiscreteUniform(<span class="st">"group_idx"</span>, lower<span class="op">=</span><span class="dv">0</span>, upper<span class="op">=</span>J<span class="op">-</span><span class="dv">1</span>, dims<span class="op">=</span><span class="st">"obs_idx"</span>)</span>
-<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> pm.Normal(<span class="st">"mu"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">3</span>, dims<span class="op">=</span><span class="st">"group"</span>)</span>
-<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.Gamma(<span class="st">"sigma"</span>, alpha<span class="op">=</span><span class="dv">2</span>, beta<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a>    pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu[group_idx], sigma<span class="op">=</span>sigma, dims<span class="op">=</span><span class="st">"obs_idx"</span>)</span>
-<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a>model.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-105" class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>J <span class="op">=</span> <span class="dv">4</span>    <span class="co"># Number of groups</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">48</span>   <span class="co"># Total number of observations</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"group"</span>: [<span class="st">"Group 1"</span>, <span class="st">"Group 2"</span>, <span class="st">"Group 3"</span>, <span class="st">"Group 4"</span>],</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"obs_idx"</span>: np.arange(N)</span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model:</span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>    group_idx <span class="op">=</span> pm.DiscreteUniform(<span class="st">"group_idx"</span>, lower<span class="op">=</span><span class="dv">0</span>, upper<span class="op">=</span>J<span class="op">-</span><span class="dv">1</span>, dims<span class="op">=</span><span class="st">"obs_idx"</span>)</span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> pm.Normal(<span class="st">"mu"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">3</span>, dims<span class="op">=</span><span class="st">"group"</span>)</span>
+<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.Gamma(<span class="st">"sigma"</span>, alpha<span class="op">=</span><span class="dv">2</span>, beta<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a>    pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu[group_idx], sigma<span class="op">=</span>sigma, dims<span class="op">=</span><span class="st">"obs_idx"</span>)</span>
+<span id="cb75-14"><a href="#cb75-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-15"><a href="#cb75-15" aria-hidden="true" tabindex="-1"></a>model.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="49">
 <div>
 <figure class="figure">
@@ -1234,25 +1243,25 @@ group indexes:
 </div>
 </div>
 </div>
-<div id="cell-105" class="cell" data-execution_count="50">
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>mu_values, sigma_value, group_idx_values <span class="op">=</span> pm.draw([mu, sigma, group_idx], random_seed<span class="op">=</span>rng)</span>
-<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix model parameters _and_ data</span></span>
-<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>model_fixed_parameters <span class="op">=</span> pm.do(</span>
-<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>    model,</span>
-<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"mu"</span>: mu_values, <span class="st">"sigma"</span>: sigma_value, <span class="st">"group_idx"</span>: group_idx_values}</span>
-<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate values from the outcome</span></span>
-<span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a>y_values <span class="op">=</span> pm.draw(model_fixed_parameters[<span class="st">"y"</span>], random_seed<span class="op">=</span>rng)</span>
-<span id="cb77-11"><a href="#cb77-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb77-12"><a href="#cb77-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Observe the outcome values</span></span>
-<span id="cb77-13"><a href="#cb77-13" aria-hidden="true" tabindex="-1"></a>model_observed_data <span class="op">=</span> pm.observe(</span>
-<span id="cb77-14"><a href="#cb77-14" aria-hidden="true" tabindex="-1"></a>    pm.do(model, {<span class="st">"group_idx"</span>: group_idx_values}),</span>
-<span id="cb77-15"><a href="#cb77-15" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"y"</span>: y_values}</span>
-<span id="cb77-16"><a href="#cb77-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb77-17"><a href="#cb77-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb77-18"><a href="#cb77-18" aria-hidden="true" tabindex="-1"></a>model_observed_data.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-106" class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>mu_values, sigma_value, group_idx_values <span class="op">=</span> pm.draw([mu, sigma, group_idx], random_seed<span class="op">=</span>rng)</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix model parameters _and_ data</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>model_fixed_parameters <span class="op">=</span> pm.do(</span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>    model,</span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"mu"</span>: mu_values, <span class="st">"sigma"</span>: sigma_value, <span class="st">"group_idx"</span>: group_idx_values}</span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate values from the outcome</span></span>
+<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a>y_values <span class="op">=</span> pm.draw(model_fixed_parameters[<span class="st">"y"</span>], random_seed<span class="op">=</span>rng)</span>
+<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Observe the outcome values</span></span>
+<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a>model_observed_data <span class="op">=</span> pm.observe(</span>
+<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a>    pm.do(model, {<span class="st">"group_idx"</span>: group_idx_values}),</span>
+<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"y"</span>: y_values}</span>
+<span id="cb76-16"><a href="#cb76-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb76-17"><a href="#cb76-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-18"><a href="#cb76-18" aria-hidden="true" tabindex="-1"></a>model_observed_data.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="50">
 <div>
 <figure class="figure">
@@ -1261,9 +1270,9 @@ group indexes:
 </div>
 </div>
 </div>
-<div id="cell-106" class="cell" data-execution_count="51">
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_observed_data:</span>
-<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample(random_seed<span class="op">=</span>rng)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-107" class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_observed_data:</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample(random_seed<span class="op">=</span>rng)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -1272,7 +1281,7 @@ NUTS: [mu, sigma]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"3eb55608d3684274b6ab70d68370d6eb","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+{"model_id":"42fc36146f86404db768c1e4db72c34e","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
 </div>
 <div class="cell-output cell-output-display">
@@ -1282,12 +1291,12 @@ NUTS: [mu, sigma]</code></pre>
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 2 seconds.</code></pre>
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 1 seconds.</code></pre>
 </div>
 </div>
 <p>What makes <code>coords</code> and <code>dims</code> so cool is that everything is labeled, removing the need to mentally map positions to the labels we have in mind.</p>
-<div id="cell-108" class="cell" data-execution_count="52">
-<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>az.summary(idata, kind<span class="op">=</span><span class="st">"stats"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-109" class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>az.summary(idata, kind<span class="op">=</span><span class="st">"stats"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="52">
 <div>
 
@@ -1344,8 +1353,8 @@ NUTS: [mu, sigma]</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-109" class="cell" data-execution_count="53">
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(idata, var_names<span class="op">=</span><span class="st">"mu"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-110" class="cell" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(idata, var_names<span class="op">=</span><span class="st">"mu"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1355,8 +1364,8 @@ NUTS: [mu, sigma]</code></pre>
 </div>
 </div>
 <p>Even slicing of the posterior draws becomes easier!</p>
-<div id="cell-111" class="cell" data-execution_count="54">
-<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>idata.posterior[<span class="st">"mu"</span>].sel(group<span class="op">=</span><span class="st">"Group 3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-112" class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>idata.posterior[<span class="st">"mu"</span>].sel(group<span class="op">=</span><span class="st">"Group 3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="54">
 <div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
 <defs>
@@ -1734,17 +1743,17 @@ array([[-4.03705149, -3.78900314, -3.76479051, ..., -4.04628137,
 Coordinates:
   * chain    (chain) int64 32B 0 1 2 3
   * draw     (draw) int64 8kB 0 1 2 3 4 5 6 7 ... 993 994 995 996 997 998 999
-    group    &lt;U7 28B 'Group 3'</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.DataArray</div><div class="xr-array-name">'mu'</div><ul class="xr-dim-list"><li><span class="xr-has-index">chain</span>: 4</li><li><span class="xr-has-index">draw</span>: 1000</li></ul></div><ul class="xr-sections"><li class="xr-section-item"><div class="xr-array-wrap"><input id="section-de1ea445-84e8-4f4e-9bd5-eac09375d759" class="xr-array-in" type="checkbox" checked=""><label for="section-de1ea445-84e8-4f4e-9bd5-eac09375d759" title="Show/hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-array-preview xr-preview"><span>-4.037 -3.789 -3.765 -4.043 -3.829 ... -4.011 -3.761 -3.615 -3.939</span></div><div class="xr-array-data"><pre>array([[-4.03705149, -3.78900314, -3.76479051, ..., -4.04628137,
+    group    &lt;U7 28B 'Group 3'</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.DataArray</div><div class="xr-array-name">'mu'</div><ul class="xr-dim-list"><li><span class="xr-has-index">chain</span>: 4</li><li><span class="xr-has-index">draw</span>: 1000</li></ul></div><ul class="xr-sections"><li class="xr-section-item"><div class="xr-array-wrap"><input id="section-7ad1f1ba-784c-4401-896c-395f3801d1e7" class="xr-array-in" type="checkbox" checked=""><label for="section-7ad1f1ba-784c-4401-896c-395f3801d1e7" title="Show/hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-array-preview xr-preview"><span>-4.037 -3.789 -3.765 -4.043 -3.829 ... -4.011 -3.761 -3.615 -3.939</span></div><div class="xr-array-data"><pre>array([[-4.03705149, -3.78900314, -3.76479051, ..., -4.04628137,
         -3.88638045, -4.21007427],
        [-3.74006981, -4.03929702, -4.01893038, ..., -3.92875527,
         -3.76260604, -4.02621378],
        [-3.77833314, -3.85270145, -3.86176492, ..., -3.76218849,
         -3.93732774, -3.91962555],
        [-4.25014046, -3.70552177, -3.99825767, ..., -3.76144302,
-        -3.61515607, -3.93889675]])</pre></div></div></li><li class="xr-section-item"><input id="section-0c31baa7-a60a-4109-b8bd-cfd0c0f2f94d" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-0c31baa7-a60a-4109-b8bd-cfd0c0f2f94d" class="xr-section-summary">Coordinates: <span>(3)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">chain</span></div><div class="xr-var-dims">(chain)</div><div class="xr-var-dtype">int64</div><div class="xr-var-preview xr-preview">0 1 2 3</div><input id="attrs-ce6f9a96-d4af-41b1-bcd6-cb2149766756" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-ce6f9a96-d4af-41b1-bcd6-cb2149766756" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-432fd1fc-1429-4def-ac95-d0657148a375" class="xr-var-data-in" type="checkbox"><label for="data-432fd1fc-1429-4def-ac95-d0657148a375" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([0, 1, 2, 3])</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">draw</span></div><div class="xr-var-dims">(draw)</div><div class="xr-var-dtype">int64</div><div class="xr-var-preview xr-preview">0 1 2 3 4 5 ... 995 996 997 998 999</div><input id="attrs-2550e1cb-e86e-405d-b691-9db73e564008" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-2550e1cb-e86e-405d-b691-9db73e564008" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-64861774-5add-4a22-b509-afa7347fc961" class="xr-var-data-in" type="checkbox"><label for="data-64861774-5add-4a22-b509-afa7347fc961" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([  0,   1,   2, ..., 997, 998, 999])</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>group</span></div><div class="xr-var-dims">()</div><div class="xr-var-dtype">&lt;U7</div><div class="xr-var-preview xr-preview">'Group 3'</div><input id="attrs-1c8fa52f-ffa8-4529-a6a5-40fbbcd13cb0" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-1c8fa52f-ffa8-4529-a6a5-40fbbcd13cb0" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-0404689b-5352-42c2-9226-824f9e9d5254" class="xr-var-data-in" type="checkbox"><label for="data-0404689b-5352-42c2-9226-824f9e9d5254" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array('Group 3', dtype='&lt;U7')</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-3b1e4564-733c-4736-ba7f-df00ba4e7af8" class="xr-section-summary-in" type="checkbox"><label for="section-3b1e4564-733c-4736-ba7f-df00ba4e7af8" class="xr-section-summary">Indexes: <span>(2)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-index-name"><div>chain</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-376e2d5e-e95a-48a2-9d20-269dbb42172b" class="xr-index-data-in" type="checkbox"><label for="index-376e2d5e-e95a-48a2-9d20-269dbb42172b" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([0, 1, 2, 3], dtype='int64', name='chain'))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>draw</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-08e8fd59-a9d0-4abd-85bd-5965d5c19f0b" class="xr-index-data-in" type="checkbox"><label for="index-08e8fd59-a9d0-4abd-85bd-5965d5c19f0b" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
+        -3.61515607, -3.93889675]])</pre></div></div></li><li class="xr-section-item"><input id="section-a37169ef-6147-4b03-8a32-2a878b3ac10c" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-a37169ef-6147-4b03-8a32-2a878b3ac10c" class="xr-section-summary">Coordinates: <span>(3)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">chain</span></div><div class="xr-var-dims">(chain)</div><div class="xr-var-dtype">int64</div><div class="xr-var-preview xr-preview">0 1 2 3</div><input id="attrs-d6f2cd67-0f1a-424c-9e07-335f4fc6f32f" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-d6f2cd67-0f1a-424c-9e07-335f4fc6f32f" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-01a01d29-589b-475d-aac7-115eba333248" class="xr-var-data-in" type="checkbox"><label for="data-01a01d29-589b-475d-aac7-115eba333248" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([0, 1, 2, 3])</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">draw</span></div><div class="xr-var-dims">(draw)</div><div class="xr-var-dtype">int64</div><div class="xr-var-preview xr-preview">0 1 2 3 4 5 ... 995 996 997 998 999</div><input id="attrs-423c3821-3e6e-4e0f-ac5b-8fa1fa683fbe" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-423c3821-3e6e-4e0f-ac5b-8fa1fa683fbe" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-1ad3a825-51cd-47bb-995f-2cfef1531868" class="xr-var-data-in" type="checkbox"><label for="data-1ad3a825-51cd-47bb-995f-2cfef1531868" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([  0,   1,   2, ..., 997, 998, 999])</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>group</span></div><div class="xr-var-dims">()</div><div class="xr-var-dtype">&lt;U7</div><div class="xr-var-preview xr-preview">'Group 3'</div><input id="attrs-b7980a0e-2411-4edd-8bda-9410a8429f71" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-b7980a0e-2411-4edd-8bda-9410a8429f71" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-7932cb6a-7dfd-4edc-8b5f-2ea5f8b00334" class="xr-var-data-in" type="checkbox"><label for="data-7932cb6a-7dfd-4edc-8b5f-2ea5f8b00334" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array('Group 3', dtype='&lt;U7')</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-9422ad9d-6738-4d05-9371-2945f9128459" class="xr-section-summary-in" type="checkbox"><label for="section-9422ad9d-6738-4d05-9371-2945f9128459" class="xr-section-summary">Indexes: <span>(2)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-index-name"><div>chain</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-b3dc4ae5-a04d-4fbf-91b9-fc290a70ec41" class="xr-index-data-in" type="checkbox"><label for="index-b3dc4ae5-a04d-4fbf-91b9-fc290a70ec41" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([0, 1, 2, 3], dtype='int64', name='chain'))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>draw</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-b3ee9afa-d62c-432d-8cbb-a8d9aa96f8c6" class="xr-index-data-in" type="checkbox"><label for="index-b3ee9afa-d62c-432d-8cbb-a8d9aa96f8c6" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
        ...
        990, 991, 992, 993, 994, 995, 996, 997, 998, 999],
-      dtype='int64', name='draw', length=1000))</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-ef4f189d-fd14-46c5-8923-209efd919639" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-ef4f189d-fd14-46c5-8923-209efd919639" class="xr-section-summary" title="Expand/collapse section">Attributes: <span>(0)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"></dl></div></li></ul></div></div>
+      dtype='int64', name='draw', length=1000))</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-e75ff582-45d5-4047-bdaf-e7673f819dca" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-e75ff582-45d5-4047-bdaf-e7673f819dca" class="xr-section-summary" title="Expand/collapse section">Attributes: <span>(0)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"></dl></div></li></ul></div></div>
 </div>
 </div>
 </section>
@@ -1764,7 +1773,7 @@ Y_i \mid \pi_i &amp;\sim \text{Bernoulli}(\pi_i) \\
 \end{aligned}
 \]</span></p>
 <p>we have <span class="math inline">\(J=3\)</span> groups and <span class="math inline">\(N=200\)</span> observations in total.</p>
-<div id="cell-116" class="cell" data-execution_count="55">
+<div id="cell-117" class="cell" data-execution_count="55">
 <div class="sourceCode cell-code" id="annotated-cell-60"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-60-1"><a href="#annotated-cell-60-1" aria-hidden="true" tabindex="-1"></a>J <span class="op">=</span> <span class="dv">3</span></span>
 <span id="annotated-cell-60-2"><a href="#annotated-cell-60-2" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> [<span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>]</span>
 <span id="annotated-cell-60-3"><a href="#annotated-cell-60-3" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">200</span></span>
@@ -1815,40 +1824,40 @@ Y_i \mid \pi_i &amp;\sim \text{Bernoulli}(\pi_i) \\
 </div>
 </div>
 <p>At this point, we are quite familiar with what comes below:</p>
-<div id="cell-119" class="cell" data-execution_count="56">
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate values for parameters and data</span></span>
-<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>alpha_values, beta_values, age_values, group_idx_values <span class="op">=</span> pm.draw(</span>
-<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>    [alpha, beta, age, group_idx],</span>
-<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>    random_seed<span class="op">=</span>rng</span>
-<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"alpha:"</span>, alpha_values)</span>
-<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"beta:"</span>, beta_values)</span>
-<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-10"><a href="#cb84-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Groups and their frequencies:"</span>)</span>
-<span id="cb84-11"><a href="#cb84-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.unique(group_idx_values, return_counts<span class="op">=</span><span class="va">True</span>))</span>
-<span id="cb84-12"><a href="#cb84-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-13"><a href="#cb84-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix model parameters and_data</span></span>
-<span id="cb84-14"><a href="#cb84-14" aria-hidden="true" tabindex="-1"></a>model_fixed_parameters <span class="op">=</span> pm.do(</span>
-<span id="cb84-15"><a href="#cb84-15" aria-hidden="true" tabindex="-1"></a>    model,</span>
-<span id="cb84-16"><a href="#cb84-16" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb84-17"><a href="#cb84-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"alpha"</span>: alpha_values,</span>
-<span id="cb84-18"><a href="#cb84-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"beta"</span>: beta_values,</span>
-<span id="cb84-19"><a href="#cb84-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"age"</span>: age_values,</span>
-<span id="cb84-20"><a href="#cb84-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"group_idx"</span>: group_idx_values</span>
-<span id="cb84-21"><a href="#cb84-21" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb84-22"><a href="#cb84-22" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb84-23"><a href="#cb84-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-24"><a href="#cb84-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate values from the outcome</span></span>
-<span id="cb84-25"><a href="#cb84-25" aria-hidden="true" tabindex="-1"></a>y_values <span class="op">=</span> pm.draw(model_fixed_parameters[<span class="st">"y"</span>], random_seed<span class="op">=</span>rng)</span>
-<span id="cb84-26"><a href="#cb84-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-27"><a href="#cb84-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix covariate values and observe the outcome</span></span>
-<span id="cb84-28"><a href="#cb84-28" aria-hidden="true" tabindex="-1"></a>model_observed_data <span class="op">=</span> pm.observe(</span>
-<span id="cb84-29"><a href="#cb84-29" aria-hidden="true" tabindex="-1"></a>    pm.do(model, {<span class="st">"age"</span>: age_values, <span class="st">"group_idx"</span>: group_idx_values}),</span>
-<span id="cb84-30"><a href="#cb84-30" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"y"</span>: y_values}</span>
-<span id="cb84-31"><a href="#cb84-31" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb84-32"><a href="#cb84-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-33"><a href="#cb84-33" aria-hidden="true" tabindex="-1"></a>model_observed_data.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-120" class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate values for parameters and data</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>alpha_values, beta_values, age_values, group_idx_values <span class="op">=</span> pm.draw(</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>    [alpha, beta, age, group_idx],</span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>    random_seed<span class="op">=</span>rng</span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-7"><a href="#cb83-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"alpha:"</span>, alpha_values)</span>
+<span id="cb83-8"><a href="#cb83-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"beta:"</span>, beta_values)</span>
+<span id="cb83-9"><a href="#cb83-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-10"><a href="#cb83-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Groups and their frequencies:"</span>)</span>
+<span id="cb83-11"><a href="#cb83-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.unique(group_idx_values, return_counts<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb83-12"><a href="#cb83-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-13"><a href="#cb83-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix model parameters and_data</span></span>
+<span id="cb83-14"><a href="#cb83-14" aria-hidden="true" tabindex="-1"></a>model_fixed_parameters <span class="op">=</span> pm.do(</span>
+<span id="cb83-15"><a href="#cb83-15" aria-hidden="true" tabindex="-1"></a>    model,</span>
+<span id="cb83-16"><a href="#cb83-16" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb83-17"><a href="#cb83-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"alpha"</span>: alpha_values,</span>
+<span id="cb83-18"><a href="#cb83-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"beta"</span>: beta_values,</span>
+<span id="cb83-19"><a href="#cb83-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"age"</span>: age_values,</span>
+<span id="cb83-20"><a href="#cb83-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"group_idx"</span>: group_idx_values</span>
+<span id="cb83-21"><a href="#cb83-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb83-22"><a href="#cb83-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb83-23"><a href="#cb83-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-24"><a href="#cb83-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate values from the outcome</span></span>
+<span id="cb83-25"><a href="#cb83-25" aria-hidden="true" tabindex="-1"></a>y_values <span class="op">=</span> pm.draw(model_fixed_parameters[<span class="st">"y"</span>], random_seed<span class="op">=</span>rng)</span>
+<span id="cb83-26"><a href="#cb83-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-27"><a href="#cb83-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix covariate values and observe the outcome</span></span>
+<span id="cb83-28"><a href="#cb83-28" aria-hidden="true" tabindex="-1"></a>model_observed_data <span class="op">=</span> pm.observe(</span>
+<span id="cb83-29"><a href="#cb83-29" aria-hidden="true" tabindex="-1"></a>    pm.do(model, {<span class="st">"age"</span>: age_values, <span class="st">"group_idx"</span>: group_idx_values}),</span>
+<span id="cb83-30"><a href="#cb83-30" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"y"</span>: y_values}</span>
+<span id="cb83-31"><a href="#cb83-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb83-32"><a href="#cb83-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-33"><a href="#cb83-33" aria-hidden="true" tabindex="-1"></a>model_observed_data.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>alpha: [0.47438197 0.20107513 1.36161128]
 beta: [ 0.3889577  -1.65269511  2.58244597]
@@ -1864,9 +1873,9 @@ Groups and their frequencies:
 </div>
 </div>
 <p>And, finally, we can get out sampler rolling:</p>
-<div id="cell-121" class="cell" data-execution_count="57">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_observed_data:</span>
-<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample(random_seed<span class="op">=</span>rng)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-122" class="cell" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_observed_data:</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample(random_seed<span class="op">=</span>rng)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -1875,7 +1884,7 @@ NUTS: [alpha, beta]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"30acdd2f7d3b4b0ea1d3d0fb639a1302","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+{"model_id":"bc2df23d0b7f44dc891312d58bc4c5ad","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
 </div>
 <div class="cell-output cell-output-display">
@@ -1911,39 +1920,39 @@ Y_i \mid \pi_i &amp;\sim \text{Bernoulli}(\pi_i) \\
 \text{age}^*_i = \frac{\text{age}_i - \text{mean}(\text{age})}{\text{std}(\text{age})}
 \]</span></p>
 <p>We need to import <code>pytensor.tensor</code> to compute the standard deviation of PyMC random variables.</p>
-<div id="cell-126" class="cell" data-execution_count="58">
-<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytensor.tensor <span class="im">as</span> pt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-127" class="cell" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytensor.tensor <span class="im">as</span> pt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-127" class="cell" data-execution_count="59">
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>J <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> [<span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>]</span>
-<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">200</span></span>
-<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {</span>
-<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"group"</span>: [<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>],</span>
-<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"obs_idx"</span>: np.arange(N)</span>
-<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model:</span>
-<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a>    age <span class="op">=</span> pm.Uniform(<span class="st">"age"</span>, lower<span class="op">=</span><span class="dv">16</span>, upper<span class="op">=</span><span class="dv">70</span>, dims<span class="op">=</span><span class="st">"obs_idx"</span>)</span>
-<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a>    group_idx <span class="op">=</span> pm.Categorical(<span class="st">"group_idx"</span>, p<span class="op">=</span>p, dims<span class="op">=</span><span class="st">"obs_idx"</span>)</span>
-<span id="cb90-13"><a href="#cb90-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-14"><a href="#cb90-14" aria-hidden="true" tabindex="-1"></a>    alpha <span class="op">=</span> pm.Normal(<span class="st">"alpha"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">1</span>, dims<span class="op">=</span><span class="st">"group"</span>)</span>
-<span id="cb90-15"><a href="#cb90-15" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> pm.Normal(<span class="st">"beta"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">1</span>, dims<span class="op">=</span><span class="st">"group"</span>)</span>
-<span id="cb90-16"><a href="#cb90-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-17"><a href="#cb90-17" aria-hidden="true" tabindex="-1"></a>    age_scaled <span class="op">=</span> pm.Deterministic(</span>
-<span id="cb90-18"><a href="#cb90-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"age_scaled"</span>, (age <span class="op">-</span> pt.mean(age)) <span class="op">/</span> pt.std(age), dims<span class="op">=</span><span class="st">"obs_idx"</span></span>
-<span id="cb90-19"><a href="#cb90-19" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb90-20"><a href="#cb90-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-21"><a href="#cb90-21" aria-hidden="true" tabindex="-1"></a>    pi <span class="op">=</span> pm.Deterministic(</span>
-<span id="cb90-22"><a href="#cb90-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pi"</span>,</span>
-<span id="cb90-23"><a href="#cb90-23" aria-hidden="true" tabindex="-1"></a>        pm.math.sigmoid(alpha[group_idx] <span class="op">+</span> beta[group_idx] <span class="op">*</span> age_scaled),</span>
-<span id="cb90-24"><a href="#cb90-24" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"obs_idx"</span></span>
-<span id="cb90-25"><a href="#cb90-25" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb90-26"><a href="#cb90-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-27"><a href="#cb90-27" aria-hidden="true" tabindex="-1"></a>    pm.Bernoulli(<span class="st">"y"</span>, p<span class="op">=</span>pi, dims<span class="op">=</span><span class="st">"obs_idx"</span>)</span>
-<span id="cb90-28"><a href="#cb90-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-29"><a href="#cb90-29" aria-hidden="true" tabindex="-1"></a>model.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-128" class="cell" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>J <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> [<span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>]</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {</span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"group"</span>: [<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>],</span>
+<span id="cb89-7"><a href="#cb89-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"obs_idx"</span>: np.arange(N)</span>
+<span id="cb89-8"><a href="#cb89-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb89-9"><a href="#cb89-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-10"><a href="#cb89-10" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model:</span>
+<span id="cb89-11"><a href="#cb89-11" aria-hidden="true" tabindex="-1"></a>    age <span class="op">=</span> pm.Uniform(<span class="st">"age"</span>, lower<span class="op">=</span><span class="dv">16</span>, upper<span class="op">=</span><span class="dv">70</span>, dims<span class="op">=</span><span class="st">"obs_idx"</span>)</span>
+<span id="cb89-12"><a href="#cb89-12" aria-hidden="true" tabindex="-1"></a>    group_idx <span class="op">=</span> pm.Categorical(<span class="st">"group_idx"</span>, p<span class="op">=</span>p, dims<span class="op">=</span><span class="st">"obs_idx"</span>)</span>
+<span id="cb89-13"><a href="#cb89-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-14"><a href="#cb89-14" aria-hidden="true" tabindex="-1"></a>    alpha <span class="op">=</span> pm.Normal(<span class="st">"alpha"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">1</span>, dims<span class="op">=</span><span class="st">"group"</span>)</span>
+<span id="cb89-15"><a href="#cb89-15" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> pm.Normal(<span class="st">"beta"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">1</span>, dims<span class="op">=</span><span class="st">"group"</span>)</span>
+<span id="cb89-16"><a href="#cb89-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-17"><a href="#cb89-17" aria-hidden="true" tabindex="-1"></a>    age_scaled <span class="op">=</span> pm.Deterministic(</span>
+<span id="cb89-18"><a href="#cb89-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"age_scaled"</span>, (age <span class="op">-</span> pt.mean(age)) <span class="op">/</span> pt.std(age), dims<span class="op">=</span><span class="st">"obs_idx"</span></span>
+<span id="cb89-19"><a href="#cb89-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb89-20"><a href="#cb89-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-21"><a href="#cb89-21" aria-hidden="true" tabindex="-1"></a>    pi <span class="op">=</span> pm.Deterministic(</span>
+<span id="cb89-22"><a href="#cb89-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pi"</span>,</span>
+<span id="cb89-23"><a href="#cb89-23" aria-hidden="true" tabindex="-1"></a>        pm.math.sigmoid(alpha[group_idx] <span class="op">+</span> beta[group_idx] <span class="op">*</span> age_scaled),</span>
+<span id="cb89-24"><a href="#cb89-24" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"obs_idx"</span></span>
+<span id="cb89-25"><a href="#cb89-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb89-26"><a href="#cb89-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-27"><a href="#cb89-27" aria-hidden="true" tabindex="-1"></a>    pm.Bernoulli(<span class="st">"y"</span>, p<span class="op">=</span>pi, dims<span class="op">=</span><span class="st">"obs_idx"</span>)</span>
+<span id="cb89-28"><a href="#cb89-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-29"><a href="#cb89-29" aria-hidden="true" tabindex="-1"></a>model.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="59">
 <div>
 <figure class="figure">
@@ -1953,28 +1962,28 @@ Y_i \mid \pi_i &amp;\sim \text{Bernoulli}(\pi_i) \\
 </div>
 </div>
 <p>It’s lovely to see how things come together in the graph. Let’s simulate now.</p>
-<div id="cell-129" class="cell" data-execution_count="60">
-<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix model parameters and data, use the ones we got before</span></span>
-<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>model_fixed_parameters <span class="op">=</span> pm.do(</span>
-<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>    model,</span>
-<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"alpha"</span>: alpha_values,</span>
-<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"beta"</span>: beta_values,</span>
-<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"age"</span>: age_values,</span>
-<span id="cb91-8"><a href="#cb91-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"group_idx"</span>: group_idx_values</span>
-<span id="cb91-9"><a href="#cb91-9" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb91-10"><a href="#cb91-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb91-11"><a href="#cb91-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb91-12"><a href="#cb91-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate values from the outcome</span></span>
-<span id="cb91-13"><a href="#cb91-13" aria-hidden="true" tabindex="-1"></a>y_values <span class="op">=</span> pm.draw(model_fixed_parameters[<span class="st">"y"</span>], random_seed<span class="op">=</span>rng)</span>
-<span id="cb91-14"><a href="#cb91-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb91-15"><a href="#cb91-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix covariate values and observe the outcome</span></span>
-<span id="cb91-16"><a href="#cb91-16" aria-hidden="true" tabindex="-1"></a>model_observed_data <span class="op">=</span> pm.observe(</span>
-<span id="cb91-17"><a href="#cb91-17" aria-hidden="true" tabindex="-1"></a>    pm.do(model, {<span class="st">"age"</span>: age_values, <span class="st">"group_idx"</span>: group_idx_values}),</span>
-<span id="cb91-18"><a href="#cb91-18" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"y"</span>: y_values}</span>
-<span id="cb91-19"><a href="#cb91-19" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb91-20"><a href="#cb91-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb91-21"><a href="#cb91-21" aria-hidden="true" tabindex="-1"></a>model_observed_data.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-130" class="cell" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix model parameters and data, use the ones we got before</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>model_fixed_parameters <span class="op">=</span> pm.do(</span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>    model,</span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"alpha"</span>: alpha_values,</span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"beta"</span>: beta_values,</span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"age"</span>: age_values,</span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"group_idx"</span>: group_idx_values</span>
+<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate values from the outcome</span></span>
+<span id="cb90-13"><a href="#cb90-13" aria-hidden="true" tabindex="-1"></a>y_values <span class="op">=</span> pm.draw(model_fixed_parameters[<span class="st">"y"</span>], random_seed<span class="op">=</span>rng)</span>
+<span id="cb90-14"><a href="#cb90-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-15"><a href="#cb90-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix covariate values and observe the outcome</span></span>
+<span id="cb90-16"><a href="#cb90-16" aria-hidden="true" tabindex="-1"></a>model_observed_data <span class="op">=</span> pm.observe(</span>
+<span id="cb90-17"><a href="#cb90-17" aria-hidden="true" tabindex="-1"></a>    pm.do(model, {<span class="st">"age"</span>: age_values, <span class="st">"group_idx"</span>: group_idx_values}),</span>
+<span id="cb90-18"><a href="#cb90-18" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"y"</span>: y_values}</span>
+<span id="cb90-19"><a href="#cb90-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb90-20"><a href="#cb90-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-21"><a href="#cb90-21" aria-hidden="true" tabindex="-1"></a>model_observed_data.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="60">
 <div>
 <figure class="figure">
@@ -1984,9 +1993,9 @@ Y_i \mid \pi_i &amp;\sim \text{Bernoulli}(\pi_i) \\
 </div>
 </div>
 <p>Fingers crossed!</p>
-<div id="cell-131" class="cell" data-execution_count="61">
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_observed_data:</span>
-<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample(random_seed<span class="op">=</span>rng)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-132" class="cell" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_observed_data:</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample(random_seed<span class="op">=</span>rng)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -1995,7 +2004,7 @@ NUTS: [alpha, beta]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"2a9944c2e1534b72a99cf9d5c9e5df4a","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+{"model_id":"b136c179c6254d4f8142a591b35e89ff","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
 </div>
 <div class="cell-output cell-output-display">
@@ -2005,11 +2014,11 @@ NUTS: [alpha, beta]</code></pre>
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 2 seconds.</code></pre>
+<pre><code>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 1 seconds.</code></pre>
 </div>
 </div>
-<div id="cell-132" class="cell" data-execution_count="62">
-<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(idata, var_names<span class="op">=</span><span class="st">"alpha"</span>, ref_val<span class="op">=</span>alpha_values.tolist())<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-133" class="cell" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(idata, var_names<span class="op">=</span><span class="st">"alpha"</span>, ref_val<span class="op">=</span>alpha_values.tolist())<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -2018,8 +2027,8 @@ NUTS: [alpha, beta]</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-133" class="cell" data-execution_count="63">
-<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(idata, var_names<span class="op">=</span><span class="st">"beta"</span>, ref_val<span class="op">=</span>beta_values.tolist())<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-134" class="cell" data-execution_count="63">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(idata, var_names<span class="op">=</span><span class="st">"beta"</span>, ref_val<span class="op">=</span>beta_values.tolist())<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -2036,7 +2045,7 @@ NUTS: [alpha, beta]</code></pre>
 <p>Imagine we want to see how the probability of success changes with age for the different groups. To create such a plot, we need a grid of age values along with posterior draws of <span class="math inline">\(\pi\)</span> conditional on each age value and group. However, the age values we currently have are not organized in a grid, they are just random. What should we do?</p>
 <p>One can always manually work with the posterior draws to perform the necessary computations. But I usually prefer to let PyMC do that for me.</p>
 <p>We are going to create a <strong>new</strong> PyMC model, which is like the previous logistic regression model, but uses the grid of age values that we want. Then, we are going to ask PyMC to “predict” (compute) the values of <span class="math inline">\(\pi\)</span> in this model using the draws we obtained with the previous model. That’s out of model prediction.</p>
-<div id="cell-138" class="cell" data-execution_count="64">
+<div id="cell-139" class="cell" data-execution_count="64">
 <div class="sourceCode cell-code" id="annotated-cell-69"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-69" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-69-1" class="code-annotation-target"><a href="#annotated-cell-69-1" aria-hidden="true" tabindex="-1"></a>age_mean <span class="op">=</span> np.mean(age_values)</span>
 <span id="annotated-cell-69-2"><a href="#annotated-cell-69-2" aria-hidden="true" tabindex="-1"></a>age_std <span class="op">=</span> np.std(age_values)</span>
 <span id="annotated-cell-69-3"><a href="#annotated-cell-69-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2089,17 +2098,17 @@ NUTS: [alpha, beta]</code></pre>
 </div>
 </div>
 <p>Notice we do forward sampling specifying we want to sample from <code>pi</code> and setting <code>predictions=True</code>, which gives us a new group.</p>
-<div id="cell-141" class="cell" data-execution_count="65">
-<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
-<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>    predictions <span class="op">=</span> pm.sample_posterior_predictive(</span>
-<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>        idata, var_names<span class="op">=</span>[<span class="st">"pi"</span>], predictions<span class="op">=</span><span class="va">True</span>, random_seed<span class="op">=</span>rng</span>
-<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>    )[<span class="st">"predictions"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-142" class="cell" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>    predictions <span class="op">=</span> pm.sample_posterior_predictive(</span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>        idata, var_names<span class="op">=</span>[<span class="st">"pi"</span>], predictions<span class="op">=</span><span class="va">True</span>, random_seed<span class="op">=</span>rng</span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>    )[<span class="st">"predictions"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Sampling: []</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"306541780a8c4fcd8d67f3e22d03c14f","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+{"model_id":"afb7c677144d46e6a4980974398551a8","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
 </div>
 <div class="cell-output cell-output-display">
@@ -2109,7 +2118,7 @@ NUTS: [alpha, beta]</code></pre>
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div>
 </div>
-<div id="cell-142" class="cell" data-execution_count="66">
+<div id="cell-143" class="cell" data-execution_count="66">
 <div class="sourceCode cell-code" id="annotated-cell-71"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-71" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-71-1" class="code-annotation-target"><a href="#annotated-cell-71-1" aria-hidden="true" tabindex="-1"></a>pi_mean <span class="op">=</span> predictions[<span class="st">"pi"</span>].mean((<span class="st">"chain"</span>, <span class="st">"draw"</span>))</span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-71" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-71-2" class="code-annotation-target"><a href="#annotated-cell-71-2" aria-hidden="true" tabindex="-1"></a>pi_lower, pi_upper <span class="op">=</span> predictions[<span class="st">"pi"</span>].quantile((<span class="fl">0.025</span>, <span class="fl">0.975</span>), (<span class="st">"chain"</span>, <span class="st">"draw"</span>))</span>
 <span id="annotated-cell-71-3"><a href="#annotated-cell-71-3" aria-hidden="true" tabindex="-1"></a></span>

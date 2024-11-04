@@ -13,21 +13,21 @@
 <path fill="none" stroke="black" d="M20,-8C20,-8 110,-8 110,-8 116,-8 122,-14 122,-20 122,-20 122,-229.87 122,-229.87 122,-235.87 116,-241.87 110,-241.87 110,-241.87 20,-241.87 20,-241.87 14,-241.87 8,-235.87 8,-229.87 8,-229.87 8,-20 8,-20 8,-14 14,-8 20,-8"/>
 <text text-anchor="middle" x="70.88" y="-15.95" font-family="Times,serif" font-size="14.00">obs_idx (20)</text>
 </g>
-<!-- y -->
-<g id="node1" class="node">
-<title>y</title>
-<ellipse fill="none" stroke="black" cx="65" cy="-83.5" rx="48.97" ry="42.25"/>
-<text text-anchor="middle" x="65" y="-96.07" font-family="Times,serif" font-size="14.00">y</text>
-<text text-anchor="middle" x="65" y="-78.82" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="65" y="-61.57" font-family="Times,serif" font-size="14.00">Normal</text>
-</g>
 <!-- x -->
-<g id="node2" class="node">
+<g id="node1" class="node">
 <title>x</title>
 <path fill="lightgrey" stroke="black" d="M80,-233.87C80,-233.87 50,-233.87 50,-233.87 44,-233.87 38,-227.87 38,-221.87 38,-221.87 38,-186.12 38,-186.12 38,-180.12 44,-174.12 50,-174.12 50,-174.12 80,-174.12 80,-174.12 86,-174.12 92,-180.12 92,-186.12 92,-186.12 92,-221.87 92,-221.87 92,-227.87 86,-233.87 80,-233.87"/>
 <text text-anchor="middle" x="65" y="-216.57" font-family="Times,serif" font-size="14.00">x</text>
 <text text-anchor="middle" x="65" y="-199.32" font-family="Times,serif" font-size="14.00">~</text>
 <text text-anchor="middle" x="65" y="-182.07" font-family="Times,serif" font-size="14.00">Data</text>
+</g>
+<!-- y -->
+<g id="node2" class="node">
+<title>y</title>
+<ellipse fill="none" stroke="black" cx="65" cy="-83.5" rx="48.97" ry="42.25"/>
+<text text-anchor="middle" x="65" y="-96.07" font-family="Times,serif" font-size="14.00">y</text>
+<text text-anchor="middle" x="65" y="-78.82" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="65" y="-61.57" font-family="Times,serif" font-size="14.00">Normal</text>
 </g>
 <!-- x&#45;&gt;y -->
 <g id="edge2" class="edge">

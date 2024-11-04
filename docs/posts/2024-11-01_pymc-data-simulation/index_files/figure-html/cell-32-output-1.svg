@@ -35,7 +35,7 @@
 <text text-anchor="middle" x="65" y="-61.57" font-family="Times,serif" font-size="14.00">Normal</text>
 </g>
 <!-- mu&#45;&gt;y -->
-<g id="edge2" class="edge">
+<g id="edge1" class="edge">
 <title>mu&#45;&gt;y</title>
 <path fill="none" stroke="black" d="M65,-174.56C65,-162.67 65,-149.56 65,-137.11"/>
 <polygon fill="black" stroke="black" points="68.5,-137.43 65,-127.43 61.5,-137.43 68.5,-137.43"/>
@@ -49,7 +49,7 @@
 <text text-anchor="middle" x="182" y="-195.32" font-family="Times,serif" font-size="14.00">Gamma</text>
 </g>
 <!-- sigma&#45;&gt;y -->
-<g id="edge1" class="edge">
+<g id="edge2" class="edge">
 <title>sigma&#45;&gt;y</title>
 <path fill="none" stroke="black" d="M156.99,-180.39C147.71,-167.8 136.8,-153.8 126,-141.75 120.14,-135.21 113.64,-128.57 107.14,-122.23"/>
 <polygon fill="black" stroke="black" points="109.69,-119.83 100.04,-115.45 104.85,-124.89 109.69,-119.83"/>
