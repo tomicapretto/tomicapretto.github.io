@@ -18,55 +18,55 @@
 <path fill="none" stroke="black" d="M306,-229.5C306,-229.5 512,-229.5 512,-229.5 518,-229.5 524,-235.5 524,-241.5 524,-241.5 524,-343.25 524,-343.25 524,-349.25 518,-355.25 512,-355.25 512,-355.25 306,-355.25 306,-355.25 300,-355.25 294,-349.25 294,-343.25 294,-343.25 294,-241.5 294,-241.5 294,-235.5 300,-229.5 306,-229.5"/>
 <text text-anchor="middle" x="483" y="-237.45" font-family="Times,serif" font-size="14.00">group (3)</text>
 </g>
-<!-- group_idx -->
+<!-- y -->
 <g id="node1" class="node">
-<title>group_idx</title>
-<ellipse fill="none" stroke="black" cx="85" cy="-305" rx="69.12" ry="42.25"/>
-<text text-anchor="middle" x="85" y="-317.57" font-family="Times,serif" font-size="14.00">group_idx</text>
-<text text-anchor="middle" x="85" y="-300.32" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="85" y="-283.07" font-family="Times,serif" font-size="14.00">Categorical</text>
+<title>y</title>
+<ellipse fill="none" stroke="black" cx="215" cy="-83.5" rx="57.45" ry="42.25"/>
+<text text-anchor="middle" x="215" y="-96.07" font-family="Times,serif" font-size="14.00">y</text>
+<text text-anchor="middle" x="215" y="-78.82" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="215" y="-61.57" font-family="Times,serif" font-size="14.00">Bernoulli</text>
+</g>
+<!-- age -->
+<g id="node2" class="node">
+<title>age</title>
+<ellipse fill="none" stroke="black" cx="69" cy="-305" rx="53.21" ry="42.25"/>
+<text text-anchor="middle" x="69" y="-317.57" font-family="Times,serif" font-size="14.00">age</text>
+<text text-anchor="middle" x="69" y="-300.32" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="69" y="-283.07" font-family="Times,serif" font-size="14.00">Uniform</text>
 </g>
 <!-- pi -->
 <g id="node4" class="node">
 <title>pi</title>
-<polygon fill="none" stroke="black" points="277.75,-221.5 164.25,-221.5 164.25,-161.75 277.75,-161.75 277.75,-221.5"/>
-<text text-anchor="middle" x="221" y="-204.2" font-family="Times,serif" font-size="14.00">pi</text>
-<text text-anchor="middle" x="221" y="-186.95" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="221" y="-169.7" font-family="Times,serif" font-size="14.00">Deterministic</text>
-</g>
-<!-- group_idx&#45;&gt;pi -->
-<g id="edge2" class="edge">
-<title>group_idx&#45;&gt;pi</title>
-<path fill="none" stroke="black" d="M119.39,-268.34C132.52,-255.5 147.96,-241.28 163,-229.5 163.41,-229.18 163.82,-228.86 164.24,-228.53"/>
-<polygon fill="black" stroke="black" points="166.11,-231.51 172.09,-222.76 161.96,-225.87 166.11,-231.51"/>
-</g>
-<!-- y -->
-<g id="node2" class="node">
-<title>y</title>
-<ellipse fill="none" stroke="black" cx="221" cy="-83.5" rx="57.45" ry="42.25"/>
-<text text-anchor="middle" x="221" y="-96.07" font-family="Times,serif" font-size="14.00">y</text>
-<text text-anchor="middle" x="221" y="-78.82" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="221" y="-61.57" font-family="Times,serif" font-size="14.00">Bernoulli</text>
-</g>
-<!-- age -->
-<g id="node3" class="node">
-<title>age</title>
-<ellipse fill="none" stroke="black" cx="225" cy="-305" rx="53.21" ry="42.25"/>
-<text text-anchor="middle" x="225" y="-317.57" font-family="Times,serif" font-size="14.00">age</text>
-<text text-anchor="middle" x="225" y="-300.32" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="225" y="-283.07" font-family="Times,serif" font-size="14.00">Uniform</text>
+<polygon fill="none" stroke="black" points="271.75,-221.5 158.25,-221.5 158.25,-161.75 271.75,-161.75 271.75,-221.5"/>
+<text text-anchor="middle" x="215" y="-204.2" font-family="Times,serif" font-size="14.00">pi</text>
+<text text-anchor="middle" x="215" y="-186.95" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="215" y="-169.7" font-family="Times,serif" font-size="14.00">Deterministic</text>
 </g>
 <!-- age&#45;&gt;pi -->
-<g id="edge3" class="edge">
+<g id="edge2" class="edge">
 <title>age&#45;&gt;pi</title>
-<path fill="none" stroke="black" d="M223.51,-262.53C223.17,-252.94 222.8,-242.75 222.46,-233.21"/>
-<polygon fill="black" stroke="black" points="225.96,-233.34 222.11,-223.48 218.97,-233.6 225.96,-233.34"/>
+<path fill="none" stroke="black" d="M93.83,-267.53C104.16,-254.29 117.02,-240.02 131,-229.5 136.22,-225.57 141.92,-221.96 147.81,-218.66"/>
+<polygon fill="black" stroke="black" points="149.29,-221.83 156.53,-214.1 146.04,-215.63 149.29,-221.83"/>
+</g>
+<!-- group_idx -->
+<g id="node3" class="node">
+<title>group_idx</title>
+<ellipse fill="none" stroke="black" cx="209" cy="-305" rx="69.12" ry="42.25"/>
+<text text-anchor="middle" x="209" y="-317.57" font-family="Times,serif" font-size="14.00">group_idx</text>
+<text text-anchor="middle" x="209" y="-300.32" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="209" y="-283.07" font-family="Times,serif" font-size="14.00">Categorical</text>
+</g>
+<!-- group_idx&#45;&gt;pi -->
+<g id="edge3" class="edge">
+<title>group_idx&#45;&gt;pi</title>
+<path fill="none" stroke="black" d="M211.23,-262.53C211.75,-252.94 212.3,-242.75 212.81,-233.21"/>
+<polygon fill="black" stroke="black" points="216.29,-233.65 213.34,-223.48 209.31,-233.27 216.29,-233.65"/>
 </g>
 <!-- pi&#45;&gt;y -->
 <g id="edge5" class="edge">
 <title>pi&#45;&gt;y</title>
-<path fill="none" stroke="black" d="M221,-161.34C221,-153.84 221,-145.53 221,-137.23"/>
-<polygon fill="black" stroke="black" points="224.5,-137.51 221,-127.51 217.5,-137.51 224.5,-137.51"/>
+<path fill="none" stroke="black" d="M215,-161.34C215,-153.84 215,-145.53 215,-137.23"/>
+<polygon fill="black" stroke="black" points="218.5,-137.51 215,-127.51 211.5,-137.51 218.5,-137.51"/>
 </g>
 <!-- alpha -->
 <g id="node5" class="node">
@@ -79,8 +79,8 @@
 <!-- alpha&#45;&gt;pi -->
 <g id="edge1" class="edge">
 <title>alpha&#45;&gt;pi</title>
-<path fill="none" stroke="black" d="M326.23,-268.07C316.02,-254.9 303.43,-240.54 290,-229.5 289.06,-228.72 288.09,-227.96 287.11,-227.2"/>
-<polygon fill="black" stroke="black" points="289.32,-224.48 279.15,-221.52 285.26,-230.18 289.32,-224.48"/>
+<path fill="none" stroke="black" d="M326.72,-268.21C316.48,-254.9 303.75,-240.41 290,-229.5 287.3,-227.36 284.46,-225.3 281.52,-223.32"/>
+<polygon fill="black" stroke="black" points="283.5,-220.43 273.17,-218.1 279.79,-226.37 283.5,-220.43"/>
 </g>
 <!-- beta -->
 <g id="node6" class="node">
@@ -93,8 +93,8 @@
 <!-- beta&#45;&gt;pi -->
 <g id="edge4" class="edge">
 <title>beta&#45;&gt;pi</title>
-<path fill="none" stroke="black" d="M445.84,-266.62C436.29,-252.94 423.8,-238.6 409,-229.5 373.31,-207.55 327.23,-198.27 289.62,-194.51"/>
-<polygon fill="black" stroke="black" points="290.01,-191.03 279.74,-193.64 289.4,-198 290.01,-191.03"/>
+<path fill="none" stroke="black" d="M445.87,-266.57C436.32,-252.89 423.83,-238.56 409,-229.5 371.33,-206.48 322.46,-197.28 283.2,-193.84"/>
+<polygon fill="black" stroke="black" points="283.62,-190.36 273.38,-193.09 283.08,-197.34 283.62,-190.36"/>
 </g>
 </g>
 </svg>

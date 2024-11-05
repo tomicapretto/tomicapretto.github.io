@@ -54,22 +54,8 @@
 <path fill="none" stroke="black" d="M205.77,-268.07C215.98,-254.9 228.57,-240.54 242,-229.5 242.94,-228.72 243.91,-227.96 244.89,-227.2"/>
 <polygon fill="black" stroke="black" points="246.74,-230.18 252.85,-221.52 242.68,-224.48 246.74,-230.18"/>
 </g>
-<!-- group_idx -->
-<g id="node3" class="node">
-<title>group_idx</title>
-<path fill="lightgrey" stroke="black" d="M328.25,-334.87C328.25,-334.87 265.75,-334.87 265.75,-334.87 259.75,-334.87 253.75,-328.87 253.75,-322.87 253.75,-322.87 253.75,-287.12 253.75,-287.12 253.75,-281.12 259.75,-275.12 265.75,-275.12 265.75,-275.12 328.25,-275.12 328.25,-275.12 334.25,-275.12 340.25,-281.12 340.25,-287.12 340.25,-287.12 340.25,-322.87 340.25,-322.87 340.25,-328.87 334.25,-334.87 328.25,-334.87"/>
-<text text-anchor="middle" x="297" y="-317.57" font-family="Times,serif" font-size="14.00">group_idx</text>
-<text text-anchor="middle" x="297" y="-300.32" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="297" y="-283.07" font-family="Times,serif" font-size="14.00">Data</text>
-</g>
-<!-- group_idx&#45;&gt;pi -->
-<g id="edge3" class="edge">
-<title>group_idx&#45;&gt;pi</title>
-<path fill="none" stroke="black" d="M300.68,-274.74C302.29,-261.95 304.2,-246.74 305.94,-232.9"/>
-<polygon fill="black" stroke="black" points="309.38,-233.55 307.16,-223.19 302.44,-232.68 309.38,-233.55"/>
-</g>
 <!-- y -->
-<g id="node4" class="node">
+<g id="node3" class="node">
 <title>y</title>
 <ellipse fill="lightgrey" stroke="black" cx="311" cy="-83.5" rx="57.45" ry="42.25"/>
 <text text-anchor="middle" x="311" y="-96.07" font-family="Times,serif" font-size="14.00">y</text>
@@ -77,18 +63,32 @@
 <text text-anchor="middle" x="311" y="-61.57" font-family="Times,serif" font-size="14.00">Bernoulli</text>
 </g>
 <!-- age -->
-<g id="node5" class="node">
+<g id="node4" class="node">
 <title>age</title>
-<path fill="lightgrey" stroke="black" d="M400,-334.87C400,-334.87 370,-334.87 370,-334.87 364,-334.87 358,-328.87 358,-322.87 358,-322.87 358,-287.12 358,-287.12 358,-281.12 364,-275.12 370,-275.12 370,-275.12 400,-275.12 400,-275.12 406,-275.12 412,-281.12 412,-287.12 412,-287.12 412,-322.87 412,-322.87 412,-328.87 406,-334.87 400,-334.87"/>
-<text text-anchor="middle" x="385" y="-317.57" font-family="Times,serif" font-size="14.00">age</text>
-<text text-anchor="middle" x="385" y="-300.32" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="385" y="-283.07" font-family="Times,serif" font-size="14.00">Data</text>
+<path fill="lightgrey" stroke="black" d="M296,-334.87C296,-334.87 266,-334.87 266,-334.87 260,-334.87 254,-328.87 254,-322.87 254,-322.87 254,-287.12 254,-287.12 254,-281.12 260,-275.12 266,-275.12 266,-275.12 296,-275.12 296,-275.12 302,-275.12 308,-281.12 308,-287.12 308,-287.12 308,-322.87 308,-322.87 308,-328.87 302,-334.87 296,-334.87"/>
+<text text-anchor="middle" x="281" y="-317.57" font-family="Times,serif" font-size="14.00">age</text>
+<text text-anchor="middle" x="281" y="-300.32" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="281" y="-283.07" font-family="Times,serif" font-size="14.00">Data</text>
 </g>
 <!-- age&#45;&gt;pi -->
-<g id="edge4" class="edge">
+<g id="edge3" class="edge">
 <title>age&#45;&gt;pi</title>
-<path fill="none" stroke="black" d="M373.7,-274.74C368.36,-262.44 361.35,-248.11 349.11,-230.49"/>
-<polygon fill="black" stroke="black" points="352.25,-228.85 343.55,-222.8 346.57,-232.95 352.25,-228.85"/>
+<path fill="none" stroke="black" d="M288.88,-274.74C292.36,-261.82 296.51,-246.43 300.26,-232.49"/>
+<polygon fill="black" stroke="black" points="303.56,-233.72 302.78,-223.15 296.8,-231.9 303.56,-233.72"/>
+</g>
+<!-- group_idx -->
+<g id="node5" class="node">
+<title>group_idx</title>
+<path fill="lightgrey" stroke="black" d="M400.25,-334.87C400.25,-334.87 337.75,-334.87 337.75,-334.87 331.75,-334.87 325.75,-328.87 325.75,-322.87 325.75,-322.87 325.75,-287.12 325.75,-287.12 325.75,-281.12 331.75,-275.12 337.75,-275.12 337.75,-275.12 400.25,-275.12 400.25,-275.12 406.25,-275.12 412.25,-281.12 412.25,-287.12 412.25,-287.12 412.25,-322.87 412.25,-322.87 412.25,-328.87 406.25,-334.87 400.25,-334.87"/>
+<text text-anchor="middle" x="369" y="-317.57" font-family="Times,serif" font-size="14.00">group_idx</text>
+<text text-anchor="middle" x="369" y="-300.32" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="369" y="-283.07" font-family="Times,serif" font-size="14.00">Data</text>
+</g>
+<!-- group_idx&#45;&gt;pi -->
+<g id="edge4" class="edge">
+<title>group_idx&#45;&gt;pi</title>
+<path fill="none" stroke="black" d="M353.76,-274.74C346.9,-261.56 338.7,-245.82 331.33,-231.66"/>
+<polygon fill="black" stroke="black" points="334.56,-230.29 326.84,-223.03 328.35,-233.52 334.56,-230.29"/>
 </g>
 <!-- pi&#45;&gt;y -->
 <g id="edge1" class="edge">

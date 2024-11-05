@@ -13,55 +13,55 @@
 <path fill="none" stroke="black" d="M20,-8C20,-8 110,-8 110,-8 116,-8 122,-14 122,-20 122,-20 122,-229.87 122,-229.87 122,-235.87 116,-241.87 110,-241.87 110,-241.87 20,-241.87 20,-241.87 14,-241.87 8,-235.87 8,-229.87 8,-229.87 8,-20 8,-20 8,-14 14,-8 20,-8"/>
 <text text-anchor="middle" x="105" y="-15.95" font-family="Times,serif" font-size="14.00">20</text>
 </g>
-<!-- x -->
-<g id="node1" class="node">
-<title>x</title>
-<path fill="lightgrey" stroke="black" d="M80,-233.87C80,-233.87 50,-233.87 50,-233.87 44,-233.87 38,-227.87 38,-221.87 38,-221.87 38,-186.12 38,-186.12 38,-180.12 44,-174.12 50,-174.12 50,-174.12 80,-174.12 80,-174.12 86,-174.12 92,-180.12 92,-186.12 92,-186.12 92,-221.87 92,-221.87 92,-227.87 86,-233.87 80,-233.87"/>
-<text text-anchor="middle" x="65" y="-216.57" font-family="Times,serif" font-size="14.00">x</text>
-<text text-anchor="middle" x="65" y="-199.32" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="65" y="-182.07" font-family="Times,serif" font-size="14.00">Data</text>
-</g>
 <!-- y -->
-<g id="node2" class="node">
+<g id="node1" class="node">
 <title>y</title>
 <ellipse fill="none" stroke="black" cx="65" cy="-83.5" rx="48.97" ry="42.25"/>
 <text text-anchor="middle" x="65" y="-96.07" font-family="Times,serif" font-size="14.00">y</text>
 <text text-anchor="middle" x="65" y="-78.82" font-family="Times,serif" font-size="14.00">~</text>
 <text text-anchor="middle" x="65" y="-61.57" font-family="Times,serif" font-size="14.00">Normal</text>
 </g>
+<!-- x -->
+<g id="node2" class="node">
+<title>x</title>
+<path fill="lightgrey" stroke="black" d="M80,-233.87C80,-233.87 50,-233.87 50,-233.87 44,-233.87 38,-227.87 38,-221.87 38,-221.87 38,-186.12 38,-186.12 38,-180.12 44,-174.12 50,-174.12 50,-174.12 80,-174.12 80,-174.12 86,-174.12 92,-180.12 92,-186.12 92,-186.12 92,-221.87 92,-221.87 92,-227.87 86,-233.87 80,-233.87"/>
+<text text-anchor="middle" x="65" y="-216.57" font-family="Times,serif" font-size="14.00">x</text>
+<text text-anchor="middle" x="65" y="-199.32" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="65" y="-182.07" font-family="Times,serif" font-size="14.00">Data</text>
+</g>
 <!-- x&#45;&gt;y -->
-<g id="edge2" class="edge">
+<g id="edge4" class="edge">
 <title>x&#45;&gt;y</title>
 <path fill="none" stroke="black" d="M65,-173.71C65,-162.69 65,-149.79 65,-137.29"/>
 <polygon fill="black" stroke="black" points="68.5,-137.49 65,-127.49 61.5,-137.49 68.5,-137.49"/>
 </g>
-<!-- sigma -->
-<g id="node3" class="node">
-<title>sigma</title>
-<ellipse fill="none" stroke="black" cx="180" cy="-204" rx="50.03" ry="42.25"/>
-<text text-anchor="middle" x="180" y="-216.57" font-family="Times,serif" font-size="14.00">sigma</text>
-<text text-anchor="middle" x="180" y="-199.32" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="180" y="-182.07" font-family="Times,serif" font-size="14.00">Gamma</text>
-</g>
-<!-- sigma&#45;&gt;y -->
-<g id="edge1" class="edge">
-<title>sigma&#45;&gt;y</title>
-<path fill="none" stroke="black" d="M148.58,-170.62C134.77,-156.39 118.43,-139.55 103.87,-124.55"/>
-<polygon fill="black" stroke="black" points="106.52,-122.26 97.04,-117.52 101.49,-127.13 106.52,-122.26"/>
-</g>
 <!-- alpha -->
-<g id="node4" class="node">
+<g id="node3" class="node">
 <title>alpha</title>
-<ellipse fill="none" stroke="black" cx="297" cy="-204" rx="48.97" ry="42.25"/>
-<text text-anchor="middle" x="297" y="-216.57" font-family="Times,serif" font-size="14.00">alpha</text>
-<text text-anchor="middle" x="297" y="-199.32" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="297" y="-182.07" font-family="Times,serif" font-size="14.00">Normal</text>
+<ellipse fill="none" stroke="black" cx="179" cy="-204" rx="48.97" ry="42.25"/>
+<text text-anchor="middle" x="179" y="-216.57" font-family="Times,serif" font-size="14.00">alpha</text>
+<text text-anchor="middle" x="179" y="-199.32" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="179" y="-182.07" font-family="Times,serif" font-size="14.00">Normal</text>
 </g>
 <!-- alpha&#45;&gt;y -->
-<g id="edge3" class="edge">
+<g id="edge1" class="edge">
 <title>alpha&#45;&gt;y</title>
-<path fill="none" stroke="black" d="M260.6,-175.45C253.59,-170.63 246.19,-165.85 239,-161.75 200.75,-139.95 155.19,-119.92 120.28,-105.72"/>
-<polygon fill="black" stroke="black" points="121.8,-102.56 111.22,-102.07 119.19,-109.05 121.8,-102.56"/>
+<path fill="none" stroke="black" d="M148.15,-170.93C134.46,-156.7 118.21,-139.81 103.72,-124.74"/>
+<polygon fill="black" stroke="black" points="106.38,-122.46 96.92,-117.68 101.33,-127.32 106.38,-122.46"/>
+</g>
+<!-- sigma -->
+<g id="node4" class="node">
+<title>sigma</title>
+<ellipse fill="none" stroke="black" cx="296" cy="-204" rx="50.03" ry="42.25"/>
+<text text-anchor="middle" x="296" y="-216.57" font-family="Times,serif" font-size="14.00">sigma</text>
+<text text-anchor="middle" x="296" y="-199.32" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="296" y="-182.07" font-family="Times,serif" font-size="14.00">Gamma</text>
+</g>
+<!-- sigma&#45;&gt;y -->
+<g id="edge2" class="edge">
+<title>sigma&#45;&gt;y</title>
+<path fill="none" stroke="black" d="M258.6,-175.29C251.57,-170.53 244.17,-165.82 237,-161.75 199.2,-140.3 154.35,-120.32 119.92,-106.06"/>
+<polygon fill="black" stroke="black" points="121.57,-102.95 110.99,-102.39 118.92,-109.43 121.57,-102.95"/>
 </g>
 <!-- beta -->
 <g id="node5" class="node">
@@ -72,7 +72,7 @@
 <text text-anchor="middle" x="413" y="-182.07" font-family="Times,serif" font-size="14.00">Normal</text>
 </g>
 <!-- beta&#45;&gt;y -->
-<g id="edge4" class="edge">
+<g id="edge3" class="edge">
 <title>beta&#45;&gt;y</title>
 <path fill="none" stroke="black" d="M377.41,-174.72C370.26,-169.91 362.6,-165.32 355,-161.75 279.36,-126.2 184.65,-104.87 124.46,-93.9"/>
 <polygon fill="black" stroke="black" points="125.22,-90.48 114.76,-92.17 123.99,-97.37 125.22,-90.48"/>
