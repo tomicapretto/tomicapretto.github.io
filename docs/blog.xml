@@ -9904,6 +9904,7 @@ f64
  ]]></description>
   <guid>https://tomicapretto.github.io/posts/2022-06-26_tidypolars/</guid>
   <pubDate>Sun, 26 Jun 2022 03:00:00 GMT</pubDate>
+  <media:content url="https://tomicapretto.github.io/posts/2022-06-26_tidypolars/imgs/tidypolars_logo.png" medium="image" type="image/png" height="166" width="144"/>
 </item>
 <item>
   <title>Hierarchical modeling with the LKJ prior in PyMC</title>
@@ -15375,6 +15376,7 @@ font-style: inherit;">1</span>})</span></code></pre></div>
 </section></div> ]]></description>
   <guid>https://tomicapretto.github.io/posts/2021-06-28_first-weeks-of-gsoc/</guid>
   <pubDate>Mon, 28 Jun 2021 03:00:00 GMT</pubDate>
+  <media:content url="https://tomicapretto.github.io/posts/2021-06-28_first-weeks-of-gsoc/imgs/gsoc_logo.png" medium="image" type="image/png" height="105" width="144"/>
 </item>
 <item>
   <title>Design matrices for group-specific effects in formulae and lme4</title>
@@ -16067,6 +16069,7 @@ font-style: inherit;">==</span> dog_and_side_by_day)</span></code></pre></div>
 </section></div> ]]></description>
   <guid>https://tomicapretto.github.io/posts/2021-06-08_group-specific-effects-matrix/</guid>
   <pubDate>Tue, 08 Jun 2021 03:00:00 GMT</pubDate>
+  <media:content url="https://tomicapretto.github.io/posts/2021-06-08_group-specific-effects-matrix/imgs/matrices.png" medium="image" type="image/png" height="103" width="144"/>
 </item>
 <item>
   <title>Why Bambi?</title>
@@ -18466,6 +18469,7 @@ font-style: inherit;">dev.off</span>()</span></code></pre></div>
 </section></div> ]]></description>
   <guid>https://tomicapretto.github.io/posts/2020-11-03_bingo-cards-in-r/</guid>
   <pubDate>Tue, 03 Nov 2020 03:00:00 GMT</pubDate>
+  <media:content url="https://tomicapretto.github.io/posts/2020-11-03_bingo-cards-in-r/imgs/bingo_card_own.PNG" medium="image"/>
 </item>
 </channel>
 </rss>

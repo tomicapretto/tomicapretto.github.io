@@ -79,9 +79,10 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-subtitle','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description"],
+      valueNames: ['listing-project','listing-execute','listing-website','listing-format','listing-language','listing-freeze','listing-toc','listing-toc-title','listing-toc-location','listing-title','listing-summary','listing-date','listing-image','listing-path','listing-outputHref','listing-date-modified','listing-author','listing-description','listing-filename','listing-file-modified','listing-reading-time','listing-word-count',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
+      page: 4,
+    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
+      searchColumns: ["listing-project","listing-execute","listing-website","listing-format","listing-language","listing-freeze","listing-toc","listing-toc-title","listing-toc-location","listing-title","listing-summary","listing-date","listing-image","listing-path","listing-outputHref","listing-date-modified","listing-author","listing-description","listing-filename","listing-file-modified","listing-reading-time","listing-word-count"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -210,362 +211,312 @@ window.Quarto = {
 
 
 
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1730430000000" data-listing-file-modified-sort="1730810952546" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2759">
-<div class="thumbnail">
-<p><a href="./posts/2024-11-01_pymc-data-simulation/index.html" class="no-external"></a></p><a href="./posts/2024-11-01_pymc-data-simulation/index.html" class="no-external">
-<p class="card-img-top"><img src="posts/2024-11-01_pymc-data-simulation/index_files/figure-html/cell-4-output-1.svg"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/2024-11-01_pymc-data-simulation/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2024-11-01_pymc-data-simulation/index.html" class="no-external">Data simulation with PyMC</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2024-11-01_pymc-data-simulation/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/2024-11-01_pymc-data-simulation/index.html" class="no-external">To simulate data in Python, people generally use NumPy or SciPy. Their interfaces are simple and easy to use. For example, to simulate values from a normal distribution, <code>np.r…</code></a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2024-11-01_pymc-data-simulation/index.html" class="no-external">
-<div class="listing-date">
-Nov 1, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1729393200000" data-listing-file-modified-sort="1730081795984" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="543">
-<div class="thumbnail">
-<p><a href="./posts/2024-10-20_book-image-manipulation/index.html" class="no-external"></a></p><a href="./posts/2024-10-20_book-image-manipulation/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/2024-10-20_book-image-manipulation/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2024-10-20_book-image-manipulation/index.html" class="no-external">How I resize images for my reading list</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2024-10-20_book-image-manipulation/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/2024-10-20_book-image-manipulation/index.html" class="no-external">Earlier this year, I started tracking the books I read, which led to the creation of the Reading section on my website. There, I applied some of the CSS and HTML skills I…</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2024-10-20_book-image-manipulation/index.html" class="no-external">
-<div class="listing-date">
-Oct 20, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1706756400000" data-listing-file-modified-sort="1730074383624" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="305">
-<div class="thumbnail">
-<p><a href="./posts/2024-02-01_starting_a_reading_list/index.html" class="no-external"></a></p><a href="./posts/2024-02-01_starting_a_reading_list/index.html" class="no-external">
-<p class="card-img-top"><img src="posts/2024-02-01_starting_a_reading_list/reading.jpg"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/2024-02-01_starting_a_reading_list/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2024-02-01_starting_a_reading_list/index.html" class="no-external">I’m starting a reading list!</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2024-02-01_starting_a_reading_list/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/2024-02-01_starting_a_reading_list/index.html" class="no-external">I never considered myself a bookworm. I didn’t grow up in a place where reading was encouraged nor am I talking about books with people all the time, at least not to the…</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2024-02-01_starting_a_reading_list/index.html" class="no-external">
-<div class="listing-date">
-Feb 1, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1673665200000" data-listing-file-modified-sort="1730074383624" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1826">
-<div class="thumbnail">
-<p><a href="./posts/2023-01-14_add_custom_family_bambi/index.html" class="no-external"></a></p><a href="./posts/2023-01-14_add_custom_family_bambi/index.html" class="no-external">
-<p class="card-img-top"><img src="posts/2023-01-14_add_custom_family_bambi/index_files/figure-html/cell-5-output-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/2023-01-14_add_custom_family_bambi/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2023-01-14_add_custom_family_bambi/index.html" class="no-external">How to create a custom family in Bambi?</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2023-01-14_add_custom_family_bambi/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/2023-01-14_add_custom_family_bambi/index.html" class="no-external">Bambi is the project I dedicate the vast majority of my open-source development time. My goal is to make it a little better every time I push to the main branch. Lately I’ve…<sup></sup></a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2023-01-14_add_custom_family_bambi/index.html" class="no-external">
-<div class="listing-date">
-Jan 14, 2023
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1656212400000" data-listing-file-modified-sort="1730074383614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="892">
-<div class="thumbnail">
-<p><a href="./posts/2022-06-26_tidypolars/index.html" class="no-external"></a></p><a href="./posts/2022-06-26_tidypolars/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/2022-06-26_tidypolars/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2022-06-26_tidypolars/index.html" class="no-external">Let’s use tidypolars more</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2022-06-26_tidypolars/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/2022-06-26_tidypolars/index.html" class="no-external">In this blogpost I’m going to show how to perform the same task with pandas, the most popular library for data analysis in Python, and tidypolars, a new library to do data…</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2022-06-26_tidypolars/index.html" class="no-external">
-<div class="listing-date">
-Jun 26, 2022
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="5" data-listing-date-sort="1655002800000" data-listing-file-modified-sort="1730074383614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2003">
-<div class="thumbnail">
-<p><a href="./posts/2022-06-12_lkj-prior/index.html" class="no-external"></a></p><a href="./posts/2022-06-12_lkj-prior/index.html" class="no-external">
-<p class="card-img-top"><img src="posts/2022-06-12_lkj-prior/index_files/figure-html/cell-8-output-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/2022-06-12_lkj-prior/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2022-06-12_lkj-prior/index.html" class="no-external">Hierarchical modeling with the LKJ prior in PyMC</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2022-06-12_lkj-prior/index.html" class="no-external">I describe how to use the <code>LKJCholeskyCov</code> and <code>LKJCorr</code> distributions to include correlated priors in Bayesian hierarchical modeling using PyMC. </a>
-</div>
-<div class="listing-description">
-<a href="./posts/2022-06-12_lkj-prior/index.html" class="no-external">Throughout this blogpost, I will be working with the famous <strong>sleepstudy</strong> dataset. I’m going to estimate a <strong>hierarchical linear regression</strong> with both <strong>varying intercepts</strong> and <strong>varyin…</strong><strong></strong></a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2022-06-12_lkj-prior/index.html" class="no-external">
-<div class="listing-date">
-Jun 12, 2022
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="6" data-listing-date-sort="1629169200000" data-listing-file-modified-sort="1730074383594" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="227">
-<div class="thumbnail">
-<p><a href="./posts/2021-08-17_gsoc-2021-final-evaluation/index.html" class="no-external"></a></p><a href="./posts/2021-08-17_gsoc-2021-final-evaluation/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/2021-08-17_gsoc-2021-final-evaluation/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2021-08-17_gsoc-2021-final-evaluation/index.html" class="no-external">GSOC 2021: Final evaluation</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2021-08-17_gsoc-2021-final-evaluation/index.html" class="no-external">Final post about Google Summer of Code 2021. This post sums up my contributions to the Bambi library during the ten weeks of this program. </a>
-</div>
-<div class="listing-description">
-<a href="./posts/2021-08-17_gsoc-2021-final-evaluation/index.html" class="no-external">In this short blogpost, I’m going to summarize my contributions to the Bambi library during this Google Summer of Code.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2021-08-17_gsoc-2021-final-evaluation/index.html" class="no-external">
-<div class="listing-date">
-Aug 17, 2021
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="7" data-listing-date-sort="1627959600000" data-listing-file-modified-sort="1730074383594" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="921">
-<div class="thumbnail">
-<p><a href="./posts/2021-08-03_binomial-family-in-Bambi/index.html" class="no-external"></a></p><a href="./posts/2021-08-03_binomial-family-in-Bambi/index.html" class="no-external">
-<p><img loading="lazy" src="./posts/2021-08-03_binomial-family-in-Bambi/imgs/plot.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/2021-08-03_binomial-family-in-Bambi/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2021-08-03_binomial-family-in-Bambi/index.html" class="no-external">Binomial family in Bambi</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2021-08-03_binomial-family-in-Bambi/index.html" class="no-external">My fourth post describing work done during GSoC 2021. On this occasion, I’m introducing the Binomial family. This new family is very useful to build models for binary data when each row in the data set contains the number of successes and the number of trials instead of the results of Bernoulli trials. </a>
-</div>
-<div class="listing-description">
-<a href="./posts/2021-08-03_binomial-family-in-Bambi/index.html" class="no-external">Although GSoC 2021 is close to come to an end, there’s still a lot of exciting things going on around Bambi. Today I’m going to talk about another new family that’s about to…</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2021-08-03_binomial-family-in-Bambi/index.html" class="no-external">
-<div class="listing-date">
-Aug 3, 2021
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="8" data-listing-date-sort="1626231600000" data-listing-file-modified-sort="1730074383594" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="793">
-<div class="thumbnail">
-<p><a href="./posts/2021-07-14_new-families-in-Bambi/index.html" class="no-external"></a></p><a href="./posts/2021-07-14_new-families-in-Bambi/index.html" class="no-external">
-<p><img loading="lazy" src="./posts/2021-07-14_new-families-in-Bambi/imgs/plot.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/2021-07-14_new-families-in-Bambi/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2021-07-14_new-families-in-Bambi/index.html" class="no-external">New families in Bambi</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2021-07-14_new-families-in-Bambi/index.html" class="no-external">In this third post about my work during this Google Summer of Code I describe two families of models recently added. The first one, is the Student T family, used to make linear regressions more robust. The second, is the Beta family which can be used to model ratings and proportions. </a>
-</div>
-<div class="listing-description">
-<a href="./posts/2021-07-14_new-families-in-Bambi/index.html" class="no-external">I’m very happy I could contribute with many exciting changes to Bambi. Some changes, such as the reorganization of the default priors and built-in families, are not visible…</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2021-07-14_new-families-in-Bambi/index.html" class="no-external">
-<div class="listing-date">
-Jul 14, 2021
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="9" data-listing-date-sort="1625454000000" data-listing-file-modified-sort="1730074383594" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="895">
-<div class="thumbnail">
-<p><a href="./posts/2021-07-05_robust-linear-regression-with-Bambi/index.html" class="no-external"></a></p><a href="./posts/2021-07-05_robust-linear-regression-with-Bambi/index.html" class="no-external">
-<p><img loading="lazy" src="./posts/2021-07-05_robust-linear-regression-with-Bambi/imgs/plot.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/2021-07-05_robust-linear-regression-with-Bambi/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2021-07-05_robust-linear-regression-with-Bambi/index.html" class="no-external">Robust linear regression in Bambi</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2021-07-05_robust-linear-regression-with-Bambi/index.html" class="no-external">Second post about this Google Summer of Code season. Today I show some of the problems associated with outliers in linear regression and demonstrate how one can implement a robust linear regression in Bambi. </a>
-</div>
-<div class="listing-description">
-<a href="./posts/2021-07-05_robust-linear-regression-with-Bambi/index.html" class="no-external">The next thing in my TODO list for this Google Summer of Code season with NumFOCUS is to add new families of models to Bambi. This is still a WIP but I wanted to show you…<code></code></a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2021-07-05_robust-linear-regression-with-Bambi/index.html" class="no-external">
-<div class="listing-date">
-Jul 5, 2021
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="10" data-listing-date-sort="1624849200000" data-listing-file-modified-sort="1730074383584" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="627">
-<div class="thumbnail">
-<p><a href="./posts/2021-06-28_first-weeks-of-gsoc/index.html" class="no-external"></a></p><a href="./posts/2021-06-28_first-weeks-of-gsoc/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/2021-06-28_first-weeks-of-gsoc/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2021-06-28_first-weeks-of-gsoc/index.html" class="no-external">First weeks of GSoC</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2021-06-28_first-weeks-of-gsoc/index.html" class="no-external">First post of a series about my contributions to Bambi in this Google Summer of Code season. This post highlights new features related to default priors and priors for group-specific effects. </a>
-</div>
-<div class="listing-description">
-<a href="./posts/2021-06-28_first-weeks-of-gsoc/index.html" class="no-external">I am really happy to participate in this Google Summer of Code season with NumFOCUS to contribute to the Bambi library. The coding period ranges from June 7 to August 16…</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2021-06-28_first-weeks-of-gsoc/index.html" class="no-external">
-<div class="listing-date">
-Jun 28, 2021
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="11" data-listing-date-sort="1623121200000" data-listing-file-modified-sort="1730074383584" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1555">
-<div class="thumbnail">
-<p><a href="./posts/2021-06-08_group-specific-effects-matrix/index.html" class="no-external"></a></p><a href="./posts/2021-06-08_group-specific-effects-matrix/index.html" class="no-external">
-<p class="card-img-top"><img src="posts/2021-06-08_group-specific-effects-matrix/index_files/figure-html/unnamed-chunk-10-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/2021-06-08_group-specific-effects-matrix/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2021-06-08_group-specific-effects-matrix/index.html" class="no-external">Design matrices for group-specific effects in formulae and lme4</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2021-06-08_group-specific-effects-matrix/index.html" class="no-external">Bambi uses the library formulae to automatically construct design matrices for both common and group-specific effects. This post compares design matrices for group-specific effects obtained with formulae for a variety of scenarios involving categorical variables with the ones obtained with the R package lme4. </a>
-</div>
-<div class="listing-description">
-<a href="./posts/2021-06-08_group-specific-effects-matrix/index.html" class="no-external">A linear mixed model can be written as</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2021-06-08_group-specific-effects-matrix/index.html" class="no-external">
-<div class="listing-date">
-Jun 8, 2021
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="12" data-listing-date-sort="1621825200000" data-listing-file-modified-sort="1730074383584" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1307">
-<div class="thumbnail">
-<p><a href="./posts/2021-05-24_why-bambi/index.html" class="no-external"></a></p><a href="./posts/2021-05-24_why-bambi/index.html" class="no-external">
-<p><img loading="lazy" src="./posts/2021-05-24_why-bambi/imgs/plot.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/2021-05-24_why-bambi/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2021-05-24_why-bambi/index.html" class="no-external">Why Bambi?</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2021-05-24_why-bambi/index.html" class="no-external">An example comparing how to fit a GLM with Bambi and PyMC3. Here I attempt to highlight how Bambi can help us to write a Bayesian GLM in a concise manner, saving us from having to realize error-prone tasks that are sometimes necessary when directly working with PyMC3. </a>
-</div>
-<div class="listing-description">
-<a href="./posts/2021-05-24_why-bambi/index.html" class="no-external">I’ve been thinking about writing a new blog post for a while now but honestly, there was nothing coming to my mind that made me think “Oh, yeah, this is interesting, it can…</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2021-05-24_why-bambi/index.html" class="no-external">
-<div class="listing-date">
-May 24, 2021
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="13" data-listing-date-sort="1604372400000" data-listing-file-modified-sort="1730074383584" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4088">
-<div class="thumbnail">
-<p><a href="./posts/2020-11-03_bingo-cards-in-r/index.html" class="no-external"></a></p><a href="./posts/2020-11-03_bingo-cards-in-r/index.html" class="no-external">
-<p class="card-img-top"><img src="posts/2020-11-03_bingo-cards-in-r/imgs/bingo_card.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/2020-11-03_bingo-cards-in-r/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2020-11-03_bingo-cards-in-r/index.html" class="no-external">How to generate bingo cards in R</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/2020-11-03_bingo-cards-in-r/index.html" class="no-external">A walkthrough the process of understanding how bingo cards are composed and a set of R functions that let us generate random bingo cards and print them in a nice looking .pdf output. </a>
-</div>
-<div class="listing-description">
-<a href="./posts/2020-11-03_bingo-cards-in-r/index.html" class="no-external">Hello wor… Well, my first hello world post appeared about a year ago, but this site had the same fate as many of my othe side-projects… abandonment.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/2020-11-03_bingo-cards-in-r/index.html" class="no-external">
-<div class="listing-date">
-Nov 3, 2020
-</div>
-</a>
-</div>
-</div>
+<div class="quarto-listing quarto-listing-container-custom" id="listing-listing">
+<div class="post-listings-container">
+    
+    <div class="post-listing">
+        <div>
+            <h3 class="anchored">
+                <a href="./posts/2024-11-01_pymc-data-simulation/index.html">Data simulation with PyMC</a>
+            </h3>
+            <div>
+                <b>
+                    Nov 1, 2024
+                </b>
+            </div>
+            <div style="margin-top: 0.75em;">
+                    
+            </div>
+        </div>
+        <div style="text-align: center; margin:auto;">
+            <img src="" style="max-width: 250px; max-height:200px">
+        </div>
+    </div>
+    
+    <div class="post-listing">
+        <div>
+            <h3 class="anchored">
+                <a href="./posts/2024-10-20_book-image-manipulation/index.html">How I resize images for my reading list</a>
+            </h3>
+            <div>
+                <b>
+                    Oct 20, 2024
+                </b>
+            </div>
+            <div style="margin-top: 0.75em;">
+                    
+            </div>
+        </div>
+        <div style="text-align: center; margin:auto;">
+            <img src="" style="max-width: 250px; max-height:200px">
+        </div>
+    </div>
+    
+    <div class="post-listing">
+        <div>
+            <h3 class="anchored">
+                <a href="./posts/2024-02-01_starting_a_reading_list/index.html">I'm starting a reading list!</a>
+            </h3>
+            <div>
+                <b>
+                    Feb 1, 2024
+                </b>
+            </div>
+            <div style="margin-top: 0.75em;">
+                    
+            </div>
+        </div>
+        <div style="text-align: center; margin:auto;">
+            <img src="" style="max-width: 250px; max-height:200px">
+        </div>
+    </div>
+    
+    <div class="post-listing">
+        <div>
+            <h3 class="anchored">
+                <a href="./posts/2023-01-14_add_custom_family_bambi/index.html">How to create a custom family in Bambi?</a>
+            </h3>
+            <div>
+                <b>
+                    Jan 14, 2023
+                </b>
+            </div>
+            <div style="margin-top: 0.75em;">
+                    
+            </div>
+        </div>
+        <div style="text-align: center; margin:auto;">
+            <img src="" style="max-width: 250px; max-height:200px">
+        </div>
+    </div>
+    
+    <div class="post-listing">
+        <div>
+            <h3 class="anchored">
+                <a href="./posts/2022-06-26_tidypolars/index.html">Let's use tidypolars more</a>
+            </h3>
+            <div>
+                <b>
+                    Jun 26, 2022
+                </b>
+            </div>
+            <div style="margin-top: 0.75em;">
+                    
+            </div>
+        </div>
+        <div style="text-align: center; margin:auto;">
+            <img src="./posts/2022-06-26_tidypolars/imgs/tidypolars_logo.png" style="max-width: 250px; max-height:200px">
+        </div>
+    </div>
+    
+    <div class="post-listing">
+        <div>
+            <h3 class="anchored">
+                <a href="./posts/2022-06-12_lkj-prior/index.html">Hierarchical modeling with the LKJ prior in PyMC</a>
+            </h3>
+            <div>
+                <b>
+                    Jun 12, 2022
+                </b>
+            </div>
+            <div style="margin-top: 0.75em;">
+                    I describe how to use the `LKJCholeskyCov` and `LKJCorr` distributions
+to include correlated priors in Bayesian hierarchical modeling using PyMC.
+
+            </div>
+        </div>
+        <div style="text-align: center; margin:auto;">
+            <img src="" style="max-width: 250px; max-height:200px">
+        </div>
+    </div>
+    
+    <div class="post-listing">
+        <div>
+            <h3 class="anchored">
+                <a href="./posts/2021-08-17_gsoc-2021-final-evaluation/index.html">GSOC 2021: Final evaluation</a>
+            </h3>
+            <div>
+                <b>
+                    Aug 17, 2021
+                </b>
+            </div>
+            <div style="margin-top: 0.75em;">
+                    Final post about Google Summer of Code 2021. <br>
+This post sums up my contributions to the Bambi library during the ten weeks of this program.
+
+            </div>
+        </div>
+        <div style="text-align: center; margin:auto;">
+            <img src="" style="max-width: 250px; max-height:200px">
+        </div>
+    </div>
+    
+    <div class="post-listing">
+        <div>
+            <h3 class="anchored">
+                <a href="./posts/2021-08-03_binomial-family-in-Bambi/index.html">Binomial family in Bambi</a>
+            </h3>
+            <div>
+                <b>
+                    Aug 3, 2021
+                </b>
+            </div>
+            <div style="margin-top: 0.75em;">
+                    My fourth post describing work done during GSoC 2021. On this
+occasion, I'm introducing the Binomial family. This new family is very useful
+to build models for binary data when each row in the data set contains the
+number of successes and the number of trials instead of the results of
+Bernoulli trials.
+
+            </div>
+        </div>
+        <div style="text-align: center; margin:auto;">
+            <img src="./posts/2021-08-03_binomial-family-in-Bambi/imgs/plot.png" style="max-width: 250px; max-height:200px">
+        </div>
+    </div>
+    
+    <div class="post-listing">
+        <div>
+            <h3 class="anchored">
+                <a href="./posts/2021-07-14_new-families-in-Bambi/index.html">New families in Bambi</a>
+            </h3>
+            <div>
+                <b>
+                    Jul 14, 2021
+                </b>
+            </div>
+            <div style="margin-top: 0.75em;">
+                    In this third post about my work during this Google Summer of Code
+I describe two families of models recently added. The first one, is the
+Student T family, used to make linear regressions more robust. The second,
+is the Beta family which can be used to model ratings and proportions.
+
+            </div>
+        </div>
+        <div style="text-align: center; margin:auto;">
+            <img src="./posts/2021-07-14_new-families-in-Bambi/imgs/plot.png" style="max-width: 250px; max-height:200px">
+        </div>
+    </div>
+    
+    <div class="post-listing">
+        <div>
+            <h3 class="anchored">
+                <a href="./posts/2021-07-05_robust-linear-regression-with-Bambi/index.html">Robust linear regression in Bambi</a>
+            </h3>
+            <div>
+                <b>
+                    Jul 5, 2021
+                </b>
+            </div>
+            <div style="margin-top: 0.75em;">
+                    Second post about this Google Summer of Code season. <br>
+Today I show some of the problems associated with outliers in linear regression and demonstrate
+how one can implement a robust linear regression in Bambi.
+
+            </div>
+        </div>
+        <div style="text-align: center; margin:auto;">
+            <img src="./posts/2021-07-05_robust-linear-regression-with-Bambi/imgs/plot.png" style="max-width: 250px; max-height:200px">
+        </div>
+    </div>
+    
+    <div class="post-listing">
+        <div>
+            <h3 class="anchored">
+                <a href="./posts/2021-06-28_first-weeks-of-gsoc/index.html">First weeks of GSoC</a>
+            </h3>
+            <div>
+                <b>
+                    Jun 28, 2021
+                </b>
+            </div>
+            <div style="margin-top: 0.75em;">
+                    First post of a series about my contributions to Bambi in this Google Summer of Code season.<br>
+This post highlights new features related to default priors and priors for group-specific effects.
+
+            </div>
+        </div>
+        <div style="text-align: center; margin:auto;">
+            <img src="./posts/2021-06-28_first-weeks-of-gsoc/imgs/gsoc_logo.png" style="max-width: 250px; max-height:200px">
+        </div>
+    </div>
+    
+    <div class="post-listing">
+        <div>
+            <h3 class="anchored">
+                <a href="./posts/2021-06-08_group-specific-effects-matrix/index.html">Design matrices for group-specific effects in formulae and lme4</a>
+            </h3>
+            <div>
+                <b>
+                    Jun 8, 2021
+                </b>
+            </div>
+            <div style="margin-top: 0.75em;">
+                    Bambi uses the library formulae to automatically construct design
+matrices for both common and group-specific effects. This post compares design
+matrices for group-specific effects obtained with formulae for a variety of
+scenarios involving categorical variables with the ones obtained with the R
+package lme4.
+
+            </div>
+        </div>
+        <div style="text-align: center; margin:auto;">
+            <img src="./posts/2021-06-08_group-specific-effects-matrix/imgs/matrices.png" style="max-width: 250px; max-height:200px">
+        </div>
+    </div>
+    
+    <div class="post-listing">
+        <div>
+            <h3 class="anchored">
+                <a href="./posts/2021-05-24_why-bambi/index.html">Why Bambi?</a>
+            </h3>
+            <div>
+                <b>
+                    May 24, 2021
+                </b>
+            </div>
+            <div style="margin-top: 0.75em;">
+                    An example comparing how to fit a GLM with Bambi and PyMC3. Here I
+attempt to highlight how Bambi can help us to write a Bayesian GLM in a concise
+manner, saving us from having to realize error-prone tasks that are sometimes
+necessary when directly working with PyMC3.
+
+            </div>
+        </div>
+        <div style="text-align: center; margin:auto;">
+            <img src="./posts/2021-05-24_why-bambi/imgs/plot.png" style="max-width: 250px; max-height:200px">
+        </div>
+    </div>
+    
+    <div class="post-listing">
+        <div>
+            <h3 class="anchored">
+                <a href="./posts/2020-11-03_bingo-cards-in-r/index.html">How to generate bingo cards in R</a>
+            </h3>
+            <div>
+                <b>
+                    Nov 3, 2020
+                </b>
+            </div>
+            <div style="margin-top: 0.75em;">
+                    A walkthrough the process of understanding how bingo cards are composed
+and a set of R functions that let us generate random bingo cards and print them
+in a nice looking .pdf output.
+
+            </div>
+        </div>
+        <div style="text-align: center; margin:auto;">
+            <img src="./posts/2020-11-03_bingo-cards-in-r/imgs/bingo_card_own.PNG" style="max-width: 250px; max-height:200px">
+        </div>
+    </div>
+    
 </div>
 <div class="listing-no-matching d-none">
 No matching items
 </div>
+<nav id="listing-pagination" class="listing-pagination" aria-label="Page Navigation">
+  <ul class="pagination"></ul>
+</nav>
 </div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

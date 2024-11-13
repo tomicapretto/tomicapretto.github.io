@@ -1,9 +1,13 @@
 ---
 title: "Blog -  cause it's better when it's shared"
 listing:
-    feed: true
     contents: posts
+    field-types:
+        custom-date: date
+    template: posts.ejs
+    feed: true
     sort: "date desc"
     type: default
+    page-size: 4
 page-layout: full
 ---

@@ -1,12 +1,13 @@
 ---
 title: "Design matrices for group-specific effects in formulae and lme4"
-subtitle: |
+summary: |
   Bambi uses the library formulae to automatically construct design
   matrices for both common and group-specific effects. This post compares design
   matrices for group-specific effects obtained with formulae for a variety of
   scenarios involving categorical variables with the ones obtained with the R
   package lme4.
 date: 2021-06-08
+image: imgs/matrices.png
 ---
 
 ## Introduction

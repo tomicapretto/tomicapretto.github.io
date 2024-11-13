@@ -1,0 +1,25 @@
+
+```{=html}
+<div class="post-listings-container">
+    <% for (const item of items) { %>
+    <div class="post-listing">
+        <div>
+            <h3>
+                <a href="<%- item.path %>"><%= item.title %></a>
+            </h3>
+            <div>
+                <b>
+                    <%= item.date %>
+                </b>
+            </div>
+            <div style="margin-top: 0.75em;">
+                    <%= item.summary %>
+            </div>
+        </div>
+        <div style="text-align: center; margin:auto;">
+            <img src="<%- item.image %>" style="max-width: 250px; max-height:200px"/>
+        </div>
+    </div>
+    <% } %>
+</div>
+```

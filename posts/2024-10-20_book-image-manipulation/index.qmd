@@ -1,5 +1,6 @@
 ---
 title: "How I resize images for my reading list"
+summary: ""
 date: "2024-10-20"
 ---
 

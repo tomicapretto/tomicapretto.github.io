@@ -1,10 +1,11 @@
 ---
 title: "How to generate bingo cards in R"
-subtitle: |
+summary: |
   A walkthrough the process of understanding how bingo cards are composed
   and a set of R functions that let us generate random bingo cards and print them
   in a nice looking .pdf output.
 date: 2020-11-03
+image: imgs/bingo_card_own.PNG
 ---
 
 Hello wor... Well, my first hello world post appeared about a year ago,
