@@ -255,7 +255,7 @@ figure figcaption {
 
     @media (min-width: 768px) {
         .two-column-layout {
-            display:grid; 
+            display:grid;
             grid-template-columns: 1fr 1fr;
         }
     }
