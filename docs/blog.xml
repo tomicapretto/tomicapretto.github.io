@@ -10,7 +10,973 @@
 <atom:link href="https://tomicapretto.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.7.32</generator>
-<lastBuildDate>Fri, 01 Nov 2024 03:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 12 Aug 2025 03:00:00 GMT</lastBuildDate>
+<item>
+  <title>Should I fix the intercept?</title>
+  <link>https://tomicapretto.github.io/posts/2025-08-12_regression-with-fixed-intercept/</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>I was working on a model where I knew the value of <img src="https://latex.codecogs.com/png.latex?Y"> when <img src="https://latex.codecogs.com/png.latex?X%20=%200">. This left me in the uncomfortable position of deciding whether to give the intercept a strong prior or simply fix it to a constant value. Since I was too lazy to work out the math by hand, I decided to go for a computationally assisted approach to determine whether that choice made sense.</p>
+<div id="fe927c4c" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> plt</span>
+<span id="cb1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> numpy <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> np</span>
+<span id="cb1-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> pandas <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> pd</span>
+<span id="cb1-4"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> statsmodels.api <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> sm</span></code></pre></div>
+</details>
+</div>
+<section id="where-it-fails" class="level2">
+<h2 class="anchored" data-anchor-id="where-it-fails">Where it fails</h2>
+<p>In the past, I’ve used the <code>heights</code> dataset from Karl Pearson and Alice Lee to teach linear regression. It’s a classic dataset where the goal is to predict a daughter’s height (<img src="https://latex.codecogs.com/png.latex?Y">) from her mother’s height (<img src="https://latex.codecogs.com/png.latex?X">). Let’s have a quick look at it.</p>
+<div id="5e9d7d9b" class="cell center-table-40" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1">url_heights <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"https://raw.githubusercontent.com/tomicapretto/introduccion_pymc/main/datos/heights.txt"</span></span>
+<span id="cb2-2">df_heights <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.read_table(url_heights, sep<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">" "</span>)</span>
+<span id="cb2-3">df_heights</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">daughter_height</th>
+<th data-quarto-table-cell-role="th">mother_height</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>52.5</td>
+<td>59.5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>52.5</td>
+<td>59.5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>53.5</td>
+<td>59.5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>53.5</td>
+<td>59.5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>55.5</td>
+<td>59.5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5519</td>
+<td>71.5</td>
+<td>70.5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5520</td>
+<td>73.5</td>
+<td>63.5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5521</td>
+<td>73.5</td>
+<td>63.5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5522</td>
+<td>73.5</td>
+<td>63.5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5523</td>
+<td>73.5</td>
+<td>63.5</td>
+</tr>
+</tbody>
+</table>
+
+<p>5524 rows × 2 columns</p>
+</div>
+</div>
+</div>
+<div id="434a47fa" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.github.io/posts/2025-08-12_regression-with-fixed-intercept/index_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="model-with-intercept" class="level3">
+<h3 class="anchored" data-anchor-id="model-with-intercept">Model with intercept</h3>
+<p>A simple linear regression model with both an intercept and a slope is an obvious choice.</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0AY_i%20%5Cmid%20X_i%20=%20x_i%20%5Csim%20%5Ctext%7BNormal%7D(%5Calpha%20+%20%5Cbeta%20x_i,%20%5Csigma%5E2)%0A"></p>
+<p>And in Python it just takes us a few lines of code:</p>
+<div id="a0c1752f" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">y <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df_heights[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"daughter_height"</span>].to_numpy()</span>
+<span id="cb3-2">X <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.column_stack([np.ones(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(df_heights)), df_heights[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"mother_height"</span>]])</span>
+<span id="cb3-3">model <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sm.OLS(y, X).fit()</span></code></pre></div>
+</div>
+<p>The parameter summary is the following:</p>
+<div id="51cf7921" class="cell center-table-60" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="5">
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td></td>
+<td data-quarto-table-cell-role="th">coef</td>
+<td data-quarto-table-cell-role="th">std err</td>
+<td data-quarto-table-cell-role="th">t</td>
+<td data-quarto-table-cell-role="th">P&gt;|t|</td>
+<td data-quarto-table-cell-role="th">[0.025</td>
+<td data-quarto-table-cell-role="th">0.975]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">const</td>
+<td>29.7984</td>
+<td>0.790</td>
+<td>37.703</td>
+<td>0.000</td>
+<td>28.249</td>
+<td>31.348</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">x1</td>
+<td>0.5449</td>
+<td>0.013</td>
+<td>43.125</td>
+<td>0.000</td>
+<td>0.520</td>
+<td>0.570</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>If you’ve ever had to interpret the coefficients of a regression model, you might have said: “The average height of daughters whose mothers are 0 inches tall is 28.8 inches”. Of course, it makes no sense.</p>
+</section>
+<section id="model-without-intercept" class="level3">
+<h3 class="anchored" data-anchor-id="model-without-intercept">Model without intercept</h3>
+<p>A natural first reaction might be to question whether you need an intercept at all. In that case, you might go ahead and fit the following model without one:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0AY_i%20%5Cmid%20X_i%20=%20x_i%20%5Csim%20%5Ctext%7BNormal%7D(%5Cbeta%20x_i,%20%5Csigma%5E2)%0A"></p>
+<div id="18cb7875" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">model_no_intercept <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sm.OLS(y, X[:, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]).fit()</span></code></pre></div>
+</div>
+<p>Now, the parameter summary contains a single record for the slope:</p>
+<div id="a38184bb" class="cell center-table-60" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="7">
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td></td>
+<td data-quarto-table-cell-role="th">coef</td>
+<td data-quarto-table-cell-role="th">std err</td>
+<td data-quarto-table-cell-role="th">t</td>
+<td data-quarto-table-cell-role="th">P&gt;|t|</td>
+<td data-quarto-table-cell-role="th">[0.025</td>
+<td data-quarto-table-cell-role="th">0.975]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">x1</td>
+<td>1.0210</td>
+<td>0.001</td>
+<td>1871.328</td>
+<td>0.000</td>
+<td>1.020</td>
+<td>1.022</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="comparison" class="level3">
+<h3 class="anchored" data-anchor-id="comparison">Comparison</h3>
+<p>Instead of focusing on the exact values of the estimated slopes, let’s look at the fitted regression lines overlaid on the original scatterplot.</p>
+<div id="4fa28dbe" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">fig, ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplots()</span>
+<span id="cb5-2">ax.scatter(df_heights[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"mother_height"</span>], df_heights[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"daughter_height"</span>], s<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>)</span>
+<span id="cb5-3">ax.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(xlabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Mother height (in)"</span>, ylabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Daughter height (in)"</span>, xlim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">75</span>), ylim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">75</span>))<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb5-4"></span>
+<span id="cb5-5">ax.axline((<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, model.params[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]), slope<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>model.params[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>], color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"C3"</span>, lw<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Model with unknown $</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">alpha$ ($</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">hat{</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">alpha}=29.8$)"</span>)</span>
+<span id="cb5-6">ax.axline((<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>), slope<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>model_no_intercept.params[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>], color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"0.3"</span>, lw<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Model with fixed $</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">alpha$ ($</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">alpha=0$)"</span>)</span>
+<span id="cb5-7">ax.legend()<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.github.io/posts/2025-08-12_regression-with-fixed-intercept/index_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>At first glance, the two models produce remarkably different regression lines, but it is not immediately clear which one best describes the association between the heights. To shed some light on this, let’s look at the RMSE for each model:</p>
+<div id="ba4203e9" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> compute_rmse(y, y_hat):</span>
+<span id="cb6-2">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> np.sqrt(np.mean((y <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> y_hat) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>))</span>
+<span id="cb6-3"></span>
+<span id="cb6-4">rmse_1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> compute_rmse(y, model.predict(X))</span>
+<span id="cb6-5">rmse_2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> compute_rmse(y, model_no_intercept.predict(X[:, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]))</span>
+<span id="cb6-6"></span>
+<span id="cb6-7"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"Model with intercept RMSE: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>rmse_1<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:.3f}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb6-8"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"Model without intercept RMSE: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>rmse_2<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:.3f}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model with intercept RMSE: 2.262
+Model without intercept RMSE: 2.536</code></pre>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<p>The model without an intercept, though initially appealing in theory, ultimately produces larger errors. This is something we could have expected: forcing the intercept to a fixed value, especially when <img src="https://latex.codecogs.com/png.latex?X%20=%200"> lies outside the range of the observed data, can bias the slope estimate.</p>
+<p>As George Box famously remarked, <em>all models are wrong, but some are useful</em>. Usefulness often depends on the range of the explanatory variables, and a model that performs well within a given range may fail to do so outside it.</p>
+</section>
+</section>
+<section id="where-it-works" class="level2">
+<h2 class="anchored" data-anchor-id="where-it-works">Where it works</h2>
+<p>The previous example made it clear that haphazardly fixing the intercept to a value can have unintended consequences.</p>
+<p>However, in the problem that motivated this blog post, I do have a solid basis for fixing the intercept to a specific value.</p>
+<p>Let’s now run a simulation in which the model we use matches the underlying data generating process and <img src="https://latex.codecogs.com/png.latex?X=0"> lies within the range of observed data.</p>
+<p>This turn, we will simulate data using a linear regression model with <img src="https://latex.codecogs.com/png.latex?%5Calpha=2">, <img src="https://latex.codecogs.com/png.latex?%5Cbeta=1">, and <img src="https://latex.codecogs.com/png.latex?%5Csigma=2">.</p>
+<p>We will run <img src="https://latex.codecogs.com/png.latex?S=1000"> iterations where we observe <img src="https://latex.codecogs.com/png.latex?N=50"> data points with <img src="https://latex.codecogs.com/png.latex?X%20%5Cin%20%5B0,%2010%5D">. In the first scenario, we will estimate both <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and <img src="https://latex.codecogs.com/png.latex?%5Cbeta">. In the second, we will fix <img src="https://latex.codecogs.com/png.latex?%5Calpha"> to its true value, and only estimate <img src="https://latex.codecogs.com/png.latex?%5Cbeta">. In both cases, we will record the point estimates as well as the 95% confidence interval for the slope as reported by <code>statsmodels</code>.</p>
+<p>To illustrate, here’s what the simulated data will look like in any given iteration:</p>
+<div id="6043a37c" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1">N <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Number of data points</span></span>
+<span id="cb8-2">S <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span> <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Number of simulations</span></span>
+<span id="cb8-3"></span>
+<span id="cb8-4">a_true <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2.0</span> <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># True intercept</span></span>
+<span id="cb8-5">b_true <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span> <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># True slope</span></span>
+<span id="cb8-6">sigma_true <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2.0</span> <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># True residual standard deviation</span></span>
+<span id="cb8-7"></span>
+<span id="cb8-8">rng <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.random.default_rng(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1234</span>)</span>
+<span id="cb8-9"></span>
+<span id="cb8-10">x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.linspace(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>, num<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>N)</span>
+<span id="cb8-11">y <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> rng.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>a_true <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> b_true <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> x, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>sigma_true)</span>
+<span id="cb8-12"></span>
+<span id="cb8-13">fig, ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplots()</span>
+<span id="cb8-14">ax.scatter(x, y, label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Simulated data"</span>)</span>
+<span id="cb8-15">ax.axline((<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, a_true), slope<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>b_true, color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"C3"</span>, lw<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"True regression line"</span>)</span>
+<span id="cb8-16">ax.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(xlabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"x"</span>, ylabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"y"</span>)</span>
+<span id="cb8-17">ax.legend()<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.github.io/posts/2025-08-12_regression-with-fixed-intercept/index_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="scenario-1-unknown-intercept" class="level3">
+<h3 class="anchored" data-anchor-id="scenario-1-unknown-intercept">Scenario 1: Unknown intercept</h3>
+<p>Here we just simulate datasets and estimate <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and <img src="https://latex.codecogs.com/png.latex?%5Cbeta"> via classic OLS.</p>
+<p>Let’s run the simulation and explore the sampling distribution of <img src="https://latex.codecogs.com/png.latex?%5Chat%7B%5Calpha%7D"> and <img src="https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbeta%7D">.</p>
+<div id="1c4315f4" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1">unknown_intercept_output <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb9-2">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"intercept"</span>: [],</span>
+<span id="cb9-3">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"slope"</span>: [],</span>
+<span id="cb9-4">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"slope_ci"</span>: []</span>
+<span id="cb9-5">}</span>
+<span id="cb9-6"></span>
+<span id="cb9-7">X <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.column_stack([np.ones_like(x),x])</span>
+<span id="cb9-8"></span>
+<span id="cb9-9"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> s <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(S):</span>
+<span id="cb9-10">    y <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> rng.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>a_true <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> b_true <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> x, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>sigma_true)</span>
+<span id="cb9-11">    model <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sm.OLS(y, X).fit()</span>
+<span id="cb9-12">    conf_int <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> model.conf_int()</span>
+<span id="cb9-13"></span>
+<span id="cb9-14">    unknown_intercept_output[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"intercept"</span>].append(model.params[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>].item())</span>
+<span id="cb9-15">    unknown_intercept_output[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"slope"</span>].append(model.params[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>].item())</span>
+<span id="cb9-16">    unknown_intercept_output[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"slope_ci"</span>].append(conf_int[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>])</span>
+<span id="cb9-17"></span>
+<span id="cb9-18"></span>
+<span id="cb9-19">fig, axes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplots(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">11</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>), sharey<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb9-20">fig.subplots_adjust(wspace<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.1</span>)</span>
+<span id="cb9-21"></span>
+<span id="cb9-22">axes[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>].hist(unknown_intercept_output[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"intercept"</span>], bins<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>)</span>
+<span id="cb9-23">axes[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>].hist(unknown_intercept_output[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"slope"</span>], bins<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>)</span>
+<span id="cb9-24"></span>
+<span id="cb9-25">axes[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(xlabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"$</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">hat{</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">alpha}$"</span>, yticks<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[])</span>
+<span id="cb9-26">axes[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(xlabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"$</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">hat{</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">beta}$"</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb9-27"></span>
+<span id="cb9-28">axes[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>].axvline(a_true, color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"C3"</span>, lw<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2.5</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb9-29">axes[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>].axvline(b_true, color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"C3"</span>, lw<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2.5</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.github.io/posts/2025-08-12_regression-with-fixed-intercept/index_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>There are no surprises here: both distributions are centered around the true values of <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and <img src="https://latex.codecogs.com/png.latex?%5Cbeta">.</p>
+</section>
+<section id="scenaro-2-fixed-intercept" class="level3">
+<h3 class="anchored" data-anchor-id="scenaro-2-fixed-intercept">Scenaro 2: Fixed intercept</h3>
+<p>In this other scenario, we again simulate datasets and estimate parameters via OLS, but this time we fix the value of the intercept to <img src="https://latex.codecogs.com/png.latex?%5Calpha=2">.</p>
+<div id="e242c3e6" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1">known_intercept_output <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb10-2">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"slope"</span>: [],</span>
+<span id="cb10-3">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"slope_ci"</span>: []</span>
+<span id="cb10-4">}</span>
+<span id="cb10-5"></span>
+<span id="cb10-6"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> s <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(S):</span>
+<span id="cb10-7">    y <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> rng.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>a_true <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> b_true <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> x, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>sigma_true)</span>
+<span id="cb10-8">    model <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sm.OLS(y <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> a_true, x).fit()</span>
+<span id="cb10-9">    known_intercept_output[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"slope"</span>].append(model.params[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>].item())</span>
+<span id="cb10-10">    known_intercept_output[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"slope_ci"</span>].append(model.conf_int()[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>])</span>
+<span id="cb10-11"></span>
+<span id="cb10-12">fig, ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplots()</span>
+<span id="cb10-13">ax.hist(known_intercept_output[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"slope"</span>], bins<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>)</span>
+<span id="cb10-14">ax.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(xlabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"$</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">hat{</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">beta}$"</span>, yticks<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[])</span>
+<span id="cb10-15">ax.axvline(b_true, color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"red"</span>, lw<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.github.io/posts/2025-08-12_regression-with-fixed-intercept/index_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The sampling distribution of <img src="https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbeta%7D"> is again centered on its true value, but it is now more concentrated around that center than before.</p>
+<p>To finalize, we can also compare the sampling distribution of the length of the 95% CI for <img src="https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbeta%7D"> between the two scenarios.</p>
+<div id="c4c8da4a" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1">slope_cis_1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.vstack(unknown_intercept_output[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"slope_ci"</span>])</span>
+<span id="cb11-2">slope_cis_2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.vstack(known_intercept_output[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"slope_ci"</span>])</span>
+<span id="cb11-3"></span>
+<span id="cb11-4">bins <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.linspace(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.1</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.6</span>, num<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>)</span>
+<span id="cb11-5"></span>
+<span id="cb11-6">fig, ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplots()</span>
+<span id="cb11-7">ax.hist(</span>
+<span id="cb11-8">    np.diff(slope_cis_1, axis<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>).flatten(),</span>
+<span id="cb11-9">    density<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>,</span>
+<span id="cb11-10">    color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"C0"</span>,</span>
+<span id="cb11-11">    bins<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>,</span>
+<span id="cb11-12">    alpha<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.8</span>,</span>
+<span id="cb11-13">    label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Model with unknown $</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">alpha$"</span>,</span>
+<span id="cb11-14">)</span>
+<span id="cb11-15"></span>
+<span id="cb11-16">ax.hist(</span>
+<span id="cb11-17">    np.diff(slope_cis_2, axis<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>).flatten(),</span>
+<span id="cb11-18">    density<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>,</span>
+<span id="cb11-19">    color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"C1"</span>,</span>
+<span id="cb11-20">    bins<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>,</span>
+<span id="cb11-21">    alpha<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.8</span>,</span>
+<span id="cb11-22">    label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Model with fixed $</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">alpha$"</span>,</span>
+<span id="cb11-23">)</span>
+<span id="cb11-24"></span>
+<span id="cb11-25">ax.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(xlabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"95% CI length"</span>, yticks<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[])</span>
+<span id="cb11-26">ax.legend()<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.github.io/posts/2025-08-12_regression-with-fixed-intercept/index_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Not only does the sampling distribution of <img src="https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbeta%7D"> has lower uncertainty, but the confidence intervals in each individual iteration are also more concentrated around the estimate.</p>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>Even if the intercept’s meaning doesn’t make sense, leaving it out of a regression model is usually a bad idea.</p>
+<p>That said, there are scenarios where fixing the intercept to zero or to another meaningful value can be justified. And in such cases, if we are right, doing so may actually improve the estimation of other unknown parameters.</p>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://tomicapretto.github.io/posts/2025-08-12_regression-with-fixed-intercept/</guid>
+  <pubDate>Tue, 12 Aug 2025 03:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Data simulation with PyMC</title>
   <link>https://tomicapretto.github.io/posts/2024-11-01_pymc-data-simulation/</link>

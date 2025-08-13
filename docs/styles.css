@@ -244,6 +244,36 @@ figure figcaption {
 }
 
 
+.center-table-30 table {
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-table-40 table {
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-table-50 table {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-table-60 table {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-table-70 table {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /*
     .two-column-layout {
         display:block ;
