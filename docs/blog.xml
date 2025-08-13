@@ -69,7 +69,7 @@ font-style: inherit;">" "</span>)</span>
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -162,9 +162,7 @@ background-color: null;
 font-style: inherit;">"daughter_height"</span>].to_numpy()</span>
 <span id="cb3-2">X <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> np.column_stack([np.ones(<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(df_heights)), df_heights[<span class="st" style="color: #20794D;
+font-style: inherit;">=</span> np.column_stack([np.ones_like(y), df_heights[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"mother_height"</span>]])</span>
 <span id="cb3-3">model <span class="op" style="color: #5E5E5E;
@@ -174,7 +172,7 @@ font-style: inherit;">=</span> sm.OLS(y, X).fit()</span></code></pre></div>
 <p>The parameter summary is the following:</p>
 <div id="51cf7921" class="cell center-table-60" data-execution_count="5">
 <div class="cell-output cell-output-display" data-execution_count="5">
-<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<table class="simpletable caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <tbody>
 <tr class="odd">
 <td></td>
@@ -207,7 +205,7 @@ font-style: inherit;">=</span> sm.OLS(y, X).fit()</span></code></pre></div>
 </table>
 </div>
 </div>
-<p>If you’ve ever had to interpret the coefficients of a regression model, you might have said: “The average height of daughters whose mothers are 0 inches tall is 28.8 inches”. Of course, it makes no sense.</p>
+<p>If you’ve ever had to interpret the coefficients of a regression model, you might have said: “The average height of daughters whose mothers are 0 inches tall is 29.8 inches”. Of course, it makes no sense.</p>
 </section>
 <section id="model-without-intercept" class="level3">
 <h3 class="anchored" data-anchor-id="model-without-intercept">Model without intercept</h3>
@@ -223,7 +221,7 @@ font-style: inherit;">1</span>]).fit()</span></code></pre></div>
 <p>Now, the parameter summary contains a single record for the slope:</p>
 <div id="a38184bb" class="cell center-table-60" data-execution_count="7">
 <div class="cell-output cell-output-display" data-execution_count="7">
-<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<table class="simpletable caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <tbody>
 <tr class="odd">
 <td></td>
@@ -962,7 +960,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 </div>
 </div>
 </div>
-<p>Not only does the sampling distribution of <img src="https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbeta%7D"> has lower uncertainty, but the confidence intervals in each individual iteration are also more concentrated around the estimate.</p>
+<p>Not only does the sampling distribution of <img src="https://latex.codecogs.com/png.latex?%5Chat%7B%5Cbeta%7D"> have lower uncertainty, but the confidence intervals in each individual iteration are also more concentrated around the estimate.</p>
 </section>
 </section>
 <section id="summary" class="level2">
@@ -976,6 +974,7 @@ font-style: inherit;">;</span></span></code></pre></div>
  ]]></description>
   <guid>https://tomicapretto.github.io/posts/2025-08-12_regression-with-fixed-intercept/</guid>
   <pubDate>Tue, 12 Aug 2025 03:00:00 GMT</pubDate>
+  <media:content url="https://tomicapretto.github.io/posts/2025-08-12_regression-with-fixed-intercept/imgs/cover.png" medium="image" type="image/png" height="110" width="144"/>
 </item>
 <item>
   <title>Data simulation with PyMC</title>

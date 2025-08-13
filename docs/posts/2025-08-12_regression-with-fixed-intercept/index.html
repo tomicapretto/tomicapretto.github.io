@@ -262,7 +262,7 @@ window.Quarto = {
 <div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -351,13 +351,13 @@ Y_i \mid X_i = x_i \sim \text{Normal}(\alpha + \beta x_i, \sigma^2)
 <p>And in Python it just takes us a few lines of code:</p>
 <div id="a0c1752f" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_heights[<span class="st">"daughter_height"</span>].to_numpy()</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.column_stack([np.ones(<span class="bu">len</span>(df_heights)), df_heights[<span class="st">"mother_height"</span>]])</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.column_stack([np.ones_like(y), df_heights[<span class="st">"mother_height"</span>]])</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> sm.OLS(y, X).fit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The parameter summary is the following:</p>
 <div id="51cf7921" class="cell center-table-60" data-execution_count="5">
 <div class="cell-output cell-output-display" data-execution_count="5">
-<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<table class="simpletable caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <tbody>
 <tr class="odd">
 <td></td>
@@ -390,7 +390,7 @@ Y_i \mid X_i = x_i \sim \text{Normal}(\alpha + \beta x_i, \sigma^2)
 </table>
 </div>
 </div>
-<p>If you’ve ever had to interpret the coefficients of a regression model, you might have said: “The average height of daughters whose mothers are 0 inches tall is 28.8 inches”. Of course, it makes no sense.</p>
+<p>If you’ve ever had to interpret the coefficients of a regression model, you might have said: “The average height of daughters whose mothers are 0 inches tall is 29.8 inches”. Of course, it makes no sense.</p>
 </section>
 <section id="model-without-intercept" class="level3">
 <h3 class="anchored" data-anchor-id="model-without-intercept">Model without intercept</h3>
@@ -404,7 +404,7 @@ Y_i \mid X_i = x_i \sim \text{Normal}(\beta x_i, \sigma^2)
 <p>Now, the parameter summary contains a single record for the slope:</p>
 <div id="a38184bb" class="cell center-table-60" data-execution_count="7">
 <div class="cell-output cell-output-display" data-execution_count="7">
-<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<table class="simpletable caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <tbody>
 <tr class="odd">
 <td></td>
@@ -627,7 +627,7 @@ Model without intercept RMSE: 2.536</code></pre>
 </div>
 </div>
 </div>
-<p>Not only does the sampling distribution of <span class="math inline">\(\hat{\beta}\)</span> has lower uncertainty, but the confidence intervals in each individual iteration are also more concentrated around the estimate.</p>
+<p>Not only does the sampling distribution of <span class="math inline">\(\hat{\beta}\)</span> have lower uncertainty, but the confidence intervals in each individual iteration are also more concentrated around the estimate.</p>
 </section>
 </section>
 <section id="summary" class="level2">
