@@ -4,6 +4,7 @@ listing:
     contents:
     - "posts/*/*.qmd"
     - "posts/*/*.ipynb"
+    - "posts/*/*.Rmd"
     field-types:
         custom-date: date
     template: posts.ejs
