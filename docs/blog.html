@@ -80,10 +80,10 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-project','listing-execute','listing-website','listing-format','listing-language','listing-freeze','listing-toc','listing-toc-title','listing-toc-location','listing-title','listing-summary','listing-date','listing-image','listing-path','listing-outputHref','listing-date-modified','listing-author','listing-description','listing-filename','listing-file-modified','listing-reading-time','listing-word-count',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
+      valueNames: ['listing-project','listing-execute','listing-website','listing-format','listing-language','listing-freeze','listing-toc','listing-toc-title','listing-toc-location','listing-title','listing-summary','listing-date','listing-image','listing-path','listing-outputHref','listing-date-modified','listing-author','listing-description','listing-filename','listing-file-modified','listing-reading-time','listing-word-count','listing-lang',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
       page: 4,
     pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
-      searchColumns: ["listing-project","listing-execute","listing-website","listing-format","listing-language","listing-freeze","listing-toc","listing-toc-title","listing-toc-location","listing-title","listing-summary","listing-date","listing-image","listing-path","listing-outputHref","listing-date-modified","listing-author","listing-description","listing-filename","listing-file-modified","listing-reading-time","listing-word-count"],
+      searchColumns: ["listing-project","listing-execute","listing-website","listing-format","listing-language","listing-freeze","listing-toc","listing-toc-title","listing-toc-location","listing-title","listing-summary","listing-date","listing-image","listing-path","listing-outputHref","listing-date-modified","listing-author","listing-description","listing-filename","listing-file-modified","listing-reading-time","listing-word-count","listing-lang"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -214,15 +214,32 @@ window.Quarto = {
     <div class="post-listing">
         <div>
             <h3 class="anchored">
-                <a href="./posts/2025-08-12_regression-with-fixed-intercept/index.html">Should I fix the intercept?</a>
+                <a href="./posts/2025-08-13_temperatura-mate/index.html">In search of the best thermos for mate with Thomas Bayes</a>
             </h3>
-            <div>
-                <b>
-                    Aug 12, 2025
-                </b>
+            <div style="font-weight: 500;">
+                    Aug 14, 2025
             </div>
             <div style="margin-top: 0.75em;">
-                    
+                    A few weeks ago, I saw a post on X where a farmer described an experiment to measure the heat retention of several thermoses. Can Bayesian statistics reveal the best one?
+
+            </div>
+        </div>
+        <div style="text-align: center; margin:auto;">
+            <img src="./posts/2025-08-13_temperatura-mate/imgs/thomas_bayes_mate.png" style="max-width: 250px; max-height:180px">
+        </div>
+    </div>
+    
+    <div class="post-listing">
+        <div>
+            <h3 class="anchored">
+                <a href="./posts/2025-08-12_regression-with-fixed-intercept/index.html">When to fix the intercept</a>
+            </h3>
+            <div style="font-weight: 500;">
+                    Aug 12, 2025
+            </div>
+            <div style="margin-top: 0.75em;">
+                    I was modeling a case where I knew Y at X = 0, forcing me to choose between giving the intercept a strong prior or fixing it. Too lazy to do the math by hand, I used a computational approach to check if that choice made sense.
+
             </div>
         </div>
         <div style="text-align: center; margin:auto;">
@@ -235,13 +252,13 @@ window.Quarto = {
             <h3 class="anchored">
                 <a href="./posts/2024-11-01_pymc-data-simulation/index.html">Data simulation with PyMC</a>
             </h3>
-            <div>
-                <b>
+            <div style="font-weight: 500;">
                     Nov 1, 2024
-                </b>
             </div>
             <div style="margin-top: 0.75em;">
-                    
+                    Parameter recovery studies are crucial for assessing whether a model can accurately recover the true values of its parameters.
+In this post, I'll walk through a series of increasingly complex examples showing how to simulate data with PyMC in the context of such a study.
+
             </div>
         </div>
         <div style="text-align: center; margin:auto;">
@@ -254,13 +271,14 @@ window.Quarto = {
             <h3 class="anchored">
                 <a href="./posts/2023-01-14_add_custom_family_bambi/index.html">How to create a custom family in Bambi?</a>
             </h3>
-            <div>
-                <b>
+            <div style="font-weight: 500;">
                     Jan 14, 2023
-                </b>
             </div>
             <div style="margin-top: 0.75em;">
-                    
+                    Bambi now allows you to define custom statistical families in addition to its built-in distributions.
+This post illustrates the process with the Zero-Inflated Poisson (ZIP) distribution,
+showing how to implement it as a new family in Bambi and use it to simulate data, fit models, and assess their performance.
+
             </div>
         </div>
         <div style="text-align: center; margin:auto;">
@@ -273,13 +291,13 @@ window.Quarto = {
             <h3 class="anchored">
                 <a href="./posts/2022-06-26_tidypolars/index.html">Let's use tidypolars more</a>
             </h3>
-            <div>
-                <b>
+            <div style="font-weight: 500;">
                     Jun 26, 2022
-                </b>
             </div>
             <div style="margin-top: 0.75em;">
-                    
+                    In this blogpost I'm going to show how to perform the same task with pandas, the most popular library for data analysis in Python,
+and tidypolars, a new library to do data analysis with tabular data inspired on the tidyverse.
+
             </div>
         </div>
         <div style="text-align: center; margin:auto;">
@@ -292,10 +310,8 @@ window.Quarto = {
             <h3 class="anchored">
                 <a href="./posts/2022-06-12_lkj-prior/index.html">Hierarchical modeling with the LKJ prior in PyMC</a>
             </h3>
-            <div>
-                <b>
+            <div style="font-weight: 500;">
                     Jun 12, 2022
-                </b>
             </div>
             <div style="margin-top: 0.75em;">
                     I describe how to use the `LKJCholeskyCov` and `LKJCorr` distributions
@@ -313,10 +329,8 @@ to include correlated priors in Bayesian hierarchical modeling using PyMC.
             <h3 class="anchored">
                 <a href="./posts/2021-08-17_gsoc-2021-final-evaluation/index.html">GSOC 2021: Final evaluation</a>
             </h3>
-            <div>
-                <b>
+            <div style="font-weight: 500;">
                     Aug 17, 2021
-                </b>
             </div>
             <div style="margin-top: 0.75em;">
                     Final post about Google Summer of Code 2021. <br>
@@ -334,10 +348,8 @@ This post sums up my contributions to the Bambi library during the ten weeks of 
             <h3 class="anchored">
                 <a href="./posts/2021-08-03_binomial-family-in-Bambi/index.html">Binomial family in Bambi</a>
             </h3>
-            <div>
-                <b>
+            <div style="font-weight: 500;">
                     Aug 3, 2021
-                </b>
             </div>
             <div style="margin-top: 0.75em;">
                     My fourth post describing work done during GSoC 2021. On this
@@ -358,10 +370,8 @@ Bernoulli trials.
             <h3 class="anchored">
                 <a href="./posts/2021-07-14_new-families-in-Bambi/index.html">New families in Bambi</a>
             </h3>
-            <div>
-                <b>
+            <div style="font-weight: 500;">
                     Jul 14, 2021
-                </b>
             </div>
             <div style="margin-top: 0.75em;">
                     In this third post about my work during this Google Summer of Code
@@ -381,10 +391,8 @@ is the Beta family which can be used to model ratings and proportions.
             <h3 class="anchored">
                 <a href="./posts/2021-07-05_robust-linear-regression-with-Bambi/index.html">Robust linear regression in Bambi</a>
             </h3>
-            <div>
-                <b>
+            <div style="font-weight: 500;">
                     Jul 5, 2021
-                </b>
             </div>
             <div style="margin-top: 0.75em;">
                     Second post about this Google Summer of Code season. <br>
@@ -403,10 +411,8 @@ how one can implement a robust linear regression in Bambi.
             <h3 class="anchored">
                 <a href="./posts/2021-06-28_first-weeks-of-gsoc/index.html">First weeks of GSoC</a>
             </h3>
-            <div>
-                <b>
+            <div style="font-weight: 500;">
                     Jun 28, 2021
-                </b>
             </div>
             <div style="margin-top: 0.75em;">
                     First post of a series about my contributions to Bambi in this Google Summer of Code season.<br>
@@ -422,36 +428,10 @@ This post highlights new features related to default priors and priors for group
     <div class="post-listing">
         <div>
             <h3 class="anchored">
-                <a href="./posts/2021-06-08_group-specific-effects-matrix/index.html">Design matrices for group-specific effects in formulae and lme4</a>
-            </h3>
-            <div>
-                <b>
-                    Jun 8, 2021
-                </b>
-            </div>
-            <div style="margin-top: 0.75em;">
-                    Bambi uses the library formulae to automatically construct design
-matrices for both common and group-specific effects. This post compares design
-matrices for group-specific effects obtained with formulae for a variety of
-scenarios involving categorical variables with the ones obtained with the R
-package lme4.
-
-            </div>
-        </div>
-        <div style="text-align: center; margin:auto;">
-            <img src="./posts/2021-06-08_group-specific-effects-matrix/imgs/matrices.png" style="max-width: 250px; max-height:180px">
-        </div>
-    </div>
-    
-    <div class="post-listing">
-        <div>
-            <h3 class="anchored">
                 <a href="./posts/2021-05-24_why-bambi/index.html">Why Bambi?</a>
             </h3>
-            <div>
-                <b>
+            <div style="font-weight: 500;">
                     May 24, 2021
-                </b>
             </div>
             <div style="margin-top: 0.75em;">
                     An example comparing how to fit a GLM with Bambi and PyMC3. Here I
@@ -463,28 +443,6 @@ necessary when directly working with PyMC3.
         </div>
         <div style="text-align: center; margin:auto;">
             <img src="./posts/2021-05-24_why-bambi/imgs/plot.png" style="max-width: 250px; max-height:180px">
-        </div>
-    </div>
-    
-    <div class="post-listing">
-        <div>
-            <h3 class="anchored">
-                <a href="./posts/2020-11-03_bingo-cards-in-r/index.html">How to generate bingo cards in R</a>
-            </h3>
-            <div>
-                <b>
-                    Nov 3, 2020
-                </b>
-            </div>
-            <div style="margin-top: 0.75em;">
-                    A walkthrough the process of understanding how bingo cards are composed
-and a set of R functions that let us generate random bingo cards and print them
-in a nice looking .pdf output.
-
-            </div>
-        </div>
-        <div style="text-align: center; margin:auto;">
-            <img src="./posts/2020-11-03_bingo-cards-in-r/imgs/bingo_card_own.PNG" style="max-width: 250px; max-height:180px">
         </div>
     </div>
     

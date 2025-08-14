@@ -1,8 +1,7 @@
 /* css styles */
 
-@import url("https://fonts.googleapis.com/css2?family=Raleway");
-@import url("https://fonts.googleapis.com/css2?family=Quicksand");
 @import url("https://fonts.googleapis.com/css2?family=Source Code Pro");
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
 /* Center output images */
 .img-fluid {
@@ -17,9 +16,9 @@ html {
     --link: hsl(200, 60%, 50%);
     --link-background: hsl(200deg 60% 50% / 10%);
     --dark: hsl(210, 42%, 45%);
-    --heading-font: "Raleway", helvetica, arial, sans-serif;
-    --nav-font: "Raleway", helvetica, arial, sans-serif;
-    --global-font: "Quicksand", helvetica, arial, sans-serif;
+    --heading-font: "Roboto Slab", helvetica, arial, sans-serif;
+    --nav-font: "Roboto Slab", helvetica, arial, sans-serif;
+    --global-font: "Rubik", helvetica, arial, sans-serif;
     --code-font: "Source Code Pro", helvetica, arial, sans-serif;
 }
 
@@ -57,9 +56,14 @@ main.cell {
     font-size: 24px;
 }
 
+.nav-item {
+    font-family: var(--all-font);
+}
+
 div.quarto-about-jolla .about-link {
     font-family: var(--all-font);
     border-color: var(--dark);
+    text-decoration: none;
     border-radius: .25rem;
     border: solid 1px;
     color: var(--dark);
@@ -99,7 +103,7 @@ div.quarto-about-jolla .about-link:hover {
     border-radius: 5px;
     box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
     cursor: pointer;
-    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), 
+    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12),
                 .3s box-shadow,
                 .3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
 }
@@ -144,8 +148,8 @@ div.quarto-about-solana.column-body.content {
     grid-row: auto !important;
 }
 
-figure figcaption {     
-    text-align: center;  
+figure figcaption {
+    text-align: center;
 }
 
 .books-listing {
@@ -160,12 +164,12 @@ figure figcaption {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
-    padding-right: 1rem;     
+    padding-right: 1rem;
     border: 1px solid hsl(0, 0%, 75%);
     border-radius: 5px;
     box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
     /*cursor: pointer;*/
-    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), 
+    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12),
                 .3s box-shadow,
                 .3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
 }
@@ -234,7 +238,7 @@ figure figcaption {
 }
 
 .post-listing:hover{
-    transform: scale(1.008);
+    transform: scale(1.002);
     box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
 }
 
@@ -243,6 +247,9 @@ figure figcaption {
     font-size: 24px;
 }
 
+.post-listing a {
+    text-decoration: none;
+}
 
 .center-table-30 table {
   width: 30%;
@@ -274,7 +281,14 @@ figure figcaption {
   margin-right: auto;
 }
 
+figure img {
+    border: grey solid 1px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 /*
+
     .two-column-layout {
         display:block ;
     }

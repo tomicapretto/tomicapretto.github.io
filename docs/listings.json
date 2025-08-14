@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/2025-08-13_temperatura-mate/index.html",
       "/posts/2025-08-12_regression-with-fixed-intercept/index.html",
       "/posts/2024-11-01_pymc-data-simulation/index.html",
       "/posts/2023-01-14_add_custom_family_bambi/index.html",
@@ -12,9 +13,7 @@
       "/posts/2021-07-14_new-families-in-Bambi/index.html",
       "/posts/2021-07-05_robust-linear-regression-with-Bambi/index.html",
       "/posts/2021-06-28_first-weeks-of-gsoc/index.html",
-      "/posts/2021-06-08_group-specific-effects-matrix/index.html",
-      "/posts/2021-05-24_why-bambi/index.html",
-      "/posts/2020-11-03_bingo-cards-in-r/index.html"
+      "/posts/2021-05-24_why-bambi/index.html"
     ]
   }
 ]

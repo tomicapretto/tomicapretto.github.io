@@ -1,7 +1,9 @@
 ---
 title: "Blog -  cause it's better when it's shared"
 listing:
-    contents: posts
+    contents:
+    - "posts/*/*.qmd"
+    - "posts/*/*.ipynb"
     field-types:
         custom-date: date
     template: posts.ejs
