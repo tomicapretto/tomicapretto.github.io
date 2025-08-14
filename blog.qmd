@@ -1,5 +1,5 @@
 ---
-title: "Blog -  cause it's better when it's shared"
+title: "Blog"
 listing:
     contents:
     - "posts/*/*.qmd"
