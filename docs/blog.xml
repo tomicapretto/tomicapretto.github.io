@@ -13,13 +13,13 @@
 <lastBuildDate>Thu, 14 Aug 2025 03:00:00 GMT</lastBuildDate>
 <item>
   <title>In search of the best thermos for mate with Thomas Bayes</title>
-  <link>https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/</link>
+  <link>https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/</link>
   <description><![CDATA[ 
 
 
 
 
-<p><strong>NOTE</strong>: This blogpost was automatically translated from this <a href="../../posts/2025-08-13_temperatura-mate/es/index.html">versión en español</a>.</p>
+<p><strong>NOTE</strong>: This blogpost was automatically translated from this <a href="../../posts/2025-08-14_temperatura-mate/es/index.html">versión en español</a>.</p>
 <div id="1342516b" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
@@ -474,10 +474,10 @@ font-style: inherit;">return</span> fig, axes</span></code></pre></div>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>A few weeks ago, while browsing the internet, I came across <a href="https://x.com/nicorioscenteno/status/1621655101164118017">this post</a> on the social network X. There, a farmer described an experiment he was about to conduct to measure the heat retention capacity of several thermoses he had on hand.</p>
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/imgs/posteo.png" class="img-fluid" width="500"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/imgs/posteo.png" class="img-fluid" width="500"></p>
 <p>The experiment involved pouring water at 80 °C into each thermos and recording its temperature several times throughout the day. With the collected data, it would be possible to determine which thermos had the best—and which had the worst—heat retention capacity.</p>
 <p>After several measurements, the author of the experiment <a href="https://x.com/nicorioscenteno/status/1622039649622319104">shared</a> the results obtained:</p>
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/imgs/posteo2.png" class="img-fluid" width="500"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/imgs/posteo2.png" class="img-fluid" width="500"></p>
 <p>From these results, it can be concluded that the “nn tapa rosa” thermos was the worst performer, as the water inside lost heat considerably more quickly than in any other thermos.</p>
 <p>Now, the inevitable question is: which thermos offers the best heat retention?</p>
 <p>To answer this question, we will use a Bayesian model based on Newton’s Law of Cooling.</p>
@@ -711,7 +711,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div id="fig-cooling" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cooling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/fig-cooling-output-1.png" id="fig-cooling" class="img-fluid figure-img">
+<img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/fig-cooling-output-1.png" id="fig-cooling" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-cooling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1
@@ -748,7 +748,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -774,7 +774,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1079,7 +1079,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div id="fig-data" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/fig-data-output-1.png" id="fig-data" class="img-fluid figure-img">
+<img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/fig-data-output-1.png" id="fig-data" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2
@@ -1200,7 +1200,7 @@ font-style: inherit;">0.95</span>)</span><div class="code-annotation-gutter-bg">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-8-output-1.svg" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-8-output-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1301,7 +1301,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div id="fig-posterior-summary-1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-posterior-summary-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/fig-posterior-summary-1-output-1.png" id="fig-posterior-summary-1" class="img-fluid figure-img">
+<img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/fig-posterior-summary-1-output-1.png" id="fig-posterior-summary-1" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-posterior-summary-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3
@@ -1409,7 +1409,7 @@ font-style: inherit;">0.95</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-11-output-1.svg" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-11-output-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1535,7 +1535,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1569,7 +1569,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1731,7 +1731,7 @@ font-style: inherit;">0.95</span>)</span><div class="code-annotation-gutter-bg">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-15-output-1.svg" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-15-output-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1922,7 +1922,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1962,7 +1962,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2020,28 +2020,28 @@ font-style: inherit;">"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-19-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-19-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-19-output-3.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-19-output-3.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-19-output-4.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-19-output-4.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2281,7 +2281,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-21-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-21-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2308,7 +2308,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div id="fig-prior-posterior" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-prior-posterior-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/fig-prior-posterior-output-1.png" id="fig-prior-posterior" class="img-fluid figure-img">
+<img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/fig-prior-posterior-output-1.png" id="fig-prior-posterior" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-prior-posterior-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4
@@ -2518,7 +2518,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-26-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-26-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2569,7 +2569,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-27-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-27-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2619,7 +2619,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/index_files/figure-html/cell-28-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index_files/figure-html/cell-28-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2699,7 +2699,7 @@ font-style: inherit;">zip</span>(data, p_max))</span></code></pre></div>
 <h2 class="anchored" data-anchor-id="thats-all-folks">That’s all folks</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/imgs/thomas_bayes_mate.png" class="img-fluid figure-img" width="500"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/imgs/thomas_bayes_mate.png" class="img-fluid figure-img" width="500"></p>
 <figcaption>A lovely Thomas Bayes enjoying mate</figcaption>
 </figure>
 </div>
@@ -2714,9 +2714,9 @@ font-style: inherit;">zip</span>(data, p_max))</span></code></pre></div>
 <li id="fn1"><p>En este blog no hacemos uso de los <em>traceplots</em> porque las cadenas siempre se mezclan bien y resulta suficiente usar el tamaño efectivo de muestra y el <img src="https://latex.codecogs.com/png.latex?%5Chat%7BR%7D">.↩︎</p></li>
 </ol>
 </section></div> ]]></description>
-  <guid>https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/</guid>
+  <guid>https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/</guid>
   <pubDate>Thu, 14 Aug 2025 03:00:00 GMT</pubDate>
-  <media:content url="https://tomicapretto.github.io/posts/2025-08-13_temperatura-mate/imgs/thomas_bayes_mate.png" medium="image" type="image/png" height="96" width="144"/>
+  <media:content url="https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/imgs/thomas_bayes_mate.png" medium="image" type="image/png" height="96" width="144"/>
 </item>
 <item>
   <title>When to fix the intercept</title>
