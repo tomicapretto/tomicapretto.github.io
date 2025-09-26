@@ -13,21 +13,21 @@
 <path fill="none" stroke="black" d="M20,-8C20,-8 124,-8 124,-8 130,-8 136,-14 136,-20 136,-20 136,-242.25 136,-242.25 136,-248.25 130,-254.25 124,-254.25 124,-254.25 20,-254.25 20,-254.25 14,-254.25 8,-248.25 8,-242.25 8,-242.25 8,-20 8,-20 8,-14 14,-8 20,-8"/>
 <text text-anchor="middle" x="96.5" y="-15.95" font-family="Times,serif" font-size="14.00">order (2)</text>
 </g>
-<!-- y -->
-<g id="node1" class="node">
-<title>y</title>
-<ellipse fill="lightgrey" stroke="black" cx="72" cy="-83.5" rx="55.86" ry="42.25"/>
-<text text-anchor="middle" x="72" y="-96.07" font-family="Times,serif" font-size="14.00">y</text>
-<text text-anchor="middle" x="72" y="-78.82" font-family="Times,serif" font-size="14.00">~</text>
-<text text-anchor="middle" x="72" y="-61.57" font-family="Times,serif" font-size="14.00">Binomial</text>
-</g>
 <!-- pi -->
-<g id="node2" class="node">
+<g id="node1" class="node">
 <title>pi</title>
 <ellipse fill="none" stroke="black" cx="72" cy="-204" rx="34.65" ry="42.25"/>
 <text text-anchor="middle" x="72" y="-216.57" font-family="Times,serif" font-size="14.00">pi</text>
 <text text-anchor="middle" x="72" y="-199.32" font-family="Times,serif" font-size="14.00">~</text>
 <text text-anchor="middle" x="72" y="-182.07" font-family="Times,serif" font-size="14.00">Beta</text>
+</g>
+<!-- y -->
+<g id="node2" class="node">
+<title>y</title>
+<ellipse fill="lightgrey" stroke="black" cx="72" cy="-83.5" rx="55.86" ry="42.25"/>
+<text text-anchor="middle" x="72" y="-96.07" font-family="Times,serif" font-size="14.00">y</text>
+<text text-anchor="middle" x="72" y="-78.82" font-family="Times,serif" font-size="14.00">~</text>
+<text text-anchor="middle" x="72" y="-61.57" font-family="Times,serif" font-size="14.00">Binomial</text>
 </g>
 <!-- pi&#45;&gt;y -->
 <g id="edge1" class="edge">

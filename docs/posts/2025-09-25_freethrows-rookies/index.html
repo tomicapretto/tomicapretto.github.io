@@ -8,7 +8,7 @@
 
 <meta name="dcterms.date" content="2025-09-25">
 
-<title>Titulo – Tomi Capretto</title>
+<title>Do rookies get better with each throw? Playing Bayes with NBA free-throw data – Tomi Capretto</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -193,6 +193,7 @@ window.Quarto = {
   <li><a href="#los-datos" id="toc-los-datos" class="nav-link active" data-scroll-target="#los-datos">Los datos</a></li>
   <li><a href="#modelo-agrupado" id="toc-modelo-agrupado" class="nav-link" data-scroll-target="#modelo-agrupado">Modelo agrupado</a></li>
   <li><a href="#modelo-parcialmente-agrupado" id="toc-modelo-parcialmente-agrupado" class="nav-link" data-scroll-target="#modelo-parcialmente-agrupado">Modelo parcialmente agrupado</a></li>
+  <li><a href="#comentarios-finales" id="toc-comentarios-finales" class="nav-link" data-scroll-target="#comentarios-finales">Comentarios finales</a></li>
   </ul>
 </nav>
 </nav>
@@ -205,7 +206,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Titulo</h1>
+<h1 class="title">Do <em>rookies</em> get better with each throw? Playing Bayes with NBA free-throw data</h1>
 </div>
 
 
@@ -228,7 +229,7 @@ window.Quarto = {
 </header>
 
 
-<div id="afa71134" class="cell">
+<div id="afa71134" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
@@ -532,7 +533,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Podemos observar que los primeros intentos suelen fallarse con mayor frecuencia que los segundos, y que estos, a su vez, se fallan más que los terceros.</p>
-<div id="6fa81d15" class="cell">
+<div id="6fa81d15" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_summary <span class="op">=</span> (</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    df</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    .group_by(<span class="st">"order"</span>)</span>
@@ -541,7 +542,7 @@ window.Quarto = {
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    .sort(<span class="st">"order"</span>)</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>df_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="27">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div><style>
 .dataframe > thead > tr,
 .dataframe > tbody > tr {
@@ -602,7 +603,7 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 \end{aligned}
 \]</span></p>
 <p>En PyMC, tenemos:</p>
-<div id="d9632925" class="cell" data-execution_count="29">
+<div id="d9632925" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_summary.head(<span class="dv">2</span>)[<span class="st">"y"</span>].to_numpy()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> df_summary.head(<span class="dv">2</span>)[<span class="st">"n"</span>].to_numpy()</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -612,7 +613,7 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample(chains<span class="op">=</span><span class="dv">4</span>, random_seed<span class="op">=</span><span class="dv">1211</span>, nuts_sampler<span class="op">=</span><span class="st">"nutpie"</span>, progressbar<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>model.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="29">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 <figure class="figure">
 <p><img src="index_files/figure-html/cell-6-output-1.svg" class="img-fluid figure-img"></p>
@@ -622,10 +623,10 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 </div>
 <p>Calculamos <span class="math inline">\(\delta\)</span> como la diferencia entre <span class="math inline">\(\pi_2\)</span> y <span class="math inline">\(\pi_1\)</span>, y analizamos las distribuciones marginales <em>a posteriori</em>.</p>
 <p>En primer lugar, los diagnósticos no indican problemas en el muestreo: <span class="math inline">\(\hat{R}\)</span> cercano a 1, tamaños efectivos de muestra adecuados, etc.</p>
-<div id="da64b84f" class="cell center-table-70" data-execution_count="31">
+<div id="da64b84f" class="cell center-table-70" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>idata.posterior[<span class="st">"delta"</span>] <span class="op">=</span> idata.posterior[<span class="st">"pi"</span>].sel(order<span class="op">=</span><span class="dv">2</span>) <span class="op">-</span> idata.posterior[<span class="st">"pi"</span>].sel(order<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>az.summary(idata, var_names<span class="op">=</span>[<span class="st">"pi"</span>, <span class="st">"delta"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="31">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
 
@@ -687,8 +688,9 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 </div>
 </div>
 </div>
-<p>Si nos enfocamos en la distribución <em>a posteriori</em> de <span class="math inline">\(\delta\)</span>, podemos ver que la probabilidad de que <span class="math inline">\(\delta\)</span> sea mayor a 0 es igual a 1. Así, llegamos a nuestra primera gran conclusión: efectivamente, la probabilidad de acertar en el segundo intento es mayor que en el primero.</p>
-<div id="6c65a1c7" class="cell" data-execution_count="32">
+<p>Si nos enfocamos en la distribución <em>a posteriori</em> de <span class="math inline">\(\delta\)</span>, podemos ver que la probabilidad de que <span class="math inline">\(\delta\)</span> sea mayor a 0 es igual a 1.</p>
+<p>Así, llegamos a nuestra primera gran conclusión: efectivamente, la probabilidad de acertar en el segundo intento es mayor que en el primero. De hecho, la probabilidad de acierto se incrementa, en promedio, un 6 %. Y, con un alto grado de certeza, podemos afirmar que esta mejora se encuentra entre el 3 % y el 9 %.</p>
+<div id="6c65a1c7" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -700,8 +702,11 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 </section>
 <section id="modelo-parcialmente-agrupado" class="level2">
 <h2 class="anchored" data-anchor-id="modelo-parcialmente-agrupado">Modelo parcialmente agrupado</h2>
-<p>El modelo anterior solo nos permite concluir que es más probable que un <em>rookie</em> acierte un segundo lanzamiento que un primero. Ahora, vamos a implementar un modelo jerárquico, en el cuál cada jugador tiene su propia probabilidad de acertar un primer o un segundo lanzamiento.</p>
-<div id="67ef624d" class="cell center-table-40">
+<p>El modelo anterior solo nos permite concluir que es más probable que un <em>rookie</em> acierte un segundo lanzamiento que un primero (y cuantificar la magnitud de la diferencia). Sin embargo, no podemos extraer conclusiones sobre jugadores individuales. Por ejemplo, no sabemos si este fenómeno de “precalentamiento” se presenta en todos ellos, ni si su intensidad varía de un jugador a otro.</p>
+<p>Una alternativa sería ajustar pares de modelos beta-binomiales como los anteriores para cada jugador. Lamentablemente, dado que la cantidad de disparos varía entre apenas uno y unas pocas centenas, las distribuciones <em>a posteriori</em> pueden resultar extremadamente inciertas en algunos casos o excesivamente confiadas en otros.</p>
+<p>Así llegamos a la alternativa bayesiana por excelencia: el modelo jerárquico. Bajo este enfoque, cada jugador tiene su propia probabilidad de acierto, pero dicha probabilidad proviene de una distribución común compartida con el resto. De este modo, las estimaciones son más estables y se evita el sobreajuste a los datos particulares de cada jugador, ya que la distribución <em>a posteriori</em> de cada uno está influenciada, en cierta medida, por la información del resto.</p>
+<p>Los datos que necesitamos son la cantidad de disparos y aciertos en el primer y segundo intento para cada jugador. Por simplicidad, consideramos únicamente a los jugadores que realizaron al menos una serie de dos tiros libres.</p>
+<div id="67ef624d" class="cell center-table-40" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_agg <span class="op">=</span> (</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    df</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    .group_by(<span class="st">"player_id"</span>, <span class="st">"order"</span>)</span>
@@ -821,60 +826,107 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 </div>
 </div>
 </div>
-<div id="bc932449" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>y_1 <span class="op">=</span> df_model.<span class="bu">filter</span>(pl.col(<span class="st">"order"</span>) <span class="op">==</span> <span class="dv">1</span>)[<span class="st">"y"</span>].to_numpy()</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y_2 <span class="op">=</span> df_model.<span class="bu">filter</span>(pl.col(<span class="st">"order"</span>) <span class="op">==</span> <span class="dv">2</span>)[<span class="st">"y"</span>].to_numpy()</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>n_1 <span class="op">=</span> df_model.<span class="bu">filter</span>(pl.col(<span class="st">"order"</span>) <span class="op">==</span> <span class="dv">1</span>)[<span class="st">"n"</span>].to_numpy()</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>n_2 <span class="op">=</span> df_model.<span class="bu">filter</span>(pl.col(<span class="st">"order"</span>) <span class="op">==</span> <span class="dv">2</span>)[<span class="st">"n"</span>].to_numpy()</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>player_ids <span class="op">=</span> df_model[<span class="st">"player_id"</span>].unique(maintain_order<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="bu">len</span>(player_ids)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {<span class="st">"player"</span>: player_ids}</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model_h:</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    pi_mu <span class="op">=</span> pm.Beta(<span class="st">"pi_mu"</span>, alpha<span class="op">=</span><span class="dv">4</span>, beta<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    pi_kappa <span class="op">=</span> pm.InverseGamma(<span class="st">"pi_kappa"</span>, alpha<span class="op">=</span><span class="fl">0.5</span> <span class="op">*</span> <span class="dv">15</span>, beta<span class="op">=</span><span class="fl">0.5</span> <span class="op">*</span> <span class="dv">15</span> <span class="op">*</span> <span class="dv">10</span>)</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    pi_alpha <span class="op">=</span> pi_mu <span class="op">*</span> pi_kappa</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    pi_beta <span class="op">=</span> (<span class="dv">1</span> <span class="op">-</span> pi_mu) <span class="op">*</span> pi_kappa</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    pi <span class="op">=</span> pm.Beta(<span class="st">"pi"</span>, alpha<span class="op">=</span>pi_alpha, beta<span class="op">=</span>pi_beta, dims<span class="op">=</span><span class="st">"player"</span>)</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    delta_mu <span class="op">=</span> pm.Normal(<span class="st">"delta_mu"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="fl">0.15</span>)</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    delta_sigma <span class="op">=</span> pm.InverseGamma(<span class="st">"delta_sigma^2"</span>, <span class="fl">0.5</span> <span class="op">*</span> <span class="dv">30</span>, <span class="fl">0.5</span> <span class="op">*</span> <span class="dv">30</span> <span class="op">*</span> <span class="fl">0.05</span> <span class="op">**</span> <span class="dv">2</span>) <span class="op">**</span> <span class="fl">0.5</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    delta <span class="op">=</span> pm.Normal(</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"delta"</span>,</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>        mu<span class="op">=</span>delta_mu,</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>        sigma<span class="op">=</span>delta_sigma,</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"player"</span>,</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>        initval<span class="op">=</span>np.zeros(N)</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> pm.Deterministic(<span class="st">"theta"</span>, pt.clip(pi <span class="op">+</span> delta, <span class="fl">0.0001</span>, <span class="fl">0.9999</span>), dims<span class="op">=</span><span class="st">"player"</span>)</span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    pm.Binomial(<span class="st">"y_1"</span>, p<span class="op">=</span>pi, n<span class="op">=</span>n_1, observed<span class="op">=</span>y_1, dims<span class="op">=</span><span class="st">"player"</span>)</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    pm.Binomial(<span class="st">"y_2"</span>, p<span class="op">=</span>theta, n<span class="op">=</span>n_2, observed<span class="op">=</span>y_2, dims<span class="op">=</span><span class="st">"player"</span>)</span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>model_h.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>De manera distribucional, podemos representar al modelo de la siguiente manera:</p>
+<span class="math display">\[\begin{aligned}
+Y_{i1} &amp;\sim \text{Binomial}(N_{i1}, \pi_i) \\
+Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
+
+&amp; \text{--- P(Free throw 1 is made) ---} \\
+
+\pi_i &amp;\sim \text{Beta}(\mu_\pi, \kappa_\pi) \\
+\mu_\pi &amp;\sim \text{Beta}(4, 2) \\
+\kappa_\pi &amp;\sim \text{InverseGamma}(0.5 \cdot 15, 0.5 \cdot 15 \cdot 10) \\ \\
+
+&amp; \text{--- P(Free throw 2 is made) --- } \\
+
+\theta_i &amp;= \pi_i + \delta_i \\
+\delta_i &amp;\sim \text{Normal}(\mu_\delta, \sigma^2_\delta) \\
+\mu_\delta &amp;\sim \text{Normal}(0, 0.15^2) \\
+\sigma^2_\delta &amp;\sim \text{InverseGamma}(0.5 \cdot 30, 0.5 \cdot 30 \cdot 0.05) \\
+\end{aligned}\]</span>
+<p>donde <span class="math inline">\(i \in \{1, \dots, 92\}\)</span> indexa a los jugadores.</p>
+<p>En otras palabras, modelizamos la probabilidad de acierto en el segundo intento como la suma de la probabilidad de acierto en el primero (<span class="math inline">\(\pi_i\)</span>) y un diferencial específico de cada jugador (<span class="math inline">\(\delta_i\)</span>).</p>
+<p>Las distribuciones <em>a priori</em> para <span class="math inline">\(\mu_\pi\)</span> y <span class="math inline">\(\mu_\delta\)</span> son levemente y moderadamente informativas, respectivamente. Por su parte, los <em>priors</em> asignados a <span class="math inline">\(\kappa_\pi\)</span> y <span class="math inline">\(\sigma^2_\delta\)</span> también son moderadamente informativos, aunque en este caso su función principal es favorecer la estabilidad del muestreo del <em>posterior</em>.</p>
+<div id="bc932449" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-8-1" class="code-annotation-target"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a>y_1 <span class="op">=</span> df_model.<span class="bu">filter</span>(pl.col(<span class="st">"order"</span>) <span class="op">==</span> <span class="dv">1</span>)[<span class="st">"y"</span>].to_numpy()</span>
+<span id="annotated-cell-8-2"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>y_2 <span class="op">=</span> df_model.<span class="bu">filter</span>(pl.col(<span class="st">"order"</span>) <span class="op">==</span> <span class="dv">2</span>)[<span class="st">"y"</span>].to_numpy()</span>
+<span id="annotated-cell-8-3"><a href="#annotated-cell-8-3" aria-hidden="true" tabindex="-1"></a>n_1 <span class="op">=</span> df_model.<span class="bu">filter</span>(pl.col(<span class="st">"order"</span>) <span class="op">==</span> <span class="dv">1</span>)[<span class="st">"n"</span>].to_numpy()</span>
+<span id="annotated-cell-8-4"><a href="#annotated-cell-8-4" aria-hidden="true" tabindex="-1"></a>n_2 <span class="op">=</span> df_model.<span class="bu">filter</span>(pl.col(<span class="st">"order"</span>) <span class="op">==</span> <span class="dv">2</span>)[<span class="st">"n"</span>].to_numpy()</span>
+<span id="annotated-cell-8-5"><a href="#annotated-cell-8-5" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-8-6" class="code-annotation-target"><a href="#annotated-cell-8-6" aria-hidden="true" tabindex="-1"></a>player_ids <span class="op">=</span> df_model[<span class="st">"player_id"</span>].unique(maintain_order<span class="op">=</span><span class="va">True</span>)</span>
+<span id="annotated-cell-8-7"><a href="#annotated-cell-8-7" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="bu">len</span>(player_ids)</span>
+<span id="annotated-cell-8-8"><a href="#annotated-cell-8-8" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {<span class="st">"player"</span>: player_ids}</span>
+<span id="annotated-cell-8-9"><a href="#annotated-cell-8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-8-10"><a href="#annotated-cell-8-10" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model_h:</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-8-11" class="code-annotation-target"><a href="#annotated-cell-8-11" aria-hidden="true" tabindex="-1"></a>    pi_mu <span class="op">=</span> pm.Beta(<span class="st">"pi_mu"</span>, alpha<span class="op">=</span><span class="dv">4</span>, beta<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="annotated-cell-8-12"><a href="#annotated-cell-8-12" aria-hidden="true" tabindex="-1"></a>    pi_kappa <span class="op">=</span> pm.InverseGamma(<span class="st">"pi_kappa"</span>, alpha<span class="op">=</span><span class="fl">0.5</span> <span class="op">*</span> <span class="dv">15</span>, beta<span class="op">=</span><span class="fl">0.5</span> <span class="op">*</span> <span class="dv">15</span> <span class="op">*</span> <span class="dv">10</span>)</span>
+<span id="annotated-cell-8-13"><a href="#annotated-cell-8-13" aria-hidden="true" tabindex="-1"></a>    pi_alpha <span class="op">=</span> pi_mu <span class="op">*</span> pi_kappa</span>
+<span id="annotated-cell-8-14"><a href="#annotated-cell-8-14" aria-hidden="true" tabindex="-1"></a>    pi_beta <span class="op">=</span> (<span class="dv">1</span> <span class="op">-</span> pi_mu) <span class="op">*</span> pi_kappa</span>
+<span id="annotated-cell-8-15"><a href="#annotated-cell-8-15" aria-hidden="true" tabindex="-1"></a>    pi <span class="op">=</span> pm.Beta(<span class="st">"pi"</span>, alpha<span class="op">=</span>pi_alpha, beta<span class="op">=</span>pi_beta, dims<span class="op">=</span><span class="st">"player"</span>)</span>
+<span id="annotated-cell-8-16"><a href="#annotated-cell-8-16" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-8-17" class="code-annotation-target"><a href="#annotated-cell-8-17" aria-hidden="true" tabindex="-1"></a>    delta_mu <span class="op">=</span> pm.Normal(<span class="st">"delta_mu"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="fl">0.15</span>)</span>
+<span id="annotated-cell-8-18"><a href="#annotated-cell-8-18" aria-hidden="true" tabindex="-1"></a>    delta_sigma <span class="op">=</span> pm.InverseGamma(<span class="st">"delta_sigma^2"</span>, <span class="fl">0.5</span> <span class="op">*</span> <span class="dv">30</span>, <span class="fl">0.5</span> <span class="op">*</span> <span class="dv">30</span> <span class="op">*</span> <span class="fl">0.05</span> <span class="op">**</span> <span class="dv">2</span>) <span class="op">**</span> <span class="fl">0.5</span></span>
+<span id="annotated-cell-8-19"><a href="#annotated-cell-8-19" aria-hidden="true" tabindex="-1"></a>    delta <span class="op">=</span> pm.Normal(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-8-20" class="code-annotation-target"><a href="#annotated-cell-8-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"delta"</span>, mu<span class="op">=</span>delta_mu, sigma<span class="op">=</span>delta_sigma, dims<span class="op">=</span><span class="st">"player"</span>, initval<span class="op">=</span>np.zeros(N)</span>
+<span id="annotated-cell-8-21"><a href="#annotated-cell-8-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-8-22" class="code-annotation-target"><a href="#annotated-cell-8-22" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> pm.Deterministic(<span class="st">"theta"</span>, pt.clip(pi <span class="op">+</span> delta, <span class="fl">0.0001</span>, <span class="fl">0.9999</span>), dims<span class="op">=</span><span class="st">"player"</span>)</span>
+<span id="annotated-cell-8-23"><a href="#annotated-cell-8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-8-24"><a href="#annotated-cell-8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-8-25"><a href="#annotated-cell-8-25" aria-hidden="true" tabindex="-1"></a>    pm.Binomial(<span class="st">"y_1"</span>, p<span class="op">=</span>pi, n<span class="op">=</span>n_1, observed<span class="op">=</span>y_1, dims<span class="op">=</span><span class="st">"player"</span>)</span>
+<span id="annotated-cell-8-26"><a href="#annotated-cell-8-26" aria-hidden="true" tabindex="-1"></a>    pm.Binomial(<span class="st">"y_2"</span>, p<span class="op">=</span>theta, n<span class="op">=</span>n_2, observed<span class="op">=</span>y_2, dims<span class="op">=</span><span class="st">"player"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="1,2,3,4" data-code-annotation="1">Preparación de datos: se usan vectores (se podrían haber usado arreglos bidimensionales).</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="6,7,8" data-code-annotation="2">Preparación de coordenadas: representan los diferentes jugadores.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="11,12,13,14,15" data-code-annotation="3">Construcción de <span class="math inline">\(\pi_i\)</span>: se asignan <em>priors</em> para la media y la precisión, que luego se transforman en parámetros de escala para usados directamente en <code>pm.Beta</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="17,18,19,21,23" data-code-annotation="4">Construcción de <span class="math inline">\(\theta_i\)</span>: se especifica, para cada jugador, un parámetro de diferencia <span class="math inline">\(\delta_i\)</span>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="20" data-code-annotation="5">Uso de <code>initval</code>: para que el algoritmo de inferencia comience en un punto válido del espacio paramétrico.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="22" data-code-annotation="6">Uso de <code>pt.clip</code>: para asegurarnos que <span class="math inline">\(\pi_i + \delta_i\)</span> se encuentre entre 0 y 1. Esto no afecta al <em>posterior</em>, pero es necesario para inicializar correctamente el algoritmo de muestreo.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>Finalmente, así es como se ve una representación gráfica del modelo:</p>
+<div id="cd7ff322" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-10-output-1.svg" class="img-fluid figure-img"></p>
+<p><img src="index_files/figure-html/cell-11-output-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="e391709d" class="cell center-table-70">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_h:</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    idata_h <span class="op">=</span> pm.sample(</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        chains<span class="op">=</span><span class="dv">4</span>,</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        target_accept<span class="op">=</span><span class="fl">0.99</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        nuts_sampler<span class="op">=</span><span class="st">"nutpie"</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        random_seed<span class="op">=</span><span class="dv">1211</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        progressbar<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>az.summary(idata_h, var_names<span class="op">=</span>[<span class="st">"pi_mu"</span>, <span class="st">"pi_kappa"</span>, <span class="st">"delta_mu"</span>, <span class="st">"delta_sigma^2"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<p>Gracias a nutpie, es posible obtener muestras fiables del <em>posterior</em> en muy pocos segundos.</p>
+<p>Si bien los diagnósticos no se ven tan bien como en el modelo agrupado (lo cual es esperable en modelos jerárquicos), los valores son aceptables y podemos continuar con nuestro análisis.</p>
+<div id="e391709d" class="cell center-table-70" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_h:</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    idata_h <span class="op">=</span> pm.sample(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        chains<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        target_accept<span class="op">=</span><span class="fl">0.99</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        nuts_sampler<span class="op">=</span><span class="st">"nutpie"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        random_seed<span class="op">=</span><span class="dv">1211</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        progressbar<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>az.summary(idata_h, var_names<span class="op">=</span>[<span class="st">"pi_mu"</span>, <span class="st">"pi_kappa"</span>, <span class="st">"delta_mu"</span>, <span class="st">"delta_sigma^2"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
 
@@ -948,37 +1000,8 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 </div>
 </div>
 </div>
-<div id="843351de" class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>-  1630762 Wheeler, Phillip
--  1641989 Harkless, Elijah
--  1630283 Kelley, Kylor
--  1630574 Hukporti, Ariel
--  1642265 Dillingham, Rob
--  1641736 Beekman, Reece
--  1642277 Furphy, Johnny
--  1631232 Brooks Jr., Keion
--  1641810 Reeves, Antonio
--  1642348 Edwards, Justin
--  1642272 McCain, Jared
--  1641783 da Silva, Tristan
--  1642347 Shead, Jamal
--  1642266 Walter, Ja'Kobe
--  1642273 George, Kyshawn
--  1641824 Buzelis, Matas
--  1642270 Clingan, Donovan
--  1641842 Holland II, Ronald
--  1642377 Wells, Jaylen
--  1641744 Edey, Zach
--  1642271 Filipowski, Kyle
--  1642258 Risacher, Zaccharie
--  1642268 Collier, Isaiah
--  1642259 Sarr, Alex
--  1642274 Missi, Yves
--  1642264 Castle, Stephon</code></pre>
-</div>
-</div>
-<div id="99e20d4c" class="cell">
+<p>Los <em>posteriors</em> marginales de los parámetros poblacionales son los siguientes:</p>
+<div id="31602cfd" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -987,16 +1010,256 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 </div>
 </div>
 </div>
-<div id="08143049" class="cell">
+<p>A simple vista, se observa que, en promedio, la probabilidad de acertar un primer lanzamiento ronda el 70 %, y que los segundos intentos tienen, en promedio, cerca de un 6 % más de probabilidad de ser convertidos. Aunque esto no resulte novedoso, es satisfactorio comprobar que las inferencias obtenidas con el modelo jerárquico son consistentes con los hallazgos anteriores.</p>
+<p>Lo realmente interesante de este modelo jerárquico es que nos permite analizar las distribuciones <em>a posteriori</em> de <span class="math inline">\(\pi_i\)</span>, <span class="math inline">\(\theta_i\)</span> y <span class="math inline">\(\delta_i\)</span> a nivel individual, es decir, para cada jugador.</p>
+<p>Sin embargo, visualizar estas distribuciones para todos ellos puede resultar poco práctico. Por eso, seleccionamos un subconjunto representativo de jugadores en función de sus valores de <span class="math inline">\(N_1\)</span> (la cantidad de primeros lanzamientos). En concreto, conservamos a los 10 jugadores con mayor <span class="math inline">\(N_1\)</span> y, entre el resto, los ordenamos de menor a mayor y elegimos uno cada dos posiciones para formar una muestra más manejable.</p>
+<div id="843351de" class="cell center-table-60" data-execution_count="13">
 <div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<div><style>
+.dataframe > thead > tr,
+.dataframe > tbody > tr {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (26, 6)</small>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">player_id</th>
+<th data-quarto-table-cell-role="th">player_name</th>
+<th data-quarto-table-cell-role="th">y_1</th>
+<th data-quarto-table-cell-role="th">y_2</th>
+<th data-quarto-table-cell-role="th">n_1</th>
+<th data-quarto-table-cell-role="th">n_2</th>
+</tr>
+<tr class="even">
+<th>i32</th>
+<th>str</th>
+<th>u32</th>
+<th>u32</th>
+<th>u32</th>
+<th>u32</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1642264</td>
+<td>"Castle, Stephon"</td>
+<td>128</td>
+<td>121</td>
+<td>192</td>
+<td>152</td>
+</tr>
+<tr class="even">
+<td>1642274</td>
+<td>"Missi, Yves"</td>
+<td>63</td>
+<td>64</td>
+<td>112</td>
+<td>92</td>
+</tr>
+<tr class="odd">
+<td>1642259</td>
+<td>"Sarr, Alex"</td>
+<td>62</td>
+<td>50</td>
+<td>88</td>
+<td>77</td>
+</tr>
+<tr class="even">
+<td>1642268</td>
+<td>"Collier, Isaiah"</td>
+<td>56</td>
+<td>49</td>
+<td>85</td>
+<td>69</td>
+</tr>
+<tr class="odd">
+<td>1642258</td>
+<td>"Risacher, Zaccharie"</td>
+<td>55</td>
+<td>47</td>
+<td>82</td>
+<td>62</td>
+</tr>
+<tr class="even">
+<td>1642271</td>
+<td>"Filipowski, Kyle"</td>
+<td>47</td>
+<td>46</td>
+<td>81</td>
+<td>62</td>
+</tr>
+<tr class="odd">
+<td>1641744</td>
+<td>"Edey, Zach"</td>
+<td>54</td>
+<td>36</td>
+<td>76</td>
+<td>51</td>
+</tr>
+<tr class="even">
+<td>1642377</td>
+<td>"Wells, Jaylen"</td>
+<td>62</td>
+<td>44</td>
+<td>73</td>
+<td>56</td>
+</tr>
+<tr class="odd">
+<td>1641842</td>
+<td>"Holland II, Ronald"</td>
+<td>51</td>
+<td>41</td>
+<td>70</td>
+<td>52</td>
+</tr>
+<tr class="even">
+<td>1642270</td>
+<td>"Clingan, Donovan"</td>
+<td>33</td>
+<td>29</td>
+<td>60</td>
+<td>44</td>
+</tr>
+<tr class="odd">
+<td>1641824</td>
+<td>"Buzelis, Matas"</td>
+<td>45</td>
+<td>43</td>
+<td>59</td>
+<td>49</td>
+</tr>
+<tr class="even">
+<td>1642273</td>
+<td>"George, Kyshawn"</td>
+<td>39</td>
+<td>31</td>
+<td>51</td>
+<td>42</td>
+</tr>
+<tr class="odd">
+<td>1642266</td>
+<td>"Walter, Ja'Kobe"</td>
+<td>34</td>
+<td>32</td>
+<td>47</td>
+<td>36</td>
+</tr>
+<tr class="even">
+<td>1642347</td>
+<td>"Shead, Jamal"</td>
+<td>32</td>
+<td>20</td>
+<td>42</td>
+<td>26</td>
+</tr>
+<tr class="odd">
+<td>1641783</td>
+<td>"da Silva, Tristan"</td>
+<td>29</td>
+<td>26</td>
+<td>35</td>
+<td>28</td>
+</tr>
+<tr class="even">
+<td>1642272</td>
+<td>"McCain, Jared"</td>
+<td>23</td>
+<td>23</td>
+<td>28</td>
+<td>25</td>
+</tr>
+<tr class="odd">
+<td>1642348</td>
+<td>"Edwards, Justin"</td>
+<td>17</td>
+<td>15</td>
+<td>24</td>
+<td>22</td>
+</tr>
+<tr class="even">
+<td>1641810</td>
+<td>"Reeves, Antonio"</td>
+<td>16</td>
+<td>12</td>
+<td>21</td>
+<td>14</td>
+</tr>
+<tr class="odd">
+<td>1631232</td>
+<td>"Brooks Jr., Keion"</td>
+<td>12</td>
+<td>10</td>
+<td>17</td>
+<td>13</td>
+</tr>
+<tr class="even">
+<td>1642277</td>
+<td>"Furphy, Johnny"</td>
+<td>11</td>
+<td>7</td>
+<td>13</td>
+<td>9</td>
+</tr>
+<tr class="odd">
+<td>1641736</td>
+<td>"Beekman, Reece"</td>
+<td>8</td>
+<td>8</td>
+<td>11</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>1642265</td>
+<td>"Dillingham, Rob"</td>
+<td>4</td>
+<td>4</td>
+<td>9</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td>1630574</td>
+<td>"Hukporti, Ariel"</td>
+<td>2</td>
+<td>4</td>
+<td>7</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>1630283</td>
+<td>"Kelley, Kylor"</td>
+<td>1</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td>1641989</td>
+<td>"Harkless, Elijah"</td>
+<td>2</td>
+<td>1</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>1630762</td>
+<td>"Wheeler, Phillip"</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div id="bac92867" class="cell">
+<p>Luego, podemos visualizar los <em>posterior</em> marginales de <span class="math inline">\(\pi_i\)</span>, <span class="math inline">\(\theta_i\)</span> y <span class="math inline">\(\delta_i\)</span> para cada jugador seleccionado. Naturalmente, a medida que aumenta la cantidad de disparos observados, las distribuciones <em>a posteriori</em> se vuelven más estrechas, reflejando un mayor nivel de certidumbre.</p>
+<p>En todos los casos, incluso cuando <span class="math inline">\(N_1 = 1\)</span> y <span class="math inline">\(N_2 = 1\)</span>, la media <em>a posteriori</em> de <span class="math inline">\(\theta_i\)</span> es mayor que la de <span class="math inline">\(\pi_i\)</span>.</p>
+<p>Visto desde otro ángulo, en el panel inferior se observa que la media de <span class="math inline">\(\delta_i\)</span> es siempre mayor que 0. Sin embargo, solo en aquellos casos en los que se registran cientos de lanzamientos puede concluirse, con muy alta probabilidad, que los jugadores son efectivamente mejores en los segundos intentos que en los primeros.</p>
+<div id="99e20d4c" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1005,6 +1268,35 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 </div>
 </div>
 </div>
+<p>Como somos bayesianos y utilizamos métodos de Markov Chain Monte Carlo para obtener muestras del <em>posterior</em>, podemos calcular, para cada jugador, la probabilidad de que <span class="math inline">\(\delta_i\)</span> sea mayor que 0. Con estas probabilidades, es posible construir el siguiente histograma resumen:</p>
+<div id="08143049" class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Luego, sin importar el <em>rookie</em> en el que nos fijemos, siempre concluiremos que tiene una probabilidad entre moderada y alta de ser más efectivo en los segundos lanzamientos que en los primeros.</p>
+<p>Para finalizar, comparemos la distribución <em>a posteriori</em> de <span class="math inline">\(\delta\)</span> del modelo agrupado con el <em>posterior</em> de <span class="math inline">\(\mu_\delta\)</span> del modelo parcialmente agrupado, ya que ambas representan la misma cantidad: el diferencial promedio en la probabilidad de acierto entre un segundo y un primer lanzamiento.</p>
+<div id="bac92867" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Afortunadamente, no tenemos que reportar sorpresas. Ambos modelos nos conducen hacia conclusiones prácticamente similares sobre el <span class="math inline">\(\delta\)</span> promedio, aunque se puede mencionar que en el modelo jerárquico el <em>posterior</em> se encuentra levemente más regularizado hacia el 0 que en el modelo agrupado. Sin embargo, no debemos olvidar que utilizar un modelo jerárquico nos permitió obtener distribuciones <em>a posteriori</em> para cada jugador individual.</p>
+</section>
+<section id="comentarios-finales" class="level2">
+<h2 class="anchored" data-anchor-id="comentarios-finales">Comentarios finales</h2>
+<p>Ejemplos como este son los que me recuerdan por qué el enfoque bayesiano para la modelización estadística me gusta tanto.</p>
+<p>Si bien podríamos habernos conformado con una simple prueba de hipótesis, como la que presentan en el <a href="https://link.springer.com/article/10.1007/s12662-020-00646-x">artículo mencionado</a>, la flexibilidad que ofrecen herramientas como PyMC nos permite ir varios pasos más allá. Propusimos un modelo jerárquico (nada trivial), lo implementamos en PyMC, y luego este, junto con nutpie, se encargaron de proporcionarnos muestras del <em>posterior</em>.</p>
+<p>A partir de esas muestras, pudimos extraer varias conclusiones interesantes. No solo aquellas a nivel global, que confirman que los jugadores de básquet suelen fallar más en los primeros disparos que en los segundos (en línea con los resultados del artículo), sino también conclusiones específicas para cada jugador.</p>
+<p>Y, por encima de todo, más allá de la utilidad práctica del modelo o de los <em>insights</em> que podamos obtener… ¿no es acaso super divertido jugar a la estadística bayesiana?</p>
 
 
 </section>
