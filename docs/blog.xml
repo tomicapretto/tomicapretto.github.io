@@ -10,16 +10,17 @@
 <atom:link href="https://tomicapretto.github.io/blog.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.7.32</generator>
-<lastBuildDate>Thu, 25 Sep 2025 03:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 26 Sep 2025 03:00:00 GMT</lastBuildDate>
 <item>
-  <title>Titulo</title>
+  <title>Do rookies get better with each throw? Playing Bayes with NBA free-throw data</title>
   <link>https://tomicapretto.github.io/posts/2025-09-25_freethrows-rookies/</link>
   <description><![CDATA[ 
 
 
 
 
-<div id="afa71134" class="cell">
+<p><strong>NOTE</strong>: You also have this <a href="../../posts/2025-09-25_freethrows-rookies/es/index.html">versión en español</a>.</p>
+<div id="afa71134" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
@@ -70,10 +71,11 @@ background-color: null;
 font-style: inherit;">"#d1352c"</span></span></code></pre></div>
 </details>
 </div>
-<p>Mientras <em>scrapeaba</em> datos sobre los tiros libres de los <em>rookies</em> en la NBA durante la temporada 2024-25, me encontré con <a href="https://link.springer.com/article/10.1007/s12662-020-00646-x">este artículo</a>, donde se concluye que existe un efecto de “precalentamiento”: los jugadores de básquet tienden a fallar más los primeros disparos que el resto. El hallazgo me pareció interesante y lógico, y empecé a preguntarme si valía la pena realizar un análisis similar con los datos que estaba recolectando. Y bueno, acá estamos.</p>
-<section id="los-datos" class="level2">
-<h2 class="anchored" data-anchor-id="los-datos">Los datos</h2>
-<p>El siguiente <em>data frame</em> contiene información sobre los tiros libres realizados por los <em>rookies</em> de la temporada 2024-25 de la NBA. En este caso, las columnas relevantes son la identificación del jugador (<code>player_id</code>), el orden del disparo (<code>description</code>) y si el lanzamiento fue convertido (<code>success</code>).</p>
+<p>While I was <em>scraping</em> data on NBA rookies’ free throws during the 2024–25 season, I came across <a href="https://link.springer.com/article/10.1007/s12662-020-00646-x">this article</a>, which concludes that there’s a “warm-up” effect: basketball players tend to miss their first shots more often than the rest. I found the result both interesting and intuitive, and it made me wonder whether it would be worth running a similar analysis on the data I was collecting.</p>
+<p>And well… here we are.</p>
+<section id="the-data" class="level2">
+<h2 class="anchored" data-anchor-id="the-data">The data</h2>
+<p>The following data frame contains information about the free throws taken by NBA rookies during the 2024–25 season. In this case, the relevant columns are the player’s identifier (<code>player_id</code>), the order of the attempt (<code>description</code>), and whether the shot was made (<code>success</code>).</p>
 <div id="ccf5ecd3" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1">df <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -218,7 +220,7 @@ font-style: inherit;">"success"</span>)</span>
 </div>
 </div>
 </div>
-<p>En la NBA, los tiros libres pueden darse en series de 1, 2 o 3 intentos. Nuestra primera tarea es mapear los valores de <code>description</code> a un valor numérico que represente el orden del disparo dentro de su serie.</p>
+<p>In the NBA, free throws can come in series of 1, 2, or 3 attempts. Our first task is to map the values of <code>description</code> to a numeric value representing the order of the shot within its series.</p>
 <div id="59dbdd88" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">throw_order <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -432,8 +434,8 @@ font-style: inherit;">"order"</span>)</span>
 </div>
 </div>
 </div>
-<p>Podemos observar que los primeros intentos suelen fallarse con mayor frecuencia que los segundos, y que estos, a su vez, se fallan más que los terceros.</p>
-<div id="6fa81d15" class="cell">
+<p>We can see that first attempts tend to miss more often than second ones — and second attempts, in turn, miss more often than third ones.</p>
+<div id="6fa81d15" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">df_summary <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> (</span>
@@ -466,7 +468,7 @@ background-color: null;
 font-style: inherit;">"order"</span>)</span>
 <span id="cb4-7">)</span>
 <span id="cb4-8">df_summary</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="27">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div><style>
 .dataframe > thead > tr,
 .dataframe > tbody > tr {
@@ -515,12 +517,12 @@ font-style: inherit;">"order"</span>)</span>
 </div>
 </div>
 </section>
-<section id="modelo-agrupado" class="level2">
-<h2 class="anchored" data-anchor-id="modelo-agrupado">Modelo agrupado</h2>
-<p>Como primer paso, utilizamos un modelo que agrupa los disparos de todos los jugadores, los considera equivalentes, más de lo mismo. Definimos <img src="https://latex.codecogs.com/png.latex?Y_1"> como la cantidad de aciertos en primeros disparos y <img src="https://latex.codecogs.com/png.latex?Y_2"> como la cantidad de aciertos en segundos disparos. Luego, <img src="https://latex.codecogs.com/png.latex?%5Cpi_1"> representa la probabilidad de acertar en un primer intento y <img src="https://latex.codecogs.com/png.latex?%5Cpi_2"> en un segundo.</p>
+<section id="pooled-model" class="level2">
+<h2 class="anchored" data-anchor-id="pooled-model">Pooled model</h2>
+<p>As a first step, we use a model that groups all players’ shots together and treats them as equivalent — more of the same. We define <img src="https://latex.codecogs.com/png.latex?Y_1"> as the number of made first attempts and <img src="https://latex.codecogs.com/png.latex?Y_2"> as the number of made second attempts. Then, <img src="https://latex.codecogs.com/png.latex?%5Cpi_1"> represents the probability of making a first attempt, and <img src="https://latex.codecogs.com/png.latex?%5Cpi_2"> the probability of making a second one.</p>
 <p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0AY_1%20&amp;%5Csim%20%5Ctext%7BBinomial%7D(N_1,%20%5Cpi_1)%20%5C%5C%0AY_2%20&amp;%5Csim%20%5Ctext%7BBinomial%7D(N_2,%20%5Cpi_2)%20%5C%5C%0A%5Cpi_1%20&amp;%5Csim%20%5Ctext%7BBeta%7D(4,%202)%20%5C%5C%0A%5Cpi_2%20&amp;%5Csim%20%5Ctext%7BBeta%7D(4,%202)%20%5C%5C%0A%5Cend%7Baligned%7D%0A"></p>
-<p>En PyMC, tenemos:</p>
-<div id="d9632925" class="cell" data-execution_count="29">
+<p>In PyMC, we have:</p>
+<div id="d9632925" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">y <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> df_summary.head(<span class="dv" style="color: #AD0000;
@@ -603,7 +605,7 @@ background-color: null;
 font-style: inherit;">False</span>)</span>
 <span id="cb5-8"></span>
 <span id="cb5-9">model.to_graphviz()</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="29">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 <figure class="figure">
 <p><img src="https://tomicapretto.github.io/posts/2025-09-25_freethrows-rookies/index_files/figure-html/cell-6-output-1.svg" class="img-fluid figure-img"></p>
@@ -611,9 +613,9 @@ font-style: inherit;">False</span>)</span>
 </div>
 </div>
 </div>
-<p>Calculamos <img src="https://latex.codecogs.com/png.latex?%5Cdelta"> como la diferencia entre <img src="https://latex.codecogs.com/png.latex?%5Cpi_2"> y <img src="https://latex.codecogs.com/png.latex?%5Cpi_1">, y analizamos las distribuciones marginales <em>a posteriori</em>.</p>
-<p>En primer lugar, los diagnósticos no indican problemas en el muestreo: <img src="https://latex.codecogs.com/png.latex?%5Chat%7BR%7D"> cercano a 1, tamaños efectivos de muestra adecuados, etc.</p>
-<div id="da64b84f" class="cell center-table-70" data-execution_count="31">
+<p>We compute <img src="https://latex.codecogs.com/png.latex?%5Cdelta"> as the difference between <img src="https://latex.codecogs.com/png.latex?%5Cpi_2"> and <img src="https://latex.codecogs.com/png.latex?%5Cpi_1">, and then analyze the marginal <em>posterior</em> distributions.</p>
+<p>First, the diagnostics show no issues with sampling: <img src="https://latex.codecogs.com/png.latex?%5Chat%7BR%7D"> is close to 1, effective sample sizes are adequate, and so on.</p>
+<div id="da64b84f" class="cell center-table-70" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1">idata.posterior[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"delta"</span>] <span class="op" style="color: #5E5E5E;
@@ -640,7 +642,7 @@ background-color: null;
 font-style: inherit;">"pi"</span>, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"delta"</span>])</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="31">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
 
@@ -702,8 +704,9 @@ font-style: inherit;">"delta"</span>])</span></code></pre></div>
 </div>
 </div>
 </div>
-<p>Si nos enfocamos en la distribución <em>a posteriori</em> de <img src="https://latex.codecogs.com/png.latex?%5Cdelta">, podemos ver que la probabilidad de que <img src="https://latex.codecogs.com/png.latex?%5Cdelta"> sea mayor a 0 es igual a 1. Así, llegamos a nuestra primera gran conclusión: efectivamente, la probabilidad de acertar en el segundo intento es mayor que en el primero.</p>
-<div id="6c65a1c7" class="cell" data-execution_count="32">
+<p>If we focus on the <em>posterior</em> distribution of <img src="https://latex.codecogs.com/png.latex?%5Cdelta">, we can see that the probability of <img src="https://latex.codecogs.com/png.latex?%5Cdelta"> being greater than 0 is equal to 1.</p>
+<p>This leads us to our first major conclusion: indeed, the probability of making the second free throw is higher than that of the first. In fact, the success probability increases by an average of about 6%. And with a high degree of certainty, we can say that this improvement lies between 3% and 9%.</p>
+<div id="6c65a1c7" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -713,10 +716,13 @@ font-style: inherit;">"delta"</span>])</span></code></pre></div>
 </div>
 </div>
 </section>
-<section id="modelo-parcialmente-agrupado" class="level2">
-<h2 class="anchored" data-anchor-id="modelo-parcialmente-agrupado">Modelo parcialmente agrupado</h2>
-<p>El modelo anterior solo nos permite concluir que es más probable que un <em>rookie</em> acierte un segundo lanzamiento que un primero. Ahora, vamos a implementar un modelo jerárquico, en el cuál cada jugador tiene su propia probabilidad de acertar un primer o un segundo lanzamiento.</p>
-<div id="67ef624d" class="cell center-table-40">
+<section id="partially-pooled-model" class="level2">
+<h2 class="anchored" data-anchor-id="partially-pooled-model">Partially pooled model</h2>
+<p>The previous model only allows us to conclude that a <em>rookie</em> is more likely to make a second free throw than a first one (and quantify the size of that difference). However, it doesn’t let us draw conclusions about individual players. For example, we don’t know whether this “warm-up” effect occurs for <em>all</em> of them, or whether its intensity varies from player to player.</p>
+<p>One option would be to fit pairs of beta-binomial models like the ones above separately for each player. Unfortunately, since the number of attempts ranges from just one to a few hundred, the resulting posterior distributions can end up being extremely uncertain in some cases, or overly confident in others.</p>
+<p>This brings us to the quintessential Bayesian alternative: the hierarchical model. Under this approach, each player has their own success probability, but that probability is drawn from a common distribution shared by all players. This makes the estimates more stable and helps prevent overfitting to individual data, since each player’s posterior distribution is influenced — to some extent — by the information from the rest.</p>
+<p>The data we need are the number of attempts and the number of made shots on the first and second try for each player. For simplicity, we’ll focus only on players who attempted at least one series of two free throws.</p>
+<div id="67ef624d" class="cell center-table-40" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1">df_agg <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> (</span>
@@ -890,8 +896,13 @@ font-style: inherit;">"order"</span>)</span>
 </div>
 </div>
 </div>
-<div id="bc932449" class="cell">
-<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1">y_1 <span class="op" style="color: #5E5E5E;
+<p>In distributional form, we can write the model as follows:</p>
+<img src="https://latex.codecogs.com/png.latex?%5Cbegin%7Baligned%7D%0AY_%7Bi1%7D%20&amp;%5Csim%20%5Ctext%7BBinomial%7D(N_%7Bi1%7D,%20%5Cpi_i)%20%5C%5C%0AY_%7Bi2%7D%20&amp;%5Csim%20%5Ctext%7BBinomial%7D(N_%7Bi2%7D,%20%5Ctheta_i)%20%5C%5C%20%5C%5C%0A%0A&amp;%20%5Ctext%7B---%20P(Free%20throw%201%20is%20made)%20---%7D%20%5C%5C%0A%0A%5Cpi_i%20&amp;%5Csim%20%5Ctext%7BBeta%7D(%5Cmu_%5Cpi,%20%5Ckappa_%5Cpi)%20%5C%5C%0A%5Cmu_%5Cpi%20&amp;%5Csim%20%5Ctext%7BBeta%7D(4,%202)%20%5C%5C%0A%5Ckappa_%5Cpi%20&amp;%5Csim%20%5Ctext%7BInverseGamma%7D(0.5%20%5Ccdot%2015,%200.5%20%5Ccdot%2015%20%5Ccdot%2010)%20%5C%5C%20%5C%5C%0A%0A&amp;%20%5Ctext%7B---%20P(Free%20throw%202%20is%20made)%20---%20%7D%20%5C%5C%0A%0A%5Ctheta_i%20&amp;=%20%5Cpi_i%20+%20%5Cdelta_i%20%5C%5C%0A%5Cdelta_i%20&amp;%5Csim%20%5Ctext%7BNormal%7D(%5Cmu_%5Cdelta,%20%5Csigma%5E2_%5Cdelta)%20%5C%5C%0A%5Cmu_%5Cdelta%20&amp;%5Csim%20%5Ctext%7BNormal%7D(0,%200.15%5E2)%20%5C%5C%0A%5Csigma%5E2_%5Cdelta%20&amp;%5Csim%20%5Ctext%7BInverseGamma%7D(0.5%20%5Ccdot%2030,%200.5%20%5Ccdot%2030%20%5Ccdot%200.05)%20%5C%5C%0A%5Cend%7Baligned%7D">
+<p>where <img src="https://latex.codecogs.com/png.latex?i%20%5Cin%20%7B1,%20%5Cdots,%2092%7D"> indexes the players.</p>
+<p>In other words, we model the probability of making the second free throw as the sum of the probability of making the first one (<img src="https://latex.codecogs.com/png.latex?%5Cpi_i">) and a player-specific differential (<img src="https://latex.codecogs.com/png.latex?%5Cdelta_i">).</p>
+<p>The prior distributions for <img src="https://latex.codecogs.com/png.latex?%5Cmu_%5Cpi"> and <img src="https://latex.codecogs.com/png.latex?%5Cmu_%5Cdelta"> are slightly and moderately informative, respectively. Meanwhile, the priors assigned to <img src="https://latex.codecogs.com/png.latex?%5Ckappa_%5Cpi"> and <img src="https://latex.codecogs.com/png.latex?%5Csigma%5E2_%5Cdelta"> are also moderately informative — though in this case, their main role is to promote stability in the sampling of the posterior.</p>
+<div id="bc932449" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="annotated-cell-8" style="background: #f1f3f5;"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-8-1" class="code-annotation-target">y_1 <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> df_model.<span class="bu" style="color: null;
 background-color: null;
@@ -904,7 +915,7 @@ background-color: null;
 font-style: inherit;">1</span>)[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"y"</span>].to_numpy()</span>
-<span id="cb8-2">y_2 <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-8-2">y_2 <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> df_model.<span class="bu" style="color: null;
 background-color: null;
@@ -917,8 +928,7 @@ background-color: null;
 font-style: inherit;">2</span>)[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"y"</span>].to_numpy()</span>
-<span id="cb8-3"></span>
-<span id="cb8-4">n_1 <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-8-3">n_1 <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> df_model.<span class="bu" style="color: null;
 background-color: null;
@@ -931,7 +941,7 @@ background-color: null;
 font-style: inherit;">1</span>)[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"n"</span>].to_numpy()</span>
-<span id="cb8-5">n_2 <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-8-4">n_2 <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> df_model.<span class="bu" style="color: null;
 background-color: null;
@@ -944,8 +954,8 @@ background-color: null;
 font-style: inherit;">2</span>)[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"n"</span>].to_numpy()</span>
-<span id="cb8-6"></span>
-<span id="cb8-7">player_ids <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-8-5"></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-8-6" class="code-annotation-target">player_ids <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> df_model[<span class="st" style="color: #20794D;
 background-color: null;
@@ -954,18 +964,18 @@ background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span>)</span>
-<span id="cb8-8">N <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-8-7">N <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">len</span>(player_ids)</span>
-<span id="cb8-9">coords <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-8-8">coords <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> {<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"player"</span>: player_ids}</span>
-<span id="cb8-10"></span>
-<span id="cb8-11"><span class="cf" style="color: #003B4F;
+<span id="annotated-cell-8-9"></span>
+<span id="annotated-cell-8-10"><span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">with</span> pm.Model(coords<span class="op" style="color: #5E5E5E;
@@ -973,7 +983,7 @@ background-color: null;
 font-style: inherit;">=</span>coords) <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">as</span> model_h:</span>
-<span id="cb8-12">    pi_mu <span class="op" style="color: #5E5E5E;
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-8-11" class="code-annotation-target">    pi_mu <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> pm.Beta(<span class="st" style="color: #20794D;
 background-color: null;
@@ -986,7 +996,7 @@ background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">2</span>)</span>
-<span id="cb8-13">    pi_kappa <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-8-12">    pi_kappa <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> pm.InverseGamma(<span class="st" style="color: #20794D;
 background-color: null;
@@ -1011,12 +1021,12 @@ background-color: null;
 font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">10</span>)</span>
-<span id="cb8-14">    pi_alpha <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-8-13">    pi_alpha <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> pi_mu <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">*</span> pi_kappa</span>
-<span id="cb8-15">    pi_beta <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-8-14">    pi_beta <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> (<span class="dv" style="color: #AD0000;
 background-color: null;
@@ -1025,7 +1035,7 @@ background-color: null;
 font-style: inherit;">-</span> pi_mu) <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">*</span> pi_kappa</span>
-<span id="cb8-16">    pi <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-8-15">    pi <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> pm.Beta(<span class="st" style="color: #20794D;
 background-color: null;
@@ -1038,8 +1048,8 @@ background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"player"</span>)</span>
-<span id="cb8-17"></span>
-<span id="cb8-18">    delta_mu <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-8-16"></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-8-17" class="code-annotation-target">    delta_mu <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> pm.Normal(<span class="st" style="color: #20794D;
 background-color: null;
@@ -1052,7 +1062,7 @@ background-color: null;
 font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0.15</span>)</span>
-<span id="cb8-19">    delta_sigma <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-8-18">    delta_sigma <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> pm.InverseGamma(<span class="st" style="color: #20794D;
 background-color: null;
@@ -1081,29 +1091,24 @@ background-color: null;
 font-style: inherit;">**</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0.5</span></span>
-<span id="cb8-20">    delta <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-8-19">    delta <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> pm.Normal(</span>
-<span id="cb8-21">        <span class="st" style="color: #20794D;
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-8-20" class="code-annotation-target">        <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"delta"</span>,</span>
-<span id="cb8-22">        mu<span class="op" style="color: #5E5E5E;
+font-style: inherit;">"delta"</span>, mu<span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span>delta_mu,</span>
-<span id="cb8-23">        sigma<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span>delta_mu, sigma<span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span>delta_sigma,</span>
-<span id="cb8-24">        dims<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span>delta_sigma, dims<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"player"</span>,</span>
-<span id="cb8-25">        initval<span class="op" style="color: #5E5E5E;
+font-style: inherit;">"player"</span>, initval<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>np.zeros(N)</span>
-<span id="cb8-26">    )</span>
-<span id="cb8-27"></span>
-<span id="cb8-28">    theta <span class="op" style="color: #5E5E5E;
+<span id="annotated-cell-8-21">    )</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-8-22" class="code-annotation-target">    theta <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> pm.Deterministic(<span class="st" style="color: #20794D;
 background-color: null;
@@ -1118,8 +1123,9 @@ background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"player"</span>)</span>
-<span id="cb8-29"></span>
-<span id="cb8-30">    pm.Binomial(<span class="st" style="color: #20794D;
+<span id="annotated-cell-8-23"></span>
+<span id="annotated-cell-8-24"></span>
+<span id="annotated-cell-8-25">    pm.Binomial(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"y_1"</span>, p<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -1132,7 +1138,7 @@ background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"player"</span>)</span>
-<span id="cb8-31">    pm.Binomial(<span class="st" style="color: #20794D;
+<span id="annotated-cell-8-26">    pm.Binomial(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"y_2"</span>, p<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -1144,53 +1150,84 @@ font-style: inherit;">=</span>y_2, dims<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"player"</span>)</span>
-<span id="cb8-32"></span>
-<span id="cb8-33">model_h.to_graphviz()</span></code></pre></div>
+font-style: inherit;">"player"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="1,2,3,4" data-code-annotation="1"><strong>Data preparation:</strong> vectors are used (although 2-dimensional arrays could have been used instead).</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="6,7,8" data-code-annotation="2"><strong>Coordinate preparation:</strong> these represent the different players.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="11,12,13,14,15" data-code-annotation="3"><strong>Construction of <img src="https://latex.codecogs.com/png.latex?%5Cpi_i">:</strong> priors are assigned for the mean and precision, which are then transformed into scale parameters used directly in <code>pm.Beta</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="17,18,19,21,23" data-code-annotation="4"><strong>Construction of <img src="https://latex.codecogs.com/png.latex?%5Ctheta_i">:</strong> for each player, a difference parameter <img src="https://latex.codecogs.com/png.latex?%5Cdelta_i"> is specified.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="20" data-code-annotation="5"><strong>Use of <code>initval</code>:</strong> ensures that the inference algorithm starts from a valid point in the parameter space.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="22" data-code-annotation="6"><strong>Use of <code>pt.clip</code>:</strong> guarantees that <img src="https://latex.codecogs.com/png.latex?%5Cpi_i%20+%20%5Cdelta_i"> stays between 0 and 1. This does not affect the posterior but is necessary to correctly initialize the sampling algorithm.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>Finally, here’s what a graphical representation of the model looks like:</p>
+<div id="cd7ff322" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-09-25_freethrows-rookies/index_files/figure-html/cell-10-output-1.svg" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.github.io/posts/2025-09-25_freethrows-rookies/index_files/figure-html/cell-11-output-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="e391709d" class="cell center-table-70">
-<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="cf" style="color: #003B4F;
+<p>Thanks to <a href="https://pymc-devs.github.io/nutpie/">nutpie</a>, we can obtain reliable samples from the <em>posterior</em> in just a few seconds.</p>
+<p>Although the diagnostics don’t look quite as good as in the pooled model (which is easy to happen in hierarchical models), the values are still acceptable, so we can proceed with our analysis.</p>
+<div id="e391709d" class="cell center-table-70" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">with</span> model_h:</span>
-<span id="cb9-2">    idata_h <span class="op" style="color: #5E5E5E;
+<span id="cb8-2">    idata_h <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> pm.sample(</span>
-<span id="cb9-3">        chains<span class="op" style="color: #5E5E5E;
+<span id="cb8-3">        chains<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">4</span>,</span>
-<span id="cb9-4">        target_accept<span class="op" style="color: #5E5E5E;
+<span id="cb8-4">        target_accept<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0.99</span>,</span>
-<span id="cb9-5">        nuts_sampler<span class="op" style="color: #5E5E5E;
+<span id="cb8-5">        nuts_sampler<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"nutpie"</span>,</span>
-<span id="cb9-6">        random_seed<span class="op" style="color: #5E5E5E;
+<span id="cb8-6">        random_seed<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1211</span>,</span>
-<span id="cb9-7">        progressbar<span class="op" style="color: #5E5E5E;
+<span id="cb8-7">        progressbar<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">False</span>,</span>
-<span id="cb9-8">    )</span>
-<span id="cb9-9"></span>
-<span id="cb9-10">az.summary(idata_h, var_names<span class="op" style="color: #5E5E5E;
+<span id="cb8-8">    )</span>
+<span id="cb8-9"></span>
+<span id="cb8-10">az.summary(idata_h, var_names<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
 background-color: null;
@@ -1201,7 +1238,7 @@ background-color: null;
 font-style: inherit;">"delta_mu"</span>, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"delta_sigma^2"</span>])</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
 
@@ -1275,37 +1312,8 @@ font-style: inherit;">"delta_sigma^2"</span>])</span></code></pre></div>
 </div>
 </div>
 </div>
-<div id="843351de" class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>-  1630762 Wheeler, Phillip
--  1641989 Harkless, Elijah
--  1630283 Kelley, Kylor
--  1630574 Hukporti, Ariel
--  1642265 Dillingham, Rob
--  1641736 Beekman, Reece
--  1642277 Furphy, Johnny
--  1631232 Brooks Jr., Keion
--  1641810 Reeves, Antonio
--  1642348 Edwards, Justin
--  1642272 McCain, Jared
--  1641783 da Silva, Tristan
--  1642347 Shead, Jamal
--  1642266 Walter, Ja'Kobe
--  1642273 George, Kyshawn
--  1641824 Buzelis, Matas
--  1642270 Clingan, Donovan
--  1641842 Holland II, Ronald
--  1642377 Wells, Jaylen
--  1641744 Edey, Zach
--  1642271 Filipowski, Kyle
--  1642258 Risacher, Zaccharie
--  1642268 Collier, Isaiah
--  1642259 Sarr, Alex
--  1642274 Missi, Yves
--  1642264 Castle, Stephon</code></pre>
-</div>
-</div>
-<div id="99e20d4c" class="cell">
+<p>The marginal posteriors of the population-level parameters look as follows:</p>
+<div id="31602cfd" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1314,16 +1322,256 @@ font-style: inherit;">"delta_sigma^2"</span>])</span></code></pre></div>
 </div>
 </div>
 </div>
-<div id="08143049" class="cell">
+<p>At first glance, we can see that, on average, the probability of making a first free throw is around 70%, and that second attempts are, on average, about 6% more likely to go in. While this isn’t a surprising result, it’s reassuring to see that the inferences from the hierarchical model are consistent with our previous findings.</p>
+<p>What’s truly interesting about this hierarchical approach is that it allows us to analyze the posterior distributions of <img src="https://latex.codecogs.com/png.latex?%5Cpi_i">, <img src="https://latex.codecogs.com/png.latex?%5Ctheta_i">, and <img src="https://latex.codecogs.com/png.latex?%5Cdelta_i"> at the individual level — that is, for each player.</p>
+<p>However, visualizing these distributions for all players can quickly become impractical. To make things more manageable, we selected a representative subset of players based on their <img src="https://latex.codecogs.com/png.latex?N_1"> values (the number of first attempts). Specifically, we kept the 10 players with the highest <img src="https://latex.codecogs.com/png.latex?N_1">, and from the remaining group, we sorted them from lowest to highest and chose every second player to form a more manageable sample.</p>
+<div id="843351de" class="cell center-table-60" data-execution_count="13">
 <div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-09-25_freethrows-rookies/index_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<div><style>
+.dataframe > thead > tr,
+.dataframe > tbody > tr {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (26, 6)</small>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">player_id</th>
+<th data-quarto-table-cell-role="th">player_name</th>
+<th data-quarto-table-cell-role="th">y_1</th>
+<th data-quarto-table-cell-role="th">y_2</th>
+<th data-quarto-table-cell-role="th">n_1</th>
+<th data-quarto-table-cell-role="th">n_2</th>
+</tr>
+<tr class="even">
+<th>i32</th>
+<th>str</th>
+<th>u32</th>
+<th>u32</th>
+<th>u32</th>
+<th>u32</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1642264</td>
+<td>"Castle, Stephon"</td>
+<td>128</td>
+<td>121</td>
+<td>192</td>
+<td>152</td>
+</tr>
+<tr class="even">
+<td>1642274</td>
+<td>"Missi, Yves"</td>
+<td>63</td>
+<td>64</td>
+<td>112</td>
+<td>92</td>
+</tr>
+<tr class="odd">
+<td>1642259</td>
+<td>"Sarr, Alex"</td>
+<td>62</td>
+<td>50</td>
+<td>88</td>
+<td>77</td>
+</tr>
+<tr class="even">
+<td>1642268</td>
+<td>"Collier, Isaiah"</td>
+<td>56</td>
+<td>49</td>
+<td>85</td>
+<td>69</td>
+</tr>
+<tr class="odd">
+<td>1642258</td>
+<td>"Risacher, Zaccharie"</td>
+<td>55</td>
+<td>47</td>
+<td>82</td>
+<td>62</td>
+</tr>
+<tr class="even">
+<td>1642271</td>
+<td>"Filipowski, Kyle"</td>
+<td>47</td>
+<td>46</td>
+<td>81</td>
+<td>62</td>
+</tr>
+<tr class="odd">
+<td>1641744</td>
+<td>"Edey, Zach"</td>
+<td>54</td>
+<td>36</td>
+<td>76</td>
+<td>51</td>
+</tr>
+<tr class="even">
+<td>1642377</td>
+<td>"Wells, Jaylen"</td>
+<td>62</td>
+<td>44</td>
+<td>73</td>
+<td>56</td>
+</tr>
+<tr class="odd">
+<td>1641842</td>
+<td>"Holland II, Ronald"</td>
+<td>51</td>
+<td>41</td>
+<td>70</td>
+<td>52</td>
+</tr>
+<tr class="even">
+<td>1642270</td>
+<td>"Clingan, Donovan"</td>
+<td>33</td>
+<td>29</td>
+<td>60</td>
+<td>44</td>
+</tr>
+<tr class="odd">
+<td>1641824</td>
+<td>"Buzelis, Matas"</td>
+<td>45</td>
+<td>43</td>
+<td>59</td>
+<td>49</td>
+</tr>
+<tr class="even">
+<td>1642273</td>
+<td>"George, Kyshawn"</td>
+<td>39</td>
+<td>31</td>
+<td>51</td>
+<td>42</td>
+</tr>
+<tr class="odd">
+<td>1642266</td>
+<td>"Walter, Ja'Kobe"</td>
+<td>34</td>
+<td>32</td>
+<td>47</td>
+<td>36</td>
+</tr>
+<tr class="even">
+<td>1642347</td>
+<td>"Shead, Jamal"</td>
+<td>32</td>
+<td>20</td>
+<td>42</td>
+<td>26</td>
+</tr>
+<tr class="odd">
+<td>1641783</td>
+<td>"da Silva, Tristan"</td>
+<td>29</td>
+<td>26</td>
+<td>35</td>
+<td>28</td>
+</tr>
+<tr class="even">
+<td>1642272</td>
+<td>"McCain, Jared"</td>
+<td>23</td>
+<td>23</td>
+<td>28</td>
+<td>25</td>
+</tr>
+<tr class="odd">
+<td>1642348</td>
+<td>"Edwards, Justin"</td>
+<td>17</td>
+<td>15</td>
+<td>24</td>
+<td>22</td>
+</tr>
+<tr class="even">
+<td>1641810</td>
+<td>"Reeves, Antonio"</td>
+<td>16</td>
+<td>12</td>
+<td>21</td>
+<td>14</td>
+</tr>
+<tr class="odd">
+<td>1631232</td>
+<td>"Brooks Jr., Keion"</td>
+<td>12</td>
+<td>10</td>
+<td>17</td>
+<td>13</td>
+</tr>
+<tr class="even">
+<td>1642277</td>
+<td>"Furphy, Johnny"</td>
+<td>11</td>
+<td>7</td>
+<td>13</td>
+<td>9</td>
+</tr>
+<tr class="odd">
+<td>1641736</td>
+<td>"Beekman, Reece"</td>
+<td>8</td>
+<td>8</td>
+<td>11</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>1642265</td>
+<td>"Dillingham, Rob"</td>
+<td>4</td>
+<td>4</td>
+<td>9</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td>1630574</td>
+<td>"Hukporti, Ariel"</td>
+<td>2</td>
+<td>4</td>
+<td>7</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>1630283</td>
+<td>"Kelley, Kylor"</td>
+<td>1</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td>1641989</td>
+<td>"Harkless, Elijah"</td>
+<td>2</td>
+<td>1</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>1630762</td>
+<td>"Wheeler, Phillip"</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div id="bac92867" class="cell">
+<p>We can then visualize the marginal posteriors of <img src="https://latex.codecogs.com/png.latex?%5Cpi_i">, <img src="https://latex.codecogs.com/png.latex?%5Ctheta_i">, and <img src="https://latex.codecogs.com/png.latex?%5Cdelta_i"> for each selected player. Naturally, as the number of observed shots increases, the posterior distributions become narrower, reflecting a higher level of certainty.</p>
+<p>In every case, even when <img src="https://latex.codecogs.com/png.latex?N_1%20=%201"> and <img src="https://latex.codecogs.com/png.latex?N_2%20=%201">, the posterior mean of <img src="https://latex.codecogs.com/png.latex?%5Ctheta_i"> is greater than that of <img src="https://latex.codecogs.com/png.latex?%5Cpi_i">.</p>
+<p>From another perspective, the bottom panel shows that the mean of <img src="https://latex.codecogs.com/png.latex?%5Cdelta_i"> is always greater than 0. However, it’s only in cases where we have hundreds of attempts that we can conclude, with probability close to 1, that players are indeed better on their second attempts than on their first.</p>
+<div id="99e20d4c" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1332,13 +1580,45 @@ font-style: inherit;">"delta_sigma^2"</span>])</span></code></pre></div>
 </div>
 </div>
 </div>
+<p>Since we’re Bayesians and use Markov Chain Monte Carlo methods to obtain samples from the posterior, we can compute, for each player, the probability that <img src="https://latex.codecogs.com/png.latex?%5Cdelta_i"> is greater than 0. With these probabilities, we can build the following summary histogram:</p>
+<div id="08143049" class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.github.io/posts/2025-09-25_freethrows-rookies/index_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Then, no matter which rookie we look at, we’ll always conclude that they have a moderate to high probability of being more effective on their second free throws than on their first.</p>
+<p>Finally, let’s compare the posterior distribution of <img src="https://latex.codecogs.com/png.latex?%5Cdelta"> from the pooled model with the posterior of <img src="https://latex.codecogs.com/png.latex?%5Cmu_%5Cdelta"> from the partially pooled model, since both represent the same quantity: the average difference in success probability between a second and a first attempt.</p>
+<div id="bac92867" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.github.io/posts/2025-09-25_freethrows-rookies/index_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Fortunately, there are no surprises to report. Both models lead us to practically the same conclusions about the average <img src="https://latex.codecogs.com/png.latex?%5Cdelta">, although it’s worth noting that in the hierarchical model, the posterior is slightly more regularized toward 0 compared to the pooled model.</p>
+<p>However, we shouldn’t forget that using a hierarchical model allowed us to obtain posterior distributions for each individual player.</p>
+</section>
+<section id="final-comments" class="level2">
+<h2 class="anchored" data-anchor-id="final-comments">Final comments</h2>
+<p>Examples like this are what remind me why I enjoy the Bayesian approach to statistical modeling so much.</p>
+<p>While we could have settled for a simple hypothesis test, like the one presented in the <a href="https://link.springer.com/article/10.1007/s12662-020-00646-x">article mentioned above</a>, the flexibility offered by tools like PyMC allows us to go several steps further.</p>
+<p>We proposed a hierarchical model (not a trivial one), implemented it in PyMC, and then, together with nutpie, used it to obtain samples from the posterior.</p>
+<p>From those samples, we were able to draw several interesting conclusions. Not only the global ones, which confirm that basketball players tend to miss their first free throws more often than their second (consistent with the article’s findings), but also player-specific insights.</p>
+<p>And above all, beyond the practical usefulness of the model or the insights we can extract… isn’t it just incredibly fun to <em>play Bayes</em>?</p>
 
 
 </section>
 
  ]]></description>
   <guid>https://tomicapretto.github.io/posts/2025-09-25_freethrows-rookies/</guid>
-  <pubDate>Thu, 25 Sep 2025 03:00:00 GMT</pubDate>
+  <pubDate>Fri, 26 Sep 2025 03:00:00 GMT</pubDate>
+  <media:content url="https://tomicapretto.github.io/posts/2025-09-25_freethrows-rookies/imgs/bayes_freethrow.png" medium="image" type="image/png" height="96" width="144"/>
 </item>
 <item>
   <title>In search of the best thermos for mate with Thomas Bayes</title>

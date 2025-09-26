@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-09-26">
 
-<title>Do rookies get better with each throw? Playing Bayes with NBA free-throw data – Tomi Capretto</title>
+<title>¿Los rookies mejoran con cada lanzamiento? Jugando Bayes con datos de tiros libres de la NBA – Tomi Capretto</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -59,24 +58,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../imgs/mate.png" rel="icon" type="image/png">
-<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-7443f2a2c903350aebfc1ad1b5756fe3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../imgs/mate.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-7443f2a2c903350aebfc1ad1b5756fe3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -91,17 +90,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
   }
 }</script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-78XRDSRQC8"></script>
@@ -147,7 +146,7 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../../../styles.css">
 </head>
 
 <body class="floating nav-fixed quarto-light">
@@ -157,22 +156,22 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">Tomi Capretto</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../blog.html"> 
+    <a class="nav-link" href="../../../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html"> 
+    <a class="nav-link" href="../../../about.html"> 
 <span class="menu-text">About me</span></a>
   </li>  
 </ul>
@@ -190,10 +189,10 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-data" id="toc-the-data" class="nav-link active" data-scroll-target="#the-data">The data</a></li>
-  <li><a href="#pooled-model" id="toc-pooled-model" class="nav-link" data-scroll-target="#pooled-model">Pooled model</a></li>
-  <li><a href="#partially-pooled-model" id="toc-partially-pooled-model" class="nav-link" data-scroll-target="#partially-pooled-model">Partially pooled model</a></li>
-  <li><a href="#final-comments" id="toc-final-comments" class="nav-link" data-scroll-target="#final-comments">Final comments</a></li>
+  <li><a href="#los-datos" id="toc-los-datos" class="nav-link active" data-scroll-target="#los-datos">Los datos</a></li>
+  <li><a href="#modelo-agrupado" id="toc-modelo-agrupado" class="nav-link" data-scroll-target="#modelo-agrupado">Modelo agrupado</a></li>
+  <li><a href="#modelo-parcialmente-agrupado" id="toc-modelo-parcialmente-agrupado" class="nav-link" data-scroll-target="#modelo-parcialmente-agrupado">Modelo parcialmente agrupado</a></li>
+  <li><a href="#comentarios-finales" id="toc-comentarios-finales" class="nav-link" data-scroll-target="#comentarios-finales">Comentarios finales</a></li>
   </ul>
 </nav>
 </nav>
@@ -206,7 +205,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Do rookies get better with each throw? Playing Bayes with NBA free-throw data</h1>
+<h1 class="title">¿Los rookies mejoran con cada lanzamiento? Jugando Bayes con datos de tiros libres de la NBA</h1>
 </div>
 
 
@@ -215,9 +214,9 @@ window.Quarto = {
 
     
     <div>
-    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-heading">Fecha de publicación</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 26, 2025</p>
+      <p class="date">26 de septiembre de 2025</p>
     </div>
   </div>
   
@@ -229,10 +228,9 @@ window.Quarto = {
 </header>
 
 
-<p><strong>NOTE</strong>: You also have this <a href="../../posts/2025-09-25_freethrows-rookies/es/index.html">versión en español</a>.</p>
 <div id="afa71134" class="cell" data-execution_count="1">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -242,20 +240,19 @@ window.Quarto = {
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>c_orange <span class="op">=</span> <span class="st">"#f08533"</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>c_blue <span class="op">=</span> <span class="st">"#3b78b0"</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>c_red <span class="op">=</span> <span class="st">"#d1352c"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>c_red <span class="op">=</span> <span class="st">"#d1352c"</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>While I was <em>scraping</em> data on NBA rookies’ free throws during the 2024–25 season, I came across <a href="https://link.springer.com/article/10.1007/s12662-020-00646-x">this article</a>, which concludes that there’s a “warm-up” effect: basketball players tend to miss their first shots more often than the rest. I found the result both interesting and intuitive, and it made me wonder whether it would be worth running a similar analysis on the data I was collecting.</p>
-<p>And well… here we are.</p>
-<section id="the-data" class="level2">
-<h2 class="anchored" data-anchor-id="the-data">The data</h2>
-<p>The following data frame contains information about the free throws taken by NBA rookies during the 2024–25 season. In this case, the relevant columns are the player’s identifier (<code>player_id</code>), the order of the attempt (<code>description</code>), and whether the shot was made (<code>success</code>).</p>
+<p>Mientras <em>scrapeaba</em> datos sobre los tiros libres de los <em>rookies</em> en la NBA durante la temporada 2024-25, me encontré con <a href="https://link.springer.com/article/10.1007/s12662-020-00646-x">este artículo</a>, donde se concluye que existe un efecto de “precalentamiento”: los jugadores de básquet tienden a fallar más los primeros disparos que el resto. El hallazgo me pareció interesante y lógico, y empecé a preguntarme si valía la pena realizar un análisis similar con los datos que estaba recolectando. Y bueno, acá estamos.</p>
+<section id="los-datos" class="level2">
+<h2 class="anchored" data-anchor-id="los-datos">Los datos</h2>
+<p>El siguiente <em>data frame</em> contiene información sobre los tiros libres realizados por los <em>rookies</em> de la temporada 2024-25 de la NBA. En este caso, las columnas relevantes son la identificación del jugador (<code>player_id</code>), el orden del disparo (<code>description</code>) y si el lanzamiento fue convertido (<code>success</code>).</p>
 <div id="ccf5ecd3" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> (</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    pl.read_parquet(<span class="st">"data.parquet"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    pl.read_parquet(<span class="st">"../data.parquet"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"game_date"</span>, <span class="st">"matchup"</span>, <span class="st">"player_id"</span>, <span class="st">"player_name"</span>, <span class="st">"description"</span>, <span class="st">"success"</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div><style>
 .dataframe > thead > tr,
@@ -378,7 +375,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>In the NBA, free throws can come in series of 1, 2, or 3 attempts. Our first task is to map the values of <code>description</code> to a numeric value representing the order of the shot within its series.</p>
+<p>En la NBA, los tiros libres pueden darse en series de 1, 2 o 3 intentos. Nuestra primera tarea es mapear los valores de <code>description</code> a un valor numérico que represente el orden del disparo dentro de su serie.</p>
 <div id="59dbdd88" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>throw_order <span class="op">=</span> {</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Free Throw 1 of 1"</span>: <span class="dv">1</span>,</span>
@@ -398,7 +395,7 @@ window.Quarto = {
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.with_columns(</span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"description"</span>).replace_strict(throw_order, return_dtype<span class="op">=</span>pl.Int64).alias(<span class="st">"order"</span>)</span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div><style>
 .dataframe > thead > tr,
@@ -534,7 +531,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>We can see that first attempts tend to miss more often than second ones — and second attempts, in turn, miss more often than third ones.</p>
+<p>Podemos observar que los primeros intentos suelen fallarse con mayor frecuencia que los segundos, y que estos, a su vez, se fallan más que los terceros.</p>
 <div id="6fa81d15" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_summary <span class="op">=</span> (</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    df</span>
@@ -543,7 +540,7 @@ window.Quarto = {
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    .with_columns((pl.col(<span class="st">"y"</span>) <span class="op">/</span> pl.col(<span class="st">"n"</span>)).alias(<span class="st">"p"</span>))</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    .sort(<span class="st">"order"</span>)</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>df_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>df_summary</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div><style>
 .dataframe > thead > tr,
@@ -593,9 +590,9 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="pooled-model" class="level2">
-<h2 class="anchored" data-anchor-id="pooled-model">Pooled model</h2>
-<p>As a first step, we use a model that groups all players’ shots together and treats them as equivalent — more of the same. We define <span class="math inline">\(Y_1\)</span> as the number of made first attempts and <span class="math inline">\(Y_2\)</span> as the number of made second attempts. Then, <span class="math inline">\(\pi_1\)</span> represents the probability of making a first attempt, and <span class="math inline">\(\pi_2\)</span> the probability of making a second one.</p>
+<section id="modelo-agrupado" class="level2">
+<h2 class="anchored" data-anchor-id="modelo-agrupado">Modelo agrupado</h2>
+<p>Como primer paso, utilizamos un modelo que agrupa los disparos de todos los jugadores, los considera equivalentes, más de lo mismo. Definimos <span class="math inline">\(Y_1\)</span> como la cantidad de aciertos en primeros disparos y <span class="math inline">\(Y_2\)</span> como la cantidad de aciertos en segundos disparos. Luego, <span class="math inline">\(\pi_1\)</span> representa la probabilidad de acertar en un primer intento y <span class="math inline">\(\pi_2\)</span> en un segundo.</p>
 <p><span class="math display">\[
 \begin{aligned}
 Y_1 &amp;\sim \text{Binomial}(N_1, \pi_1) \\
@@ -604,7 +601,7 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 \pi_2 &amp;\sim \text{Beta}(4, 2) \\
 \end{aligned}
 \]</span></p>
-<p>In PyMC, we have:</p>
+<p>En PyMC, tenemos:</p>
 <div id="d9632925" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_summary.head(<span class="dv">2</span>)[<span class="st">"y"</span>].to_numpy()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> df_summary.head(<span class="dv">2</span>)[<span class="st">"n"</span>].to_numpy()</span>
@@ -614,7 +611,7 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Binomial(<span class="st">"y"</span>, p<span class="op">=</span>pi, n<span class="op">=</span>n, observed<span class="op">=</span>y, dims<span class="op">=</span><span class="st">"order"</span>)</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample(chains<span class="op">=</span><span class="dv">4</span>, random_seed<span class="op">=</span><span class="dv">1211</span>, nuts_sampler<span class="op">=</span><span class="st">"nutpie"</span>, progressbar<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>model.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>model.to_graphviz()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 <figure class="figure">
@@ -623,11 +620,11 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 </div>
 </div>
 </div>
-<p>We compute <span class="math inline">\(\delta\)</span> as the difference between <span class="math inline">\(\pi_2\)</span> and <span class="math inline">\(\pi_1\)</span>, and then analyze the marginal <em>posterior</em> distributions.</p>
-<p>First, the diagnostics show no issues with sampling: <span class="math inline">\(\hat{R}\)</span> is close to 1, effective sample sizes are adequate, and so on.</p>
+<p>Calculamos <span class="math inline">\(\delta\)</span> como la diferencia entre <span class="math inline">\(\pi_2\)</span> y <span class="math inline">\(\pi_1\)</span>, y analizamos las distribuciones marginales <em>a posteriori</em>.</p>
+<p>En primer lugar, los diagnósticos no indican problemas en el muestreo: <span class="math inline">\(\hat{R}\)</span> cercano a 1, tamaños efectivos de muestra adecuados, etc.</p>
 <div id="da64b84f" class="cell center-table-70" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>idata.posterior[<span class="st">"delta"</span>] <span class="op">=</span> idata.posterior[<span class="st">"pi"</span>].sel(order<span class="op">=</span><span class="dv">2</span>) <span class="op">-</span> idata.posterior[<span class="st">"pi"</span>].sel(order<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>az.summary(idata, var_names<span class="op">=</span>[<span class="st">"pi"</span>, <span class="st">"delta"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>az.summary(idata, var_names<span class="op">=</span>[<span class="st">"pi"</span>, <span class="st">"delta"</span>])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
@@ -690,8 +687,8 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 </div>
 </div>
 </div>
-<p>If we focus on the <em>posterior</em> distribution of <span class="math inline">\(\delta\)</span>, we can see that the probability of <span class="math inline">\(\delta\)</span> being greater than 0 is equal to 1.</p>
-<p>This leads us to our first major conclusion: indeed, the probability of making the second free throw is higher than that of the first. In fact, the success probability increases by an average of about 6%. And with a high degree of certainty, we can say that this improvement lies between 3% and 9%.</p>
+<p>Si nos enfocamos en la distribución <em>a posteriori</em> de <span class="math inline">\(\delta\)</span>, podemos ver que la probabilidad de que <span class="math inline">\(\delta\)</span> sea mayor a 0 es igual a 1.</p>
+<p>Así, llegamos a nuestra primera gran conclusión: efectivamente, la probabilidad de acertar en el segundo intento es mayor que en el primero. De hecho, la probabilidad de acierto se incrementa, en promedio, un 6 %. Y, con un alto grado de certeza, podemos afirmar que esta mejora se encuentra entre el 3 % y el 9 %.</p>
 <div id="6c65a1c7" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
@@ -702,12 +699,12 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 </div>
 </div>
 </section>
-<section id="partially-pooled-model" class="level2">
-<h2 class="anchored" data-anchor-id="partially-pooled-model">Partially pooled model</h2>
-<p>The previous model only allows us to conclude that a <em>rookie</em> is more likely to make a second free throw than a first one (and quantify the size of that difference). However, it doesn’t let us draw conclusions about individual players. For example, we don’t know whether this “warm-up” effect occurs for <em>all</em> of them, or whether its intensity varies from player to player.</p>
-<p>One option would be to fit pairs of beta-binomial models like the ones above separately for each player. Unfortunately, since the number of attempts ranges from just one to a few hundred, the resulting posterior distributions can end up being extremely uncertain in some cases, or overly confident in others.</p>
-<p>This brings us to the quintessential Bayesian alternative: the hierarchical model. Under this approach, each player has their own success probability, but that probability is drawn from a common distribution shared by all players. This makes the estimates more stable and helps prevent overfitting to individual data, since each player’s posterior distribution is influenced — to some extent — by the information from the rest.</p>
-<p>The data we need are the number of attempts and the number of made shots on the first and second try for each player. For simplicity, we’ll focus only on players who attempted at least one series of two free throws.</p>
+<section id="modelo-parcialmente-agrupado" class="level2">
+<h2 class="anchored" data-anchor-id="modelo-parcialmente-agrupado">Modelo parcialmente agrupado</h2>
+<p>El modelo anterior solo nos permite concluir que es más probable que un <em>rookie</em> acierte un segundo lanzamiento que un primero (y cuantificar la magnitud de la diferencia). Sin embargo, no podemos extraer conclusiones sobre jugadores individuales. Por ejemplo, no sabemos si este fenómeno de “precalentamiento” se presenta en todos ellos, ni si su intensidad varía de un jugador a otro.</p>
+<p>Una alternativa sería ajustar pares de modelos beta-binomiales como los anteriores para cada jugador. Lamentablemente, dado que la cantidad de disparos varía entre apenas uno y unas pocas centenas, las distribuciones <em>a posteriori</em> pueden resultar extremadamente inciertas en algunos casos o excesivamente confiadas en otros.</p>
+<p>Así llegamos a la alternativa bayesiana por excelencia: el modelo jerárquico. Bajo este enfoque, cada jugador tiene su propia probabilidad de acierto, pero dicha probabilidad proviene de una distribución común compartida con el resto. De este modo, las estimaciones son más estables y se evita el sobreajuste a los datos particulares de cada jugador, ya que la distribución <em>a posteriori</em> de cada uno está influenciada, en cierta medida, por la información del resto.</p>
+<p>Los datos que necesitamos son la cantidad de disparos y aciertos en el primer y segundo intento para cada jugador. Por simplicidad, consideramos únicamente a los jugadores que realizaron al menos una serie de dos tiros libres.</p>
 <div id="67ef624d" class="cell center-table-40" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_agg <span class="op">=</span> (</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    df</span>
@@ -731,7 +728,7 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(pl.col(<span class="st">"player_id"</span>).is_in(selected_ids), pl.col(<span class="st">"order"</span>) <span class="op">&lt;</span> <span class="dv">3</span>)</span>
 <span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    .sort(<span class="st">"player_id"</span>, <span class="st">"order"</span>)</span>
 <span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>df_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>df_model</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <div><style>
 .dataframe > thead > tr,
@@ -828,7 +825,7 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 </div>
 </div>
 </div>
-<p>In distributional form, we can write the model as follows:</p>
+<p>De manera distribucional, podemos representar al modelo de la siguiente manera:</p>
 <span class="math display">\[\begin{aligned}
 Y_{i1} &amp;\sim \text{Binomial}(N_{i1}, \pi_i) \\
 Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
@@ -846,9 +843,9 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 \mu_\delta &amp;\sim \text{Normal}(0, 0.15^2) \\
 \sigma^2_\delta &amp;\sim \text{InverseGamma}(0.5 \cdot 30, 0.5 \cdot 30 \cdot 0.05) \\
 \end{aligned}\]</span>
-<p>where <span class="math inline">\(i \in {1, \dots, 92}\)</span> indexes the players.</p>
-<p>In other words, we model the probability of making the second free throw as the sum of the probability of making the first one (<span class="math inline">\(\pi_i\)</span>) and a player-specific differential (<span class="math inline">\(\delta_i\)</span>).</p>
-<p>The prior distributions for <span class="math inline">\(\mu_\pi\)</span> and <span class="math inline">\(\mu_\delta\)</span> are slightly and moderately informative, respectively. Meanwhile, the priors assigned to <span class="math inline">\(\kappa_\pi\)</span> and <span class="math inline">\(\sigma^2_\delta\)</span> are also moderately informative — though in this case, their main role is to promote stability in the sampling of the posterior.</p>
+<p>donde <span class="math inline">\(i \in \{1, \dots, 92\}\)</span> indexa a los jugadores.</p>
+<p>En otras palabras, modelizamos la probabilidad de acierto en el segundo intento como la suma de la probabilidad de acierto en el primero (<span class="math inline">\(\pi_i\)</span>) y un diferencial específico de cada jugador (<span class="math inline">\(\delta_i\)</span>).</p>
+<p>Las distribuciones <em>a priori</em> para <span class="math inline">\(\mu_\pi\)</span> y <span class="math inline">\(\mu_\delta\)</span> son levemente y moderadamente informativas, respectivamente. Por su parte, los <em>priors</em> asignados a <span class="math inline">\(\kappa_\pi\)</span> y <span class="math inline">\(\sigma^2_\delta\)</span> también son moderadamente informativos, aunque en este caso su función principal es favorecer la estabilidad del muestreo del <em>posterior</em>.</p>
 <div id="bc932449" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-8-1" class="code-annotation-target"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a>y_1 <span class="op">=</span> df_model.<span class="bu">filter</span>(pl.col(<span class="st">"order"</span>) <span class="op">==</span> <span class="dv">1</span>)[<span class="st">"y"</span>].to_numpy()</span>
 <span id="annotated-cell-8-2"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>y_2 <span class="op">=</span> df_model.<span class="bu">filter</span>(pl.col(<span class="st">"order"</span>) <span class="op">==</span> <span class="dv">2</span>)[<span class="st">"y"</span>].to_numpy()</span>
@@ -875,37 +872,37 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 <span id="annotated-cell-8-23"><a href="#annotated-cell-8-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-8-24"><a href="#annotated-cell-8-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-8-25"><a href="#annotated-cell-8-25" aria-hidden="true" tabindex="-1"></a>    pm.Binomial(<span class="st">"y_1"</span>, p<span class="op">=</span>pi, n<span class="op">=</span>n_1, observed<span class="op">=</span>y_1, dims<span class="op">=</span><span class="st">"player"</span>)</span>
-<span id="annotated-cell-8-26"><a href="#annotated-cell-8-26" aria-hidden="true" tabindex="-1"></a>    pm.Binomial(<span class="st">"y_2"</span>, p<span class="op">=</span>theta, n<span class="op">=</span>n_2, observed<span class="op">=</span>y_2, dims<span class="op">=</span><span class="st">"player"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-8-26"><a href="#annotated-cell-8-26" aria-hidden="true" tabindex="-1"></a>    pm.Binomial(<span class="st">"y_2"</span>, p<span class="op">=</span>theta, n<span class="op">=</span>n_2, observed<span class="op">=</span>y_2, dims<span class="op">=</span><span class="st">"player"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="1,2,3,4" data-code-annotation="1"><strong>Data preparation:</strong> vectors are used (although 2-dimensional arrays could have been used instead).</span>
+<span data-code-cell="annotated-cell-8" data-code-lines="1,2,3,4" data-code-annotation="1"><strong>Preparación de datos:</strong> se usan vectores (se podrían haber usado arreglos bidimensionales).</span>
 </dd>
 <dt data-target-cell="annotated-cell-8" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="6,7,8" data-code-annotation="2"><strong>Coordinate preparation:</strong> these represent the different players.</span>
+<span data-code-cell="annotated-cell-8" data-code-lines="6,7,8" data-code-annotation="2"><strong>Preparación de coordenadas:</strong> representan los diferentes jugadores.</span>
 </dd>
 <dt data-target-cell="annotated-cell-8" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="11,12,13,14,15" data-code-annotation="3"><strong>Construction of <span class="math inline">\(\pi_i\)</span>:</strong> priors are assigned for the mean and precision, which are then transformed into scale parameters used directly in <code>pm.Beta</code>.</span>
+<span data-code-cell="annotated-cell-8" data-code-lines="11,12,13,14,15" data-code-annotation="3"><strong>Construcción de <span class="math inline">\(\pi_i\)</span>:</strong> se asignan <em>priors</em> para la media y la precisión, que luego se transforman en parámetros de escala para usados directamente en <code>pm.Beta</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-8" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="17,18,19,21,23" data-code-annotation="4"><strong>Construction of <span class="math inline">\(\theta_i\)</span>:</strong> for each player, a difference parameter <span class="math inline">\(\delta_i\)</span> is specified.</span>
+<span data-code-cell="annotated-cell-8" data-code-lines="17,18,19,21,23" data-code-annotation="4"><strong>Construcción de <span class="math inline">\(\theta_i\)</span>:</strong> se especifica, para cada jugador, un parámetro de diferencia <span class="math inline">\(\delta_i\)</span>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-8" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="20" data-code-annotation="5"><strong>Use of <code>initval</code>:</strong> ensures that the inference algorithm starts from a valid point in the parameter space.</span>
+<span data-code-cell="annotated-cell-8" data-code-lines="20" data-code-annotation="5"><strong>Uso de <code>initval</code>:</strong> para que el algoritmo de inferencia comience en un punto válido del espacio paramétrico.</span>
 </dd>
 <dt data-target-cell="annotated-cell-8" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="22" data-code-annotation="6"><strong>Use of <code>pt.clip</code>:</strong> guarantees that <span class="math inline">\(\pi_i + \delta_i\)</span> stays between 0 and 1. This does not affect the posterior but is necessary to correctly initialize the sampling algorithm.</span>
+<span data-code-cell="annotated-cell-8" data-code-lines="22" data-code-annotation="6"><strong>Uso de <code>pt.clip</code>:</strong> para asegurarnos que <span class="math inline">\(\pi_i + \delta_i\)</span> se encuentre entre 0 y 1. Esto no afecta al <em>posterior</em>, pero es necesario para inicializar correctamente el algoritmo de muestreo.</span>
 </dd>
 </dl>
 </div>
 </div>
-<p>Finally, here’s what a graphical representation of the model looks like:</p>
+<p>Finalmente, así es como se ve una representación gráfica del modelo:</p>
 <div id="cd7ff322" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div>
@@ -915,8 +912,8 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 </div>
 </div>
 </div>
-<p>Thanks to <a href="https://pymc-devs.github.io/nutpie/">nutpie</a>, we can obtain reliable samples from the <em>posterior</em> in just a few seconds.</p>
-<p>Although the diagnostics don’t look quite as good as in the pooled model (which is easy to happen in hierarchical models), the values are still acceptable, so we can proceed with our analysis.</p>
+<p>Gracias a nutpie, es posible obtener muestras fiables del <em>posterior</em> en muy pocos segundos.</p>
+<p>Si bien los diagnósticos no se ven tan bien como en el modelo agrupado (lo cual es esperable en modelos jerárquicos), los valores son aceptables y podemos continuar con nuestro análisis.</p>
 <div id="e391709d" class="cell center-table-70" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_h:</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    idata_h <span class="op">=</span> pm.sample(</span>
@@ -927,7 +924,7 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        progressbar<span class="op">=</span><span class="va">False</span>,</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>az.summary(idata_h, var_names<span class="op">=</span>[<span class="st">"pi_mu"</span>, <span class="st">"pi_kappa"</span>, <span class="st">"delta_mu"</span>, <span class="st">"delta_sigma^2"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>az.summary(idata_h, var_names<span class="op">=</span>[<span class="st">"pi_mu"</span>, <span class="st">"pi_kappa"</span>, <span class="st">"delta_mu"</span>, <span class="st">"delta_sigma^2"</span>])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
@@ -1002,7 +999,7 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 </div>
 </div>
 </div>
-<p>The marginal posteriors of the population-level parameters look as follows:</p>
+<p>Los <em>posteriors</em> marginales de los parámetros poblacionales son los siguientes:</p>
 <div id="31602cfd" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
@@ -1012,9 +1009,9 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 </div>
 </div>
 </div>
-<p>At first glance, we can see that, on average, the probability of making a first free throw is around 70%, and that second attempts are, on average, about 6% more likely to go in. While this isn’t a surprising result, it’s reassuring to see that the inferences from the hierarchical model are consistent with our previous findings.</p>
-<p>What’s truly interesting about this hierarchical approach is that it allows us to analyze the posterior distributions of <span class="math inline">\(\pi_i\)</span>, <span class="math inline">\(\theta_i\)</span>, and <span class="math inline">\(\delta_i\)</span> at the individual level — that is, for each player.</p>
-<p>However, visualizing these distributions for all players can quickly become impractical. To make things more manageable, we selected a representative subset of players based on their <span class="math inline">\(N_1\)</span> values (the number of first attempts). Specifically, we kept the 10 players with the highest <span class="math inline">\(N_1\)</span>, and from the remaining group, we sorted them from lowest to highest and chose every second player to form a more manageable sample.</p>
+<p>A simple vista, se observa que, en promedio, la probabilidad de acertar un primer lanzamiento ronda el 70 %, y que los segundos intentos tienen, en promedio, cerca de un 6 % más de probabilidad de ser convertidos. Aunque esto no resulte novedoso, es satisfactorio comprobar que las inferencias obtenidas con el modelo jerárquico son consistentes con los hallazgos anteriores.</p>
+<p>Lo realmente interesante de este modelo jerárquico es que nos permite analizar las distribuciones <em>a posteriori</em> de <span class="math inline">\(\pi_i\)</span>, <span class="math inline">\(\theta_i\)</span> y <span class="math inline">\(\delta_i\)</span> a nivel individual, es decir, para cada jugador.</p>
+<p>Sin embargo, visualizar estas distribuciones para todos ellos puede resultar poco práctico. Por eso, seleccionamos un subconjunto representativo de jugadores en función de sus valores de <span class="math inline">\(N_1\)</span> (la cantidad de primeros lanzamientos). En concreto, conservamos a los 10 jugadores con mayor <span class="math inline">\(N_1\)</span> y, entre el resto, los ordenamos de menor a mayor y elegimos uno cada dos posiciones para formar una muestra más manejable.</p>
 <div id="843351de" class="cell center-table-60" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div><style>
@@ -1258,9 +1255,9 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 </div>
 </div>
 </div>
-<p>We can then visualize the marginal posteriors of <span class="math inline">\(\pi_i\)</span>, <span class="math inline">\(\theta_i\)</span>, and <span class="math inline">\(\delta_i\)</span> for each selected player. Naturally, as the number of observed shots increases, the posterior distributions become narrower, reflecting a higher level of certainty.</p>
-<p>In every case, even when <span class="math inline">\(N_1 = 1\)</span> and <span class="math inline">\(N_2 = 1\)</span>, the posterior mean of <span class="math inline">\(\theta_i\)</span> is greater than that of <span class="math inline">\(\pi_i\)</span>.</p>
-<p>From another perspective, the bottom panel shows that the mean of <span class="math inline">\(\delta_i\)</span> is always greater than 0. However, it’s only in cases where we have hundreds of attempts that we can conclude, with probability close to 1, that players are indeed better on their second attempts than on their first.</p>
+<p>Luego, podemos visualizar los <em>posterior</em> marginales de <span class="math inline">\(\pi_i\)</span>, <span class="math inline">\(\theta_i\)</span> y <span class="math inline">\(\delta_i\)</span> para cada jugador seleccionado. Naturalmente, a medida que aumenta la cantidad de disparos observados, las distribuciones <em>a posteriori</em> se vuelven más estrechas, reflejando un mayor nivel de certidumbre.</p>
+<p>En todos los casos, incluso cuando <span class="math inline">\(N_1 = 1\)</span> y <span class="math inline">\(N_2 = 1\)</span>, la media <em>a posteriori</em> de <span class="math inline">\(\theta_i\)</span> es mayor que la de <span class="math inline">\(\pi_i\)</span>.</p>
+<p>Visto desde otro ángulo, en el panel inferior se observa que la media de <span class="math inline">\(\delta_i\)</span> es siempre mayor que 0. Sin embargo, solo en aquellos casos en los que se registran cientos de lanzamientos puede concluirse, con probabilidad cercana a 1, que los jugadores son efectivamente mejores en los segundos intentos que en los primeros.</p>
 <div id="99e20d4c" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display">
 <div>
@@ -1270,7 +1267,7 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 </div>
 </div>
 </div>
-<p>Since we’re Bayesians and use Markov Chain Monte Carlo methods to obtain samples from the posterior, we can compute, for each player, the probability that <span class="math inline">\(\delta_i\)</span> is greater than 0. With these probabilities, we can build the following summary histogram:</p>
+<p>Como somos bayesianos y utilizamos métodos de Markov Chain Monte Carlo para obtener muestras del <em>posterior</em>, podemos calcular, para cada jugador, la probabilidad de que <span class="math inline">\(\delta_i\)</span> sea mayor que 0. Con estas probabilidades, es posible construir el siguiente histograma resumen:</p>
 <div id="08143049" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display">
 <div>
@@ -1280,8 +1277,8 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 </div>
 </div>
 </div>
-<p>Then, no matter which rookie we look at, we’ll always conclude that they have a moderate to high probability of being more effective on their second free throws than on their first.</p>
-<p>Finally, let’s compare the posterior distribution of <span class="math inline">\(\delta\)</span> from the pooled model with the posterior of <span class="math inline">\(\mu_\delta\)</span> from the partially pooled model, since both represent the same quantity: the average difference in success probability between a second and a first attempt.</p>
+<p>Luego, sin importar el <em>rookie</em> en el que nos fijemos, siempre concluiremos que tiene una probabilidad entre moderada y alta de ser más efectivo en los segundos lanzamientos que en los primeros.</p>
+<p>Para finalizar, comparemos la distribución <em>a posteriori</em> de <span class="math inline">\(\delta\)</span> del modelo agrupado con el <em>posterior</em> de <span class="math inline">\(\mu_\delta\)</span> del modelo parcialmente agrupado, ya que ambas representan la misma cantidad: el diferencial promedio en la probabilidad de acierto entre un segundo y un primer lanzamiento.</p>
 <div id="bac92867" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div>
@@ -1291,16 +1288,14 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 </div>
 </div>
 </div>
-<p>Fortunately, there are no surprises to report. Both models lead us to practically the same conclusions about the average <span class="math inline">\(\delta\)</span>, although it’s worth noting that in the hierarchical model, the posterior is slightly more regularized toward 0 compared to the pooled model.</p>
-<p>However, we shouldn’t forget that using a hierarchical model allowed us to obtain posterior distributions for each individual player.</p>
+<p>Afortunadamente, no tenemos que reportar sorpresas. Ambos modelos nos conducen hacia conclusiones prácticamente similares sobre el <span class="math inline">\(\delta\)</span> promedio, aunque se puede mencionar que en el modelo jerárquico el <em>posterior</em> se encuentra levemente más regularizado hacia el 0 que en el modelo agrupado. Sin embargo, no debemos olvidar que utilizar un modelo jerárquico nos permitió obtener distribuciones <em>a posteriori</em> para cada jugador individual.</p>
 </section>
-<section id="final-comments" class="level2">
-<h2 class="anchored" data-anchor-id="final-comments">Final comments</h2>
-<p>Examples like this are what remind me why I enjoy the Bayesian approach to statistical modeling so much.</p>
-<p>While we could have settled for a simple hypothesis test, like the one presented in the <a href="https://link.springer.com/article/10.1007/s12662-020-00646-x">article mentioned above</a>, the flexibility offered by tools like PyMC allows us to go several steps further.</p>
-<p>We proposed a hierarchical model (not a trivial one), implemented it in PyMC, and then, together with nutpie, used it to obtain samples from the posterior.</p>
-<p>From those samples, we were able to draw several interesting conclusions. Not only the global ones, which confirm that basketball players tend to miss their first free throws more often than their second (consistent with the article’s findings), but also player-specific insights.</p>
-<p>And above all, beyond the practical usefulness of the model or the insights we can extract… isn’t it just incredibly fun to <em>play Bayes</em>?</p>
+<section id="comentarios-finales" class="level2">
+<h2 class="anchored" data-anchor-id="comentarios-finales">Comentarios finales</h2>
+<p>Ejemplos como este son los que me recuerdan por qué el enfoque bayesiano para la modelización estadística me gusta tanto.</p>
+<p>Si bien podríamos habernos conformado con una simple prueba de hipótesis, como la que presentan en el <a href="https://link.springer.com/article/10.1007/s12662-020-00646-x">artículo mencionado</a>, la flexibilidad que ofrecen herramientas como PyMC nos permite ir varios pasos más allá. Propusimos un modelo jerárquico (nada trivial), lo implementamos en PyMC, y luego este, junto con nutpie, se encargaron de proporcionarnos muestras del <em>posterior</em>.</p>
+<p>A partir de esas muestras, pudimos extraer varias conclusiones interesantes. No solo aquellas a nivel global, que confirman que los jugadores de básquet suelen fallar más en los primeros disparos que en los segundos (en línea con los resultados del artículo), sino también conclusiones específicas para cada jugador.</p>
+<p>Y, por encima de todo, más allá de la utilidad práctica del modelo o de los <em>insights</em> que podamos obtener… ¿no es acaso super divertido jugar a la estadística bayesiana?</p>
 
 
 </section>
@@ -1331,12 +1326,12 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
+      button.setAttribute("title", "Copiado");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
+        button.setAttribute("data-bs-title", "Copiado");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",
