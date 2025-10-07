@@ -1,23 +1,19 @@
-
 ```{=html}
-<div class="post-listings-container">
-    <% for (const item of items) { %>
+<% for (const item of items) { %>
+<a href="<%- item.path %>" class="post-link">
+  <div class="post-listings-container">
     <div class="post-listing">
-        <div>
-            <h3>
-                <a href="<%- item.path %>"><%= item.title %></a>
-            </h3>
-            <div style="font-weight: 500;">
-                    <%= item.date %>
-            </div>
-            <div style="margin-top: 0.75em;">
-                    <%= item.summary %>
-            </div>
-        </div>
-        <div style="text-align: center; margin:auto;">
-            <img src="<%- item.image %>" style="max-width: 250px; max-height:180px"/>
-        </div>
+      <div class="post-content">
+        <h3><%= item.title %></h3>
+        <div class="post-date"><%= item.date %></div>
+        <div class="post-summary"><%= item.summary %></div>
+      </div>
+      <div class="post-image">
+        <img src="<%- item.image %>" alt="<%= item.title %>" />
+      </div>
     </div>
-    <% } %>
-</div>
+  </div>
+</a>
+
+<% } %>
 ```

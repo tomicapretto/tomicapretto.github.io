@@ -25,5 +25,5 @@ website:
 format:
   html:
     theme: cosmo
-    css: styles.css
+    css: styles.scss
     toc: true
