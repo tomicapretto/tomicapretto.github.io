@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://tomicapretto.github.io/index.html</loc>
-    <lastmod>2024-11-13T02:22:16.942Z</lastmod>
+    <lastmod>2025-11-12T12:36:47.365Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2021-05-24_why-bambi/index.html</loc>
@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/index.html</loc>
-    <lastmod>2025-09-26T14:33:19.375Z</lastmod>
+    <lastmod>2025-11-12T12:36:47.424Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2022-06-26_tidypolars/index.html</loc>
@@ -34,7 +34,7 @@
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2025-09-25_freethrows-rookies/es/index.html</loc>
-    <lastmod>2025-09-26T17:23:18.298Z</lastmod>
+    <lastmod>2025-11-12T12:37:24.824Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2020-11-03_bingo-cards-in-r/index.html</loc>
@@ -46,7 +46,7 @@
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2025-09-25_freethrows-rookies/index.html</loc>
-    <lastmod>2025-09-26T17:23:02.208Z</lastmod>
+    <lastmod>2025-11-12T12:37:24.824Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2021-06-08_group-specific-effects-matrix/index.html</loc>
@@ -62,7 +62,7 @@
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2025-08-12_regression-with-fixed-intercept/index.html</loc>
-    <lastmod>2025-08-14T16:38:18.927Z</lastmod>
+    <lastmod>2025-11-12T12:36:47.408Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2022-06-12_lkj-prior/index.html</loc>
@@ -70,7 +70,7 @@
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2024-11-01_pymc-data-simulation/index.html</loc>
-    <lastmod>2025-08-14T16:40:53.147Z</lastmod>
+    <lastmod>2025-11-12T12:36:47.407Z</lastmod>
   </url>
   <url>
     <loc>https://tomicapretto.github.io/posts/2025-08-14_temperatura-mate/es/index.html</loc>
@@ -78,6 +78,10 @@
   </url>
   <url>
     <loc>https://tomicapretto.github.io/blog.html</loc>
-    <lastmod>2025-08-14T16:54:48.008Z</lastmod>
+    <lastmod>2025-11-12T12:37:24.815Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/index.html</loc>
+    <lastmod>2025-12-06T21:59:11.196Z</lastmod>
   </url>
 </urlset>

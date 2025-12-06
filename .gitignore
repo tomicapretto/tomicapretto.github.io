@@ -1,2 +1,3 @@
 /.quarto/
 **/*.parquet
+**/*.quarto_ipynb

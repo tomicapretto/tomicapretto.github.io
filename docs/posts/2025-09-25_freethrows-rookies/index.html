@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -59,7 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../imgs/mate.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-7443f2a2c903350aebfc1ad1b5756fe3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-7672ad5448398b520c84cfb016e0f391.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -113,7 +114,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
@@ -131,7 +132,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -157,6 +158,8 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Tomi Capretto</span>
     </a>
@@ -233,7 +236,7 @@ window.Quarto = {
 <div id="afa71134" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
@@ -242,7 +245,7 @@ window.Quarto = {
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>c_orange <span class="op">=</span> <span class="st">"#f08533"</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>c_blue <span class="op">=</span> <span class="st">"#3b78b0"</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>c_red <span class="op">=</span> <span class="st">"#d1352c"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>c_red <span class="op">=</span> <span class="st">"#d1352c"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>While I was <em>scraping</em> data on NBA rookies’ free throws during the 2024–25 season, I came across <a href="https://link.springer.com/article/10.1007/s12662-020-00646-x">this article</a>, which concludes that there’s a “warm-up” effect: basketball players tend to miss their first shots more often than the rest. I found the result both interesting and intuitive, and it made me wonder whether it would be worth running a similar analysis on the data I was collecting.</p>
@@ -251,11 +254,11 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="the-data">The data</h2>
 <p>The following data frame contains information about the free throws taken by NBA rookies during the 2024–25 season. In this case, the relevant columns are the player’s identifier (<code>player_id</code>), the order of the attempt (<code>description</code>), and whether the shot was made (<code>success</code>).</p>
 <div id="ccf5ecd3" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> (</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> (</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    pl.read_parquet(<span class="st">"data.parquet"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"game_date"</span>, <span class="st">"matchup"</span>, <span class="st">"player_id"</span>, <span class="st">"player_name"</span>, <span class="st">"description"</span>, <span class="st">"success"</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div><style>
 .dataframe > thead > tr,
@@ -265,7 +268,7 @@ window.Quarto = {
 }
 </style>
 <small>shape: (3_722, 6)</small>
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">game_date</th>
@@ -276,12 +279,12 @@ window.Quarto = {
 <th data-quarto-table-cell-role="th">success</th>
 </tr>
 <tr class="even">
-<th>date</th>
-<th>str</th>
-<th>i32</th>
-<th>str</th>
-<th>str</th>
-<th>bool</th>
+<td>date</td>
+<td>str</td>
+<td>i32</td>
+<td>str</td>
+<td>str</td>
+<td>bool</td>
 </tr>
 </thead>
 <tbody>
@@ -380,7 +383,7 @@ window.Quarto = {
 </div>
 <p>In the NBA, free throws can come in series of 1, 2, or 3 attempts. Our first task is to map the values of <code>description</code> to a numeric value representing the order of the shot within its series.</p>
 <div id="59dbdd88" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>throw_order <span class="op">=</span> {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>throw_order <span class="op">=</span> {</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Free Throw 1 of 1"</span>: <span class="dv">1</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Free Throw 1 of 2"</span>: <span class="dv">1</span>,</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Free Throw 1 of 3"</span>: <span class="dv">1</span>,</span>
@@ -398,7 +401,7 @@ window.Quarto = {
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.with_columns(</span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"description"</span>).replace_strict(throw_order, return_dtype<span class="op">=</span>pl.Int64).alias(<span class="st">"order"</span>)</span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div><style>
 .dataframe > thead > tr,
@@ -408,7 +411,7 @@ window.Quarto = {
 }
 </style>
 <small>shape: (3_722, 7)</small>
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">game_date</th>
@@ -420,13 +423,13 @@ window.Quarto = {
 <th data-quarto-table-cell-role="th">order</th>
 </tr>
 <tr class="even">
-<th>date</th>
-<th>str</th>
-<th>i32</th>
-<th>str</th>
-<th>str</th>
-<th>bool</th>
-<th>i64</th>
+<td>date</td>
+<td>str</td>
+<td>i32</td>
+<td>str</td>
+<td>str</td>
+<td>bool</td>
+<td>i64</td>
 </tr>
 </thead>
 <tbody>
@@ -536,14 +539,14 @@ window.Quarto = {
 </div>
 <p>We can see that first attempts tend to miss more often than second ones — and second attempts, in turn, miss more often than third ones.</p>
 <div id="6fa81d15" class="cell center-table-70">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_summary <span class="op">=</span> (</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_summary <span class="op">=</span> (</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    df</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    .group_by(<span class="st">"order"</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    .agg(pl.col(<span class="st">"success"</span>).<span class="bu">sum</span>().alias(<span class="st">"y"</span>), pl.<span class="bu">len</span>().alias(<span class="st">"n"</span>))</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    .with_columns((pl.col(<span class="st">"y"</span>) <span class="op">/</span> pl.col(<span class="st">"n"</span>)).alias(<span class="st">"p"</span>))</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    .sort(<span class="st">"order"</span>)</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>df_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>df_summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div><style>
 .dataframe > thead > tr,
@@ -553,7 +556,7 @@ window.Quarto = {
 }
 </style>
 <small>shape: (3, 4)</small>
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">order</th>
@@ -562,10 +565,10 @@ window.Quarto = {
 <th data-quarto-table-cell-role="th">p</th>
 </tr>
 <tr class="even">
-<th>i64</th>
-<th>u32</th>
-<th>u32</th>
-<th>f64</th>
+<td>i64</td>
+<td>u32</td>
+<td>u32</td>
+<td>f64</td>
 </tr>
 </thead>
 <tbody>
@@ -606,7 +609,7 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 \]</span></p>
 <p>In PyMC, we have:</p>
 <div id="d9632925" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_summary.head(<span class="dv">2</span>)[<span class="st">"y"</span>].to_numpy()</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_summary.head(<span class="dv">2</span>)[<span class="st">"y"</span>].to_numpy()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> df_summary.head(<span class="dv">2</span>)[<span class="st">"n"</span>].to_numpy()</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>{<span class="st">"order"</span>: [<span class="dv">1</span>, <span class="dv">2</span>]}) <span class="im">as</span> model:</span>
@@ -614,7 +617,7 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Binomial(<span class="st">"y"</span>, p<span class="op">=</span>pi, n<span class="op">=</span>n, observed<span class="op">=</span>y, dims<span class="op">=</span><span class="st">"order"</span>)</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample(chains<span class="op">=</span><span class="dv">4</span>, random_seed<span class="op">=</span><span class="dv">1211</span>, nuts_sampler<span class="op">=</span><span class="st">"nutpie"</span>, progressbar<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>model.to_graphviz()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>model.to_graphviz()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 <figure class="figure">
@@ -626,13 +629,13 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 <p>We compute <span class="math inline">\(\delta\)</span> as the difference between <span class="math inline">\(\pi_2\)</span> and <span class="math inline">\(\pi_1\)</span>, and then analyze the marginal <em>posterior</em> distributions.</p>
 <p>First, the diagnostics show no issues with sampling: <span class="math inline">\(\hat{R}\)</span> is close to 1, effective sample sizes are adequate, and so on.</p>
 <div id="da64b84f" class="cell center-table-70" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>idata.posterior[<span class="st">"delta"</span>] <span class="op">=</span> idata.posterior[<span class="st">"pi"</span>].sel(order<span class="op">=</span><span class="dv">2</span>) <span class="op">-</span> idata.posterior[<span class="st">"pi"</span>].sel(order<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>az.summary(idata, var_names<span class="op">=</span>[<span class="st">"pi"</span>, <span class="st">"delta"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>idata.posterior[<span class="st">"delta"</span>] <span class="op">=</span> idata.posterior[<span class="st">"pi"</span>].sel(order<span class="op">=</span><span class="dv">2</span>) <span class="op">-</span> idata.posterior[<span class="st">"pi"</span>].sel(order<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>az.summary(idata, var_names<span class="op">=</span>[<span class="st">"pi"</span>, <span class="st">"delta"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -649,7 +652,7 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">pi[1]</td>
+<th data-quarto-table-cell-role="th">pi[1]</th>
 <td>0.694</td>
 <td>0.010</td>
 <td>0.673</td>
@@ -661,7 +664,7 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 <td>1.0</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">pi[2]</td>
+<th data-quarto-table-cell-role="th">pi[2]</th>
 <td>0.754</td>
 <td>0.011</td>
 <td>0.733</td>
@@ -673,7 +676,7 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 <td>1.0</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">delta</td>
+<th data-quarto-table-cell-role="th">delta</th>
 <td>0.061</td>
 <td>0.015</td>
 <td>0.030</td>
@@ -709,7 +712,7 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 <p>This brings us to the quintessential Bayesian alternative: the hierarchical model. Under this approach, each player has their own success probability, but that probability is drawn from a common distribution shared by all players. This makes the estimates more stable and helps prevent overfitting to individual data, since each player’s posterior distribution is influenced — to some extent — by the information from the rest.</p>
 <p>The data we need are the number of attempts and the number of made shots on the first and second try for each player. For simplicity, we’ll focus only on players who attempted at least one series of two free throws.</p>
 <div id="67ef624d" class="cell center-table-40" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_agg <span class="op">=</span> (</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_agg <span class="op">=</span> (</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    df</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    .group_by(<span class="st">"player_id"</span>, <span class="st">"order"</span>)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    .agg(</span>
@@ -731,7 +734,7 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(pl.col(<span class="st">"player_id"</span>).is_in(selected_ids), pl.col(<span class="st">"order"</span>) <span class="op">&lt;</span> <span class="dv">3</span>)</span>
 <span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    .sort(<span class="st">"player_id"</span>, <span class="st">"order"</span>)</span>
 <span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>df_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>df_model</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <div><style>
 .dataframe > thead > tr,
@@ -741,7 +744,7 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 }
 </style>
 <small>shape: (184, 4)</small>
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">player_id</th>
@@ -750,10 +753,10 @@ Y_2 &amp;\sim \text{Binomial}(N_2, \pi_2) \\
 <th data-quarto-table-cell-role="th">n</th>
 </tr>
 <tr class="even">
-<th>i32</th>
-<th>i64</th>
-<th>u32</th>
-<th>u32</th>
+<td>i32</td>
+<td>i64</td>
+<td>u32</td>
+<td>u32</td>
 </tr>
 </thead>
 <tbody>
@@ -850,7 +853,7 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 <p>In other words, we model the probability of making the second free throw as the sum of the probability of making the first one (<span class="math inline">\(\pi_i\)</span>) and a player-specific differential (<span class="math inline">\(\delta_i\)</span>).</p>
 <p>The prior distributions for <span class="math inline">\(\mu_\pi\)</span> and <span class="math inline">\(\mu_\delta\)</span> are slightly and moderately informative, respectively. Meanwhile, the priors assigned to <span class="math inline">\(\kappa_\pi\)</span> and <span class="math inline">\(\sigma^2_\delta\)</span> are also moderately informative — though in this case, their main role is to promote stability in the sampling of the posterior.</p>
 <div id="bc932449" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-8-1" class="code-annotation-target"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a>y_1 <span class="op">=</span> df_model.<span class="bu">filter</span>(pl.col(<span class="st">"order"</span>) <span class="op">==</span> <span class="dv">1</span>)[<span class="st">"y"</span>].to_numpy()</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-8-1" class="code-annotation-target"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a>y_1 <span class="op">=</span> df_model.<span class="bu">filter</span>(pl.col(<span class="st">"order"</span>) <span class="op">==</span> <span class="dv">1</span>)[<span class="st">"y"</span>].to_numpy()</span>
 <span id="annotated-cell-8-2"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>y_2 <span class="op">=</span> df_model.<span class="bu">filter</span>(pl.col(<span class="st">"order"</span>) <span class="op">==</span> <span class="dv">2</span>)[<span class="st">"y"</span>].to_numpy()</span>
 <span id="annotated-cell-8-3"><a href="#annotated-cell-8-3" aria-hidden="true" tabindex="-1"></a>n_1 <span class="op">=</span> df_model.<span class="bu">filter</span>(pl.col(<span class="st">"order"</span>) <span class="op">==</span> <span class="dv">1</span>)[<span class="st">"n"</span>].to_numpy()</span>
 <span id="annotated-cell-8-4"><a href="#annotated-cell-8-4" aria-hidden="true" tabindex="-1"></a>n_2 <span class="op">=</span> df_model.<span class="bu">filter</span>(pl.col(<span class="st">"order"</span>) <span class="op">==</span> <span class="dv">2</span>)[<span class="st">"n"</span>].to_numpy()</span>
@@ -875,7 +878,7 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 <span id="annotated-cell-8-23"><a href="#annotated-cell-8-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-8-24"><a href="#annotated-cell-8-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-8-25"><a href="#annotated-cell-8-25" aria-hidden="true" tabindex="-1"></a>    pm.Binomial(<span class="st">"y_1"</span>, p<span class="op">=</span>pi, n<span class="op">=</span>n_1, observed<span class="op">=</span>y_1, dims<span class="op">=</span><span class="st">"player"</span>)</span>
-<span id="annotated-cell-8-26"><a href="#annotated-cell-8-26" aria-hidden="true" tabindex="-1"></a>    pm.Binomial(<span class="st">"y_2"</span>, p<span class="op">=</span>theta, n<span class="op">=</span>n_2, observed<span class="op">=</span>y_2, dims<span class="op">=</span><span class="st">"player"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-8-26"><a href="#annotated-cell-8-26" aria-hidden="true" tabindex="-1"></a>    pm.Binomial(<span class="st">"y_2"</span>, p<span class="op">=</span>theta, n<span class="op">=</span>n_2, observed<span class="op">=</span>y_2, dims<span class="op">=</span><span class="st">"player"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
@@ -918,7 +921,7 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 <p>Thanks to <a href="https://pymc-devs.github.io/nutpie/">nutpie</a>, we can obtain reliable samples from the <em>posterior</em> in just a few seconds.</p>
 <p>Although the diagnostics don’t look quite as good as in the pooled model (which is easy to happen in hierarchical models), the values are still acceptable, so we can proceed with our analysis.</p>
 <div id="e391709d" class="cell center-table-70" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_h:</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_h:</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    idata_h <span class="op">=</span> pm.sample(</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        chains<span class="op">=</span><span class="dv">4</span>,</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        target_accept<span class="op">=</span><span class="fl">0.99</span>,</span>
@@ -927,12 +930,12 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        progressbar<span class="op">=</span><span class="va">False</span>,</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>az.summary(idata_h, var_names<span class="op">=</span>[<span class="st">"pi_mu"</span>, <span class="st">"pi_kappa"</span>, <span class="st">"delta_mu"</span>, <span class="st">"delta_sigma^2"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>az.summary(idata_h, var_names<span class="op">=</span>[<span class="st">"pi_mu"</span>, <span class="st">"pi_kappa"</span>, <span class="st">"delta_mu"</span>, <span class="st">"delta_sigma^2"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -949,7 +952,7 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">pi_mu</td>
+<th data-quarto-table-cell-role="th">pi_mu</th>
 <td>0.698</td>
 <td>0.015</td>
 <td>0.670</td>
@@ -961,7 +964,7 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 <td>1.00</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">pi_kappa</td>
+<th data-quarto-table-cell-role="th">pi_kappa</th>
 <td>28.903</td>
 <td>9.035</td>
 <td>14.499</td>
@@ -973,7 +976,7 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 <td>1.00</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">delta_mu</td>
+<th data-quarto-table-cell-role="th">delta_mu</th>
 <td>0.055</td>
 <td>0.016</td>
 <td>0.027</td>
@@ -985,7 +988,7 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 <td>1.01</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">delta_sigma^2</td>
+<th data-quarto-table-cell-role="th">delta_sigma^2</th>
 <td>0.002</td>
 <td>0.001</td>
 <td>0.001</td>
@@ -1025,7 +1028,7 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 }
 </style>
 <small>shape: (26, 6)</small>
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">player_id</th>
@@ -1036,12 +1039,12 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
 <th data-quarto-table-cell-role="th">n_2</th>
 </tr>
 <tr class="even">
-<th>i32</th>
-<th>str</th>
-<th>u32</th>
-<th>u32</th>
-<th>u32</th>
-<th>u32</th>
+<td>i32</td>
+<td>str</td>
+<td>u32</td>
+<td>u32</td>
+<td>u32</td>
+<td>u32</td>
 </tr>
 </thead>
 <tbody>
@@ -1357,13 +1360,14 @@ Y_{i2} &amp;\sim \text{Binomial}(N_{i2}, \theta_i) \\ \\
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
