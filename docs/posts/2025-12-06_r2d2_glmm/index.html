@@ -8,7 +8,7 @@
 
 <meta name="dcterms.date" content="2025-12-06">
 
-<title>The R2-D2 prior for GLMMs in Python – Tomi Capretto</title>
+<title>Getting familiar with the R2D2 prior for GLMMs – Tomi Capretto</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -211,10 +211,12 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#r2-d2-for-normal-regression" id="toc-r2-d2-for-normal-regression" class="nav-link active" data-scroll-target="#r2-d2-for-normal-regression">R2-D2 for normal regression</a></li>
-  <li><a href="#r2-d2-for-glmms" id="toc-r2-d2-for-glmms" class="nav-link" data-scroll-target="#r2-d2-for-glmms">R2-D2 for GLMMs</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#r2d2-for-normal-regression" id="toc-r2d2-for-normal-regression" class="nav-link" data-scroll-target="#r2d2-for-normal-regression">R2D2 for normal regression</a></li>
+  <li><a href="#r2d2-for-glmms" id="toc-r2d2-for-glmms" class="nav-link" data-scroll-target="#r2d2-for-glmms">R2D2 for GLMMs</a></li>
   <li><a href="#python-implementation" id="toc-python-implementation" class="nav-link" data-scroll-target="#python-implementation">Python implementation</a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  <li><a href="#final-thoughts" id="toc-final-thoughts" class="nav-link" data-scroll-target="#final-thoughts">Final thoughts</a></li>
   </ul>
 </nav>
 </nav>
@@ -227,7 +229,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">The R2-D2 prior for GLMMs in Python</h1>
+<h1 class="title">Getting familiar with the R2D2 prior for GLMMs</h1>
 </div>
 
 
@@ -250,9 +252,13 @@ window.Quarto = {
 </header>
 
 
-<section id="r2-d2-for-normal-regression" class="level2">
-<h2 class="anchored" data-anchor-id="r2-d2-for-normal-regression">R2-D2 for normal regression</h2>
-<p>The R2-D2 prior for normal regression models has been introduced in <span class="citation" data-cites="Zhang2020">Zhang et al. (<a href="#ref-Zhang2020" role="doc-biblioref">2020</a>)</span>.</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Something I have to write…</p>
+</section>
+<section id="r2d2-for-normal-regression" class="level2">
+<h2 class="anchored" data-anchor-id="r2d2-for-normal-regression">R2D2 for normal regression</h2>
+<p>The R2D2 prior for normal regression models has been introduced in <span class="citation" data-cites="Zhang2020">Zhang et al. (<a href="#ref-Zhang2020" role="doc-biblioref">2020</a>)</span>.</p>
 <p>Consider the normal regression model:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -261,8 +267,8 @@ Y_i \mid \mu_i, \sigma^2 &amp;\underset{iid}{\sim} \text{Normal}(\mu_i, \sigma^2
 &amp;= \alpha + \boldsymbol{X}\boldsymbol{\beta}
 \end{aligned}
 \]</span></p>
-<p>where <span class="math inline">\(\boldsymbol{X}\)</span> is the <span class="math inline">\(n \times p\)</span> design matrix, <span class="math inline">\(\alpha\)</span> is the intercept term, and <span class="math inline">\(\boldsymbol{\beta}\)</span> is the vector of coefficients.</p>
-<p>The central idea in the R2-D2 prior is to place a prior directly on the coefficient of determination <span class="math inline">\(R^2\)</span>. For the purpose of defining prior distributions, the authors work with the <strong>marginal</strong> coefficient of determination: a version of <span class="math inline">\(R^2\)</span> that averages over both the design matrix <span class="math inline">\(\boldsymbol{X}\)</span> and the regression coefficients <span class="math inline">\(\boldsymbol{\beta}\)</span>.</p>
+<p>where <span class="math inline">\(\boldsymbol{X}\)</span> is the design matrix, <span class="math inline">\(\alpha\)</span> is the intercept term, and <span class="math inline">\(\boldsymbol{\beta}\)</span> is the vector of coefficients.</p>
+<p>The central idea in the R2D2 prior is to place a prior directly on the coefficient of determination <span class="math inline">\(R^2\)</span>. For the purpose of defining prior distributions, the authors work with the marginal coefficient of determination: a version of <span class="math inline">\(R^2\)</span> that averages over both the design matrix <span class="math inline">\(\boldsymbol{X}\)</span> and the regression coefficients <span class="math inline">\(\boldsymbol{\beta}\)</span>.</p>
 <p>For the linear regression model, the marginal <span class="math inline">\(R^2\)</span> is defined as:</p>
 <p><span class="math display">\[
 R^2 = \frac{\mathbb{V}(\boldsymbol{x}^T \boldsymbol{\beta})}{\mathbb{V}(\boldsymbol{x}^T \boldsymbol{\beta}) + \sigma^2}
@@ -270,7 +276,7 @@ R^2 = \frac{\mathbb{V}(\boldsymbol{x}^T \boldsymbol{\beta})}{\mathbb{V}(\boldsym
 = \frac{W}{W + 1}
 \]</span></p>
 <p>which is the ratio of the marginal variance of the linear predictor to the marginal variance of the outcome.</p>
-<p>Then, the R2-D2 prior is specified as:</p>
+<p>Then, the R2D2 prior is specified as:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \beta_j \mid \phi_j, W, \sigma^2  &amp;\sim \text{Normal}(0, \phi_j W \sigma^2) \\
@@ -279,12 +285,12 @@ W &amp; = \frac{R^2}{1 - R^2}\\
 R^2 &amp;\sim \text{Beta}(a, b) \\
 \end{aligned}
 \]</span></p>
-<p>Through the transformation <span class="math inline">\(W = R^2/(1-R^2)\)</span>, the prior on <span class="math inline">\(R^2\)</span> induces a prior on <span class="math inline">\(W\)</span>, which governs the total prior variance of the linear predictor <span class="math inline">\(\boldsymbol{x}^T \boldsymbol{\beta}\)</span> Combined with the Dirichlet prior on the variance proportions <span class="math inline">\(\boldsymbol{\phi}\)</span>, this results in the <strong><span class="math inline">\(R^2\)</span>-induced Dirichlet Decomposition (R2-D2) prior</strong>.</p>
+<p>The prior on <span class="math inline">\(R^2\)</span> induces a prior on <span class="math inline">\(W\)</span>, which governs the total prior variance of the linear predictor <span class="math inline">\(\boldsymbol{x}^T \boldsymbol{\beta}\)</span>. Combined with the Dirichlet prior on the variance proportions <span class="math inline">\(\boldsymbol{\phi}\)</span>, this results in the <strong><span class="math inline">\(R^2\)</span>-induced Dirichlet Decomposition (R2D2) prior</strong>.</p>
 <p>It can be shown that the induced prior on <span class="math inline">\(W\)</span> is a Beta Prime distribution with parameters <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.</p>
 </section>
-<section id="r2-d2-for-glmms" class="level2">
-<h2 class="anchored" data-anchor-id="r2-d2-for-glmms">R2-D2 for GLMMs</h2>
-<p>The R2-D2 prior for Generalized Linear Mixed Models (GLMMs) has been introduced in <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span>.</p>
+<section id="r2d2-for-glmms" class="level2">
+<h2 class="anchored" data-anchor-id="r2d2-for-glmms">R2D2 for GLMMs</h2>
+<p>The R2D2 prior for Generalized Linear Mixed Models (GLMMs) has been introduced in <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span>.</p>
 <p>Suppose we have a GLMM of the form:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -304,7 +310,6 @@ g(\mu_i) &amp;= \eta_i = \alpha + \boldsymbol{x}_i \boldsymbol{\beta} + \sum_{k=
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Let’s be super clear about what we have in there:</p>
 <p>There are <span class="math inline">\(n\)</span> observations indexed by <span class="math inline">\(i \in \{1,\dots,n\}\)</span>. The response variable for observation <span class="math inline">\(i\)</span> is denoted <span class="math inline">\(Y_i\)</span>, with mean <span class="math inline">\(\mu_i\)</span>. Conditional on <span class="math inline">\(\mu_i\)</span>, and possibly additional parameters <span class="math inline">\(\theta\)</span>, the response variables <span class="math inline">\(Y_i\)</span> are assumed to be independent and identically distributed (<span class="math inline">\(\mathcal{F}\)</span> represents an arbitrary family). A link function <span class="math inline">\(g(\cdot)\)</span> relates the mean <span class="math inline">\(\mu_i\)</span> to the linear predictor <span class="math inline">\(\eta_i\)</span>.</p>
 <p>The linear predictor consists of an intercept <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(p\)</span> explanatory variables, and <span class="math inline">\(q\)</span> types of random effects. For the <span class="math inline">\(i\)</span>-th observation, the covariates are collected in the vector <span class="math inline">\(\boldsymbol{x}_i = (x_{i1},\dots,x_{ip})\)</span>, and the full set of covariates for all observations forms the design matrix <span class="math inline">\(\boldsymbol{X}\)</span>, of dimension <span class="math inline">\(n \times p\)</span>. It is assumed that <span class="math inline">\(\boldsymbol{X}\)</span> has been standardized so that each column has mean zero and variance one.</p>
 <p>The fixed-effect coefficients form the vector <span class="math inline">\(\boldsymbol{\beta} = (\beta_1, \dots, \beta_p)^T\)</span>. For the <span class="math inline">\(k\)</span>-th random effect, there are <span class="math inline">\(L_k\)</span> levels collected in <span class="math inline">\(\boldsymbol{u}_k = (u_{k1},\dots,u_{kL_k})^T\)</span>, and we use <span class="math inline">\(g_k[i]\)</span> indicate the level of the random effect <span class="math inline">\(k\)</span> for the observation <span class="math inline">\(i\)</span>.</p>
@@ -314,8 +319,8 @@ g(\mu_i) &amp;= \eta_i = \alpha + \boldsymbol{x}_i \boldsymbol{\beta} + \sum_{k=
 <p>To construct the R2D2 prior for GLMMs, the authors specify the following prior model:</p>
 <p><span class="math display">\[
 \begin{aligned}
-\beta_j \mid \phi_j, W &amp;\underset{iid}{\sim}\text{Normal}(0, \phi_j W) \\
-\boldsymbol{u}_k \mid \phi_{p + k}, W &amp;\underset{iid}{\sim}\text{Normal}(0, \phi_{p + k}W \boldsymbol{I}_{L_k})
+\beta_j \mid \phi_j, W &amp;\sim\text{Normal}(0, \phi_j W) \\
+\boldsymbol{u}_k \mid \phi_{p + k}, W &amp;\sim\text{Normal}(0, \phi_{p + k}W \boldsymbol{I}_{L_k})
 \end{aligned}
 \]</span></p>
 <p>The parameter <span class="math inline">\(W &gt; 0\)</span> governs the overall variance of the linear predictor, controlling the total amount of variation in the fixed and random effects. Larger values of <span class="math inline">\(W\)</span> correspond to more flexible models, while smaller values shrink the model toward an intercept-only model.</p>
@@ -324,7 +329,7 @@ g(\mu_i) &amp;= \eta_i = \alpha + \boldsymbol{x}_i \boldsymbol{\beta} + \sum_{k=
 \boldsymbol{\phi} \sim \text{Dirichlet}(\xi_1, \dots, \xi_{p+q}),
 \]</span></p>
 <p>and in many applications all concentration parameters are set to a common value <span class="math inline">\(\xi_0\)</span>. Larger values of <span class="math inline">\(\xi_0\)</span> shrink the variance proportions toward the uniform allocation <span class="math inline">\(1 / (p+q)\)</span>, while smaller values allow for more dispersed and uncertain allocations across components.</p>
-<p>Like in the linear model case, the R2-D2 prior for GLMMs is specified by placing a prior on the marginal <span class="math inline">\(R^2\)</span> that averages over explanatory variables and random effects (<span class="math inline">\(\boldsymbol{X}\)</span> and <span class="math inline">\(\boldsymbol{g}\)</span>) as well as parameters (<span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\boldsymbol{u}_k\)</span>).</p>
+<p>Like in the linear model case, the R2D2 prior for GLMMs is specified by placing a prior on the marginal <span class="math inline">\(R^2\)</span> that averages over explanatory variables and random effects (<span class="math inline">\(\boldsymbol{X}\)</span> and <span class="math inline">\(\boldsymbol{g}\)</span>) as well as parameters (<span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\boldsymbol{u}_k\)</span>).</p>
 <p>This marginal <span class="math inline">\(R^2\)</span> is defined as:</p>
 <p><span class="math display">\[
 R^2 = \frac{\mathbb{V}(\mathbb{E}(Y \mid \eta))}{\mathbb{V}(\mathbb{E}(Y \mid \eta)) + \mathbb{E}(\mathbb{V}(Y \mid \eta))}
@@ -332,8 +337,8 @@ R^2 = \frac{\mathbb{V}(\mathbb{E}(Y \mid \eta))}{\mathbb{V}(\mathbb{E}(Y \mid \e
 <p>Given that <span class="math inline">\(R^2\)</span> is based on summaries of the distribution of the linear predictor <span class="math inline">\(\eta\)</span>, and it is assumed that <span class="math inline">\(\eta_i \mid \alpha, W \sim \text{Normal}(\alpha, W)\)</span>, <span class="math inline">\(R^2\)</span> also depends on the parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(W\)</span>.</p>
 <section id="the-details" class="level3">
 <h3 class="anchored" data-anchor-id="the-details">The details</h3>
-<p>The essence of the R2-D2 prior for GLMMs is to define a joint prior on <span class="math inline">\((\alpha, W)\)</span> such that the resulting induced prior on <span class="math inline">\(R^2\)</span> is <span class="math inline">\(\text{Beta}(a, b)\)</span>.</p>
-<p><span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span> construct such a prior by decomposing the joint distribution into a marginal prior for <span class="math inline">\(\alpha\)</span> and a conditional prior for <span class="math inline">\(W \mid \alpha\)</span>. They then choose a prior for <span class="math inline">\(W \mid \alpha\)</span> that ensures the induced distribution of <span class="math inline">\(R^2\)</span> is <span class="math inline">\(\text{Beta}(a, b)\)</span> for any fixed value of <span class="math inline">\(\alpha\)</span>. Because this holds conditionally for all <span class="math inline">\(\alpha\)</span>, the marginal distribution of <span class="math inline">\(R^2\)</span> under the joint prior on <span class="math inline">\((\alpha, W)\)</span> is also <span class="math inline">\(\text{Beta}(a, b)\)</span>, regardless of the marginal prior placed on <span class="math inline">\(\alpha\)</span>. Combined with a Dirichlet prior on the variance proportions, this construction yields the R2-D2 prior for GLMMs.</p>
+<p>The essence of the R2D2 prior for GLMMs is to define a joint prior on <span class="math inline">\((\alpha, W)\)</span> such that the resulting induced prior on <span class="math inline">\(R^2\)</span> is <span class="math inline">\(\text{Beta}(a, b)\)</span>.</p>
+<p><span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span> construct such a prior by decomposing the joint distribution into a marginal prior for <span class="math inline">\(\alpha\)</span> and a conditional prior for <span class="math inline">\(W \mid \alpha\)</span>. They then choose a prior for <span class="math inline">\(W \mid \alpha\)</span> that ensures the induced distribution of <span class="math inline">\(R^2\)</span> is <span class="math inline">\(\text{Beta}(a, b)\)</span> for any fixed value of <span class="math inline">\(\alpha\)</span>. Because this holds conditionally for all <span class="math inline">\(\alpha\)</span>, the marginal distribution of <span class="math inline">\(R^2\)</span> under the joint prior on <span class="math inline">\((\alpha, W)\)</span> is also <span class="math inline">\(\text{Beta}(a, b)\)</span>, regardless of the marginal prior placed on <span class="math inline">\(\alpha\)</span>. Combined with a Dirichlet prior on the variance proportions, this construction yields the R2D2 prior for GLMMs.</p>
 <section id="the-need-for-approximations" class="level4">
 <h4 class="anchored" data-anchor-id="the-need-for-approximations">The need for approximations</h4>
 <p>For some model families, the prior on <span class="math inline">\(W\)</span> that induces <span class="math inline">\(R^2 \sim \text{Beta}(a, b)\)</span> can be derived in closed form. However, since this is not generally possible for GLMMs, the authors propose a unified approximate approach that works across all model families.</p>
@@ -348,22 +353,23 @@ R^2 = \frac{\mathbb{V}(\mathbb{E}(Y \mid \eta))}{\mathbb{V}(\mathbb{E}(Y \mid \e
         \int_0^{\infty}
         \left\{
             \frac{p_{GBP}(w, \alpha, \beta, c, d) - p(w)}{p(w)}
-        \right\}^2 p(w) dw \quad +
+        \right\}^2 p(w) dw
         \\
-&amp; \qquad \qquad \qquad
-  \lambda \left[(\alpha - a)^2 + (\beta - b)^2 + (c - 1)^2 + (d - 1)^2\right]
+&amp; \qquad \qquad \quad
+   + \quad \lambda \left[(\alpha - a)^2 + (\beta - b)^2 + (c - 1)^2 + (d - 1)^2\right]
 \end{aligned}
 \]</span></p>
 <p>Here, <span class="math inline">\(\lambda \ge 0\)</span> is a tuning parameter that controls the amount of the regularization, which the authors suggest setting to <span class="math inline">\(\lambda = 1 / 4\)</span>.</p>
 </section>
 <section id="how-to-use-it" class="level4">
 <h4 class="anchored" data-anchor-id="how-to-use-it">How to use it</h4>
-<p>In practice, specifying the R2-D2 prior for GLMMs requires the user to choose the Beta hyperparameters <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> for the desired prior on <span class="math inline">\(R^2\)</span>. One then solves the optimization problem above to find the parameters <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> of the GBP prior on <span class="math inline">\(W\)</span>. The resulting prior can be implemented via the transformation:</p>
+<p>In practice, specifying the R2D2 prior for GLMMs requires the user to choose the Beta hyperparameters <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> for the desired prior on <span class="math inline">\(R^2\)</span>. One then solves the optimization problem above to find the parameters <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> of the GBP prior on <span class="math inline">\(W\)</span>.</p>
+<p>The resulting prior can be implemented via the transformation:</p>
 <p><span class="math display">\[
 V \sim \text{Beta}(a^*, b^*) \implies W = d^*\left[\frac{V}{1 - V}\right]^{1/c^*} \sim \text{GBP}(a^*, b^*, c^*, d^*)
 \]</span></p>
 <p>When doing inference with MCMC, because the optimal values <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> depend on <span class="math inline">\(\alpha\)</span> and possibly other response-distribution parameters <span class="math inline">\(\theta\)</span>, the approximation should be updated with their values at every iteration.</p>
-<p>However, performing this optimization at every MCMC iteration would be computationally infeasible. To address this, the authors recommend computing the GBP approximation once at the start of the analysis using <span class="math inline">\(\hat{\alpha} = g(\bar{Y}_i)\)</span> and, if needed, the maximum likelihood estimate <span class="math inline">\(\hat{\theta}\)</span>. Once the values of <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> are found, <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\theta\)</span> are treated as unknown again during the subsequent Bayesian inference.</p>
+<p>However, performing the optimization at every MCMC iteration would be computationally infeasible. To address this, the authors recommend computing the GBP approximation once at the start of the analysis using <span class="math inline">\(\hat{\alpha} = g(\bar{Y}_i)\)</span> and, if needed, the maximum likelihood estimate <span class="math inline">\(\hat{\theta}\)</span>. Once the values of <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> are found, <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\theta\)</span> are treated as unknown again during the subsequent Bayesian inference.</p>
 </section>
 </section>
 </section>
@@ -371,127 +377,88 @@ V \sim \text{Beta}(a^*, b^*) \implies W = d^*\left[\frac{V}{1 - V}\right]^{1/c^*
 <h2 class="anchored" data-anchor-id="python-implementation">Python implementation</h2>
 <p>Now that we have reviewed …</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> special</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize, minimize_scalar</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> special</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gbp_pdf(x, a, b, c, d):</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    log_num <span class="op">=</span> (</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        np.log(c)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> (a <span class="op">*</span> c <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> (np.log(x) <span class="op">-</span> np.log(d))</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">-</span> (a <span class="op">+</span> b) <span class="op">*</span> np.log1p((x <span class="op">/</span> d) <span class="op">**</span> c)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    log_den <span class="op">=</span> np.log(d) <span class="op">+</span> special.betaln(a, b)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.exp(log_num <span class="op">-</span> log_den)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> WGBP(family, lam<span class="op">=</span><span class="fl">0.25</span>, x0<span class="op">=</span>np.ones(<span class="dv">4</span>), method<span class="op">=</span><span class="st">"Powell"</span>):</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Compute parameters for the GBP Approximation</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">    This function finds the closest Generalized Beta Prime (GBP) distribution</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">    to the true pdf of W as measured by the Pearson Chi-squared divergence.</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> family.a</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> family.b</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    tau <span class="op">=</span> np.linspace(<span class="fl">0.01</span>, <span class="fl">0.99</span>, num<span class="op">=</span><span class="dv">500</span>)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> family.ppf(p<span class="op">=</span>tau).flatten()</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    p_W <span class="op">=</span> family.pdf(w<span class="op">=</span>w).flatten()</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Copied from the R implementation because sometimes p_W has NaNs</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> w[<span class="op">~</span>np.isnan(p_W)]</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    p_W <span class="op">=</span> p_W[<span class="op">~</span>np.isnan(p_W)]</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> divergence(log_params):</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        params <span class="op">=</span> np.exp(log_params)</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        p_GBP <span class="op">=</span> gbp_pdf(w, <span class="op">*</span>params)</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        log_target <span class="op">=</span> np.log(np.array([a, b, <span class="dv">1</span>, <span class="dv">1</span>]))</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        integral <span class="op">=</span> np.<span class="bu">sum</span>((<span class="dv">1</span> <span class="op">-</span> p_GBP <span class="op">/</span> p_W) <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        penalty <span class="op">=</span> lam <span class="op">*</span> np.<span class="bu">sum</span>((log_params <span class="op">-</span> log_target) <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> integral <span class="op">+</span> penalty</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> minimize(divergence, x0<span class="op">=</span>np.log(x0), method<span class="op">=</span>method)</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> result.success:</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.exp(result.x)</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">"Minimization didn't converge"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Family(ABC):</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">@abstractmethod</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> W_to_R2(<span class="va">self</span>, w):</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Convert W values to R^2</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">        Details are specific to each model family. To be implemented by subclasses.</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">@abstractmethod</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pdf(<span class="va">self</span>, w):</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Probability Density Function (PDF) of W.</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">        Details are specific to each model family. To be implemented by subclasses.</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> cdf(<span class="va">self</span>, w):</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Cumulative Distribution Function (CDF) of W</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">        Computes values of the CDF of W induced by a Beta(a, b) prior on R-squared.</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">        The strategy is to convert W to R-squared and find the CDF of the corresponding R-squared.</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> stats.beta.cdf(<span class="va">self</span>.W_to_R2(w), a<span class="op">=</span><span class="va">self</span>.a, b<span class="op">=</span><span class="va">self</span>.b)</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ppf(<span class="va">self</span>, p, bounds<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Quantile Function of W</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">        Computes the quantiles of W induced by a Beta(a, b) prior on R2.</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">        It numerically inverts the CDF of W.</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">        </span><span class="al">NOTE</span><span class="co">: It's quite sensitive to `bounds`.</span></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> bounds <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Helper to find suitable bonds</span></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>            ub_candidates <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1_000</span>, <span class="dv">10_000</span>, <span class="dv">100_000</span>, <span class="dv">500_000</span>, <span class="dv">1_000_000</span>]</span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> candidate <span class="kw">in</span> ub_candidates:</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="va">self</span>.cdf(candidate) <span class="op">&gt;</span> <span class="fl">0.99</span>:</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">break</span></span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>            bounds <span class="op">=</span> (<span class="dv">1</span> <span class="op">/</span> <span class="dv">100_000</span>, candidate)</span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        log_bounds <span class="op">=</span> (np.log(bounds[<span class="dv">0</span>]), np.log(bounds[<span class="dv">1</span>]))</span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> ppf_scalar(p):</span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>            <span class="kw">def</span> distance(logw):</span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> (<span class="va">self</span>.cdf(w<span class="op">=</span>np.exp(logw)) <span class="op">-</span> p) <span class="op">**</span> <span class="dv">2</span></span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>            result <span class="op">=</span> minimize_scalar(distance, bounds<span class="op">=</span>log_bounds)</span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>            output <span class="op">=</span> result.x</span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> np.exp(output)</span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.array([ppf_scalar(p_i) <span class="cf">for</span> p_i <span class="kw">in</span> np.atleast_1d(p)])</span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PoissonFamily(Family):</span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, a, b, intercept):</span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.a <span class="op">=</span> a</span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.b <span class="op">=</span> b</span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.intercept <span class="op">=</span> intercept</span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> W_to_R2(<span class="va">self</span>, w):</span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.expm1(w) <span class="op">/</span> (np.expm1(w) <span class="op">+</span> np.exp(<span class="op">-</span><span class="va">self</span>.intercept <span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> w))</span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pdf(<span class="va">self</span>, w):</span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>        a, b, alpha <span class="op">=</span> <span class="va">self</span>.a, <span class="va">self</span>.b, <span class="va">self</span>.intercept</span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>        f1 <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> special.beta(a, b)</span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>        f2_num <span class="op">=</span> np.expm1(w) <span class="op">**</span> (a <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> np.exp(<span class="op">-</span>b <span class="op">*</span> (alpha <span class="op">+</span> w <span class="op">/</span> <span class="dv">2</span>)) <span class="op">*</span> (<span class="dv">3</span> <span class="op">*</span> np.exp(w) <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>        f2_den <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> (np.expm1(w) <span class="op">+</span> np.exp(<span class="op">-</span>alpha <span class="op">-</span> w <span class="op">/</span> <span class="dv">2</span>)) <span class="op">**</span> (a <span class="op">+</span> b)</span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> f1 <span class="op">*</span> (f2_num <span class="op">/</span> f2_den)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> penalized_divergence(p_true, p_approx, params_current, params_reference, lam):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Penalized Pearson Chi-squared divergence"""</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    integral <span class="op">=</span> np.<span class="bu">sum</span>((<span class="dv">1</span> <span class="op">-</span> p_approx <span class="op">/</span> p_true) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    penalty <span class="op">=</span> lam <span class="op">*</span> np.<span class="bu">sum</span>((params_current <span class="op">-</span> params_reference) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> integral <span class="op">+</span> penalty</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gbp_pdf(x, a, b, c, d):</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Probability density function of the GBP distribution"""</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    log_num <span class="op">=</span> (</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        np.log(c)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> (a <span class="op">*</span> c <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> (np.log(x) <span class="op">-</span> np.log(d))</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">-</span> (a <span class="op">+</span> b) <span class="op">*</span> np.log1p((x <span class="op">/</span> d) <span class="op">**</span> c)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    log_den <span class="op">=</span> np.log(d) <span class="op">+</span> special.betaln(a, b)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.exp(log_num <span class="op">-</span> log_den)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> WGBP(a, b, w_grid, p_true, lam<span class="op">=</span><span class="fl">0.25</span>, initial_point<span class="op">=</span>np.ones(<span class="dv">4</span>)):</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Compute parameters for the GBP Approximation</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">    Estimate the parameters of the Generalized Beta Prime (GBP) approximation to the</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">    distribution of W induced by a Beta(a, b) prior on R².</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">    a : float</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">        First parameter of the Beta(a, b) prior on R².</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">    b : float</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">        Second parameter of the Beta(a, b) prior on R².</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">    w_grid : np.ndarray</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">        One-dimensional grid of W values where the true and approximate densities are</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">        evaluated.</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">    p_true : callable</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">        Function that returns the true density p(w) when called on `w_grid`.</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">    lam : float, optional</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">        Penalization weight for regularization (default 0.25).</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">    initial_point : np.ndarray, optional</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">        Initial guess for the optimization procedure (default: np.ones(4)).</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">    np.ndarray</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">        Array with the estimated GBP parameters (a*, b*, c*, d*) </span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co">        that approximate the true density of W.</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    params_reference <span class="op">=</span> np.array([a, b, <span class="dv">1</span>, <span class="dv">1</span>])</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> divergence(params):</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> penalized_divergence(</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>            p_true<span class="op">=</span>p_true(w_grid),</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>            p_approx<span class="op">=</span>gbp_pdf(w_grid, <span class="op">*</span>params),</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>            params_current<span class="op">=</span>params,</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>            params_reference<span class="op">=</span>params_reference,</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>            lam<span class="op">=</span>lam</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> minimize(divergence, x0<span class="op">=</span>initial_point)</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> result.success:</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> result.x</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">"Minimization didn't converge"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="examples" class="level2">
 <h2 class="anchored" data-anchor-id="examples">Examples</h2>
 <section id="poisson" class="level3">
 <h3 class="anchored" data-anchor-id="poisson">Poisson</h3>
-<p>TO DO: Formulas from the paper</p>
+<p>The relationship between <span class="math inline">\(W\)</span> and <span class="math inline">\(R^2\)</span>, as well as the probability density function of <span class="math inline">\(W\)</span>, in the case of a Poisson regression model with a <span class="math inline">\(\log\)</span> link function, are given in Equations 7 and 8 of <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span>.</p>
+<p><span class="math display">\[
+\begin{aligned}
+R^2 &amp;= \frac{e^W - 1}{e^W - 1 + e^{-\alpha - \frac{1}{2} W}} \\ \\
+p(w \mid \alpha, a, b) &amp;=
+    \frac{1}{2B(a, b)}
+    \frac
+        {(e^w - 1)^{a - 1} e^{-b(\alpha+ w/2)} (3e^w-1)}
+        {(e^w - 1 + e^{-\alpha - w/2})^{a+b}},
+    \qquad w \ge 0.
+\end{aligned}
+\]</span></p>
 <div id="quarto-carousel-1" class="carousel carousel-dark slide carousel-framed" data-bs-ride="false">
 <div class="carousel-indicators">
   <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="0" class=" active" aria-current="true" aria-label="Slide 1"></button>
@@ -530,47 +497,47 @@ V \sim \text{Beta}(a^*, b^*) \implies W = d^*\left[\frac{V}{1 - V}\right]^{1/c^*
 <img src="imgs/poisson/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/poisson/a-1.0_b-1.0_intercept--2.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/poisson/a-1.0_b-4.0_intercept--2.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/poisson/a-4.0_b-1.0_intercept--2.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/poisson/a-4.0_b-4.0_intercept--2.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/poisson/a-0.5_b-0.5_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-0.5_b-0.5_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-1.0_b-1.0_intercept--2.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/poisson/a-1.0_b-1.0_intercept-0.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-1.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-1.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/poisson/a-1.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-1.0_b-4.0_intercept-2.png" class="d-block mx-auto">
+<div class="carousel-caption d-none d-md-block">
+<p>I suspect there's a transcription error<br>in the paper for this
+example</p>
+</div>
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-4.0_b-1.0_intercept--2.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/poisson/a-4.0_b-1.0_intercept-0.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/poisson/a-4.0_b-4.0_intercept-0.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/poisson/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/poisson/a-1.0_b-1.0_intercept-2.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/poisson/a-1.0_b-4.0_intercept-2.png" class="d-block mx-auto">
-<div class="carousel-caption d-none d-md-block">
-<p>I suspect there's a transcription error in the paper for this
-example</p>
-</div>
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/poisson/a-4.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-4.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-4.0_b-4.0_intercept-0.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/poisson/a-4.0_b-4.0_intercept-2.png" class="d-block mx-auto">
@@ -590,7 +557,18 @@ example</p>
 </section>
 <section id="negative-binomial" class="level3">
 <h3 class="anchored" data-anchor-id="negative-binomial">Negative Binomial</h3>
-<p>TO DO: Formulas from the paper</p>
+<p>In the case of negative binomial regression, again with a <span class="math inline">\(\log\)</span> link function, we also have to consider the overdispersion parameter <span class="math inline">\(\theta &gt; 1\)</span>. Equations 23 and 24 in <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span> show:</p>
+<p><span class="math display">\[
+\begin{aligned}
+R^2 &amp;= \frac{e^W - 1}{e^W - 1 + \theta e^{-\alpha - \frac{1}{2} W}} \\ \\
+p(w \mid \alpha, a, b) &amp;=
+    \frac{\theta^b}{2B(a, b)}
+    \frac
+        {(e^w - 1)^{a - 1} e^{-b(\alpha+ w/2)} (3e^w-1)}
+        {(e^w - 1 + \theta e^{-\alpha - w/2})^{a+b}},
+    \qquad w \ge 0.
+\end{aligned}
+\]</span></p>
 <div id="quarto-carousel-2" class="carousel carousel-dark slide carousel-framed" data-bs-ride="false">
 <div class="carousel-indicators">
   <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="0" class=" active" aria-current="true" aria-label="Slide 1"></button>
@@ -629,43 +607,43 @@ example</p>
 <img src="imgs/nb/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/nb/a-1.0_b-1.0_intercept--2.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/nb/a-1.0_b-4.0_intercept--2.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/nb/a-4.0_b-1.0_intercept--2.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/nb/a-4.0_b-4.0_intercept--2.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/nb/a-0.5_b-0.5_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-0.5_b-0.5_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-1.0_b-1.0_intercept--2.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/nb/a-1.0_b-1.0_intercept-0.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/nb/a-1.0_b-4.0_intercept-0.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/nb/a-4.0_b-1.0_intercept-0.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/nb/a-4.0_b-4.0_intercept-0.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/nb/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/nb/a-1.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-1.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-1.0_b-4.0_intercept-0.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/nb/a-1.0_b-4.0_intercept-2.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-4.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-4.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/nb/a-4.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-4.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-4.0_b-4.0_intercept-0.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/nb/a-4.0_b-4.0_intercept-2.png" class="d-block mx-auto">
@@ -685,7 +663,82 @@ example</p>
 </section>
 <section id="logistic" class="level3">
 <h3 class="anchored" data-anchor-id="logistic">Logistic</h3>
-<p>TO DO: Formulas from the paper? No closed form expression available</p>
+<p>Closed-form expressions are not available for logistic regression with a logit link. If you’re insterested in the details, have a look at the callouts below.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Details for <span class="math inline">\(R^2\)</span>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span> approximates the coefficient of determination <span class="math inline">\(R^2\)</span> for given <span class="math inline">\(W\)</span> and <span class="math inline">\(\alpha\)</span> using a quasi–Monte Carlo method. Their approximation, denoted <span class="math inline">\(\tilde{R}^2\)</span>, is given by</p>
+<p><span class="math display">\[
+\tilde{R}^2(W \mid \alpha)
+\approx
+    \frac{
+        \tilde{\mu}_2(W \mid \alpha) - \tilde{\mu}_1^2(W \mid \alpha)
+    }
+    {
+        \tilde{\mu}_2(W \mid \alpha) - \tilde{\mu}_1^2(W \mid \alpha)
+        + \tilde{\sigma}^2(W \mid \alpha)
+    }
+\]</span></p>
+<p>To compute this approximation, we need estimates of the conditional moments of the latent variable <span class="math inline">\(\eta = \alpha + z \sqrt{W}\)</span>:</p>
+<p><span class="math display">\[
+\mathrm{E}\{\mu(\eta)^m\} \approx \tilde{\mu}_m(W \mid \alpha)
+= \frac{1}{K-1} \sum_{i=1}^{K-1} \mu(\alpha + z_i \sqrt{W})^m,
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\mathrm{E}\{\sigma^2(\eta)\} \approx \tilde{\sigma}^2(W \mid \alpha)
+= \frac{1}{K-1} \sum_{i=1}^{K-1} \sigma^2(\alpha + z_i \sqrt{W})
+\]</span></p>
+<p>where <span class="math inline">\(z_i\)</span> is the <span class="math inline">\(i/K\)</span> quantile of a standard normal distribution, with <span class="math inline">\(K\)</span> being the number of quantiles used in the approximation. The functions <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> represent:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mu(\eta) &amp;= \mathbb{E}(Y \mid \eta) \\
+\sigma^2(\eta) &amp;= \mathbb{V}(Y \mid \eta)
+\end{aligned}
+\]</span></p>
+<p>which are</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mu(\eta) &amp;= \text{expit}(\eta) \\
+\sigma^2(\eta) &amp;= \mu(\eta) \cdot (1 - \mu(\eta))
+\end{aligned}
+\]</span></p>
+<p>in the case of the logistic regression family.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Details for <span class="math inline">\(p(w)\)</span>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The PDF is the derivative of the CDF, <span class="math display">\[
+p(w) = \frac{d}{dw} F(w).
+\]</span></p>
+<p>Since no closed form is available, we approximate the derivative using a central finite difference, for a small <span class="math inline">\(\delta&gt;0\)</span>:</p>
+<p><span class="math display">\[
+p(w) \approx \frac{F(w + \delta) - F(w - \delta)}{2 \delta}
+\]</span></p>
+<p>Here the CDF of <span class="math inline">\(W\)</span> is computed by first approximating the corresponding <span class="math inline">\(R^2\)</span> value from <span class="math inline">\(W\)</span>, and then evaluating the Beta CDF of <span class="math inline">\(R^2\)</span>.</p>
+</div>
+</div>
+</div>
 <div id="quarto-carousel-3" class="carousel carousel-dark slide carousel-framed" data-bs-ride="false">
 <div class="carousel-indicators">
   <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="0" class=" active" aria-current="true" aria-label="Slide 1"></button>
@@ -724,43 +777,43 @@ example</p>
 <img src="imgs/logistic/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/logistic/a-1.0_b-1.0_intercept--2.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/logistic/a-1.0_b-4.0_intercept--2.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/logistic/a-4.0_b-1.0_intercept--2.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/logistic/a-4.0_b-4.0_intercept--2.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/logistic/a-0.5_b-0.5_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-0.5_b-0.5_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-1.0_b-1.0_intercept--2.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/logistic/a-1.0_b-1.0_intercept-0.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/logistic/a-1.0_b-4.0_intercept-0.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/logistic/a-4.0_b-1.0_intercept-0.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/logistic/a-4.0_b-4.0_intercept-0.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
-<img src="imgs/logistic/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
-</div>
-<div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/logistic/a-1.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-1.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-1.0_b-4.0_intercept-0.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/logistic/a-1.0_b-4.0_intercept-2.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-4.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-4.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/logistic/a-4.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-4.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-4.0_b-4.0_intercept-0.png" class="d-block mx-auto">
 </div>
 <div class="carousel-item no-transition" data-bs-interval="3000">
 <img src="imgs/logistic/a-4.0_b-4.0_intercept-2.png" class="d-block mx-auto">
@@ -777,10 +830,14 @@ example</p>
       </button>
     
 </div>
-
-
-
 </section>
+</section>
+<section id="final-thoughts" class="level2">
+<h2 class="anchored" data-anchor-id="final-thoughts">Final thoughts</h2>
+<p>Something I have to write…</p>
+
+
+
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
