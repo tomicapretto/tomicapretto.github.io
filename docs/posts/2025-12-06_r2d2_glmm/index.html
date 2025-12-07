@@ -56,10 +56,30 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -78,6 +98,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-7672ad5448398b520c84cfb016e0f391.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/carousel-0.1.0/quarto-carousel.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -114,9 +135,6 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -192,22 +210,11 @@ window.Quarto = {
     <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
-  <ul>
-  <li><a href="#r2-for-bayesian-regression-models" id="toc-r2-for-bayesian-regression-models" class="nav-link active" data-scroll-target="#r2-for-bayesian-regression-models"><span class="math inline">\(R^2\)</span> for Bayesian regression models</a>
   <ul class="collapse">
-  <li><a href="#common-cases" id="toc-common-cases" class="nav-link" data-scroll-target="#common-cases">Common cases</a></li>
-  </ul></li>
-  <li><a href="#the-r2-d2-prior" id="toc-the-r2-d2-prior" class="nav-link" data-scroll-target="#the-r2-d2-prior">The R2-D2 prior</a></li>
-  <li><a href="#r2-d2-for-glmms" id="toc-r2-d2-for-glmms" class="nav-link" data-scroll-target="#r2-d2-for-glmms">R2-D2 for GLMMs</a>
-  <ul class="collapse">
-  <li><a href="#generalized-beta-prime-approximation-in-python" id="toc-generalized-beta-prime-approximation-in-python" class="nav-link" data-scroll-target="#generalized-beta-prime-approximation-in-python">Generalized Beta Prime Approximation in Python</a></li>
-  </ul></li>
-  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a>
-  <ul class="collapse">
-  <li><a href="#poisson" id="toc-poisson" class="nav-link" data-scroll-target="#poisson">Poisson</a></li>
-  <li><a href="#logistic" id="toc-logistic" class="nav-link" data-scroll-target="#logistic">Logistic</a></li>
-  <li><a href="#negative-binomial-family" id="toc-negative-binomial-family" class="nav-link" data-scroll-target="#negative-binomial-family">Negative Binomial family</a></li>
-  </ul></li>
+  <li><a href="#r2-d2-for-normal-regression" id="toc-r2-d2-for-normal-regression" class="nav-link active" data-scroll-target="#r2-d2-for-normal-regression">R2-D2 for normal regression</a></li>
+  <li><a href="#r2-d2-for-glmms" id="toc-r2-d2-for-glmms" class="nav-link" data-scroll-target="#r2-d2-for-glmms">R2-D2 for GLMMs</a></li>
+  <li><a href="#python-implementation" id="toc-python-implementation" class="nav-link" data-scroll-target="#python-implementation">Python implementation</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul>
 </nav>
 </nav>
@@ -243,47 +250,9 @@ window.Quarto = {
 </header>
 
 
-<section id="r2-for-bayesian-regression-models" class="level2">
-<h2 class="anchored" data-anchor-id="r2-for-bayesian-regression-models"><span class="math inline">\(R^2\)</span> for Bayesian regression models</h2>
-<p>In <a href="https://www.tandfonline.com/doi/abs/10.1080/00031305.2018.1549100">R-squared for Bayesian Regression Models</a> by Gelman et al.&nbsp;(2018), the authors propose a generalization of the classical coefficient of determination <span class="math inline">\(R^2\)</span> to Bayesian regression models.</p>
-<p>The coefficient of determination they propose is defined as:</p>
-<p><span class="math display">\[
-\frac{\text{Explained variance}}{\text{Explained variance} + \text{Residual variance}} = \frac{\text{var}_\text{fit}}{\text{var}_\text{fit} + \text{var}_\text{res}}
-\]</span></p>
-<p>where <span class="math inline">\(\text{var}_\text{fit}\)</span> and <span class="math inline">\(\text{var}_\text{res}\)</span> are computed as:</p>
-<p><span class="math display">\[
-\begin{aligned}
-\text{var}_\text{fit} &amp;= \text{V}\left(\mathbb{E}(\tilde{y}_i \mid \boldsymbol{x}_i, \boldsymbol{\theta})\right) =  \text{V} \left(y_i^\text{pred}\right) \\
-\text{var}_\text{res} &amp;= \text{M}\left(\mathbb{V}\left(\tilde{y}_i - y_i^\text{pred} \mid \boldsymbol{x}_i, \boldsymbol{\theta}\right) \right)
-\end{aligned}
-\]</span></p>
-<p>where <span class="math inline">\(M\)</span> and <span class="math inline">\(V\)</span> denote the sample mean and variance operators, respectively.</p>
-<p>The first term is the variance of the expectation of future data and the second one is the expected variance of future residuals.</p>
-<p>This Bayesian <span class="math inline">\(R^2\)</span> is conditional on the explanatory variables and the model parameters <span class="math inline">\(\boldsymbol{\theta}\)</span>. For this reason, this <span class="math inline">\(R^2\)</span> is proposed as an <em>a posteriori</em> mesasure of model fit.</p>
-<p>If we have draws from the posterior distribution, we can compute the Bayesian <span class="math inline">\(R^2\)</span> for each draw.</p>
-<section id="common-cases" class="level3">
-<h3 class="anchored" data-anchor-id="common-cases">Common cases</h3>
-<p>In the case of normal regression models, the components of the Bayesian <span class="math inline">\(R^2\)</span> simplify to:</p>
-<p><span class="math display">\[
-\begin{aligned}
-\text{var}_\text{fit} &amp;= \text{V}(\mu_i) \\
-\text{var}_\text{res} &amp;= \sigma^2
-\end{aligned}
-\]</span></p>
-<p>where <span class="math inline">\(\mu_i = \boldsymbol{x}_i^T \boldsymbol{\beta}\)</span>.</p>
-<p>And for logistic regression models, they become:</p>
-<p><span class="math display">\[
-\begin{aligned}
-\text{var}_\text{fit} &amp;= \text{V}(\pi_i) \\
-\text{var}_\text{res} &amp;= \text{M}(\pi_i (1 - \pi_i))
-\end{aligned}
-\]</span></p>
-<p>where <span class="math inline">\(\pi_i = \text{expit}(\boldsymbol{x}_i^T \boldsymbol{\beta})\)</span>.</p>
-</section>
-</section>
-<section id="the-r2-d2-prior" class="level2">
-<h2 class="anchored" data-anchor-id="the-r2-d2-prior">The R2-D2 prior</h2>
-<p>The R2-D2 prior for normal regression models has been introduced in the paper <a href="https://arxiv.org/abs/1609.00046">Bayesian Regression Using a Prior on the Model Fit: The R2-D2 Shrinkage Prior</a> by Zhang et al.&nbsp;(2016).</p>
+<section id="r2-d2-for-normal-regression" class="level2">
+<h2 class="anchored" data-anchor-id="r2-d2-for-normal-regression">R2-D2 for normal regression</h2>
+<p>The R2-D2 prior for normal regression models has been introduced in <span class="citation" data-cites="Zhang2020">Zhang et al. (<a href="#ref-Zhang2020" role="doc-biblioref">2020</a>)</span>.</p>
 <p>Consider the normal regression model:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -292,8 +261,8 @@ Y_i \mid \mu_i, \sigma^2 &amp;\underset{iid}{\sim} \text{Normal}(\mu_i, \sigma^2
 &amp;= \alpha + \boldsymbol{X}\boldsymbol{\beta}
 \end{aligned}
 \]</span></p>
-<p>where <span class="math inline">\(\boldsymbol{X}\)</span> is the <span class="math inline">\(n \times p\)</span> design matrix (without the intercept), <span class="math inline">\(\alpha\)</span> is the intercept term, and <span class="math inline">\(\boldsymbol{\beta}\)</span>, of length <span class="math inline">\(p\)</span>, is the vector of coefficients.</p>
-<p>The central idea in the R2-D2 prior is to place a prior directly on the coefficient of determination <span class="math inline">\(R^2\)</span>. For the purpose of defining prior distributions, however, Zhang et al.&nbsp;work with the <strong>marginal</strong> coefficient of determination: a version of <span class="math inline">\(R^2\)</span> that averages over both the design matrix <span class="math inline">\(\boldsymbol{X}\)</span> and the regression coefficients <span class="math inline">\(\boldsymbol{\beta}\)</span>, rather than the conditional coefficient of determination proposed by Gelman et al, that we mentioned above.</p>
+<p>where <span class="math inline">\(\boldsymbol{X}\)</span> is the <span class="math inline">\(n \times p\)</span> design matrix, <span class="math inline">\(\alpha\)</span> is the intercept term, and <span class="math inline">\(\boldsymbol{\beta}\)</span> is the vector of coefficients.</p>
+<p>The central idea in the R2-D2 prior is to place a prior directly on the coefficient of determination <span class="math inline">\(R^2\)</span>. For the purpose of defining prior distributions, the authors work with the <strong>marginal</strong> coefficient of determination: a version of <span class="math inline">\(R^2\)</span> that averages over both the design matrix <span class="math inline">\(\boldsymbol{X}\)</span> and the regression coefficients <span class="math inline">\(\boldsymbol{\beta}\)</span>.</p>
 <p>For the linear regression model, the marginal <span class="math inline">\(R^2\)</span> is defined as:</p>
 <p><span class="math display">\[
 R^2 = \frac{\mathbb{V}(\boldsymbol{x}^T \boldsymbol{\beta})}{\mathbb{V}(\boldsymbol{x}^T \boldsymbol{\beta}) + \sigma^2}
@@ -304,30 +273,45 @@ R^2 = \frac{\mathbb{V}(\boldsymbol{x}^T \boldsymbol{\beta})}{\mathbb{V}(\boldsym
 <p>Then, the R2-D2 prior is specified as:</p>
 <p><span class="math display">\[
 \begin{aligned}
-\beta_j &amp;\sim \text{Normal}(0, \phi_j W \sigma^2) \\
+\beta_j \mid \phi_j, W, \sigma^2  &amp;\sim \text{Normal}(0, \phi_j W \sigma^2) \\
 \boldsymbol{\phi} &amp;\sim \text{Dirichlet}(\xi_1, \dots, \xi_p) \\
 W &amp; = \frac{R^2}{1 - R^2}\\
 R^2 &amp;\sim \text{Beta}(a, b) \\
 \end{aligned}
 \]</span></p>
-<p>Through the transformation <span class="math inline">\(W = R^2/(1-R^2)\)</span>, the prior on <span class="math inline">\(R^2\)</span> induces a prior on <span class="math inline">\(W\)</span>, which governs the total prior variance of the linear predictor <span class="math inline">\(\boldsymbol{x}^T \boldsymbol{\beta}\)</span>. Combined with the Dirichlet prior on the variance proportions <span class="math inline">\(\boldsymbol{\phi}\)</span>, this results in the <span class="math inline">\(R^2\)</span>-induced Dirichlet Decomposition (R2-D2) prior.</p>
+<p>Through the transformation <span class="math inline">\(W = R^2/(1-R^2)\)</span>, the prior on <span class="math inline">\(R^2\)</span> induces a prior on <span class="math inline">\(W\)</span>, which governs the total prior variance of the linear predictor <span class="math inline">\(\boldsymbol{x}^T \boldsymbol{\beta}\)</span> Combined with the Dirichlet prior on the variance proportions <span class="math inline">\(\boldsymbol{\phi}\)</span>, this results in the <strong><span class="math inline">\(R^2\)</span>-induced Dirichlet Decomposition (R2-D2) prior</strong>.</p>
 <p>It can be shown that the induced prior on <span class="math inline">\(W\)</span> is a Beta Prime distribution with parameters <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.</p>
 </section>
 <section id="r2-d2-for-glmms" class="level2">
 <h2 class="anchored" data-anchor-id="r2-d2-for-glmms">R2-D2 for GLMMs</h2>
-<p>The R2-D2 prior for Generalized Linear Mixed Models (GLMMs) has been introduced in the paper <a href="https://arxiv.org/abs/2111.10718">The R2D2 Prior for Generalized Linear Mixed Models</a> by Yanchenko et al.&nbsp;(2021).</p>
+<p>The R2-D2 prior for Generalized Linear Mixed Models (GLMMs) has been introduced in <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span>.</p>
 <p>Suppose we have a GLMM of the form:</p>
 <p><span class="math display">\[
 \begin{aligned}
 Y_i \mid \mu_i, \theta &amp;\underset{iid}{\sim} \mathcal{F}(\mu_i, \theta) \\
-g(\mu_i) = \eta_i &amp;= \alpha + \boldsymbol{x}_i \boldsymbol{\beta} + \sum_{k=1}^{q}u_{k g_k[i]} \\
+g(\mu_i) &amp;= \eta_i = \alpha + \boldsymbol{x}_i \boldsymbol{\beta} + \sum_{k=1}^{q}u_{k g_k[i]} \\
 \end{aligned}
 \]</span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Notation details
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>Let’s be super clear about what we have in there:</p>
 <p>There are <span class="math inline">\(n\)</span> observations indexed by <span class="math inline">\(i \in \{1,\dots,n\}\)</span>. The response variable for observation <span class="math inline">\(i\)</span> is denoted <span class="math inline">\(Y_i\)</span>, with mean <span class="math inline">\(\mu_i\)</span>. Conditional on <span class="math inline">\(\mu_i\)</span>, and possibly additional parameters <span class="math inline">\(\theta\)</span>, the response variables <span class="math inline">\(Y_i\)</span> are assumed to be independent and identically distributed (<span class="math inline">\(\mathcal{F}\)</span> represents an arbitrary family). A link function <span class="math inline">\(g(\cdot)\)</span> relates the mean <span class="math inline">\(\mu_i\)</span> to the linear predictor <span class="math inline">\(\eta_i\)</span>.</p>
 <p>The linear predictor consists of an intercept <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(p\)</span> explanatory variables, and <span class="math inline">\(q\)</span> types of random effects. For the <span class="math inline">\(i\)</span>-th observation, the covariates are collected in the vector <span class="math inline">\(\boldsymbol{x}_i = (x_{i1},\dots,x_{ip})\)</span>, and the full set of covariates for all observations forms the design matrix <span class="math inline">\(\boldsymbol{X}\)</span>, of dimension <span class="math inline">\(n \times p\)</span>. It is assumed that <span class="math inline">\(\boldsymbol{X}\)</span> has been standardized so that each column has mean zero and variance one.</p>
 <p>The fixed-effect coefficients form the vector <span class="math inline">\(\boldsymbol{\beta} = (\beta_1, \dots, \beta_p)^T\)</span>. For the <span class="math inline">\(k\)</span>-th random effect, there are <span class="math inline">\(L_k\)</span> levels collected in <span class="math inline">\(\boldsymbol{u}_k = (u_{k1},\dots,u_{kL_k})^T\)</span>, and we use <span class="math inline">\(g_k[i]\)</span> indicate the level of the random effect <span class="math inline">\(k\)</span> for the observation <span class="math inline">\(i\)</span>.</p>
-<p>To construct the R2D2 prior for GLMMs, Yanchenko et. al.&nbsp;(2021) specify the following prior model:</p>
+</div>
+</div>
+</div>
+<p>To construct the R2D2 prior for GLMMs, the authors specify the following prior model:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \beta_j \mid \phi_j, W &amp;\underset{iid}{\sim}\text{Normal}(0, \phi_j W) \\
@@ -341,880 +325,472 @@ g(\mu_i) = \eta_i &amp;= \alpha + \boldsymbol{x}_i \boldsymbol{\beta} + \sum_{k=
 \]</span></p>
 <p>and in many applications all concentration parameters are set to a common value <span class="math inline">\(\xi_0\)</span>. Larger values of <span class="math inline">\(\xi_0\)</span> shrink the variance proportions toward the uniform allocation <span class="math inline">\(1 / (p+q)\)</span>, while smaller values allow for more dispersed and uncertain allocations across components.</p>
 <p>Like in the linear model case, the R2-D2 prior for GLMMs is specified by placing a prior on the marginal <span class="math inline">\(R^2\)</span> that averages over explanatory variables and random effects (<span class="math inline">\(\boldsymbol{X}\)</span> and <span class="math inline">\(\boldsymbol{g}\)</span>) as well as parameters (<span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\boldsymbol{u}_k\)</span>).</p>
-<p>The marginal <span class="math inline">\(R^2\)</span> is defined as:</p>
+<p>This marginal <span class="math inline">\(R^2\)</span> is defined as:</p>
 <p><span class="math display">\[
 R^2 = \frac{\mathbb{V}(\mathbb{E}(Y \mid \eta))}{\mathbb{V}(\mathbb{E}(Y \mid \eta)) + \mathbb{E}(\mathbb{V}(Y \mid \eta))}
 \]</span></p>
-<p>Since <span class="math inline">\(R^2\)</span> is based on summaries of the distribution of the linear predictor <span class="math inline">\(\eta\)</span>, and it is assumed that <span class="math inline">\(\eta_i \mid \alpha, W \sim \text{Normal}(\alpha, W)\)</span>, <span class="math inline">\(R^2\)</span> also depends on the parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(W\)</span>.</p>
+<p>Given that <span class="math inline">\(R^2\)</span> is based on summaries of the distribution of the linear predictor <span class="math inline">\(\eta\)</span>, and it is assumed that <span class="math inline">\(\eta_i \mid \alpha, W \sim \text{Normal}(\alpha, W)\)</span>, <span class="math inline">\(R^2\)</span> also depends on the parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(W\)</span>.</p>
+<section id="the-details" class="level3">
+<h3 class="anchored" data-anchor-id="the-details">The details</h3>
 <p>The essence of the R2-D2 prior for GLMMs is to define a joint prior on <span class="math inline">\((\alpha, W)\)</span> such that the resulting induced prior on <span class="math inline">\(R^2\)</span> is <span class="math inline">\(\text{Beta}(a, b)\)</span>.</p>
-<p>Yanchenko et al.&nbsp;(2021) construct such a prior by decomposing the joint distribution into a marginal prior for <span class="math inline">\(\alpha\)</span> and a conditional prior for <span class="math inline">\(W \mid \alpha\)</span>. They then choose a prior for <span class="math inline">\(W \mid \alpha\)</span> that ensures the induced distribution of <span class="math inline">\(R^2\)</span> is <span class="math inline">\(\text{Beta}(a, b)\)</span> for any fixed value of <span class="math inline">\(\alpha\)</span>. Because this holds conditionally for all <span class="math inline">\(\alpha\)</span>, the marginal distribution of <span class="math inline">\(R^2\)</span> under the joint prior on <span class="math inline">\((\alpha, W)\)</span> is also <span class="math inline">\(\text{Beta}(a, b)\)</span>, regardless of the marginal prior placed on <span class="math inline">\(\alpha\)</span>. Combined with a Dirichlet prior on the variance proportions, this construction yields the R2-D2 prior for GLMMs.</p>
+<p><span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span> construct such a prior by decomposing the joint distribution into a marginal prior for <span class="math inline">\(\alpha\)</span> and a conditional prior for <span class="math inline">\(W \mid \alpha\)</span>. They then choose a prior for <span class="math inline">\(W \mid \alpha\)</span> that ensures the induced distribution of <span class="math inline">\(R^2\)</span> is <span class="math inline">\(\text{Beta}(a, b)\)</span> for any fixed value of <span class="math inline">\(\alpha\)</span>. Because this holds conditionally for all <span class="math inline">\(\alpha\)</span>, the marginal distribution of <span class="math inline">\(R^2\)</span> under the joint prior on <span class="math inline">\((\alpha, W)\)</span> is also <span class="math inline">\(\text{Beta}(a, b)\)</span>, regardless of the marginal prior placed on <span class="math inline">\(\alpha\)</span>. Combined with a Dirichlet prior on the variance proportions, this construction yields the R2-D2 prior for GLMMs.</p>
+<section id="the-need-for-approximations" class="level4">
+<h4 class="anchored" data-anchor-id="the-need-for-approximations">The need for approximations</h4>
 <p>For some model families, the prior on <span class="math inline">\(W\)</span> that induces <span class="math inline">\(R^2 \sim \text{Beta}(a, b)\)</span> can be derived in closed form. However, since this is not generally possible for GLMMs, the authors propose a unified approximate approach that works across all model families.</p>
 <p>The idea is to place a Generalized Beta Prime (GBP) prior on <span class="math inline">\(W\)</span> and choose its parameters so that the resulting induced distribution of <span class="math inline">\(R^2\)</span> closely matches the target <span class="math inline">\(\text{Beta}(a, b)\)</span> distribution.</p>
-<p>The problem is then to find the values of the parameters of the GBP prior <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> so that the prior <span class="math inline">\(W \sim \text{GBP}(a^*, b^*, c^*, d^*)\)</span> induces a prior on <span class="math inline">\(R^2\)</span> that is close to <span class="math inline">\(\text{Beta}(a, b)\)</span>.</p>
-<p>Let <span class="math inline">\(W \sim p(w)\)</span> be the distribution that yields exactly <span class="math inline">\(R^2 \sim \text{Beta}(a, b)\)</span>.</p>
-<p>To obtain the values of the parameters of the GBP distribution Yanchenko et. al.&nbsp;(2021) minimize the Pearson <span class="math inline">\(\chi^2\)</span> divergence between the true density <span class="math inline">\(p(w)\)</span> and its GBP approximation <span class="math inline">\(f_{GBP}\)</span>, with an added regularization term that shrinks the solution toward <span class="math inline">\(\text{GBP}(a^*, b^*, 1, 1)\)</span>, which is the exact solution for certain model families and can be considered the baseline.</p>
-<p>The optimization problem is formulated as: <span class="math display">\[
+<p>The problem becomes finding the values <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> so that the prior <span class="math inline">\(W \sim \text{GBP}(a^*, b^*, c^*, d^*)\)</span> induces a prior on <span class="math inline">\(R^2\)</span> that is close to <span class="math inline">\(\text{Beta}(a, b)\)</span>.</p>
+<p>Suppose <span class="math inline">\(p(w)\)</span> is the density function of the distribution on <span class="math inline">\(W\)</span> that yields exactly <span class="math inline">\(R^2 \sim \text{Beta}(a, b)\)</span>. To obtain the values of the parameters of the GBP distribution, the authors minimize the Pearson <span class="math inline">\(\chi^2\)</span> divergence between the true density <span class="math inline">\(p(w)\)</span> and its GBP approximation <span class="math inline">\(p_{GBP}(w)\)</span>, with an added regularization term that shrinks the solution toward <span class="math inline">\(\text{GBP}(a^*, b^*, 1, 1)\)</span>, which is the exact solution for certain model families and can be considered the baseline.</p>
+<p>The optimization problem is formulated as:</p>
+<p><span class="math display">\[
 \begin{aligned}
-(a^*, b^*, c^*, d^*)
-&amp; =
-    \arg\min_{\alpha, \beta, c, d} \left[
+(a^*, b^*, c^*, d^*) &amp; =
+    \arg\min_{\alpha, \beta, c, d}
         \int_0^{\infty}
         \left\{
-            \frac{f_{GBP}(w, \alpha, \beta, c, d) - p(w)}{p(w)}
-        \right\}^2
-        p(w) dw + \lambda
-    \left[
-        (\alpha - a)^2 + (\beta - b)^2 + (c - 1)^2 + (d - 1)^2
-    \right]
-\right]
+            \frac{p_{GBP}(w, \alpha, \beta, c, d) - p(w)}{p(w)}
+        \right\}^2 p(w) dw \quad +
+        \\
+&amp; \qquad \qquad \qquad
+  \lambda \left[(\alpha - a)^2 + (\beta - b)^2 + (c - 1)^2 + (d - 1)^2\right]
 \end{aligned}
 \]</span></p>
 <p>Here, <span class="math inline">\(\lambda \ge 0\)</span> is a tuning parameter that controls the amount of the regularization, which the authors suggest setting to <span class="math inline">\(\lambda = 1 / 4\)</span>.</p>
-<p>In practice, specifying the R2-D2 prior for GLMMs requires the user to choose the Beta hyperparameters <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> for the desired prior on <span class="math inline">\(R^2\)</span>. On then solves the optimization problem above to find the parameters <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> of the GBP prior on <span class="math inline">\(W\)</span>. The resulting prior can be implemented via the transformation:</p>
+</section>
+<section id="how-to-use-it" class="level4">
+<h4 class="anchored" data-anchor-id="how-to-use-it">How to use it</h4>
+<p>In practice, specifying the R2-D2 prior for GLMMs requires the user to choose the Beta hyperparameters <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> for the desired prior on <span class="math inline">\(R^2\)</span>. One then solves the optimization problem above to find the parameters <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> of the GBP prior on <span class="math inline">\(W\)</span>. The resulting prior can be implemented via the transformation:</p>
 <p><span class="math display">\[
 V \sim \text{Beta}(a^*, b^*) \implies W = d^*\left[\frac{V}{1 - V}\right]^{1/c^*} \sim \text{GBP}(a^*, b^*, c^*, d^*)
 \]</span></p>
-<p>When doing inference wiht MCMC, because the optimal values <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> depend on <span class="math inline">\(\alpha\)</span> and possibly other response-distribution parameters <span class="math inline">\(\theta\)</span>, the approximation should be updated with their values at every iteration.</p>
+<p>When doing inference with MCMC, because the optimal values <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> depend on <span class="math inline">\(\alpha\)</span> and possibly other response-distribution parameters <span class="math inline">\(\theta\)</span>, the approximation should be updated with their values at every iteration.</p>
 <p>However, performing this optimization at every MCMC iteration would be computationally infeasible. To address this, the authors recommend computing the GBP approximation once at the start of the analysis using <span class="math inline">\(\hat{\alpha} = g(\bar{Y}_i)\)</span> and, if needed, the maximum likelihood estimate <span class="math inline">\(\hat{\theta}\)</span>. Once the values of <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> are found, <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\theta\)</span> are treated as unknown again during the subsequent Bayesian inference.</p>
-<section id="generalized-beta-prime-approximation-in-python" class="level3">
-<h3 class="anchored" data-anchor-id="generalized-beta-prime-approximation-in-python">Generalized Beta Prime Approximation in Python</h3>
-<div id="48564307" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+</section>
+</section>
+</section>
+<section id="python-implementation" class="level2">
+<h2 class="anchored" data-anchor-id="python-implementation">Python implementation</h2>
+<p>Now that we have reviewed …</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize, minimize_scalar</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> special</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div id="bf8b003a" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gbp_pdf_plain(x, a, b, c, d):</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Probability Density Function (PDF) of the Generalized Beta Prime (GBP) distribution</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Equation in Yanchenko et al. (2021)</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> c <span class="op">*</span> (x <span class="op">/</span> d) <span class="op">**</span> (a <span class="op">*</span> c <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> (x <span class="op">/</span> d) <span class="op">**</span> c) <span class="op">**</span> (<span class="op">-</span>a <span class="op">-</span> b) <span class="op">/</span> (d <span class="op">*</span> special.beta(a, b))</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gbp_logpdf(x, a, b, c, d):</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    log_num <span class="op">=</span> (</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        np.log(c)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> (a <span class="op">*</span> c <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> (np.log(x) <span class="op">-</span> np.log(d))</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">-</span> (a <span class="op">+</span> b) <span class="op">*</span> np.log1p((x <span class="op">/</span> d) <span class="op">**</span> c)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    log_den <span class="op">=</span> np.log(d) <span class="op">+</span> special.betaln(a, b)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> log_num <span class="op">-</span> log_den</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gbp_pdf_stable(x, a, b, c, d):</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.exp(gbp_logpdf(x, a, b, c, d))</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gbp_pdf_plain(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="fl">4.5</span>, <span class="fl">3.8</span>))</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gbp_pdf_stable(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="fl">4.5</span>, <span class="fl">3.8</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.03368536527260107
-0.03368536527260113</code></pre>
-</div>
-</div>
-<div id="935676ab" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GenericFamily:</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> cdf(<span class="va">self</span>, w):</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Cumulative Distribution Function (CDF) of W</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Computes values of the CDF of W induced by a Beta(a, b) prior on R-squared.</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># The strategy is to convert W to R-squared and find the CDF of the corresponding R-squared.</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> stats.beta.cdf(<span class="va">self</span>.W_to_R2(w), a<span class="op">=</span><span class="va">self</span>.a, b<span class="op">=</span><span class="va">self</span>.b)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ppf(<span class="va">self</span>, p, bounds<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Quantile Function of W</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Computes the quantiles of W induced by a Beta(a, b) prior on R2.</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> bounds <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>            bounds <span class="op">=</span> <span class="va">self</span>._find_bounds()</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        log_bounds <span class="op">=</span> (np.log(bounds[<span class="dv">0</span>]), np.log(bounds[<span class="dv">1</span>]))</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Numerically inverts the CDF of W.</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> inner(p):</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>            <span class="kw">def</span> distance(logw):</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> (<span class="va">self</span>.cdf(w<span class="op">=</span>np.exp(logw)) <span class="op">-</span> p) <span class="op">**</span> <span class="dv">2</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>            result <span class="op">=</span> minimize_scalar(distance, bounds<span class="op">=</span>log_bounds)</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>            output <span class="op">=</span> result.x</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> np.exp(output)</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.array([inner(p_i) <span class="cf">for</span> p_i <span class="kw">in</span> np.atleast_1d(p)])</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gbp_pdf(x, a, b, c, d):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    log_num <span class="op">=</span> (</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        np.log(c)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> (a <span class="op">*</span> c <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> (np.log(x) <span class="op">-</span> np.log(d))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">-</span> (a <span class="op">+</span> b) <span class="op">*</span> np.log1p((x <span class="op">/</span> d) <span class="op">**</span> c)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    log_den <span class="op">=</span> np.log(d) <span class="op">+</span> special.betaln(a, b)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.exp(log_num <span class="op">-</span> log_den)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> WGBP(family, lam<span class="op">=</span><span class="fl">0.25</span>, x0<span class="op">=</span>np.ones(<span class="dv">4</span>), method<span class="op">=</span><span class="st">"Powell"</span>):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Compute parameters for the GBP Approximation</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">    This function finds the closest Generalized Beta Prime (GBP) distribution</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">    to the true pdf of W as measured by the Pearson Chi-squared divergence.</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> family.a</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> family.b</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    tau <span class="op">=</span> np.linspace(<span class="fl">0.01</span>, <span class="fl">0.99</span>, num<span class="op">=</span><span class="dv">500</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> family.ppf(p<span class="op">=</span>tau).flatten()</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    p_W <span class="op">=</span> family.pdf(w<span class="op">=</span>w).flatten()</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Copied from the R implementation because sometimes p_W has NaNs</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> w[<span class="op">~</span>np.isnan(p_W)]</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    p_W <span class="op">=</span> p_W[<span class="op">~</span>np.isnan(p_W)]</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> divergence(log_params):</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        params <span class="op">=</span> np.exp(log_params)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        p_GBP <span class="op">=</span> gbp_pdf(w, <span class="op">*</span>params)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        log_target <span class="op">=</span> np.log(np.array([a, b, <span class="dv">1</span>, <span class="dv">1</span>]))</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        integral <span class="op">=</span> np.<span class="bu">sum</span>((<span class="dv">1</span> <span class="op">-</span> p_GBP <span class="op">/</span> p_W) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        penalty <span class="op">=</span> lam <span class="op">*</span> np.<span class="bu">sum</span>((log_params <span class="op">-</span> log_target) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> integral <span class="op">+</span> penalty</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> minimize(divergence, x0<span class="op">=</span>np.log(x0), method<span class="op">=</span>method)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> result.success:</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.exp(result.x)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">"Minimization didn't converge"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Family(ABC):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">@abstractmethod</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> W_to_R2(<span class="va">self</span>, w):</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Convert W values to R^2</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">        Details are specific to each model family. To be implemented by subclasses.</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">@abstractmethod</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pdf(<span class="va">self</span>, w):</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Probability Density Function (PDF) of W.</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">        Details are specific to each model family. To be implemented by subclasses.</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> cdf(<span class="va">self</span>, w):</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Cumulative Distribution Function (CDF) of W</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">        Computes values of the CDF of W induced by a Beta(a, b) prior on R-squared.</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">        The strategy is to convert W to R-squared and find the CDF of the corresponding R-squared.</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> stats.beta.cdf(<span class="va">self</span>.W_to_R2(w), a<span class="op">=</span><span class="va">self</span>.a, b<span class="op">=</span><span class="va">self</span>.b)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ppf(<span class="va">self</span>, p, bounds<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Quantile Function of W</span></span>
 <span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _find_bounds(<span class="va">self</span>):</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        <span class="co"># </span><span class="al">NOTE</span><span class="co">: Larger upper bounds make it fail sometimes</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>        ub_candidates <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1_000</span>, <span class="dv">10_000</span>, <span class="dv">100_000</span>, <span class="dv">500_000</span>, <span class="dv">1_000_000</span>]</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> candidate <span class="kw">in</span> ub_candidates:</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="va">self</span>.cdf(candidate) <span class="op">&gt;</span> <span class="fl">0.99</span>:</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>        bounds <span class="op">=</span> (<span class="dv">1</span> <span class="op">/</span> <span class="dv">100_000</span>, candidate)</span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> bounds</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PoissonFamily(GenericFamily):</span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, a, b, intercept):</span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.a <span class="op">=</span> a</span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.b <span class="op">=</span> b</span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.intercept <span class="op">=</span> intercept</span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> W_to_R2(<span class="va">self</span>, w):</span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.expm1(w) <span class="op">/</span> (np.expm1(w) <span class="op">+</span> np.exp(<span class="op">-</span><span class="va">self</span>.intercept <span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> w))</span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pdf(<span class="va">self</span>, w):</span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>        a, b, alpha <span class="op">=</span> <span class="va">self</span>.a, <span class="va">self</span>.b, <span class="va">self</span>.intercept</span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>        f1 <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> special.beta(a, b)</span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>        f2_num <span class="op">=</span> np.expm1(w) <span class="op">**</span> (a <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> np.exp(<span class="op">-</span>b <span class="op">*</span> (alpha <span class="op">+</span> w <span class="op">/</span> <span class="dv">2</span>)) <span class="op">*</span> (<span class="dv">3</span> <span class="op">*</span> np.exp(w) <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>        f2_den <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> (np.expm1(w) <span class="op">+</span> np.exp(<span class="op">-</span>alpha <span class="op">-</span> w <span class="op">/</span> <span class="dv">2</span>)) <span class="op">**</span> (a <span class="op">+</span> b)</span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> f1 <span class="op">*</span> (f2_num <span class="op">/</span> f2_den)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">        Computes the quantiles of W induced by a Beta(a, b) prior on R2.</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">        It numerically inverts the CDF of W.</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">        </span><span class="al">NOTE</span><span class="co">: It's quite sensitive to `bounds`.</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> bounds <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Helper to find suitable bonds</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>            ub_candidates <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1_000</span>, <span class="dv">10_000</span>, <span class="dv">100_000</span>, <span class="dv">500_000</span>, <span class="dv">1_000_000</span>]</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> candidate <span class="kw">in</span> ub_candidates:</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="va">self</span>.cdf(candidate) <span class="op">&gt;</span> <span class="fl">0.99</span>:</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">break</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>            bounds <span class="op">=</span> (<span class="dv">1</span> <span class="op">/</span> <span class="dv">100_000</span>, candidate)</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        log_bounds <span class="op">=</span> (np.log(bounds[<span class="dv">0</span>]), np.log(bounds[<span class="dv">1</span>]))</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> ppf_scalar(p):</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>            <span class="kw">def</span> distance(logw):</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> (<span class="va">self</span>.cdf(w<span class="op">=</span>np.exp(logw)) <span class="op">-</span> p) <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>            result <span class="op">=</span> minimize_scalar(distance, bounds<span class="op">=</span>log_bounds)</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>            output <span class="op">=</span> result.x</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> np.exp(output)</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.array([ppf_scalar(p_i) <span class="cf">for</span> p_i <span class="kw">in</span> np.atleast_1d(p)])</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NegativeBinomialFamily(GenericFamily):</span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, a, b, intercept, theta):</span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.a <span class="op">=</span> a</span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.b <span class="op">=</span> b</span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.intercept <span class="op">=</span> intercept</span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.theta <span class="op">=</span> theta</span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> W_to_R2(<span class="va">self</span>, w):</span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.expm1(w) <span class="op">/</span> (np.expm1(w) <span class="op">+</span> <span class="va">self</span>.theta <span class="op">*</span> np.exp(<span class="op">-</span><span class="va">self</span>.intercept <span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> w))</span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pdf(<span class="va">self</span>, w):</span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>        a, b, alpha, theta <span class="op">=</span> <span class="va">self</span>.a, <span class="va">self</span>.b, <span class="va">self</span>.intercept, <span class="va">self</span>.theta</span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>        f1 <span class="op">=</span> theta <span class="op">**</span> b <span class="op">/</span> special.beta(a, b)</span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>        f2_num <span class="op">=</span> np.expm1(w) <span class="op">**</span> (a <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> np.exp(<span class="op">-</span>b <span class="op">*</span> (alpha <span class="op">+</span> w <span class="op">/</span> <span class="dv">2</span>)) <span class="op">*</span> (<span class="dv">3</span> <span class="op">*</span> np.exp(w) <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>        f2_den <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> (np.expm1(w) <span class="op">+</span> theta <span class="op">*</span> np.exp(<span class="op">-</span>alpha <span class="op">-</span> w <span class="op">/</span> <span class="dv">2</span>)) <span class="op">**</span> (a <span class="op">+</span> b)</span>
-<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> f1 <span class="op">*</span> (f2_num <span class="op">/</span> f2_den)</span>
-<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GaussianFamily(GenericFamily):</span>
-<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, a, b, intercept, sigma):</span>
-<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.a <span class="op">=</span> a</span>
-<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.b <span class="op">=</span> b</span>
-<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.intercept <span class="op">=</span> intercept</span>
-<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.sigma <span class="op">=</span> sigma</span>
-<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> W_to_R2(<span class="va">self</span>, w):</span>
-<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> w <span class="op">/</span> (w <span class="op">+</span> <span class="va">self</span>.sigma <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pdf(<span class="va">self</span>, w):</span>
-<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> gbp_pdf_stable(w, <span class="va">self</span>.a, <span class="va">self</span>.b, <span class="dv">1</span>, <span class="va">self</span>.sigma <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LogisticFamily(GenericFamily):</span>
-<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, a, b, intercept):</span>
-<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.a <span class="op">=</span> a</span>
-<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.b <span class="op">=</span> b</span>
-<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.intercept <span class="op">=</span> intercept</span>
-<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _W_to_R2_scalar(<span class="va">self</span>, w, K<span class="op">=</span><span class="dv">1000</span>):</span>
-<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Equation 13 in Yanchenko et al. (2021)</span></span>
-<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>        <span class="co"># We are estimating the integrals via Quasi-Monte Carlo (QMC) integration</span></span>
-<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>        p_grid <span class="op">=</span> np.linspace(<span class="dv">1</span>, K <span class="op">-</span> <span class="dv">1</span>, num<span class="op">=</span>K <span class="op">-</span> <span class="dv">1</span>) <span class="op">/</span> K</span>
-<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a>        eta <span class="op">=</span> stats.norm(loc<span class="op">=</span><span class="va">self</span>.intercept, scale<span class="op">=</span>w <span class="op">**</span> <span class="fl">0.5</span>).ppf(p_grid)</span>
-<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a>        mu <span class="op">=</span> <span class="va">self</span>._mean(eta)</span>
-<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a>        mu_1 <span class="op">=</span> np.mean(mu).item()</span>
-<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>        mu_2 <span class="op">=</span> np.mean(mu <span class="op">**</span> <span class="dv">2</span>).item()</span>
-<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>        sigma_squared <span class="op">=</span> np.mean(<span class="va">self</span>._var(eta)).item()</span>
-<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Usage of M and V comes from Equation 3</span></span>
-<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>        M <span class="op">=</span> mu_2 <span class="op">-</span> mu_1 <span class="op">**</span> <span class="dv">2</span> <span class="co"># E(mu^2) - E(mu)^2</span></span>
-<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>        V <span class="op">=</span> sigma_squared</span>
-<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> M <span class="op">/</span> (M <span class="op">+</span> V)</span>
-<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> W_to_R2(<span class="va">self</span>, w):</span>
-<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Vectorized version of Equation 13 in Yanchenko et al. (2021)</span></span>
-<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.array([<span class="va">self</span>._W_to_R2_scalar(w) <span class="cf">for</span> w <span class="kw">in</span> np.atleast_1d(w)])</span>
-<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pdf(<span class="va">self</span>, w):</span>
-<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Density function of W</span></span>
-<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Computes values of the density function of W induced by a Beta(a, b) prior on R2.</span></span>
-<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>        <span class="co"># The computation uses a numeric approxiation to the derivative of the CDF.</span></span>
-<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>        delta <span class="op">=</span> <span class="fl">0.001</span></span>
-<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>        diff <span class="op">=</span> <span class="va">self</span>.cdf(w<span class="op">=</span>w <span class="op">+</span> delta) <span class="op">-</span> <span class="va">self</span>.cdf(w<span class="op">=</span>w <span class="op">-</span> delta)</span>
-<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> diff <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> delta)</span>
-<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _mean(<span class="va">self</span>, eta):</span>
-<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> special.expit(eta)</span>
-<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _var(<span class="va">self</span>, eta):</span>
-<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a>        mean <span class="op">=</span> <span class="va">self</span>._mean(eta)</span>
-<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mean <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div id="4eff05c5" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> WGBP(family, lam<span class="op">=</span><span class="fl">0.25</span>, x0<span class="op">=</span>np.ones(<span class="dv">4</span>), method<span class="op">=</span><span class="st">"Powell"</span>):</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Compute parameters for the GBP Approximation</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">    This function finds the closest generalized beta prime (GBP) distribution to the true</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">    pdf of W as measured by the Pearson chi-squared divergence.</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    a, b <span class="op">=</span> family.a, family.b</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    tau <span class="op">=</span> np.linspace(<span class="fl">0.01</span>, <span class="fl">0.99</span>, num<span class="op">=</span><span class="dv">500</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> family.ppf(p<span class="op">=</span>tau).flatten()</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    p_W <span class="op">=</span> family.pdf(w<span class="op">=</span>w).flatten()</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Copied from the R implementation because sometimes p_W has NaNs</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> w[<span class="op">~</span>np.isnan(p_W)]</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    f_true <span class="op">=</span> p_W[<span class="op">~</span>np.isnan(p_W)]</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> distance_fun(log_params):</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        params <span class="op">=</span> np.exp(log_params)</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        f_GBP <span class="op">=</span> gbp_pdf_stable(w, <span class="op">*</span>params)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        log_target <span class="op">=</span> np.log(np.array([a, b, <span class="dv">1</span>, <span class="dv">1</span>]))</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        integral <span class="op">=</span> np.<span class="bu">sum</span>((<span class="dv">1</span> <span class="op">-</span> f_GBP <span class="op">/</span> f_true) <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        penalty <span class="op">=</span> lam <span class="op">*</span> np.<span class="bu">sum</span>((log_params <span class="op">-</span> log_target) <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> integral <span class="op">+</span> penalty</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> minimize(distance_fun, x0<span class="op">=</span>np.log(x0), method<span class="op">=</span>method)</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> result.success:</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.exp(result.x)</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">"Minimization didn't converge"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div id="b0972624" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> penalized_divergence(f_true, f_approx, penalty, lam<span class="op">=</span><span class="fl">0.25</span>):</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Penalized Pearson chi-squared divergence</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    integral <span class="op">=</span> np.<span class="bu">sum</span>((<span class="dv">1</span> <span class="op">-</span> f_approx <span class="op">/</span> f_true) <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    penalty <span class="op">=</span> lam <span class="op">*</span> penalty</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> integral <span class="op">+</span> penalty</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PoissonFamily(Family):</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, a, b, intercept):</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.a <span class="op">=</span> a</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.b <span class="op">=</span> b</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.intercept <span class="op">=</span> intercept</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> W_to_R2(<span class="va">self</span>, w):</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.expm1(w) <span class="op">/</span> (np.expm1(w) <span class="op">+</span> np.exp(<span class="op">-</span><span class="va">self</span>.intercept <span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> w))</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pdf(<span class="va">self</span>, w):</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>        a, b, alpha <span class="op">=</span> <span class="va">self</span>.a, <span class="va">self</span>.b, <span class="va">self</span>.intercept</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>        f1 <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> special.beta(a, b)</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>        f2_num <span class="op">=</span> np.expm1(w) <span class="op">**</span> (a <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> np.exp(<span class="op">-</span>b <span class="op">*</span> (alpha <span class="op">+</span> w <span class="op">/</span> <span class="dv">2</span>)) <span class="op">*</span> (<span class="dv">3</span> <span class="op">*</span> np.exp(w) <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>        f2_den <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> (np.expm1(w) <span class="op">+</span> np.exp(<span class="op">-</span>alpha <span class="op">-</span> w <span class="op">/</span> <span class="dv">2</span>)) <span class="op">**</span> (a <span class="op">+</span> b)</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> f1 <span class="op">*</span> (f2_num <span class="op">/</span> f2_den)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="examples" class="level2">
 <h2 class="anchored" data-anchor-id="examples">Examples</h2>
-<div id="3e7c71d3" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pl.read_csv(<span class="st">"data/paper_approximations.csv"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<div><style>
-.dataframe > thead > tr,
-.dataframe > tbody > tr {
-  text-align: right;
-  white-space: pre-wrap;
-}
-</style>
-<small>shape: (45, 8)</small>
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th">beta_0</th>
-<th data-quarto-table-cell-role="th">a</th>
-<th data-quarto-table-cell-role="th">b</th>
-<th data-quarto-table-cell-role="th">a_star</th>
-<th data-quarto-table-cell-role="th">b_star</th>
-<th data-quarto-table-cell-role="th">c_star</th>
-<th data-quarto-table-cell-role="th">d_star</th>
-<th data-quarto-table-cell-role="th">family</th>
-</tr>
-<tr class="even">
-<td>i64</td>
-<td>f64</td>
-<td>f64</td>
-<td>f64</td>
-<td>f64</td>
-<td>f64</td>
-<td>f64</td>
-<td>str</td>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>-2</td>
-<td>0.5</td>
-<td>0.5</td>
-<td>0.19</td>
-<td>0.77</td>
-<td>4.22</td>
-<td>3.17</td>
-<td>"poisson"</td>
-</tr>
-<tr class="even">
-<td>-2</td>
-<td>0.5</td>
-<td>0.5</td>
-<td>0.48</td>
-<td>0.22</td>
-<td>1.23</td>
-<td>1.78</td>
-<td>"logistic"</td>
-</tr>
-<tr class="odd">
-<td>-2</td>
-<td>0.5</td>
-<td>0.5</td>
-<td>0.21</td>
-<td>0.74</td>
-<td>4.78</td>
-<td>3.49</td>
-<td>"negative binomial"</td>
-</tr>
-<tr class="even">
-<td>-2</td>
-<td>1.0</td>
-<td>1.0</td>
-<td>0.42</td>
-<td>1.5</td>
-<td>3.75</td>
-<td>2.56</td>
-<td>"poisson"</td>
-</tr>
-<tr class="odd">
-<td>-2</td>
-<td>1.0</td>
-<td>1.0</td>
-<td>1.45</td>
-<td>0.51</td>
-<td>0.99</td>
-<td>1.74</td>
-<td>"logistic"</td>
-</tr>
-<tr class="even">
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>4.0</td>
-<td>1.0</td>
-<td>8.21</td>
-<td>0.65</td>
-<td>0.74</td>
-<td>1.49</td>
-<td>"logistic"</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>4.0</td>
-<td>1.0</td>
-<td>2.16</td>
-<td>2.78</td>
-<td>1.35</td>
-<td>0.87</td>
-<td>"negative binomial"</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>4.0</td>
-<td>4.0</td>
-<td>3.66</td>
-<td>9.86</td>
-<td>0.97</td>
-<td>0.36</td>
-<td>"poisson"</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>4.0</td>
-<td>4.0</td>
-<td>8.15</td>
-<td>2.18</td>
-<td>0.88</td>
-<td>1.57</td>
-<td>"logistic"</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>4.0</td>
-<td>4.0</td>
-<td>2.92</td>
-<td>6.44</td>
-<td>1.24</td>
-<td>0.43</td>
-<td>"negative binomial"</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="2953ddc2" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_w_approximations(rows_dict, family, <span class="op">**</span>family_kwargs):</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> format_params(params):</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        names <span class="op">=</span> [<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span>]</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"$"</span> <span class="op">+</span> <span class="st">", "</span>.join(<span class="ss">f"</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">^*:</span><span class="sc">{</span>p<span class="sc">:.2f}</span><span class="ss">"</span> <span class="cf">for</span> n, p <span class="kw">in</span> <span class="bu">zip</span>(names, params)) <span class="op">+</span> <span class="st">"$"</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    fig, axes <span class="op">=</span> plt.subplots(<span class="dv">5</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">15</span>), layout<span class="op">=</span><span class="st">"constrained"</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ax, row <span class="kw">in</span> <span class="bu">zip</span>(axes.ravel(), rows_dict):</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        a <span class="op">=</span> row[<span class="st">"a"</span>]</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        b <span class="op">=</span> row[<span class="st">"b"</span>]</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        intercept <span class="op">=</span> row[<span class="st">"beta_0"</span>]</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        a_star <span class="op">=</span> row[<span class="st">"a_star"</span>]</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        b_star <span class="op">=</span> row[<span class="st">"b_star"</span>]</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        c_star <span class="op">=</span> row[<span class="st">"c_star"</span>]</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        d_star <span class="op">=</span> row[<span class="st">"d_star"</span>]</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        family_obj <span class="op">=</span> family(a<span class="op">=</span>a, b<span class="op">=</span>b, intercept<span class="op">=</span>intercept, <span class="op">**</span>family_kwargs)</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># </span><span class="al">NOTE</span><span class="co">: This is a patch...|</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>        w_lower <span class="op">=</span> family_obj.ppf(<span class="fl">0.005</span>).item()</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>        w_upper <span class="op">=</span> family_obj.ppf(<span class="fl">0.995</span>).item()</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>        w_upper <span class="op">=</span> <span class="bu">min</span>(w_upper, <span class="dv">250</span>)</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>        w <span class="op">=</span> np.linspace(w_lower, w_upper, num<span class="op">=</span><span class="dv">500</span>)</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>        params <span class="op">=</span> WGBP(family_obj, lam<span class="op">=</span><span class="fl">0.25</span>)</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>        w_gbp_pdf <span class="op">=</span> gbp_pdf_stable(w, <span class="op">*</span>params)</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>        w_gbp_paper_pdf <span class="op">=</span> gbp_pdf_stable(w, a_star, b_star, c_star, d_star)</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>        w_pdf <span class="op">=</span> family_obj.pdf(w<span class="op">=</span>w)</span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>        divergence_own <span class="op">=</span> penalized_divergence(</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>            w_pdf,</span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>            w_gbp_pdf,</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>            penalty<span class="op">=</span>np.<span class="bu">sum</span>((np.log(params) <span class="op">-</span> np.log([a, b, <span class="dv">1</span>, <span class="dv">1</span>])) <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>        divergence_paper <span class="op">=</span> penalized_divergence(</span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>            w_pdf,</span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>            w_gbp_paper_pdf,</span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>            penalty<span class="op">=</span>np.<span class="bu">sum</span>((np.log([a_star, b_star, c_star, d_star]) <span class="op">-</span> np.log([a, b, <span class="dv">1</span>, <span class="dv">1</span>])) <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>        ax.plot(w, w_pdf, label<span class="op">=</span><span class="st">"True"</span>)</span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>        ax.plot(w, w_gbp_pdf, label<span class="op">=</span><span class="ss">f"Approx [own] (d=</span><span class="sc">{</span>divergence_own<span class="sc">:.2f}</span><span class="ss">)"</span>)</span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>        ax.plot(w, w_gbp_paper_pdf, color<span class="op">=</span><span class="st">"0.3"</span>, ls<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="ss">f"Approx [paper] (d=</span><span class="sc">{</span>divergence_paper<span class="sc">:.2f}</span><span class="ss">)"</span>)</span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>        ax.set_title(</span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>            format_params(params) <span class="op">+</span> <span class="st">" [own]</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>            <span class="op">+</span> format_params((a_star, b_star, c_star, d_star)) <span class="op">+</span> <span class="st">" [paper]"</span>,</span>
-<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>            loc<span class="op">=</span><span class="st">"left"</span></span>
-<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>        ax.legend(title<span class="op">=</span><span class="ss">f"a=</span><span class="sc">{</span>a<span class="sc">}</span><span class="ss">, b=</span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig, axes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <section id="poisson" class="level3">
 <h3 class="anchored" data-anchor-id="poisson">Poisson</h3>
-<div id="9fc77e73" class="cell" data-execution_count="73">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> format_params(params):</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    names <span class="op">=</span> [<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span>]</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"$"</span> <span class="op">+</span> <span class="st">", "</span>.join(<span class="ss">f"</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">^*=</span><span class="sc">{</span>p<span class="sc">:.2f}</span><span class="ss">"</span> <span class="cf">for</span> n, p <span class="kw">in</span> <span class="bu">zip</span>(names, params)) <span class="op">+</span> <span class="st">"$"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>TO DO: Formulas from the paper</p>
+<div id="quarto-carousel-1" class="carousel carousel-dark slide carousel-framed" data-bs-ride="false">
+<div class="carousel-indicators">
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="0" class=" active" aria-current="true" aria-label="Slide 1"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="1" class="" aria-label="Slide 2"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="2" class="" aria-label="Slide 3"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="3" class="" aria-label="Slide 4"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="4" class="" aria-label="Slide 5"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="5" class="" aria-label="Slide 6"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="6" class="" aria-label="Slide 7"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="7" class="" aria-label="Slide 8"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="8" class="" aria-label="Slide 9"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="9" class="" aria-label="Slide 10"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="10" class="" aria-label="Slide 11"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="11" class="" aria-label="Slide 12"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="12" class="" aria-label="Slide 13"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="13" class="" aria-label="Slide 14"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="14" class="" aria-label="Slide 15"></button>
+  
 </div>
-<div id="6a8900da" class="cell" data-execution_count="93">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>family_obj <span class="op">=</span> PoissonFamily(<span class="dv">4</span>, <span class="dv">4</span>, <span class="op">-</span><span class="dv">2</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>a, b <span class="op">=</span> <span class="dv">4</span>, <span class="dv">4</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>w_lower <span class="op">=</span> family_obj.ppf(<span class="fl">0.005</span>).item()</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>w_upper <span class="op">=</span> family_obj.ppf(<span class="fl">0.995</span>).item()</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>w_upper <span class="op">=</span> <span class="bu">min</span>(w_upper, <span class="dv">250</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> np.linspace(w_lower, w_upper, num<span class="op">=</span><span class="dv">500</span>)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>params_own <span class="op">=</span> WGBP(family_obj)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>params_paper <span class="op">=</span> [<span class="fl">2.00</span>, <span class="fl">6.38</span> ,<span class="fl">3.14</span>, <span class="fl">2.25</span>]</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>pdf_own <span class="op">=</span> gbp_pdf_stable(w, <span class="op">*</span>params_own)</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>pdf_paper <span class="op">=</span> gbp_pdf_stable(w, <span class="op">*</span>params_paper)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>w_pdf <span class="op">=</span> family_obj.pdf(w<span class="op">=</span>w)</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>divergence_own <span class="op">=</span> penalized_divergence(</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    w_pdf,</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    pdf_own,</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    penalty<span class="op">=</span>np.<span class="bu">sum</span>((np.log(params_own) <span class="op">-</span> np.log([a, b, <span class="dv">1</span>, <span class="dv">1</span>])) <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>divergence_paper <span class="op">=</span> penalized_divergence(</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    w_pdf,</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    pdf_paper,</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    penalty<span class="op">=</span>np.<span class="bu">sum</span>((np.log(params_paper) <span class="op">-</span> np.log([a, b, <span class="dv">1</span>, <span class="dv">1</span>])) <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>), tight_layout<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>ax.plot(w, pdf_paper, label<span class="op">=</span><span class="st">"Paper"</span>)</span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>ax.plot(w, pdf_own, label<span class="op">=</span><span class="st">"Own"</span>)</span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>ax.plot(w, w_pdf, color<span class="op">=</span><span class="st">"0.3"</span>, ls<span class="op">=</span><span class="st">"--"</span>)</span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>s_list <span class="op">=</span> [</span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"$</span><span class="ch">\\</span><span class="st">bf</span><span class="sc">{Approximations}</span><span class="st">$"</span>,</span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    format_params(params_paper) <span class="op">+</span> <span class="st">" [paper]"</span>,</span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    format_params(params_own) <span class="op">+</span> <span class="st">" [own]"</span>,</span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"$</span><span class="ch">\\</span><span class="st">bf</span><span class="sc">{Divergences}</span><span class="st">$"</span>,</span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="sc">{</span>divergence_paper<span class="sc">:.2f}</span><span class="ss"> [paper] vs "</span> <span class="op">+</span> <span class="ss">f"</span><span class="sc">{</span>divergence_own<span class="sc">:.2f}</span><span class="ss"> [own]"</span>,</span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>ax.text(</span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="dv">0</span>,</span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="fl">1.025</span>,</span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>    s<span class="op">=</span><span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(s_list),</span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">"left"</span>,</span>
-<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>    size<span class="op">=</span><span class="dv">11</span>,</span>
-<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>ax.transAxes</span>
-<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>ax.text(</span>
-<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="fl">1.025</span>,</span>
-<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>    s<span class="op">=</span><span class="st">"$R^2 </span><span class="ch">\\</span><span class="st">sim </span><span class="ch">\\</span><span class="st">text</span><span class="sc">{Beta}</span><span class="st">(4, 4)$"</span>,</span>
-<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">"right"</span>,</span>
-<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>    size<span class="op">=</span><span class="dv">13</span>,</span>
-<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>ax.transAxes</span>
-<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"W"</span>, yticks<span class="op">=</span>[])</span>
-<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>ax.legend()<span class="op">;</span></span>
-<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a>fig.savefig(<span class="st">"asd.png"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<div class="carousel-inner">
+<div class="carousel-item active no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
 </div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-1.0_b-1.0_intercept--2.png" class="d-block mx-auto">
 </div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-1.0_b-4.0_intercept--2.png" class="d-block mx-auto">
 </div>
-<div id="8fb4e102" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_w_apprximations(w, pdfs, title<span class="op">=</span><span class="st">""</span>, figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">3</span>)):</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>figsize)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> label, pdf <span class="kw">in</span> pdfs.items():</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        ax.plot(w, pdf, label<span class="op">=</span>label)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    ax.set_title(title)</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    ax.legend()</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig, ax</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-4.0_b-1.0_intercept--2.png" class="d-block mx-auto">
 </div>
-<div id="fd7d1aa8" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>rows_dict <span class="op">=</span> df.<span class="bu">filter</span>(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"family"</span>) <span class="op">==</span> <span class="st">"poisson"</span>,</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"beta_0"</span>) <span class="op">==</span> <span class="op">-</span><span class="dv">2</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>).to_dicts()</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plot_w_approximations(rows_dict, PoissonFamily)<span class="op">;</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Family: Poisson, Intercept: -2"</span>, y<span class="op">=</span><span class="fl">1.05</span>, fontsize<span class="op">=</span><span class="dv">16</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-4.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-0.5_b-0.5_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-1.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-1.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-4.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-4.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-1.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-1.0_b-4.0_intercept-2.png" class="d-block mx-auto">
+<div class="carousel-caption d-none d-md-block">
+<p>I suspect there's a transcription error in the paper for this
+example</p>
 </div>
 </div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-4.0_b-1.0_intercept-2.png" class="d-block mx-auto">
 </div>
-<div id="d63f3465" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>rows_dict <span class="op">=</span> df.<span class="bu">filter</span>(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"family"</span>) <span class="op">==</span> <span class="st">"poisson"</span>,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"beta_0"</span>) <span class="op">==</span> <span class="dv">0</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>).to_dicts()</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plot_w_approximations(rows_dict, PoissonFamily)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Family: Poisson, Intercept: 0"</span>, y<span class="op">=</span><span class="fl">1.05</span>, fontsize<span class="op">=</span><span class="dv">16</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-4.0_b-4.0_intercept-2.png" class="d-block mx-auto">
 </div>
 </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#quarto-carousel-1" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+      </button>
+    
+      <button class="carousel-control-next" type="button" data-bs-target="#quarto-carousel-1" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+      </button>
+    
 </div>
-<div id="10337912" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>rows_dict <span class="op">=</span> df.<span class="bu">filter</span>(</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"family"</span>) <span class="op">==</span> <span class="st">"poisson"</span>,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"beta_0"</span>) <span class="op">==</span> <span class="dv">2</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>).to_dicts()</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plot_w_approximations(rows_dict, PoissonFamily)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Family: Poisson, Intercept: 0"</span>, y<span class="op">=</span><span class="fl">1.05</span>, fontsize<span class="op">=</span><span class="dv">16</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+</section>
+<section id="negative-binomial" class="level3">
+<h3 class="anchored" data-anchor-id="negative-binomial">Negative Binomial</h3>
+<p>TO DO: Formulas from the paper</p>
+<div id="quarto-carousel-2" class="carousel carousel-dark slide carousel-framed" data-bs-ride="false">
+<div class="carousel-indicators">
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="0" class=" active" aria-current="true" aria-label="Slide 1"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="1" class="" aria-label="Slide 2"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="2" class="" aria-label="Slide 3"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="3" class="" aria-label="Slide 4"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="4" class="" aria-label="Slide 5"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="5" class="" aria-label="Slide 6"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="6" class="" aria-label="Slide 7"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="7" class="" aria-label="Slide 8"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="8" class="" aria-label="Slide 9"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="9" class="" aria-label="Slide 10"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="10" class="" aria-label="Slide 11"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="11" class="" aria-label="Slide 12"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="12" class="" aria-label="Slide 13"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="13" class="" aria-label="Slide 14"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="14" class="" aria-label="Slide 15"></button>
+  
+</div>
+<div class="carousel-inner">
+<div class="carousel-item active no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-1.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-1.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-4.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-4.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-0.5_b-0.5_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-1.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-1.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-4.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-4.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-1.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-1.0_b-4.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-4.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-4.0_b-4.0_intercept-2.png" class="d-block mx-auto">
 </div>
 </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#quarto-carousel-2" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+      </button>
+    
+      <button class="carousel-control-next" type="button" data-bs-target="#quarto-carousel-2" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+      </button>
+    
 </div>
 </section>
 <section id="logistic" class="level3">
 <h3 class="anchored" data-anchor-id="logistic">Logistic</h3>
-<div id="d07b2229" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>rows_dict <span class="op">=</span> df.<span class="bu">filter</span>(</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"family"</span>) <span class="op">==</span> <span class="st">"logistic"</span>,</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"beta_0"</span>) <span class="op">==</span> <span class="op">-</span><span class="dv">2</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>).to_dicts()</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plot_w_approximations(rows_dict, LogisticFamily)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Family: Logistic, Intercept: -2"</span>, y<span class="op">=</span><span class="fl">1.05</span>, fontsize<span class="op">=</span><span class="dv">16</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_96055/4149930673.py:98: RuntimeWarning: invalid value encountered in scalar power
-  eta = stats.norm(loc=self.intercept, scale=w ** 0.5).ppf(p_grid)</code></pre>
+<p>TO DO: Formulas from the paper? No closed form expression available</p>
+<div id="quarto-carousel-3" class="carousel carousel-dark slide carousel-framed" data-bs-ride="false">
+<div class="carousel-indicators">
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="0" class=" active" aria-current="true" aria-label="Slide 1"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="1" class="" aria-label="Slide 2"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="2" class="" aria-label="Slide 3"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="3" class="" aria-label="Slide 4"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="4" class="" aria-label="Slide 5"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="5" class="" aria-label="Slide 6"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="6" class="" aria-label="Slide 7"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="7" class="" aria-label="Slide 8"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="8" class="" aria-label="Slide 9"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="9" class="" aria-label="Slide 10"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="10" class="" aria-label="Slide 11"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="11" class="" aria-label="Slide 12"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="12" class="" aria-label="Slide 13"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="13" class="" aria-label="Slide 14"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="14" class="" aria-label="Slide 15"></button>
+  
+</div>
+<div class="carousel-inner">
+<div class="carousel-item active no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-1.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-1.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-4.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-4.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-0.5_b-0.5_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-1.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-1.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-4.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-4.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-1.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-1.0_b-4.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-4.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-4.0_b-4.0_intercept-2.png" class="d-block mx-auto">
 </div>
 </div>
-<div id="9862960d" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>rows_dict <span class="op">=</span> df.<span class="bu">filter</span>(</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"family"</span>) <span class="op">==</span> <span class="st">"logistic"</span>,</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"beta_0"</span>) <span class="op">==</span> <span class="dv">0</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>).to_dicts()</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plot_w_approximations(rows_dict, LogisticFamily)</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Family: Logistic, Intercept: 0"</span>, y<span class="op">=</span><span class="fl">1.05</span>, fontsize<span class="op">=</span><span class="dv">16</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_71151/4149930673.py:98: RuntimeWarning: invalid value encountered in scalar power
-  eta = stats.norm(loc=self.intercept, scale=w ** 0.5).ppf(p_grid)</code></pre>
+      <button class="carousel-control-prev" type="button" data-bs-target="#quarto-carousel-3" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+      </button>
+    
+      <button class="carousel-control-next" type="button" data-bs-target="#quarto-carousel-3" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+      </button>
+    
 </div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-17-output-2.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="467e24fe" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>rows_dict <span class="op">=</span> df.<span class="bu">filter</span>(</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"family"</span>) <span class="op">==</span> <span class="st">"logistic"</span>,</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"beta_0"</span>) <span class="op">==</span> <span class="dv">2</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>).to_dicts()</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plot_w_approximations(rows_dict, LogisticFamily)</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Family: Logistic, Intercept: 2"</span>, y<span class="op">=</span><span class="fl">1.05</span>, fontsize<span class="op">=</span><span class="dv">16</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_71151/4149930673.py:98: RuntimeWarning: invalid value encountered in scalar power
-  eta = stats.norm(loc=self.intercept, scale=w ** 0.5).ppf(p_grid)</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-18-output-2.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Isn’t it better to use values of ‘a’ and ‘b’ that are above 1 in both cases? See for example</p>
-<div id="7cd081d5" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fig, axes = plt.subplots(2, 3, figsize=(15, 8), layout="constrained")</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ab_pairs = ((1.5, 1.5), (10, 2), (2, 10), (6, 6), (20, 20), (20, 2))</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># intercept = 2</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># for ax, (a, b) in zip(axes.ravel(), ab_pairs):</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     family = LogisticFamily(a=a, b=b, intercept=intercept)</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     params = WGBP(family, lam=0.25)</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     w = np.linspace(0.01, family.ppf(0.9).item(), num=500)</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     w_gbp_pdf = gbp_pdf_stable(w, *params)</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.plot(w, w_gbp_pdf, label="GBP Approx");</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.set(title=f"a={a}, b={b}\n" + format_params(params))</span></span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     ax.legend()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="negative-binomial-family" class="level3">
-<h3 class="anchored" data-anchor-id="negative-binomial-family">Negative Binomial family</h3>
-<div id="90f8bad0" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="82">
-<div><style>
-.dataframe > thead > tr,
-.dataframe > tbody > tr {
-  text-align: right;
-  white-space: pre-wrap;
-}
-</style>
-<small>shape: (45, 8)</small>
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th">beta_0</th>
-<th data-quarto-table-cell-role="th">a</th>
-<th data-quarto-table-cell-role="th">b</th>
-<th data-quarto-table-cell-role="th">a_star</th>
-<th data-quarto-table-cell-role="th">b_star</th>
-<th data-quarto-table-cell-role="th">c_star</th>
-<th data-quarto-table-cell-role="th">d_star</th>
-<th data-quarto-table-cell-role="th">family</th>
-</tr>
-<tr class="even">
-<td>i64</td>
-<td>f64</td>
-<td>f64</td>
-<td>f64</td>
-<td>f64</td>
-<td>f64</td>
-<td>f64</td>
-<td>str</td>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>-2</td>
-<td>0.5</td>
-<td>0.5</td>
-<td>0.19</td>
-<td>0.77</td>
-<td>4.22</td>
-<td>3.17</td>
-<td>"poisson"</td>
-</tr>
-<tr class="even">
-<td>-2</td>
-<td>0.5</td>
-<td>0.5</td>
-<td>0.48</td>
-<td>0.22</td>
-<td>1.23</td>
-<td>1.78</td>
-<td>"logistic"</td>
-</tr>
-<tr class="odd">
-<td>-2</td>
-<td>0.5</td>
-<td>0.5</td>
-<td>0.21</td>
-<td>0.74</td>
-<td>4.78</td>
-<td>3.49</td>
-<td>"negative binomial"</td>
-</tr>
-<tr class="even">
-<td>-2</td>
-<td>1.0</td>
-<td>1.0</td>
-<td>0.42</td>
-<td>1.5</td>
-<td>3.75</td>
-<td>2.56</td>
-<td>"poisson"</td>
-</tr>
-<tr class="odd">
-<td>-2</td>
-<td>1.0</td>
-<td>1.0</td>
-<td>1.45</td>
-<td>0.51</td>
-<td>0.99</td>
-<td>1.74</td>
-<td>"logistic"</td>
-</tr>
-<tr class="even">
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>4.0</td>
-<td>1.0</td>
-<td>8.21</td>
-<td>0.65</td>
-<td>0.74</td>
-<td>1.49</td>
-<td>"logistic"</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>4.0</td>
-<td>1.0</td>
-<td>2.16</td>
-<td>2.78</td>
-<td>1.35</td>
-<td>0.87</td>
-<td>"negative binomial"</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>4.0</td>
-<td>4.0</td>
-<td>3.66</td>
-<td>9.86</td>
-<td>0.97</td>
-<td>0.36</td>
-<td>"poisson"</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>4.0</td>
-<td>4.0</td>
-<td>8.15</td>
-<td>2.18</td>
-<td>0.88</td>
-<td>1.57</td>
-<td>"logistic"</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>4.0</td>
-<td>4.0</td>
-<td>2.92</td>
-<td>6.44</td>
-<td>1.24</td>
-<td>0.43</td>
-<td>"negative binomial"</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="03a5d65c" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>rows_dict <span class="op">=</span> df.<span class="bu">filter</span>(</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"family"</span>) <span class="op">==</span> <span class="st">"negative binomial"</span>,</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"beta_0"</span>) <span class="op">==</span> <span class="op">-</span><span class="dv">2</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>).to_dicts()</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plot_w_approximations(rows_dict, NegativeBinomialFamily, theta<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Family: Negative Binomial, Intercept: -2"</span>, y<span class="op">=</span><span class="fl">1.05</span>, fontsize<span class="op">=</span><span class="dv">16</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_71151/1913648031.py:11: RuntimeWarning: overflow encountered in power
-  - (a + b) * np.log1p((x / d) ** c)</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-21-output-2.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="ef276816" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>rows_dict <span class="op">=</span> df.<span class="bu">filter</span>(</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"family"</span>) <span class="op">==</span> <span class="st">"negative binomial"</span>,</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"beta_0"</span>) <span class="op">==</span> <span class="dv">0</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>).to_dicts()</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plot_w_approximations(rows_dict, NegativeBinomialFamily, theta<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Family: Negative Binomial, Intercept: 0"</span>, y<span class="op">=</span><span class="fl">1.05</span>, fontsize<span class="op">=</span><span class="dv">16</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="b0ded9f8" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>rows_dict <span class="op">=</span> df.<span class="bu">filter</span>(</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"family"</span>) <span class="op">==</span> <span class="st">"negative binomial"</span>,</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    pl.col(<span class="st">"beta_0"</span>) <span class="op">==</span> <span class="dv">2</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>).to_dicts()</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plot_w_approximations(rows_dict, NegativeBinomialFamily, theta<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Family: Negative Binomial, Intercept: 2"</span>, y<span class="op">=</span><span class="fl">1.05</span>, fontsize<span class="op">=</span><span class="dv">16</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-23-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
+
 
 
 </section>
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Yanchenko2024" class="csl-entry" role="listitem">
+Yanchenko, Eric, Howard D. Bondell, and Brian J. Reich. 2024. <span>“The R2D2 Prior for Generalized Linear Mixed Models.”</span> <em>The American Statistician</em> 79 (1): 40–49. <a href="https://doi.org/10.1080/00031305.2024.2352010">https://doi.org/10.1080/00031305.2024.2352010</a>.
+</div>
+<div id="ref-Zhang2020" class="csl-entry" role="listitem">
+Zhang, Y. D., B. P. Naughton, H. D. Bondell, and B. J. Reich. 2020. <span>“Bayesian Regression Using a Prior on the Model Fit: The R2-D2 Shrinkage Prior.”</span> <em>Journal of the American Statistical Association</em> 117. <a href="https://doi.org/10.1080/01621459.2020.1825449">https://doi.org/10.1080/01621459.2020.1825449</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

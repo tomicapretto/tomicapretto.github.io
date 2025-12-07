@@ -19,78 +19,82 @@
 
 
 
-<section id="r2-for-bayesian-regression-models" class="level2">
-<h2 class="anchored" data-anchor-id="r2-for-bayesian-regression-models"><img src="https://latex.codecogs.com/png.latex?R%5E2"> for Bayesian regression models</h2>
-<p>In <a href="https://www.tandfonline.com/doi/abs/10.1080/00031305.2018.1549100">R-squared for Bayesian Regression Models</a> by Gelman et al.&nbsp;(2018), the authors propose a generalization of the classical coefficient of determination <img src="https://latex.codecogs.com/png.latex?R%5E2"> to Bayesian regression models.</p>
-<p>The coefficient of determination they propose is defined as:</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cfrac%7B%5Ctext%7BExplained%20variance%7D%7D%7B%5Ctext%7BExplained%20variance%7D%20+%20%5Ctext%7BResidual%20variance%7D%7D%20=%20%5Cfrac%7B%5Ctext%7Bvar%7D_%5Ctext%7Bfit%7D%7D%7B%5Ctext%7Bvar%7D_%5Ctext%7Bfit%7D%20+%20%5Ctext%7Bvar%7D_%5Ctext%7Bres%7D%7D%0A"></p>
-<p>where <img src="https://latex.codecogs.com/png.latex?%5Ctext%7Bvar%7D_%5Ctext%7Bfit%7D"> and <img src="https://latex.codecogs.com/png.latex?%5Ctext%7Bvar%7D_%5Ctext%7Bres%7D"> are computed as:</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0A%5Ctext%7Bvar%7D_%5Ctext%7Bfit%7D%20&amp;=%20%5Ctext%7BV%7D%5Cleft(%5Cmathbb%7BE%7D(%5Ctilde%7By%7D_i%20%5Cmid%20%5Cboldsymbol%7Bx%7D_i,%20%5Cboldsymbol%7B%5Ctheta%7D)%5Cright)%20=%20%20%5Ctext%7BV%7D%20%5Cleft(y_i%5E%5Ctext%7Bpred%7D%5Cright)%20%5C%5C%0A%5Ctext%7Bvar%7D_%5Ctext%7Bres%7D%20&amp;=%20%5Ctext%7BM%7D%5Cleft(%5Cmathbb%7BV%7D%5Cleft(%5Ctilde%7By%7D_i%20-%20y_i%5E%5Ctext%7Bpred%7D%20%5Cmid%20%5Cboldsymbol%7Bx%7D_i,%20%5Cboldsymbol%7B%5Ctheta%7D%5Cright)%20%5Cright)%0A%5Cend%7Baligned%7D%0A"></p>
-<p>where <img src="https://latex.codecogs.com/png.latex?M"> and <img src="https://latex.codecogs.com/png.latex?V"> denote the sample mean and variance operators, respectively.</p>
-<p>The first term is the variance of the expectation of future data and the second one is the expected variance of future residuals.</p>
-<p>This Bayesian <img src="https://latex.codecogs.com/png.latex?R%5E2"> is conditional on the explanatory variables and the model parameters <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7B%5Ctheta%7D">. For this reason, this <img src="https://latex.codecogs.com/png.latex?R%5E2"> is proposed as an <em>a posteriori</em> mesasure of model fit.</p>
-<p>If we have draws from the posterior distribution, we can compute the Bayesian <img src="https://latex.codecogs.com/png.latex?R%5E2"> for each draw.</p>
-<section id="common-cases" class="level3">
-<h3 class="anchored" data-anchor-id="common-cases">Common cases</h3>
-<p>In the case of normal regression models, the components of the Bayesian <img src="https://latex.codecogs.com/png.latex?R%5E2"> simplify to:</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0A%5Ctext%7Bvar%7D_%5Ctext%7Bfit%7D%20&amp;=%20%5Ctext%7BV%7D(%5Cmu_i)%20%5C%5C%0A%5Ctext%7Bvar%7D_%5Ctext%7Bres%7D%20&amp;=%20%5Csigma%5E2%0A%5Cend%7Baligned%7D%0A"></p>
-<p>where <img src="https://latex.codecogs.com/png.latex?%5Cmu_i%20=%20%5Cboldsymbol%7Bx%7D_i%5ET%20%5Cboldsymbol%7B%5Cbeta%7D">.</p>
-<p>And for logistic regression models, they become:</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0A%5Ctext%7Bvar%7D_%5Ctext%7Bfit%7D%20&amp;=%20%5Ctext%7BV%7D(%5Cpi_i)%20%5C%5C%0A%5Ctext%7Bvar%7D_%5Ctext%7Bres%7D%20&amp;=%20%5Ctext%7BM%7D(%5Cpi_i%20(1%20-%20%5Cpi_i))%0A%5Cend%7Baligned%7D%0A"></p>
-<p>where <img src="https://latex.codecogs.com/png.latex?%5Cpi_i%20=%20%5Ctext%7Bexpit%7D(%5Cboldsymbol%7Bx%7D_i%5ET%20%5Cboldsymbol%7B%5Cbeta%7D)">.</p>
-</section>
-</section>
-<section id="the-r2-d2-prior" class="level2">
-<h2 class="anchored" data-anchor-id="the-r2-d2-prior">The R2-D2 prior</h2>
-<p>The R2-D2 prior for normal regression models has been introduced in the paper <a href="https://arxiv.org/abs/1609.00046">Bayesian Regression Using a Prior on the Model Fit: The R2-D2 Shrinkage Prior</a> by Zhang et al.&nbsp;(2016).</p>
+<section id="r2-d2-for-normal-regression" class="level2">
+<h2 class="anchored" data-anchor-id="r2-d2-for-normal-regression">R2-D2 for normal regression</h2>
+<p>The R2-D2 prior for normal regression models has been introduced in <span class="citation" data-cites="Zhang2020">Zhang et al. (2020)</span>.</p>
 <p>Consider the normal regression model:</p>
 <p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0AY_i%20%5Cmid%20%5Cmu_i,%20%5Csigma%5E2%20&amp;%5Cunderset%7Biid%7D%7B%5Csim%7D%20%5Ctext%7BNormal%7D(%5Cmu_i,%20%5Csigma%5E2)%20%5C%5C%0A%5Cmu_i%20&amp;=%20%5Calpha%20+%20%5Cbeta_1%20X_%7B1i%7D%20+%20%5Cbeta_2%20X_%7B2i%7D%20+%20%5Cdots%20+%20%5Cbeta_p%20X_%7Bpi%7D%20%5C%5C%0A&amp;=%20%5Calpha%20+%20%5Cboldsymbol%7BX%7D%5Cboldsymbol%7B%5Cbeta%7D%0A%5Cend%7Baligned%7D%0A"></p>
-<p>where <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7BX%7D"> is the <img src="https://latex.codecogs.com/png.latex?n%20%5Ctimes%20p"> design matrix (without the intercept), <img src="https://latex.codecogs.com/png.latex?%5Calpha"> is the intercept term, and <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7B%5Cbeta%7D">, of length <img src="https://latex.codecogs.com/png.latex?p">, is the vector of coefficients.</p>
-<p>The central idea in the R2-D2 prior is to place a prior directly on the coefficient of determination <img src="https://latex.codecogs.com/png.latex?R%5E2">. For the purpose of defining prior distributions, however, Zhang et al.&nbsp;work with the <strong>marginal</strong> coefficient of determination: a version of <img src="https://latex.codecogs.com/png.latex?R%5E2"> that averages over both the design matrix <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7BX%7D"> and the regression coefficients <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7B%5Cbeta%7D">, rather than the conditional coefficient of determination proposed by Gelman et al, that we mentioned above.</p>
+<p>where <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7BX%7D"> is the <img src="https://latex.codecogs.com/png.latex?n%20%5Ctimes%20p"> design matrix, <img src="https://latex.codecogs.com/png.latex?%5Calpha"> is the intercept term, and <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7B%5Cbeta%7D"> is the vector of coefficients.</p>
+<p>The central idea in the R2-D2 prior is to place a prior directly on the coefficient of determination <img src="https://latex.codecogs.com/png.latex?R%5E2">. For the purpose of defining prior distributions, the authors work with the <strong>marginal</strong> coefficient of determination: a version of <img src="https://latex.codecogs.com/png.latex?R%5E2"> that averages over both the design matrix <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7BX%7D"> and the regression coefficients <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7B%5Cbeta%7D">.</p>
 <p>For the linear regression model, the marginal <img src="https://latex.codecogs.com/png.latex?R%5E2"> is defined as:</p>
 <p><img src="https://latex.codecogs.com/png.latex?%0AR%5E2%20=%20%5Cfrac%7B%5Cmathbb%7BV%7D(%5Cboldsymbol%7Bx%7D%5ET%20%5Cboldsymbol%7B%5Cbeta%7D)%7D%7B%5Cmathbb%7BV%7D(%5Cboldsymbol%7Bx%7D%5ET%20%5Cboldsymbol%7B%5Cbeta%7D)%20+%20%5Csigma%5E2%7D%0A=%20%5Cfrac%7B%5Csigma%5E2%20W%7D%7B%5Csigma%5E2%20W%20+%20%5Csigma%5E2%7D%0A=%20%5Cfrac%7BW%7D%7BW%20+%201%7D%0A"></p>
 <p>which is the ratio of the marginal variance of the linear predictor to the marginal variance of the outcome.</p>
 <p>Then, the R2-D2 prior is specified as:</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0A%5Cbeta_j%20&amp;%5Csim%20%5Ctext%7BNormal%7D(0,%20%5Cphi_j%20W%20%5Csigma%5E2)%20%5C%5C%0A%5Cboldsymbol%7B%5Cphi%7D%20&amp;%5Csim%20%5Ctext%7BDirichlet%7D(%5Cxi_1,%20%5Cdots,%20%5Cxi_p)%20%5C%5C%0AW%20&amp;%20=%20%5Cfrac%7BR%5E2%7D%7B1%20-%20R%5E2%7D%5C%5C%0AR%5E2%20&amp;%5Csim%20%5Ctext%7BBeta%7D(a,%20b)%20%5C%5C%0A%5Cend%7Baligned%7D%0A"></p>
-<p>Through the transformation <img src="https://latex.codecogs.com/png.latex?W%20=%20R%5E2/(1-R%5E2)">, the prior on <img src="https://latex.codecogs.com/png.latex?R%5E2"> induces a prior on <img src="https://latex.codecogs.com/png.latex?W">, which governs the total prior variance of the linear predictor <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7Bx%7D%5ET%20%5Cboldsymbol%7B%5Cbeta%7D">. Combined with the Dirichlet prior on the variance proportions <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7B%5Cphi%7D">, this results in the <img src="https://latex.codecogs.com/png.latex?R%5E2">-induced Dirichlet Decomposition (R2-D2) prior.</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0A%5Cbeta_j%20%5Cmid%20%5Cphi_j,%20W,%20%5Csigma%5E2%20%20&amp;%5Csim%20%5Ctext%7BNormal%7D(0,%20%5Cphi_j%20W%20%5Csigma%5E2)%20%5C%5C%0A%5Cboldsymbol%7B%5Cphi%7D%20&amp;%5Csim%20%5Ctext%7BDirichlet%7D(%5Cxi_1,%20%5Cdots,%20%5Cxi_p)%20%5C%5C%0AW%20&amp;%20=%20%5Cfrac%7BR%5E2%7D%7B1%20-%20R%5E2%7D%5C%5C%0AR%5E2%20&amp;%5Csim%20%5Ctext%7BBeta%7D(a,%20b)%20%5C%5C%0A%5Cend%7Baligned%7D%0A"></p>
+<p>Through the transformation <img src="https://latex.codecogs.com/png.latex?W%20=%20R%5E2/(1-R%5E2)">, the prior on <img src="https://latex.codecogs.com/png.latex?R%5E2"> induces a prior on <img src="https://latex.codecogs.com/png.latex?W">, which governs the total prior variance of the linear predictor <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7Bx%7D%5ET%20%5Cboldsymbol%7B%5Cbeta%7D"> Combined with the Dirichlet prior on the variance proportions <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7B%5Cphi%7D">, this results in the <strong><img src="https://latex.codecogs.com/png.latex?R%5E2">-induced Dirichlet Decomposition (R2-D2) prior</strong>.</p>
 <p>It can be shown that the induced prior on <img src="https://latex.codecogs.com/png.latex?W"> is a Beta Prime distribution with parameters <img src="https://latex.codecogs.com/png.latex?a"> and <img src="https://latex.codecogs.com/png.latex?b">.</p>
 </section>
 <section id="r2-d2-for-glmms" class="level2">
 <h2 class="anchored" data-anchor-id="r2-d2-for-glmms">R2-D2 for GLMMs</h2>
-<p>The R2-D2 prior for Generalized Linear Mixed Models (GLMMs) has been introduced in the paper <a href="https://arxiv.org/abs/2111.10718">The R2D2 Prior for Generalized Linear Mixed Models</a> by Yanchenko et al.&nbsp;(2021).</p>
+<p>The R2-D2 prior for Generalized Linear Mixed Models (GLMMs) has been introduced in <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (2024)</span>.</p>
 <p>Suppose we have a GLMM of the form:</p>
-<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0AY_i%20%5Cmid%20%5Cmu_i,%20%5Ctheta%20&amp;%5Cunderset%7Biid%7D%7B%5Csim%7D%20%5Cmathcal%7BF%7D(%5Cmu_i,%20%5Ctheta)%20%5C%5C%0Ag(%5Cmu_i)%20=%20%5Ceta_i%20&amp;=%20%5Calpha%20+%20%5Cboldsymbol%7Bx%7D_i%20%5Cboldsymbol%7B%5Cbeta%7D%20+%20%5Csum_%7Bk=1%7D%5E%7Bq%7Du_%7Bk%20g_k%5Bi%5D%7D%20%5C%5C%0A%5Cend%7Baligned%7D%0A"></p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0AY_i%20%5Cmid%20%5Cmu_i,%20%5Ctheta%20&amp;%5Cunderset%7Biid%7D%7B%5Csim%7D%20%5Cmathcal%7BF%7D(%5Cmu_i,%20%5Ctheta)%20%5C%5C%0Ag(%5Cmu_i)%20&amp;=%20%5Ceta_i%20=%20%5Calpha%20+%20%5Cboldsymbol%7Bx%7D_i%20%5Cboldsymbol%7B%5Cbeta%7D%20+%20%5Csum_%7Bk=1%7D%5E%7Bq%7Du_%7Bk%20g_k%5Bi%5D%7D%20%5C%5C%0A%5Cend%7Baligned%7D%0A"></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Notation details
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>Let’s be super clear about what we have in there:</p>
 <p>There are <img src="https://latex.codecogs.com/png.latex?n"> observations indexed by <img src="https://latex.codecogs.com/png.latex?i%20%5Cin%20%5C%7B1,%5Cdots,n%5C%7D">. The response variable for observation <img src="https://latex.codecogs.com/png.latex?i"> is denoted <img src="https://latex.codecogs.com/png.latex?Y_i">, with mean <img src="https://latex.codecogs.com/png.latex?%5Cmu_i">. Conditional on <img src="https://latex.codecogs.com/png.latex?%5Cmu_i">, and possibly additional parameters <img src="https://latex.codecogs.com/png.latex?%5Ctheta">, the response variables <img src="https://latex.codecogs.com/png.latex?Y_i"> are assumed to be independent and identically distributed (<img src="https://latex.codecogs.com/png.latex?%5Cmathcal%7BF%7D"> represents an arbitrary family). A link function <img src="https://latex.codecogs.com/png.latex?g(%5Ccdot)"> relates the mean <img src="https://latex.codecogs.com/png.latex?%5Cmu_i"> to the linear predictor <img src="https://latex.codecogs.com/png.latex?%5Ceta_i">.</p>
 <p>The linear predictor consists of an intercept <img src="https://latex.codecogs.com/png.latex?%5Calpha">, <img src="https://latex.codecogs.com/png.latex?p"> explanatory variables, and <img src="https://latex.codecogs.com/png.latex?q"> types of random effects. For the <img src="https://latex.codecogs.com/png.latex?i">-th observation, the covariates are collected in the vector <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7Bx%7D_i%20=%20(x_%7Bi1%7D,%5Cdots,x_%7Bip%7D)">, and the full set of covariates for all observations forms the design matrix <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7BX%7D">, of dimension <img src="https://latex.codecogs.com/png.latex?n%20%5Ctimes%20p">. It is assumed that <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7BX%7D"> has been standardized so that each column has mean zero and variance one.</p>
 <p>The fixed-effect coefficients form the vector <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7B%5Cbeta%7D%20=%20(%5Cbeta_1,%20%5Cdots,%20%5Cbeta_p)%5ET">. For the <img src="https://latex.codecogs.com/png.latex?k">-th random effect, there are <img src="https://latex.codecogs.com/png.latex?L_k"> levels collected in <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7Bu%7D_k%20=%20(u_%7Bk1%7D,%5Cdots,u_%7BkL_k%7D)%5ET">, and we use <img src="https://latex.codecogs.com/png.latex?g_k%5Bi%5D"> indicate the level of the random effect <img src="https://latex.codecogs.com/png.latex?k"> for the observation <img src="https://latex.codecogs.com/png.latex?i">.</p>
-<p>To construct the R2D2 prior for GLMMs, Yanchenko et. al.&nbsp;(2021) specify the following prior model:</p>
+</div>
+</div>
+</div>
+<p>To construct the R2D2 prior for GLMMs, the authors specify the following prior model:</p>
 <p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0A%5Cbeta_j%20%5Cmid%20%5Cphi_j,%20W%20&amp;%5Cunderset%7Biid%7D%7B%5Csim%7D%5Ctext%7BNormal%7D(0,%20%5Cphi_j%20W)%20%5C%5C%0A%5Cboldsymbol%7Bu%7D_k%20%5Cmid%20%5Cphi_%7Bp%20+%20k%7D,%20W%20&amp;%5Cunderset%7Biid%7D%7B%5Csim%7D%5Ctext%7BNormal%7D(0,%20%5Cphi_%7Bp%20+%20k%7DW%20%5Cboldsymbol%7BI%7D_%7BL_k%7D)%0A%5Cend%7Baligned%7D%0A"></p>
 <p>The parameter <img src="https://latex.codecogs.com/png.latex?W%20%3E%200"> governs the overall variance of the linear predictor, controlling the total amount of variation in the fixed and random effects. Larger values of <img src="https://latex.codecogs.com/png.latex?W"> correspond to more flexible models, while smaller values shrink the model toward an intercept-only model.</p>
 <p>The parameters <img src="https://latex.codecogs.com/png.latex?%5Cphi_j%20%5Cge%200">, which satisfy <img src="https://latex.codecogs.com/png.latex?%5Csum_%7Bj=1%7D%5E%7Bp+q%7D%20%5Cphi_j%20=%201">, determine how this total variance <img src="https://latex.codecogs.com/png.latex?W"> is distributed across the individual fixed and random effect components. The vector of variance proportions <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7B%5Cphi%7D%20=%20(%5Cphi_1,%5Cdots,%5Cphi_%7Bp+q%7D)"> is typically given a Dirichlet prior,</p>
 <p><img src="https://latex.codecogs.com/png.latex?%0A%5Cboldsymbol%7B%5Cphi%7D%20%5Csim%20%5Ctext%7BDirichlet%7D(%5Cxi_1,%20%5Cdots,%20%5Cxi_%7Bp+q%7D),%0A"></p>
 <p>and in many applications all concentration parameters are set to a common value <img src="https://latex.codecogs.com/png.latex?%5Cxi_0">. Larger values of <img src="https://latex.codecogs.com/png.latex?%5Cxi_0"> shrink the variance proportions toward the uniform allocation <img src="https://latex.codecogs.com/png.latex?1%20/%20(p+q)">, while smaller values allow for more dispersed and uncertain allocations across components.</p>
 <p>Like in the linear model case, the R2-D2 prior for GLMMs is specified by placing a prior on the marginal <img src="https://latex.codecogs.com/png.latex?R%5E2"> that averages over explanatory variables and random effects (<img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7BX%7D"> and <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7Bg%7D">) as well as parameters (<img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7B%5Cbeta%7D"> and <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7Bu%7D_k">).</p>
-<p>The marginal <img src="https://latex.codecogs.com/png.latex?R%5E2"> is defined as:</p>
+<p>This marginal <img src="https://latex.codecogs.com/png.latex?R%5E2"> is defined as:</p>
 <p><img src="https://latex.codecogs.com/png.latex?%0AR%5E2%20=%20%5Cfrac%7B%5Cmathbb%7BV%7D(%5Cmathbb%7BE%7D(Y%20%5Cmid%20%5Ceta))%7D%7B%5Cmathbb%7BV%7D(%5Cmathbb%7BE%7D(Y%20%5Cmid%20%5Ceta))%20+%20%5Cmathbb%7BE%7D(%5Cmathbb%7BV%7D(Y%20%5Cmid%20%5Ceta))%7D%0A"></p>
-<p>Since <img src="https://latex.codecogs.com/png.latex?R%5E2"> is based on summaries of the distribution of the linear predictor <img src="https://latex.codecogs.com/png.latex?%5Ceta">, and it is assumed that <img src="https://latex.codecogs.com/png.latex?%5Ceta_i%20%5Cmid%20%5Calpha,%20W%20%5Csim%20%5Ctext%7BNormal%7D(%5Calpha,%20W)">, <img src="https://latex.codecogs.com/png.latex?R%5E2"> also depends on the parameters <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and <img src="https://latex.codecogs.com/png.latex?W">.</p>
+<p>Given that <img src="https://latex.codecogs.com/png.latex?R%5E2"> is based on summaries of the distribution of the linear predictor <img src="https://latex.codecogs.com/png.latex?%5Ceta">, and it is assumed that <img src="https://latex.codecogs.com/png.latex?%5Ceta_i%20%5Cmid%20%5Calpha,%20W%20%5Csim%20%5Ctext%7BNormal%7D(%5Calpha,%20W)">, <img src="https://latex.codecogs.com/png.latex?R%5E2"> also depends on the parameters <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and <img src="https://latex.codecogs.com/png.latex?W">.</p>
+<section id="the-details" class="level3">
+<h3 class="anchored" data-anchor-id="the-details">The details</h3>
 <p>The essence of the R2-D2 prior for GLMMs is to define a joint prior on <img src="https://latex.codecogs.com/png.latex?(%5Calpha,%20W)"> such that the resulting induced prior on <img src="https://latex.codecogs.com/png.latex?R%5E2"> is <img src="https://latex.codecogs.com/png.latex?%5Ctext%7BBeta%7D(a,%20b)">.</p>
-<p>Yanchenko et al.&nbsp;(2021) construct such a prior by decomposing the joint distribution into a marginal prior for <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and a conditional prior for <img src="https://latex.codecogs.com/png.latex?W%20%5Cmid%20%5Calpha">. They then choose a prior for <img src="https://latex.codecogs.com/png.latex?W%20%5Cmid%20%5Calpha"> that ensures the induced distribution of <img src="https://latex.codecogs.com/png.latex?R%5E2"> is <img src="https://latex.codecogs.com/png.latex?%5Ctext%7BBeta%7D(a,%20b)"> for any fixed value of <img src="https://latex.codecogs.com/png.latex?%5Calpha">. Because this holds conditionally for all <img src="https://latex.codecogs.com/png.latex?%5Calpha">, the marginal distribution of <img src="https://latex.codecogs.com/png.latex?R%5E2"> under the joint prior on <img src="https://latex.codecogs.com/png.latex?(%5Calpha,%20W)"> is also <img src="https://latex.codecogs.com/png.latex?%5Ctext%7BBeta%7D(a,%20b)">, regardless of the marginal prior placed on <img src="https://latex.codecogs.com/png.latex?%5Calpha">. Combined with a Dirichlet prior on the variance proportions, this construction yields the R2-D2 prior for GLMMs.</p>
+<p><span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (2024)</span> construct such a prior by decomposing the joint distribution into a marginal prior for <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and a conditional prior for <img src="https://latex.codecogs.com/png.latex?W%20%5Cmid%20%5Calpha">. They then choose a prior for <img src="https://latex.codecogs.com/png.latex?W%20%5Cmid%20%5Calpha"> that ensures the induced distribution of <img src="https://latex.codecogs.com/png.latex?R%5E2"> is <img src="https://latex.codecogs.com/png.latex?%5Ctext%7BBeta%7D(a,%20b)"> for any fixed value of <img src="https://latex.codecogs.com/png.latex?%5Calpha">. Because this holds conditionally for all <img src="https://latex.codecogs.com/png.latex?%5Calpha">, the marginal distribution of <img src="https://latex.codecogs.com/png.latex?R%5E2"> under the joint prior on <img src="https://latex.codecogs.com/png.latex?(%5Calpha,%20W)"> is also <img src="https://latex.codecogs.com/png.latex?%5Ctext%7BBeta%7D(a,%20b)">, regardless of the marginal prior placed on <img src="https://latex.codecogs.com/png.latex?%5Calpha">. Combined with a Dirichlet prior on the variance proportions, this construction yields the R2-D2 prior for GLMMs.</p>
+<section id="the-need-for-approximations" class="level4">
+<h4 class="anchored" data-anchor-id="the-need-for-approximations">The need for approximations</h4>
 <p>For some model families, the prior on <img src="https://latex.codecogs.com/png.latex?W"> that induces <img src="https://latex.codecogs.com/png.latex?R%5E2%20%5Csim%20%5Ctext%7BBeta%7D(a,%20b)"> can be derived in closed form. However, since this is not generally possible for GLMMs, the authors propose a unified approximate approach that works across all model families.</p>
 <p>The idea is to place a Generalized Beta Prime (GBP) prior on <img src="https://latex.codecogs.com/png.latex?W"> and choose its parameters so that the resulting induced distribution of <img src="https://latex.codecogs.com/png.latex?R%5E2"> closely matches the target <img src="https://latex.codecogs.com/png.latex?%5Ctext%7BBeta%7D(a,%20b)"> distribution.</p>
-<p>The problem is then to find the values of the parameters of the GBP prior <img src="https://latex.codecogs.com/png.latex?(a%5E*,%20b%5E*,%20c%5E*,%20d%5E*)"> so that the prior <img src="https://latex.codecogs.com/png.latex?W%20%5Csim%20%5Ctext%7BGBP%7D(a%5E*,%20b%5E*,%20c%5E*,%20d%5E*)"> induces a prior on <img src="https://latex.codecogs.com/png.latex?R%5E2"> that is close to <img src="https://latex.codecogs.com/png.latex?%5Ctext%7BBeta%7D(a,%20b)">.</p>
-<p>Let <img src="https://latex.codecogs.com/png.latex?W%20%5Csim%20p(w)"> be the distribution that yields exactly <img src="https://latex.codecogs.com/png.latex?R%5E2%20%5Csim%20%5Ctext%7BBeta%7D(a,%20b)">.</p>
-<p>To obtain the values of the parameters of the GBP distribution Yanchenko et. al.&nbsp;(2021) minimize the Pearson <img src="https://latex.codecogs.com/png.latex?%5Cchi%5E2"> divergence between the true density <img src="https://latex.codecogs.com/png.latex?p(w)"> and its GBP approximation <img src="https://latex.codecogs.com/png.latex?f_%7BGBP%7D">, with an added regularization term that shrinks the solution toward <img src="https://latex.codecogs.com/png.latex?%5Ctext%7BGBP%7D(a%5E*,%20b%5E*,%201,%201)">, which is the exact solution for certain model families and can be considered the baseline.</p>
-<p>The optimization problem is formulated as: <img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0A(a%5E*,%20b%5E*,%20c%5E*,%20d%5E*)%0A&amp;%20=%0A%20%20%20%20%5Carg%5Cmin_%7B%5Calpha,%20%5Cbeta,%20c,%20d%7D%20%5Cleft%5B%0A%20%20%20%20%20%20%20%20%5Cint_0%5E%7B%5Cinfty%7D%0A%20%20%20%20%20%20%20%20%5Cleft%5C%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%5Cfrac%7Bf_%7BGBP%7D(w,%20%5Calpha,%20%5Cbeta,%20c,%20d)%20-%20p(w)%7D%7Bp(w)%7D%0A%20%20%20%20%20%20%20%20%5Cright%5C%7D%5E2%0A%20%20%20%20%20%20%20%20p(w)%20dw%20+%20%5Clambda%0A%20%20%20%20%5Cleft%5B%0A%20%20%20%20%20%20%20%20(%5Calpha%20-%20a)%5E2%20+%20(%5Cbeta%20-%20b)%5E2%20+%20(c%20-%201)%5E2%20+%20(d%20-%201)%5E2%0A%20%20%20%20%5Cright%5D%0A%5Cright%5D%0A%5Cend%7Baligned%7D%0A"></p>
+<p>The problem becomes finding the values <img src="https://latex.codecogs.com/png.latex?(a%5E*,%20b%5E*,%20c%5E*,%20d%5E*)"> so that the prior <img src="https://latex.codecogs.com/png.latex?W%20%5Csim%20%5Ctext%7BGBP%7D(a%5E*,%20b%5E*,%20c%5E*,%20d%5E*)"> induces a prior on <img src="https://latex.codecogs.com/png.latex?R%5E2"> that is close to <img src="https://latex.codecogs.com/png.latex?%5Ctext%7BBeta%7D(a,%20b)">.</p>
+<p>Suppose <img src="https://latex.codecogs.com/png.latex?p(w)"> is the density function of the distribution on <img src="https://latex.codecogs.com/png.latex?W"> that yields exactly <img src="https://latex.codecogs.com/png.latex?R%5E2%20%5Csim%20%5Ctext%7BBeta%7D(a,%20b)">. To obtain the values of the parameters of the GBP distribution, the authors minimize the Pearson <img src="https://latex.codecogs.com/png.latex?%5Cchi%5E2"> divergence between the true density <img src="https://latex.codecogs.com/png.latex?p(w)"> and its GBP approximation <img src="https://latex.codecogs.com/png.latex?p_%7BGBP%7D(w)">, with an added regularization term that shrinks the solution toward <img src="https://latex.codecogs.com/png.latex?%5Ctext%7BGBP%7D(a%5E*,%20b%5E*,%201,%201)">, which is the exact solution for certain model families and can be considered the baseline.</p>
+<p>The optimization problem is formulated as:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0A(a%5E*,%20b%5E*,%20c%5E*,%20d%5E*)%20&amp;%20=%0A%20%20%20%20%5Carg%5Cmin_%7B%5Calpha,%20%5Cbeta,%20c,%20d%7D%0A%20%20%20%20%20%20%20%20%5Cint_0%5E%7B%5Cinfty%7D%0A%20%20%20%20%20%20%20%20%5Cleft%5C%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%5Cfrac%7Bp_%7BGBP%7D(w,%20%5Calpha,%20%5Cbeta,%20c,%20d)%20-%20p(w)%7D%7Bp(w)%7D%0A%20%20%20%20%20%20%20%20%5Cright%5C%7D%5E2%20p(w)%20dw%20%5Cquad%20+%0A%20%20%20%20%20%20%20%20%5C%5C%0A&amp;%20%5Cqquad%20%5Cqquad%20%5Cqquad%0A%20%20%5Clambda%20%5Cleft%5B(%5Calpha%20-%20a)%5E2%20+%20(%5Cbeta%20-%20b)%5E2%20+%20(c%20-%201)%5E2%20+%20(d%20-%201)%5E2%5Cright%5D%0A%5Cend%7Baligned%7D%0A"></p>
 <p>Here, <img src="https://latex.codecogs.com/png.latex?%5Clambda%20%5Cge%200"> is a tuning parameter that controls the amount of the regularization, which the authors suggest setting to <img src="https://latex.codecogs.com/png.latex?%5Clambda%20=%201%20/%204">.</p>
-<p>In practice, specifying the R2-D2 prior for GLMMs requires the user to choose the Beta hyperparameters <img src="https://latex.codecogs.com/png.latex?a"> and <img src="https://latex.codecogs.com/png.latex?b"> for the desired prior on <img src="https://latex.codecogs.com/png.latex?R%5E2">. On then solves the optimization problem above to find the parameters <img src="https://latex.codecogs.com/png.latex?(a%5E*,%20b%5E*,%20c%5E*,%20d%5E*)"> of the GBP prior on <img src="https://latex.codecogs.com/png.latex?W">. The resulting prior can be implemented via the transformation:</p>
+</section>
+<section id="how-to-use-it" class="level4">
+<h4 class="anchored" data-anchor-id="how-to-use-it">How to use it</h4>
+<p>In practice, specifying the R2-D2 prior for GLMMs requires the user to choose the Beta hyperparameters <img src="https://latex.codecogs.com/png.latex?a"> and <img src="https://latex.codecogs.com/png.latex?b"> for the desired prior on <img src="https://latex.codecogs.com/png.latex?R%5E2">. One then solves the optimization problem above to find the parameters <img src="https://latex.codecogs.com/png.latex?(a%5E*,%20b%5E*,%20c%5E*,%20d%5E*)"> of the GBP prior on <img src="https://latex.codecogs.com/png.latex?W">. The resulting prior can be implemented via the transformation:</p>
 <p><img src="https://latex.codecogs.com/png.latex?%0AV%20%5Csim%20%5Ctext%7BBeta%7D(a%5E*,%20b%5E*)%20%5Cimplies%20W%20=%20d%5E*%5Cleft%5B%5Cfrac%7BV%7D%7B1%20-%20V%7D%5Cright%5D%5E%7B1/c%5E*%7D%20%5Csim%20%5Ctext%7BGBP%7D(a%5E*,%20b%5E*,%20c%5E*,%20d%5E*)%0A"></p>
-<p>When doing inference wiht MCMC, because the optimal values <img src="https://latex.codecogs.com/png.latex?(a%5E*,%20b%5E*,%20c%5E*,%20d%5E*)"> depend on <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and possibly other response-distribution parameters <img src="https://latex.codecogs.com/png.latex?%5Ctheta">, the approximation should be updated with their values at every iteration.</p>
+<p>When doing inference with MCMC, because the optimal values <img src="https://latex.codecogs.com/png.latex?(a%5E*,%20b%5E*,%20c%5E*,%20d%5E*)"> depend on <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and possibly other response-distribution parameters <img src="https://latex.codecogs.com/png.latex?%5Ctheta">, the approximation should be updated with their values at every iteration.</p>
 <p>However, performing this optimization at every MCMC iteration would be computationally infeasible. To address this, the authors recommend computing the GBP approximation once at the start of the analysis using <img src="https://latex.codecogs.com/png.latex?%5Chat%7B%5Calpha%7D%20=%20g(%5Cbar%7BY%7D_i)"> and, if needed, the maximum likelihood estimate <img src="https://latex.codecogs.com/png.latex?%5Chat%7B%5Ctheta%7D">. Once the values of <img src="https://latex.codecogs.com/png.latex?(a%5E*,%20b%5E*,%20c%5E*,%20d%5E*)"> are found, <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and <img src="https://latex.codecogs.com/png.latex?%5Ctheta"> are treated as unknown again during the subsequent Bayesian inference.</p>
-<section id="generalized-beta-prime-approximation-in-python" class="level3">
-<h3 class="anchored" data-anchor-id="generalized-beta-prime-approximation-in-python">Generalized Beta Prime Approximation in Python</h3>
-<div id="48564307" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+</section>
+</section>
+</section>
+<section id="python-implementation" class="level2">
+<h2 class="anchored" data-anchor-id="python-implementation">Python implementation</h2>
+<p>Now that we have reviewed …</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> numpy <span class="im" style="color: #00769E;
 background-color: null;
@@ -121,65 +125,15 @@ background-color: null;
 font-style: inherit;">from</span> scipy <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> special</span></code></pre></div></div>
-</div>
-<div id="bf8b003a" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="kw" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
-font-style: inherit;">def</span> gbp_pdf_plain(x, a, b, c, d):</span>
-<span id="cb2-2">    <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># Probability Density Function (PDF) of the Generalized Beta Prime (GBP) distribution</span></span>
-<span id="cb2-3">    <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># Equation in Yanchenko et al. (2021)</span></span>
-<span id="cb2-4">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> c <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> (x <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> d) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> (a <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> c <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> (<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> (x <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> d) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> c) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> (<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span>a <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> b) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> (d <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> special.beta(a, b))</span>
-<span id="cb2-5"></span>
-<span id="cb2-6"></span>
-<span id="cb2-7"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> gbp_logpdf(x, a, b, c, d):</span>
-<span id="cb2-8">    log_num <span class="op" style="color: #5E5E5E;
+font-style: inherit;">def</span> gbp_pdf(x, a, b, c, d):</span>
+<span id="cb2-2">    log_num <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> (</span>
-<span id="cb2-9">        np.log(c)</span>
-<span id="cb2-10">        <span class="op" style="color: #5E5E5E;
+<span id="cb2-3">        np.log(c)</span>
+<span id="cb2-4">        <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span> (a <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -192,7 +146,7 @@ background-color: null;
 font-style: inherit;">*</span> (np.log(x) <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">-</span> np.log(d))</span>
-<span id="cb2-11">        <span class="op" style="color: #5E5E5E;
+<span id="cb2-5">        <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">-</span> (a <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -203,81 +157,246 @@ background-color: null;
 font-style: inherit;">/</span> d) <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">**</span> c)</span>
-<span id="cb2-12">    )</span>
-<span id="cb2-13">    log_den <span class="op" style="color: #5E5E5E;
+<span id="cb2-6">    )</span>
+<span id="cb2-7">    log_den <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> np.log(d) <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span> special.betaln(a, b)</span>
-<span id="cb2-14">    <span class="cf" style="color: #003B4F;
+<span id="cb2-8">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
-font-style: inherit;">return</span> log_num <span class="op" style="color: #5E5E5E;
+font-style: inherit;">return</span> np.exp(log_num <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">-</span> log_den</span>
-<span id="cb2-15"></span>
-<span id="cb2-16"></span>
-<span id="cb2-17"><span class="kw" style="color: #003B4F;
+font-style: inherit;">-</span> log_den)</span></code></pre></div></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
-font-style: inherit;">def</span> gbp_pdf_stable(x, a, b, c, d):</span>
-<span id="cb2-18">    <span class="cf" style="color: #003B4F;
+font-style: inherit;">def</span> WGBP(family, lam<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.25</span>, x0<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>np.ones(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>), method<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Powell"</span>):</span>
+<span id="cb3-2">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Compute parameters for the GBP Approximation</span></span>
+<span id="cb3-3"></span>
+<span id="cb3-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    This function finds the closest Generalized Beta Prime (GBP) distribution</span></span>
+<span id="cb3-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    to the true pdf of W as measured by the Pearson Chi-squared divergence.</span></span>
+<span id="cb3-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    """</span></span>
+<span id="cb3-7">    a <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> family.a</span>
+<span id="cb3-8">    b <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> family.b</span>
+<span id="cb3-9"></span>
+<span id="cb3-10">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Quantiles</span></span>
+<span id="cb3-11">    p <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.linspace(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.01</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.99</span>, num<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">500</span>)</span>
+<span id="cb3-12"></span>
+<span id="cb3-13">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Values of 'w' where p_true and p_gbp are evaluated.</span></span>
+<span id="cb3-14">    w <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> family.ppf(p<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>p).flatten()</span>
+<span id="cb3-15">    p_true <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> family.pdf(w<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>w).flatten()</span>
+<span id="cb3-16"></span>
+<span id="cb3-17">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Copied from the R implementation because sometimes p_true has NaNs</span></span>
+<span id="cb3-18">    w <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> w[<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span>np.isnan(p_true)]</span>
+<span id="cb3-19">    p_true <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> p_true[<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span>np.isnan(p_true)]</span>
+<span id="cb3-20"></span>
+<span id="cb3-21">    <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
-font-style: inherit;">return</span> np.exp(gbp_logpdf(x, a, b, c, d))</span>
-<span id="cb2-19"></span>
-<span id="cb2-20"><span class="bu" style="color: null;
+font-style: inherit;">def</span> divergence(log_params):</span>
+<span id="cb3-22">        p_gbp <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">print</span>(gbp_pdf_plain(<span class="dv" style="color: #AD0000;
+font-style: inherit;">=</span> gbp_pdf(w, <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+font-style: inherit;">*</span>np.exp(log_params))</span>
+<span id="cb3-23">        log_target <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+font-style: inherit;">=</span> np.log(np.array([a, b, <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">2</span>, <span class="fl" style="color: #AD0000;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">4.5</span>, <span class="fl" style="color: #AD0000;
+font-style: inherit;">1</span>]))</span>
+<span id="cb3-24"></span>
+<span id="cb3-25">        integral <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">3.8</span>))</span>
-<span id="cb2-21"><span class="bu" style="color: null;
+font-style: inherit;">=</span> np.<span class="bu" style="color: null;
 background-color: null;
-font-style: inherit;">print</span>(gbp_pdf_stable(<span class="dv" style="color: #AD0000;
+font-style: inherit;">sum</span>((<span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+font-style: inherit;">-</span> p_gbp <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">2</span>, <span class="fl" style="color: #AD0000;
+font-style: inherit;">/</span> p_true) <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">4.5</span>, <span class="fl" style="color: #AD0000;
+font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">3.8</span>))</span></code></pre></div></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.03368536527260107
-0.03368536527260113</code></pre>
-</div>
-</div>
-<div id="935676ab" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="kw" style="color: #003B4F;
+font-style: inherit;">2</span>)</span>
+<span id="cb3-26">        penalty <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> lam <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">sum</span>((log_params <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> log_target) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb3-27">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
-font-style: inherit;">class</span> GenericFamily:</span>
-<span id="cb4-2">    <span class="kw" style="color: #003B4F;
+font-style: inherit;">return</span> integral <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> penalty</span>
+<span id="cb3-28"></span>
+<span id="cb3-29">    result <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> minimize(divergence, x0<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>np.log(x0), method<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>method)</span>
+<span id="cb3-30"></span>
+<span id="cb3-31">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> result.success:</span>
+<span id="cb3-32">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> np.exp(result.x)</span>
+<span id="cb3-33"></span>
+<span id="cb3-34">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">raise</span> <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Exception</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Minimization didn't converge"</span>)</span></code></pre></div></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> Family(ABC):</span>
+<span id="cb4-2">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">@abstractmethod</span></span>
+<span id="cb4-3">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> W_to_R2(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>, w):</span>
+<span id="cb4-4">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Convert W values to R^2</span></span>
+<span id="cb4-5"></span>
+<span id="cb4-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">        Details are specific to each model family. To be implemented by subclasses.</span></span>
+<span id="cb4-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">        """</span></span>
+<span id="cb4-8">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">pass</span></span>
+<span id="cb4-9"></span>
+<span id="cb4-10">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">@abstractmethod</span></span>
+<span id="cb4-11">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> pdf(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>, w):</span>
+<span id="cb4-12">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Probability Density Function (PDF) of W.</span></span>
+<span id="cb4-13"></span>
+<span id="cb4-14"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">        Details are specific to each model family. To be implemented by subclasses.</span></span>
+<span id="cb4-15"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">        """</span></span>
+<span id="cb4-16">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">pass</span></span>
+<span id="cb4-17"></span>
+<span id="cb4-18">    <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> cdf(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>, w):</span>
-<span id="cb4-3">        <span class="co" style="color: #5E5E5E;
+<span id="cb4-19">        <span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># Cumulative Distribution Function (CDF) of W</span></span>
-<span id="cb4-4">        <span class="co" style="color: #5E5E5E;
+font-style: inherit;">"""Cumulative Distribution Function (CDF) of W</span></span>
+<span id="cb4-20"></span>
+<span id="cb4-21"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># Computes values of the CDF of W induced by a Beta(a, b) prior on R-squared.</span></span>
-<span id="cb4-5">        <span class="co" style="color: #5E5E5E;
+font-style: inherit;">        Computes values of the CDF of W induced by a Beta(a, b) prior on R-squared.</span></span>
+<span id="cb4-22"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># The strategy is to convert W to R-squared and find the CDF of the corresponding R-squared.</span></span>
-<span id="cb4-6">        <span class="cf" style="color: #003B4F;
+font-style: inherit;">        The strategy is to convert W to R-squared and find the CDF of the corresponding R-squared.</span></span>
+<span id="cb4-23"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">        """</span></span>
+<span id="cb4-24">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> stats.beta.cdf(<span class="va" style="color: #111111;
@@ -291,8 +410,8 @@ background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.b)</span>
-<span id="cb4-7"></span>
-<span id="cb4-8">    <span class="kw" style="color: #003B4F;
+<span id="cb4-25"></span>
+<span id="cb4-26">    <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> ppf(<span class="va" style="color: #111111;
@@ -302,14 +421,27 @@ background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">None</span>):</span>
-<span id="cb4-9">        <span class="co" style="color: #5E5E5E;
+<span id="cb4-27">        <span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># Quantile Function of W</span></span>
-<span id="cb4-10">        <span class="co" style="color: #5E5E5E;
+font-style: inherit;">"""Quantile Function of W</span></span>
+<span id="cb4-28"></span>
+<span id="cb4-29"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># Computes the quantiles of W induced by a Beta(a, b) prior on R2.</span></span>
-<span id="cb4-11"></span>
-<span id="cb4-12">        <span class="cf" style="color: #003B4F;
+font-style: inherit;">        Computes the quantiles of W induced by a Beta(a, b) prior on R2.</span></span>
+<span id="cb4-30"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">        It numerically inverts the CDF of W.</span></span>
+<span id="cb4-31"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">        </span><span class="al" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">NOTE</span><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">: It's quite sensitive to `bounds`.</span></span>
+<span id="cb4-32"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">        """</span></span>
+<span id="cb4-33">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">if</span> bounds <span class="kw" style="color: #003B4F;
@@ -318,85 +450,10 @@ font-weight: bold;
 font-style: inherit;">is</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">None</span>:</span>
-<span id="cb4-13">            bounds <span class="op" style="color: #5E5E5E;
+<span id="cb4-34">            <span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>._find_bounds()</span>
-<span id="cb4-14"></span>
-<span id="cb4-15">        log_bounds <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> (np.log(bounds[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>]), np.log(bounds[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>]))</span>
-<span id="cb4-16"></span>
-<span id="cb4-17">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># Numerically inverts the CDF of W.</span></span>
-<span id="cb4-18">        <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> inner(p):</span>
-<span id="cb4-19">            <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> distance(logw):</span>
-<span id="cb4-20">                <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> (<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.cdf(w<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>np.exp(logw)) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> p) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span></span>
-<span id="cb4-21"></span>
-<span id="cb4-22">            result <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> minimize_scalar(distance, bounds<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>log_bounds)</span>
-<span id="cb4-23">            output <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> result.x</span>
-<span id="cb4-24"></span>
-<span id="cb4-25">            <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> np.exp(output)</span>
-<span id="cb4-26"></span>
-<span id="cb4-27">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> np.array([inner(p_i) <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> p_i <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> np.atleast_1d(p)])</span>
-<span id="cb4-28"></span>
-<span id="cb4-29">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> _find_bounds(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>):</span>
-<span id="cb4-30">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># </span><span class="al" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">NOTE</span><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">: Larger upper bounds make it fail sometimes</span></span>
-<span id="cb4-31">        ub_candidates <span class="op" style="color: #5E5E5E;
+font-style: inherit;"># Helper to find suitable bonds</span></span>
+<span id="cb4-35">            ub_candidates <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> [<span class="dv" style="color: #AD0000;
 background-color: null;
@@ -415,14 +472,14 @@ background-color: null;
 font-style: inherit;">500_000</span>, <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1_000_000</span>]</span>
-<span id="cb4-32">        <span class="cf" style="color: #003B4F;
+<span id="cb4-36">            <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">for</span> candidate <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">in</span> ub_candidates:</span>
-<span id="cb4-33">            <span class="cf" style="color: #003B4F;
+<span id="cb4-37">                <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">if</span> <span class="va" style="color: #111111;
@@ -432,11 +489,11 @@ background-color: null;
 font-style: inherit;">&gt;</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0.99</span>:</span>
-<span id="cb4-34">                <span class="cf" style="color: #003B4F;
+<span id="cb4-38">                    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">break</span></span>
-<span id="cb4-35">        bounds <span class="op" style="color: #5E5E5E;
+<span id="cb4-39">            bounds <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> (<span class="dv" style="color: #AD0000;
 background-color: null;
@@ -445,17 +502,69 @@ background-color: null;
 font-style: inherit;">/</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">100_000</span>, candidate)</span>
-<span id="cb4-36">        <span class="cf" style="color: #003B4F;
+<span id="cb4-40"></span>
+<span id="cb4-41">        log_bounds <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (np.log(bounds[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]), np.log(bounds[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]))</span>
+<span id="cb4-42"></span>
+<span id="cb4-43">        <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
-font-style: inherit;">return</span> bounds</span>
-<span id="cb4-37"></span>
-<span id="cb4-38"></span>
-<span id="cb4-39"><span class="kw" style="color: #003B4F;
+font-style: inherit;">def</span> ppf_scalar(p):</span>
+<span id="cb4-44">            <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
-font-style: inherit;">class</span> PoissonFamily(GenericFamily):</span>
-<span id="cb4-40">    <span class="kw" style="color: #003B4F;
+font-style: inherit;">def</span> distance(logw):</span>
+<span id="cb4-45">                <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> (<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.cdf(w<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>np.exp(logw)) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> p) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span></span>
+<span id="cb4-46"></span>
+<span id="cb4-47">            result <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> minimize_scalar(distance, bounds<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>log_bounds)</span>
+<span id="cb4-48">            output <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> result.x</span>
+<span id="cb4-49"></span>
+<span id="cb4-50">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> np.exp(output)</span>
+<span id="cb4-51"></span>
+<span id="cb4-52">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> np.array([ppf_scalar(p_i) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> p_i <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> np.atleast_1d(p)])</span>
+<span id="cb4-53"></span>
+<span id="cb4-54"></span>
+<span id="cb4-55"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> PoissonFamily(Family):</span>
+<span id="cb4-56">    <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
@@ -463,29 +572,29 @@ background-color: null;
 font-style: inherit;">__init__</span>(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>, a, b, intercept):</span>
-<span id="cb4-41">        <span class="va" style="color: #111111;
+<span id="cb4-57">        <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.a <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> a</span>
-<span id="cb4-42">        <span class="va" style="color: #111111;
+<span id="cb4-58">        <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.b <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> b</span>
-<span id="cb4-43">        <span class="va" style="color: #111111;
+<span id="cb4-59">        <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.intercept <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> intercept</span>
-<span id="cb4-44"></span>
-<span id="cb4-45">    <span class="kw" style="color: #003B4F;
+<span id="cb4-60"></span>
+<span id="cb4-61">    <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> W_to_R2(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>, w):</span>
-<span id="cb4-46">        <span class="cf" style="color: #003B4F;
+<span id="cb4-62">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> np.expm1(w) <span class="op" style="color: #5E5E5E;
@@ -503,14 +612,14 @@ background-color: null;
 font-style: inherit;">0.5</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">*</span> w))</span>
-<span id="cb4-47"></span>
-<span id="cb4-48">    <span class="kw" style="color: #003B4F;
+<span id="cb4-63"></span>
+<span id="cb4-64">    <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> pdf(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>, w):</span>
-<span id="cb4-49">        a, b, alpha <span class="op" style="color: #5E5E5E;
+<span id="cb4-65">        a, b, alpha <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
@@ -519,14 +628,14 @@ background-color: null;
 font-style: inherit;">self</span>.b, <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.intercept</span>
-<span id="cb4-50">        f1 <span class="op" style="color: #5E5E5E;
+<span id="cb4-66">        f1 <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">/</span> special.beta(a, b)</span>
-<span id="cb4-51">        f2_num <span class="op" style="color: #5E5E5E;
+<span id="cb4-67">        f2_num <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> np.expm1(w) <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -557,7 +666,7 @@ background-color: null;
 font-style: inherit;">-</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span>)</span>
-<span id="cb4-52">        f2_den <span class="op" style="color: #5E5E5E;
+<span id="cb4-68">        f2_den <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
 background-color: null;
@@ -578,2181 +687,319 @@ background-color: null;
 font-style: inherit;">**</span> (a <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span> b)</span>
-<span id="cb4-53">        <span class="cf" style="color: #003B4F;
+<span id="cb4-69">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> f1 <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">*</span> (f2_num <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">/</span> f2_den)</span>
-<span id="cb4-54"></span>
-<span id="cb4-55"></span>
-<span id="cb4-56"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">class</span> NegativeBinomialFamily(GenericFamily):</span>
-<span id="cb4-57">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">__init__</span>(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, a, b, intercept, theta):</span>
-<span id="cb4-58">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.a <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> a</span>
-<span id="cb4-59">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.b <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> b</span>
-<span id="cb4-60">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.intercept <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> intercept</span>
-<span id="cb4-61">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.theta <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> theta</span>
-<span id="cb4-62"></span>
-<span id="cb4-63">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> W_to_R2(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, w):</span>
-<span id="cb4-64">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> np.expm1(w) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> (np.expm1(w) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.theta <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> np.exp(<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.intercept <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.5</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> w))</span>
-<span id="cb4-65"></span>
-<span id="cb4-66">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> pdf(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, w):</span>
-<span id="cb4-67">        a, b, alpha, theta <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.a, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.b, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.intercept, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.theta</span>
-<span id="cb4-68">        f1 <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> theta <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> b <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> special.beta(a, b)</span>
-<span id="cb4-69">        f2_num <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> np.expm1(w) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> (a <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> np.exp(<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span>b <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> (alpha <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> w <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> (<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">3</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> np.exp(w) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>)</span>
-<span id="cb4-70">        f2_den <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> (np.expm1(w) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> theta <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> np.exp(<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span>alpha <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> w <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> (a <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> b)</span>
-<span id="cb4-71">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> f1 <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> (f2_num <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> f2_den)</span>
-<span id="cb4-72"></span>
-<span id="cb4-73"></span>
-<span id="cb4-74"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">class</span> GaussianFamily(GenericFamily):</span>
-<span id="cb4-75">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">__init__</span>(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, a, b, intercept, sigma):</span>
-<span id="cb4-76">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.a <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> a</span>
-<span id="cb4-77">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.b <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> b</span>
-<span id="cb4-78">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.intercept <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> intercept</span>
-<span id="cb4-79">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.sigma <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> sigma</span>
-<span id="cb4-80"></span>
-<span id="cb4-81">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> W_to_R2(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, w):</span>
-<span id="cb4-82">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> w <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> (w <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.sigma <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)</span>
-<span id="cb4-83"></span>
-<span id="cb4-84">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> pdf(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, w):</span>
-<span id="cb4-85">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> gbp_pdf_stable(w, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.a, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.b, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.sigma <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)</span>
-<span id="cb4-86"></span>
-<span id="cb4-87"></span>
-<span id="cb4-88"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">class</span> LogisticFamily(GenericFamily):</span>
-<span id="cb4-89">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">__init__</span>(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, a, b, intercept):</span>
-<span id="cb4-90">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.a <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> a</span>
-<span id="cb4-91">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.b <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> b</span>
-<span id="cb4-92">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.intercept <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> intercept</span>
-<span id="cb4-93"></span>
-<span id="cb4-94">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> _W_to_R2_scalar(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, w, K<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1000</span>):</span>
-<span id="cb4-95">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># Equation 13 in Yanchenko et al. (2021)</span></span>
-<span id="cb4-96">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># We are estimating the integrals via Quasi-Monte Carlo (QMC) integration</span></span>
-<span id="cb4-97">        p_grid <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> np.linspace(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>, K <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>, num<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>K <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> K</span>
-<span id="cb4-98">        eta <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> stats.norm(loc<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.intercept, scale<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>w <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.5</span>).ppf(p_grid)</span>
-<span id="cb4-99">        mu <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>._mean(eta)</span>
-<span id="cb4-100">        mu_1 <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> np.mean(mu).item()</span>
-<span id="cb4-101">        mu_2 <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> np.mean(mu <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>).item()</span>
-<span id="cb4-102">        sigma_squared <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> np.mean(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>._var(eta)).item()</span>
-<span id="cb4-103"></span>
-<span id="cb4-104">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># Usage of M and V comes from Equation 3</span></span>
-<span id="cb4-105">        M <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> mu_2 <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> mu_1 <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span> <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># E(mu^2) - E(mu)^2</span></span>
-<span id="cb4-106">        V <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> sigma_squared</span>
-<span id="cb4-107"></span>
-<span id="cb4-108">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> M <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> (M <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> V)</span>
-<span id="cb4-109"></span>
-<span id="cb4-110">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> W_to_R2(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, w):</span>
-<span id="cb4-111">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># Vectorized version of Equation 13 in Yanchenko et al. (2021)</span></span>
-<span id="cb4-112">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> np.array([<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>._W_to_R2_scalar(w) <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> w <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> np.atleast_1d(w)])</span>
-<span id="cb4-113"></span>
-<span id="cb4-114">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> pdf(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, w):</span>
-<span id="cb4-115">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># Density function of W</span></span>
-<span id="cb4-116">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># Computes values of the density function of W induced by a Beta(a, b) prior on R2.</span></span>
-<span id="cb4-117">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># The computation uses a numeric approxiation to the derivative of the CDF.</span></span>
-<span id="cb4-118"></span>
-<span id="cb4-119">        delta <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.001</span></span>
-<span id="cb4-120">        diff <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.cdf(w<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>w <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> delta) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.cdf(w<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>w <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> delta)</span>
-<span id="cb4-121">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> diff <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> (<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> delta)</span>
-<span id="cb4-122"></span>
-<span id="cb4-123">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> _mean(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, eta):</span>
-<span id="cb4-124">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> special.expit(eta)</span>
-<span id="cb4-125"></span>
-<span id="cb4-126">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> _var(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, eta):</span>
-<span id="cb4-127">        mean <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>._mean(eta)</span>
-<span id="cb4-128">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> mean <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> (<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> mean)</span></code></pre></div></div>
-</div>
-<div id="4eff05c5" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> WGBP(family, lam<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.25</span>, x0<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>np.ones(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">4</span>), method<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Powell"</span>):</span>
-<span id="cb5-2">    <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">"""Compute parameters for the GBP Approximation</span></span>
-<span id="cb5-3"></span>
-<span id="cb5-4"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">    This function finds the closest generalized beta prime (GBP) distribution to the true</span></span>
-<span id="cb5-5"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">    pdf of W as measured by the Pearson chi-squared divergence.</span></span>
-<span id="cb5-6"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">    """</span></span>
-<span id="cb5-7">    a, b <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> family.a, family.b</span>
-<span id="cb5-8"></span>
-<span id="cb5-9">    tau <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> np.linspace(<span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.01</span>, <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.99</span>, num<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">500</span>)</span>
-<span id="cb5-10">    w <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> family.ppf(p<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>tau).flatten()</span>
-<span id="cb5-11">    p_W <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> family.pdf(w<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>w).flatten()</span>
-<span id="cb5-12"></span>
-<span id="cb5-13">    <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># Copied from the R implementation because sometimes p_W has NaNs</span></span>
-<span id="cb5-14">    w <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> w[<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">~</span>np.isnan(p_W)]</span>
-<span id="cb5-15">    f_true <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> p_W[<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">~</span>np.isnan(p_W)]</span>
-<span id="cb5-16"></span>
-<span id="cb5-17">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> distance_fun(log_params):</span>
-<span id="cb5-18">        params <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> np.exp(log_params)</span>
-<span id="cb5-19">        f_GBP <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> gbp_pdf_stable(w, <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span>params)</span>
-<span id="cb5-20">        log_target <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> np.log(np.array([a, b, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>]))</span>
-<span id="cb5-21"></span>
-<span id="cb5-22">        integral <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> np.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">sum</span>((<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> f_GBP <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> f_true) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)</span>
-<span id="cb5-23">        penalty <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> lam <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> np.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">sum</span>((log_params <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> log_target) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)</span>
-<span id="cb5-24"></span>
-<span id="cb5-25">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> integral <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> penalty</span>
-<span id="cb5-26"></span>
-<span id="cb5-27">    result <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> minimize(distance_fun, x0<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>np.log(x0), method<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>method)</span>
-<span id="cb5-28"></span>
-<span id="cb5-29">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">if</span> result.success:</span>
-<span id="cb5-30">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> np.exp(result.x)</span>
-<span id="cb5-31"></span>
-<span id="cb5-32">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">raise</span> <span class="pp" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">Exception</span>(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Minimization didn't converge"</span>)</span></code></pre></div></div>
-</div>
-<div id="b0972624" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> penalized_divergence(f_true, f_approx, penalty, lam<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.25</span>):</span>
-<span id="cb6-2">    <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># Penalized Pearson chi-squared divergence</span></span>
-<span id="cb6-3">    integral <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> np.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">sum</span>((<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> f_approx <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span> f_true) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)</span>
-<span id="cb6-4">    penalty <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> lam <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> penalty</span>
-<span id="cb6-5">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> integral <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> penalty</span></code></pre></div></div>
-</div>
-</section>
+font-style: inherit;">/</span> f2_den)</span></code></pre></div></div>
 </section>
 <section id="examples" class="level2">
 <h2 class="anchored" data-anchor-id="examples">Examples</h2>
-<div id="3e7c71d3" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1">df <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> pl.read_csv(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"data/paper_approximations.csv"</span>)</span>
-<span id="cb7-2">df</span></code></pre></div></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<div><style>
-.dataframe > thead > tr,
-.dataframe > tbody > tr {
-  text-align: right;
-  white-space: pre-wrap;
-}
-</style>
-<small>shape: (45, 8)</small>
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th">beta_0</th>
-<th data-quarto-table-cell-role="th">a</th>
-<th data-quarto-table-cell-role="th">b</th>
-<th data-quarto-table-cell-role="th">a_star</th>
-<th data-quarto-table-cell-role="th">b_star</th>
-<th data-quarto-table-cell-role="th">c_star</th>
-<th data-quarto-table-cell-role="th">d_star</th>
-<th data-quarto-table-cell-role="th">family</th>
-</tr>
-<tr class="even">
-<td>i64</td>
-<td>f64</td>
-<td>f64</td>
-<td>f64</td>
-<td>f64</td>
-<td>f64</td>
-<td>f64</td>
-<td>str</td>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>-2</td>
-<td>0.5</td>
-<td>0.5</td>
-<td>0.19</td>
-<td>0.77</td>
-<td>4.22</td>
-<td>3.17</td>
-<td>"poisson"</td>
-</tr>
-<tr class="even">
-<td>-2</td>
-<td>0.5</td>
-<td>0.5</td>
-<td>0.48</td>
-<td>0.22</td>
-<td>1.23</td>
-<td>1.78</td>
-<td>"logistic"</td>
-</tr>
-<tr class="odd">
-<td>-2</td>
-<td>0.5</td>
-<td>0.5</td>
-<td>0.21</td>
-<td>0.74</td>
-<td>4.78</td>
-<td>3.49</td>
-<td>"negative binomial"</td>
-</tr>
-<tr class="even">
-<td>-2</td>
-<td>1.0</td>
-<td>1.0</td>
-<td>0.42</td>
-<td>1.5</td>
-<td>3.75</td>
-<td>2.56</td>
-<td>"poisson"</td>
-</tr>
-<tr class="odd">
-<td>-2</td>
-<td>1.0</td>
-<td>1.0</td>
-<td>1.45</td>
-<td>0.51</td>
-<td>0.99</td>
-<td>1.74</td>
-<td>"logistic"</td>
-</tr>
-<tr class="even">
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>4.0</td>
-<td>1.0</td>
-<td>8.21</td>
-<td>0.65</td>
-<td>0.74</td>
-<td>1.49</td>
-<td>"logistic"</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>4.0</td>
-<td>1.0</td>
-<td>2.16</td>
-<td>2.78</td>
-<td>1.35</td>
-<td>0.87</td>
-<td>"negative binomial"</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>4.0</td>
-<td>4.0</td>
-<td>3.66</td>
-<td>9.86</td>
-<td>0.97</td>
-<td>0.36</td>
-<td>"poisson"</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>4.0</td>
-<td>4.0</td>
-<td>8.15</td>
-<td>2.18</td>
-<td>0.88</td>
-<td>1.57</td>
-<td>"logistic"</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>4.0</td>
-<td>4.0</td>
-<td>2.92</td>
-<td>6.44</td>
-<td>1.24</td>
-<td>0.43</td>
-<td>"negative binomial"</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="2953ddc2" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> plot_w_approximations(rows_dict, family, <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span>family_kwargs):</span>
-<span id="cb8-2"></span>
-<span id="cb8-3">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> format_params(params):</span>
-<span id="cb8-4">        names <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> [<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"a"</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"b"</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"c"</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"d"</span>]</span>
-<span id="cb8-5">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"$"</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">", "</span>.join(<span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>n<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">}</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">^*:</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>p<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:.2f}</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"</span> <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> n, p <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">zip</span>(names, params)) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"$"</span></span>
-<span id="cb8-6"></span>
-<span id="cb8-7">    fig, axes <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> plt.subplots(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">5</span>, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>, figsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">4</span>, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">15</span>), layout<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"constrained"</span>)</span>
-<span id="cb8-8">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> ax, row <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">zip</span>(axes.ravel(), rows_dict):</span>
-<span id="cb8-9">        a <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> row[<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"a"</span>]</span>
-<span id="cb8-10">        b <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> row[<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"b"</span>]</span>
-<span id="cb8-11">        intercept <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> row[<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"beta_0"</span>]</span>
-<span id="cb8-12">        a_star <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> row[<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"a_star"</span>]</span>
-<span id="cb8-13">        b_star <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> row[<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"b_star"</span>]</span>
-<span id="cb8-14">        c_star <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> row[<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"c_star"</span>]</span>
-<span id="cb8-15">        d_star <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> row[<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"d_star"</span>]</span>
-<span id="cb8-16"></span>
-<span id="cb8-17">        family_obj <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> family(a<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>a, b<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>b, intercept<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>intercept, <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span>family_kwargs)</span>
-<span id="cb8-18"></span>
-<span id="cb8-19">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># </span><span class="al" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">NOTE</span><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">: This is a patch...|</span></span>
-<span id="cb8-20">        w_lower <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> family_obj.ppf(<span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.005</span>).item()</span>
-<span id="cb8-21">        w_upper <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> family_obj.ppf(<span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.995</span>).item()</span>
-<span id="cb8-22">        w_upper <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">min</span>(w_upper, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">250</span>)</span>
-<span id="cb8-23"></span>
-<span id="cb8-24">        w <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> np.linspace(w_lower, w_upper, num<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">500</span>)</span>
-<span id="cb8-25">        params <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> WGBP(family_obj, lam<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.25</span>)</span>
-<span id="cb8-26">        w_gbp_pdf <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> gbp_pdf_stable(w, <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span>params)</span>
-<span id="cb8-27">        w_gbp_paper_pdf <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> gbp_pdf_stable(w, a_star, b_star, c_star, d_star)</span>
-<span id="cb8-28">        w_pdf <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> family_obj.pdf(w<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>w)</span>
-<span id="cb8-29"></span>
-<span id="cb8-30">        divergence_own <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> penalized_divergence(</span>
-<span id="cb8-31">            w_pdf,</span>
-<span id="cb8-32">            w_gbp_pdf,</span>
-<span id="cb8-33">            penalty<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>np.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">sum</span>((np.log(params) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> np.log([a, b, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>])) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)</span>
-<span id="cb8-34">        )</span>
-<span id="cb8-35">        divergence_paper <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> penalized_divergence(</span>
-<span id="cb8-36">            w_pdf,</span>
-<span id="cb8-37">            w_gbp_paper_pdf,</span>
-<span id="cb8-38">            penalty<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>np.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">sum</span>((np.log([a_star, b_star, c_star, d_star]) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> np.log([a, b, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>])) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)</span>
-<span id="cb8-39">        )</span>
-<span id="cb8-40"></span>
-<span id="cb8-41">        ax.plot(w, w_pdf, label<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"True"</span>)</span>
-<span id="cb8-42">        ax.plot(w, w_gbp_pdf, label<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">f"Approx [own] (d=</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>divergence_own<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:.2f}</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">)"</span>)</span>
-<span id="cb8-43">        ax.plot(w, w_gbp_paper_pdf, color<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"0.3"</span>, ls<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"--"</span>, label<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">f"Approx [paper] (d=</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>divergence_paper<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:.2f}</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">)"</span>)</span>
-<span id="cb8-44"></span>
-<span id="cb8-45"></span>
-<span id="cb8-46">        ax.set_title(</span>
-<span id="cb8-47">            format_params(params) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">" [own]</span><span class="ch" style="color: #20794D;
-background-color: null;
-font-style: inherit;">\n</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"</span></span>
-<span id="cb8-48">            <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> format_params((a_star, b_star, c_star, d_star)) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">" [paper]"</span>,</span>
-<span id="cb8-49">            loc<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"left"</span></span>
-<span id="cb8-50">        )</span>
-<span id="cb8-51">        ax.legend(title<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">f"a=</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>a<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">}</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">, b=</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>b<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">}</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"</span>)</span>
-<span id="cb8-52"></span>
-<span id="cb8-53">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> fig, axes</span></code></pre></div></div>
-</div>
 <section id="poisson" class="level3">
 <h3 class="anchored" data-anchor-id="poisson">Poisson</h3>
-<div id="9fc77e73" class="cell" data-execution_count="73">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> format_params(params):</span>
-<span id="cb9-2">    names <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> [<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"a"</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"b"</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"c"</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"d"</span>]</span>
-<span id="cb9-3">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"$"</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">", "</span>.join(<span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>n<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">}</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">^*=</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>p<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:.2f}</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"</span> <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> n, p <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">zip</span>(names, params)) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"$"</span></span></code></pre></div></div>
+<p>TO DO: Formulas from the paper</p>
+<div id="quarto-carousel-1" class="carousel carousel-dark slide carousel-framed" data-bs-ride="false">
+<div class="carousel-indicators">
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="0" class=" active" aria-current="true" aria-label="Slide 1"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="1" class="" aria-label="Slide 2"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="2" class="" aria-label="Slide 3"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="3" class="" aria-label="Slide 4"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="4" class="" aria-label="Slide 5"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="5" class="" aria-label="Slide 6"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="6" class="" aria-label="Slide 7"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="7" class="" aria-label="Slide 8"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="8" class="" aria-label="Slide 9"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="9" class="" aria-label="Slide 10"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="10" class="" aria-label="Slide 11"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="11" class="" aria-label="Slide 12"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="12" class="" aria-label="Slide 13"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="13" class="" aria-label="Slide 14"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="14" class="" aria-label="Slide 15"></button>
+  
 </div>
-<div id="6a8900da" class="cell" data-execution_count="93">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1">family_obj <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> PoissonFamily(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">4</span>, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">4</span>, <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)</span>
-<span id="cb10-2">a, b <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">4</span>, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">4</span></span>
-<span id="cb10-3">w_lower <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> family_obj.ppf(<span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.005</span>).item()</span>
-<span id="cb10-4">w_upper <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> family_obj.ppf(<span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.995</span>).item()</span>
-<span id="cb10-5">w_upper <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">min</span>(w_upper, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">250</span>)</span>
-<span id="cb10-6">w <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> np.linspace(w_lower, w_upper, num<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">500</span>)</span>
-<span id="cb10-7"></span>
-<span id="cb10-8">params_own <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> WGBP(family_obj)</span>
-<span id="cb10-9">params_paper <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> [<span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2.00</span>, <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">6.38</span> ,<span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">3.14</span>, <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2.25</span>]</span>
-<span id="cb10-10"></span>
-<span id="cb10-11">pdf_own <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> gbp_pdf_stable(w, <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span>params_own)</span>
-<span id="cb10-12">pdf_paper <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> gbp_pdf_stable(w, <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span>params_paper)</span>
-<span id="cb10-13">w_pdf <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> family_obj.pdf(w<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>w)</span>
-<span id="cb10-14"></span>
-<span id="cb10-15">divergence_own <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> penalized_divergence(</span>
-<span id="cb10-16">    w_pdf,</span>
-<span id="cb10-17">    pdf_own,</span>
-<span id="cb10-18">    penalty<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>np.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">sum</span>((np.log(params_own) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> np.log([a, b, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>])) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)</span>
-<span id="cb10-19">)</span>
-<span id="cb10-20">divergence_paper <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> penalized_divergence(</span>
-<span id="cb10-21">    w_pdf,</span>
-<span id="cb10-22">    pdf_paper,</span>
-<span id="cb10-23">    penalty<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>np.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">sum</span>((np.log(params_paper) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> np.log([a, b, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>])) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)</span>
-<span id="cb10-24">)</span>
-<span id="cb10-25"></span>
-<span id="cb10-26"></span>
-<span id="cb10-27">fig, ax <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> plt.subplots(figsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">6</span>, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">5</span>), tight_layout<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">True</span>)</span>
-<span id="cb10-28"></span>
-<span id="cb10-29">ax.plot(w, pdf_paper, label<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Paper"</span>)</span>
-<span id="cb10-30">ax.plot(w, pdf_own, label<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Own"</span>)</span>
-<span id="cb10-31">ax.plot(w, w_pdf, color<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"0.3"</span>, ls<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"--"</span>)</span>
-<span id="cb10-32"></span>
-<span id="cb10-33">s_list <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> [</span>
-<span id="cb10-34">    <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"$</span><span class="ch" style="color: #20794D;
-background-color: null;
-font-style: inherit;">\\</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">bf</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{Approximations}</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">$"</span>,</span>
-<span id="cb10-35">    format_params(params_paper) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">" [paper]"</span>,</span>
-<span id="cb10-36">    format_params(params_own) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">" [own]"</span>,</span>
-<span id="cb10-37">    <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"$</span><span class="ch" style="color: #20794D;
-background-color: null;
-font-style: inherit;">\\</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">bf</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{Divergences}</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">$"</span>,</span>
-<span id="cb10-38">    <span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>divergence_paper<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:.2f}</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;"> [paper] vs "</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> <span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>divergence_own<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:.2f}</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;"> [own]"</span>,</span>
-<span id="cb10-39">]</span>
-<span id="cb10-40"></span>
-<span id="cb10-41">ax.text(</span>
-<span id="cb10-42">    x<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>,</span>
-<span id="cb10-43">    y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1.025</span>,</span>
-<span id="cb10-44">    s<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"</span><span class="ch" style="color: #20794D;
-background-color: null;
-font-style: inherit;">\n</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"</span>.join(s_list),</span>
-<span id="cb10-45">    ha<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"left"</span>,</span>
-<span id="cb10-46">    size<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">11</span>,</span>
-<span id="cb10-47">    transform<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>ax.transAxes</span>
-<span id="cb10-48">)</span>
-<span id="cb10-49"></span>
-<span id="cb10-50">ax.text(</span>
-<span id="cb10-51">    x<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>,</span>
-<span id="cb10-52">    y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1.025</span>,</span>
-<span id="cb10-53">    s<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"$R^2 </span><span class="ch" style="color: #20794D;
-background-color: null;
-font-style: inherit;">\\</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">sim </span><span class="ch" style="color: #20794D;
-background-color: null;
-font-style: inherit;">\\</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">text</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{Beta}</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">(4, 4)$"</span>,</span>
-<span id="cb10-54">    ha<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"right"</span>,</span>
-<span id="cb10-55">    size<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">13</span>,</span>
-<span id="cb10-56">    transform<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>ax.transAxes</span>
-<span id="cb10-57">)</span>
-<span id="cb10-58"></span>
-<span id="cb10-59">ax.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">set</span>(xlabel<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"W"</span>, yticks<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>[])</span>
-<span id="cb10-60">ax.legend()<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span></span>
-<span id="cb10-61">fig.savefig(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"asd.png"</span>)</span></code></pre></div></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/index_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<div class="carousel-inner">
+<div class="carousel-item active no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/poisson/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/poisson/a-1.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/poisson/a-1.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/poisson/a-4.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/poisson/a-4.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/poisson/a-0.5_b-0.5_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/poisson/a-1.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/poisson/a-1.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/poisson/a-4.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/poisson/a-4.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/poisson/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/poisson/a-1.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/poisson/a-1.0_b-4.0_intercept-2.png" class="d-block mx-auto">
+<div class="carousel-caption d-none d-md-block">
+<p>I suspect there's a transcription error in the paper for this
+example</p>
 </div>
 </div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/poisson/a-4.0_b-1.0_intercept-2.png" class="d-block mx-auto">
 </div>
-<div id="8fb4e102" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> plot_w_apprximations(w, pdfs, title<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">""</span>, figsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">4</span>, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">3</span>)):</span>
-<span id="cb11-2">    fig, ax <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> plt.subplots(figsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>figsize)</span>
-<span id="cb11-3"></span>
-<span id="cb11-4">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> label, pdf <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> pdfs.items():</span>
-<span id="cb11-5">        ax.plot(w, pdf, label<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>label)</span>
-<span id="cb11-6"></span>
-<span id="cb11-7">    ax.set_title(title)</span>
-<span id="cb11-8">    ax.legend()</span>
-<span id="cb11-9">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> fig, ax</span></code></pre></div></div>
-</div>
-<div id="fd7d1aa8" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1">rows_dict <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> df.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">filter</span>(</span>
-<span id="cb12-2">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"family"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"poisson"</span>,</span>
-<span id="cb12-3">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"beta_0"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span></span>
-<span id="cb12-4">).to_dicts()</span>
-<span id="cb12-5"></span>
-<span id="cb12-6">fig, axes <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> plot_w_approximations(rows_dict, PoissonFamily)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span></span>
-<span id="cb12-7">fig.suptitle(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Family: Poisson, Intercept: -2"</span>, y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1.05</span>, fontsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">16</span>)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span></span></code></pre></div></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/index_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/poisson/a-4.0_b-4.0_intercept-2.png" class="d-block mx-auto">
 </div>
 </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#quarto-carousel-1" data-bs-slide="prev">
+      
+      <span class="visually-hidden">Previous</span>
+      </button>
+    
+      <button class="carousel-control-next" type="button" data-bs-target="#quarto-carousel-1" data-bs-slide="next">
+      
+      <span class="visually-hidden">Next</span>
+      </button>
+    
 </div>
-<div id="d63f3465" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1">rows_dict <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> df.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">filter</span>(</span>
-<span id="cb13-2">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"family"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"poisson"</span>,</span>
-<span id="cb13-3">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"beta_0"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span></span>
-<span id="cb13-4">).to_dicts()</span>
-<span id="cb13-5"></span>
-<span id="cb13-6">fig, axes <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> plot_w_approximations(rows_dict, PoissonFamily)</span>
-<span id="cb13-7">fig.suptitle(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Family: Poisson, Intercept: 0"</span>, y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1.05</span>, fontsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">16</span>)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span></span></code></pre></div></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/index_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+</section>
+<section id="negative-binomial" class="level3">
+<h3 class="anchored" data-anchor-id="negative-binomial">Negative Binomial</h3>
+<p>TO DO: Formulas from the paper</p>
+<div id="quarto-carousel-2" class="carousel carousel-dark slide carousel-framed" data-bs-ride="false">
+<div class="carousel-indicators">
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="0" class=" active" aria-current="true" aria-label="Slide 1"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="1" class="" aria-label="Slide 2"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="2" class="" aria-label="Slide 3"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="3" class="" aria-label="Slide 4"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="4" class="" aria-label="Slide 5"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="5" class="" aria-label="Slide 6"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="6" class="" aria-label="Slide 7"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="7" class="" aria-label="Slide 8"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="8" class="" aria-label="Slide 9"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="9" class="" aria-label="Slide 10"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="10" class="" aria-label="Slide 11"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="11" class="" aria-label="Slide 12"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="12" class="" aria-label="Slide 13"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="13" class="" aria-label="Slide 14"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="14" class="" aria-label="Slide 15"></button>
+  
+</div>
+<div class="carousel-inner">
+<div class="carousel-item active no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/nb/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/nb/a-1.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/nb/a-1.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/nb/a-4.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/nb/a-4.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/nb/a-0.5_b-0.5_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/nb/a-1.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/nb/a-1.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/nb/a-4.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/nb/a-4.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/nb/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/nb/a-1.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/nb/a-1.0_b-4.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/nb/a-4.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/nb/a-4.0_b-4.0_intercept-2.png" class="d-block mx-auto">
 </div>
 </div>
-</div>
-<div id="10337912" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1">rows_dict <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> df.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">filter</span>(</span>
-<span id="cb14-2">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"family"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"poisson"</span>,</span>
-<span id="cb14-3">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"beta_0"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span></span>
-<span id="cb14-4">).to_dicts()</span>
-<span id="cb14-5"></span>
-<span id="cb14-6">fig, axes <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> plot_w_approximations(rows_dict, PoissonFamily)</span>
-<span id="cb14-7">fig.suptitle(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Family: Poisson, Intercept: 0"</span>, y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1.05</span>, fontsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">16</span>)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span></span></code></pre></div></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/index_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#quarto-carousel-2" data-bs-slide="prev">
+      
+      <span class="visually-hidden">Previous</span>
+      </button>
+    
+      <button class="carousel-control-next" type="button" data-bs-target="#quarto-carousel-2" data-bs-slide="next">
+      
+      <span class="visually-hidden">Next</span>
+      </button>
+    
 </div>
 </section>
 <section id="logistic" class="level3">
 <h3 class="anchored" data-anchor-id="logistic">Logistic</h3>
-<div id="d07b2229" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1">rows_dict <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> df.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">filter</span>(</span>
-<span id="cb15-2">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"family"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"logistic"</span>,</span>
-<span id="cb15-3">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"beta_0"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span></span>
-<span id="cb15-4">).to_dicts()</span>
-<span id="cb15-5"></span>
-<span id="cb15-6">fig, axes <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> plot_w_approximations(rows_dict, LogisticFamily)</span>
-<span id="cb15-7">fig.suptitle(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Family: Logistic, Intercept: -2"</span>, y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1.05</span>, fontsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">16</span>)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span></span></code></pre></div></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_96055/4149930673.py:98: RuntimeWarning: invalid value encountered in scalar power
-  eta = stats.norm(loc=self.intercept, scale=w ** 0.5).ppf(p_grid)</code></pre>
+<p>TO DO: Formulas from the paper? No closed form expression available</p>
+<div id="quarto-carousel-3" class="carousel carousel-dark slide carousel-framed" data-bs-ride="false">
+<div class="carousel-indicators">
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="0" class=" active" aria-current="true" aria-label="Slide 1"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="1" class="" aria-label="Slide 2"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="2" class="" aria-label="Slide 3"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="3" class="" aria-label="Slide 4"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="4" class="" aria-label="Slide 5"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="5" class="" aria-label="Slide 6"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="6" class="" aria-label="Slide 7"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="7" class="" aria-label="Slide 8"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="8" class="" aria-label="Slide 9"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="9" class="" aria-label="Slide 10"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="10" class="" aria-label="Slide 11"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="11" class="" aria-label="Slide 12"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="12" class="" aria-label="Slide 13"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="13" class="" aria-label="Slide 14"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="14" class="" aria-label="Slide 15"></button>
+  
+</div>
+<div class="carousel-inner">
+<div class="carousel-item active no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/logistic/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/logistic/a-1.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/logistic/a-1.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/logistic/a-4.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/logistic/a-4.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/logistic/a-0.5_b-0.5_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/logistic/a-1.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/logistic/a-1.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/logistic/a-4.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/logistic/a-4.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/logistic/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/logistic/a-1.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/logistic/a-1.0_b-4.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/logistic/a-4.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/logistic/a-4.0_b-4.0_intercept-2.png" class="d-block mx-auto">
 </div>
 </div>
-<div id="9862960d" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1">rows_dict <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> df.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">filter</span>(</span>
-<span id="cb17-2">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"family"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"logistic"</span>,</span>
-<span id="cb17-3">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"beta_0"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span></span>
-<span id="cb17-4">).to_dicts()</span>
-<span id="cb17-5"></span>
-<span id="cb17-6">fig, axes <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> plot_w_approximations(rows_dict, LogisticFamily)</span>
-<span id="cb17-7">fig.suptitle(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Family: Logistic, Intercept: 0"</span>, y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1.05</span>, fontsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">16</span>)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span></span></code></pre></div></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_71151/4149930673.py:98: RuntimeWarning: invalid value encountered in scalar power
-  eta = stats.norm(loc=self.intercept, scale=w ** 0.5).ppf(p_grid)</code></pre>
+      <button class="carousel-control-prev" type="button" data-bs-target="#quarto-carousel-3" data-bs-slide="prev">
+      
+      <span class="visually-hidden">Previous</span>
+      </button>
+    
+      <button class="carousel-control-next" type="button" data-bs-target="#quarto-carousel-3" data-bs-slide="next">
+      
+      <span class="visually-hidden">Next</span>
+      </button>
+    
 </div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/index_files/figure-html/cell-17-output-2.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="467e24fe" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1">rows_dict <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> df.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">filter</span>(</span>
-<span id="cb19-2">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"family"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"logistic"</span>,</span>
-<span id="cb19-3">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"beta_0"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span></span>
-<span id="cb19-4">).to_dicts()</span>
-<span id="cb19-5"></span>
-<span id="cb19-6">fig, axes <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> plot_w_approximations(rows_dict, LogisticFamily)</span>
-<span id="cb19-7">fig.suptitle(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Family: Logistic, Intercept: 2"</span>, y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1.05</span>, fontsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">16</span>)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span></span></code></pre></div></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_71151/4149930673.py:98: RuntimeWarning: invalid value encountered in scalar power
-  eta = stats.norm(loc=self.intercept, scale=w ** 0.5).ppf(p_grid)</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/index_files/figure-html/cell-18-output-2.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Isn’t it better to use values of ‘a’ and ‘b’ that are above 1 in both cases? See for example</p>
-<div id="7cd081d5" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># fig, axes = plt.subplots(2, 3, figsize=(15, 8), layout="constrained")</span></span>
-<span id="cb21-2"></span>
-<span id="cb21-3"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># ab_pairs = ((1.5, 1.5), (10, 2), (2, 10), (6, 6), (20, 20), (20, 2))</span></span>
-<span id="cb21-4"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># intercept = 2</span></span>
-<span id="cb21-5"></span>
-<span id="cb21-6"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># for ax, (a, b) in zip(axes.ravel(), ab_pairs):</span></span>
-<span id="cb21-7"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">#     family = LogisticFamily(a=a, b=b, intercept=intercept)</span></span>
-<span id="cb21-8"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">#     params = WGBP(family, lam=0.25)</span></span>
-<span id="cb21-9"></span>
-<span id="cb21-10"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">#     w = np.linspace(0.01, family.ppf(0.9).item(), num=500)</span></span>
-<span id="cb21-11"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">#     w_gbp_pdf = gbp_pdf_stable(w, *params)</span></span>
-<span id="cb21-12"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">#     ax.plot(w, w_gbp_pdf, label="GBP Approx");</span></span>
-<span id="cb21-13"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">#     ax.set(title=f"a={a}, b={b}\n" + format_params(params))</span></span>
-<span id="cb21-14"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">#     ax.legend()</span></span></code></pre></div></div>
-</div>
-</section>
-<section id="negative-binomial-family" class="level3">
-<h3 class="anchored" data-anchor-id="negative-binomial-family">Negative Binomial family</h3>
-<div id="90f8bad0" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1">df</span></code></pre></div></div>
-<div class="cell-output cell-output-display" data-execution_count="82">
-<div><style>
-.dataframe > thead > tr,
-.dataframe > tbody > tr {
-  text-align: right;
-  white-space: pre-wrap;
-}
-</style>
-<small>shape: (45, 8)</small>
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th">beta_0</th>
-<th data-quarto-table-cell-role="th">a</th>
-<th data-quarto-table-cell-role="th">b</th>
-<th data-quarto-table-cell-role="th">a_star</th>
-<th data-quarto-table-cell-role="th">b_star</th>
-<th data-quarto-table-cell-role="th">c_star</th>
-<th data-quarto-table-cell-role="th">d_star</th>
-<th data-quarto-table-cell-role="th">family</th>
-</tr>
-<tr class="even">
-<td>i64</td>
-<td>f64</td>
-<td>f64</td>
-<td>f64</td>
-<td>f64</td>
-<td>f64</td>
-<td>f64</td>
-<td>str</td>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>-2</td>
-<td>0.5</td>
-<td>0.5</td>
-<td>0.19</td>
-<td>0.77</td>
-<td>4.22</td>
-<td>3.17</td>
-<td>"poisson"</td>
-</tr>
-<tr class="even">
-<td>-2</td>
-<td>0.5</td>
-<td>0.5</td>
-<td>0.48</td>
-<td>0.22</td>
-<td>1.23</td>
-<td>1.78</td>
-<td>"logistic"</td>
-</tr>
-<tr class="odd">
-<td>-2</td>
-<td>0.5</td>
-<td>0.5</td>
-<td>0.21</td>
-<td>0.74</td>
-<td>4.78</td>
-<td>3.49</td>
-<td>"negative binomial"</td>
-</tr>
-<tr class="even">
-<td>-2</td>
-<td>1.0</td>
-<td>1.0</td>
-<td>0.42</td>
-<td>1.5</td>
-<td>3.75</td>
-<td>2.56</td>
-<td>"poisson"</td>
-</tr>
-<tr class="odd">
-<td>-2</td>
-<td>1.0</td>
-<td>1.0</td>
-<td>1.45</td>
-<td>0.51</td>
-<td>0.99</td>
-<td>1.74</td>
-<td>"logistic"</td>
-</tr>
-<tr class="even">
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>4.0</td>
-<td>1.0</td>
-<td>8.21</td>
-<td>0.65</td>
-<td>0.74</td>
-<td>1.49</td>
-<td>"logistic"</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>4.0</td>
-<td>1.0</td>
-<td>2.16</td>
-<td>2.78</td>
-<td>1.35</td>
-<td>0.87</td>
-<td>"negative binomial"</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>4.0</td>
-<td>4.0</td>
-<td>3.66</td>
-<td>9.86</td>
-<td>0.97</td>
-<td>0.36</td>
-<td>"poisson"</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>4.0</td>
-<td>4.0</td>
-<td>8.15</td>
-<td>2.18</td>
-<td>0.88</td>
-<td>1.57</td>
-<td>"logistic"</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>4.0</td>
-<td>4.0</td>
-<td>2.92</td>
-<td>6.44</td>
-<td>1.24</td>
-<td>0.43</td>
-<td>"negative binomial"</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="03a5d65c" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1">rows_dict <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> df.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">filter</span>(</span>
-<span id="cb23-2">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"family"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"negative binomial"</span>,</span>
-<span id="cb23-3">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"beta_0"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span></span>
-<span id="cb23-4">).to_dicts()</span>
-<span id="cb23-5"></span>
-<span id="cb23-6">fig, axes <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> plot_w_approximations(rows_dict, NegativeBinomialFamily, theta<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)</span>
-<span id="cb23-7">fig.suptitle(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Family: Negative Binomial, Intercept: -2"</span>, y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1.05</span>, fontsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">16</span>)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span></span></code></pre></div></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_71151/1913648031.py:11: RuntimeWarning: overflow encountered in power
-  - (a + b) * np.log1p((x / d) ** c)</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/index_files/figure-html/cell-21-output-2.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="ef276816" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1">rows_dict <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> df.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">filter</span>(</span>
-<span id="cb25-2">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"family"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"negative binomial"</span>,</span>
-<span id="cb25-3">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"beta_0"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span></span>
-<span id="cb25-4">).to_dicts()</span>
-<span id="cb25-5"></span>
-<span id="cb25-6">fig, axes <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> plot_w_approximations(rows_dict, NegativeBinomialFamily, theta<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)</span>
-<span id="cb25-7">fig.suptitle(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Family: Negative Binomial, Intercept: 0"</span>, y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1.05</span>, fontsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">16</span>)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span></span></code></pre></div></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/index_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="b0ded9f8" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1">rows_dict <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> df.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">filter</span>(</span>
-<span id="cb26-2">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"family"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"negative binomial"</span>,</span>
-<span id="cb26-3">    pl.col(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"beta_0"</span>) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span></span>
-<span id="cb26-4">).to_dicts()</span>
-<span id="cb26-5"></span>
-<span id="cb26-6">fig, axes <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> plot_w_approximations(rows_dict, NegativeBinomialFamily, theta<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)</span>
-<span id="cb26-7">fig.suptitle(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Family: Negative Binomial, Intercept: 2"</span>, y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1.05</span>, fontsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">16</span>)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span></span></code></pre></div></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/index_files/figure-html/cell-23-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
+
 
 
 </section>
 </section>
 
- ]]></description>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+<div id="ref-Yanchenko2024" class="csl-entry">
+Yanchenko, Eric, Howard D. Bondell, and Brian J. Reich. 2024. <span>“The R2D2 Prior for Generalized Linear Mixed Models.”</span> <em>The American Statistician</em> 79 (1): 40–49. <a href="https://doi.org/10.1080/00031305.2024.2352010">https://doi.org/10.1080/00031305.2024.2352010</a>.
+</div>
+<div id="ref-Zhang2020" class="csl-entry">
+Zhang, Y. D., B. P. Naughton, H. D. Bondell, and B. J. Reich. 2020. <span>“Bayesian Regression Using a Prior on the Model Fit: The R2-D2 Shrinkage Prior.”</span> <em>Journal of the American Statistical Association</em> 117. <a href="https://doi.org/10.1080/01621459.2020.1825449">https://doi.org/10.1080/01621459.2020.1825449</a>.
+</div>
+</div></section></div> ]]></description>
   <guid>https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/</guid>
   <pubDate>Sat, 06 Dec 2025 03:00:00 GMT</pubDate>
   <media:content url="https://tomicapretto.github.io/posts/2025-12-06_r2d2_glmm/imgs/bayes_freethrow.png" medium="image" type="image/png"/>

@@ -1,0 +1,504 @@
+---
+title: "The R2-D2 prior for GLMMs in Python"
+summary: |
+    This is a summary I have to write...
+date: "2025-12-06"
+image: imgs/bayes_freethrow.png
+lang: en
+bibliography: references.bib
+filters:
+  - carousel
+toc-depth: 2
+---
+
+## R2-D2 for normal regression
+
+The R2-D2 prior for normal regression models has been introduced in @Zhang2020.
+
+Consider the normal regression model:
+
+$$
+\begin{aligned}
+Y_i \mid \mu_i, \sigma^2 &\underset{iid}{\sim} \text{Normal}(\mu_i, \sigma^2) \\
+\mu_i &= \alpha + \beta_1 X_{1i} + \beta_2 X_{2i} + \dots + \beta_p X_{pi} \\
+&= \alpha + \boldsymbol{X}\boldsymbol{\beta}
+\end{aligned}
+$$
+
+where $\boldsymbol{X}$ is the $n \times p$ design matrix,
+$\alpha$ is the intercept term, and $\boldsymbol{\beta}$
+is the vector of coefficients.
+
+The central idea in the R2-D2 prior is to place a prior directly on the coefficient of
+determination $R^2$.
+For the purpose of defining prior distributions, the authors work with the **marginal**
+coefficient of determination: a version of $R^2$ that averages over both the design matrix $\boldsymbol{X}$
+and the regression coefficients $\boldsymbol{\beta}$.
+
+For the linear regression model, the marginal $R^2$ is defined as:
+
+$$
+R^2 = \frac{\mathbb{V}(\boldsymbol{x}^T \boldsymbol{\beta})}{\mathbb{V}(\boldsymbol{x}^T \boldsymbol{\beta}) + \sigma^2}
+= \frac{\sigma^2 W}{\sigma^2 W + \sigma^2}
+= \frac{W}{W + 1}
+$$
+
+which is the ratio of the marginal variance of the linear predictor to the marginal variance of the outcome.
+
+Then, the R2-D2 prior is specified as:
+
+$$
+\begin{aligned}
+\beta_j \mid \phi_j, W, \sigma^2  &\sim \text{Normal}(0, \phi_j W \sigma^2) \\
+\boldsymbol{\phi} &\sim \text{Dirichlet}(\xi_1, \dots, \xi_p) \\
+W & = \frac{R^2}{1 - R^2}\\
+R^2 &\sim \text{Beta}(a, b) \\
+\end{aligned}
+$$
+
+Through the transformation $W = R^2/(1-R^2)$, the prior on $R^2$ induces a prior on $W$,
+which governs the total prior variance of the linear predictor $\boldsymbol{x}^T \boldsymbol{\beta}$
+Combined with the Dirichlet prior on the variance proportions $\boldsymbol{\phi}$, 
+this results in the **$R^2$-induced Dirichlet Decomposition (R2-D2) prior**.
+
+It can be shown that the induced prior on $W$ is a Beta Prime distribution with parameters $a$ and $b$.
+
+## R2-D2 for GLMMs
+
+The R2-D2 prior for Generalized Linear Mixed Models (GLMMs) has been introduced in @Yanchenko2024.
+
+Suppose we have a GLMM of the form:
+
+$$
+\begin{aligned}
+Y_i \mid \mu_i, \theta &\underset{iid}{\sim} \mathcal{F}(\mu_i, \theta) \\
+g(\mu_i) &= \eta_i = \alpha + \boldsymbol{x}_i \boldsymbol{\beta} + \sum_{k=1}^{q}u_{k g_k[i]} \\
+\end{aligned}
+$$
+
+::: {.callout-note collapse="true"}
+
+##### Notation details
+
+Let's be super clear about what we have in there:
+
+There are $n$ observations indexed by $i \in \{1,\dots,n\}$.
+The response variable for observation $i$ is denoted $Y_i$, with mean $\mu_i$.
+Conditional on $\mu_i$, and possibly additional parameters $\theta$,
+the response variables $Y_i$ are assumed to be independent and identically distributed ($\mathcal{F}$ represents an arbitrary family).
+A link function $g(\cdot)$ relates the mean $\mu_i$ to the linear predictor $\eta_i$.
+
+The linear predictor consists of an intercept $\alpha$, $p$ explanatory variables, and $q$ types of random effects.
+For the $i$-th observation, the covariates are collected in the vector $\boldsymbol{x}_i = (x_{i1},\dots,x_{ip})$,
+and the full set of covariates for all observations forms the design matrix $\boldsymbol{X}$, of dimension $n \times p$.
+It is assumed that $\boldsymbol{X}$ has been standardized so that each column has mean zero and variance one.
+
+The fixed-effect coefficients form the vector $\boldsymbol{\beta} = (\beta_1, \dots, \beta_p)^T$.
+For the $k$-th random effect, there are $L_k$ levels collected in $\boldsymbol{u}_k = (u_{k1},\dots,u_{kL_k})^T$,
+and we use $g_k[i]$ indicate the level of the random effect $k$ for the observation $i$.
+
+:::
+
+
+To construct the R2D2 prior for GLMMs, the authors specify the following prior model:
+
+$$
+\begin{aligned}
+\beta_j \mid \phi_j, W &\underset{iid}{\sim}\text{Normal}(0, \phi_j W) \\
+\boldsymbol{u}_k \mid \phi_{p + k}, W &\underset{iid}{\sim}\text{Normal}(0, \phi_{p + k}W \boldsymbol{I}_{L_k})
+\end{aligned}
+$$
+
+The parameter $W > 0$ governs the overall variance of the linear predictor, controlling the total amount of variation in the fixed and random effects.
+Larger values of $W$ correspond to more flexible models, while smaller values shrink the model toward an intercept-only model.
+
+The parameters $\phi_j \ge 0$, which satisfy $\sum_{j=1}^{p+q} \phi_j = 1$,
+determine how this total variance $W$ is distributed across the individual fixed and random effect components.
+The vector of variance proportions $\boldsymbol{\phi} = (\phi_1,\dots,\phi_{p+q})$ is typically given a Dirichlet prior,
+
+$$
+\boldsymbol{\phi} \sim \text{Dirichlet}(\xi_1, \dots, \xi_{p+q}),
+$$
+
+and in many applications all concentration parameters are set to a common value $\xi_0$.
+Larger values of $\xi_0$ shrink the variance proportions toward the uniform allocation $1 / (p+q)$,
+while smaller values allow for more dispersed and uncertain allocations across components.
+
+Like in the linear model case, the R2-D2 prior for GLMMs is specified by placing a prior
+on the marginal $R^2$ that averages over explanatory variables and random effects
+($\boldsymbol{X}$ and $\boldsymbol{g}$) as well as parameters ($\boldsymbol{\beta}$ and $\boldsymbol{u}_k$).
+
+This marginal $R^2$ is defined as:
+
+$$
+R^2 = \frac{\mathbb{V}(\mathbb{E}(Y \mid \eta))}{\mathbb{V}(\mathbb{E}(Y \mid \eta)) + \mathbb{E}(\mathbb{V}(Y \mid \eta))}
+$$
+
+Given that $R^2$ is based on summaries of the distribution of the linear predictor $\eta$,
+and it is assumed that $\eta_i \mid \alpha, W \sim \text{Normal}(\alpha, W)$,
+$R^2$ also depends on the parameters $\alpha$ and $W$.
+
+### The details
+
+The essence of the R2-D2 prior for GLMMs is to define a joint prior on $(\alpha, W)$
+such that the resulting induced prior on $R^2$ is $\text{Beta}(a, b)$.
+
+@Yanchenko2024 construct such a prior by decomposing the joint distribution into a
+marginal prior for $\alpha$ and a conditional prior for $W \mid \alpha$.
+They then choose a prior for $W \mid \alpha$ that ensures the induced distribution of $R^2$ is $\text{Beta}(a, b)$ for any fixed value of $\alpha$.
+Because this holds conditionally for all $\alpha$, the marginal distribution of $R^2$ under the joint prior on $(\alpha, W)$ is also $\text{Beta}(a, b)$,
+regardless of the marginal prior placed on $\alpha$.
+Combined with a Dirichlet prior on the variance proportions, this construction yields the R2-D2 prior for GLMMs.
+
+#### The need for approximations
+
+For some model families, the prior on $W$ that induces $R^2 \sim \text{Beta}(a, b)$ can be derived in closed form.
+However, since this is not generally possible for GLMMs, the authors propose a unified approximate approach that works across all model families.
+
+The idea is to place a Generalized Beta Prime (GBP) prior on $W$ and choose its parameters so that the resulting induced distribution of $R^2$ closely matches the target $\text{Beta}(a, b)$ distribution.
+
+The problem becomes finding the values $(a^*, b^*, c^*, d^*)$ so that the prior
+$W \sim \text{GBP}(a^*, b^*, c^*, d^*)$ induces a prior on $R^2$ that is close to $\text{Beta}(a, b)$.
+
+Suppose $p(w)$ is the density function of the distribution on $W$ that yields exactly $R^2 \sim \text{Beta}(a, b)$.
+To obtain the values of the parameters of the GBP distribution, the authors
+minimize the Pearson $\chi^2$ divergence between the true density $p(w)$ and its GBP approximation $p_{GBP}(w)$,
+with an added regularization term that shrinks the solution toward $\text{GBP}(a^*, b^*, 1, 1)$,
+which is the exact solution for certain model families and can be considered the baseline.
+
+The optimization problem is formulated as:
+
+$$
+\begin{aligned}
+(a^*, b^*, c^*, d^*) & =
+    \arg\min_{\alpha, \beta, c, d}
+        \int_0^{\infty}
+        \left\{
+            \frac{p_{GBP}(w, \alpha, \beta, c, d) - p(w)}{p(w)}
+        \right\}^2 p(w) dw \quad +
+        \\
+& \qquad \qquad \qquad
+  \lambda \left[(\alpha - a)^2 + (\beta - b)^2 + (c - 1)^2 + (d - 1)^2\right]
+\end{aligned}
+$$
+
+Here, $\lambda \ge 0$ is a tuning parameter that controls the amount of the regularization,
+which the authors suggest setting to $\lambda = 1 / 4$.
+
+#### How to use it
+
+In practice, specifying the R2-D2 prior for GLMMs requires the user to choose the Beta hyperparameters $a$ and $b$ for the desired prior on $R^2$.
+One then solves the optimization problem above to find the parameters $(a^*, b^*, c^*, d^*)$ of the GBP prior on $W$.
+The resulting prior can be implemented via the transformation:
+
+$$
+V \sim \text{Beta}(a^*, b^*) \implies W = d^*\left[\frac{V}{1 - V}\right]^{1/c^*} \sim \text{GBP}(a^*, b^*, c^*, d^*)
+$$
+
+When doing inference with MCMC, because the optimal values $(a^*, b^*, c^*, d^*)$ depend on $\alpha$ and possibly other response-distribution parameters $\theta$,
+the approximation should be updated with their values at every iteration.
+
+However, performing this optimization at every MCMC iteration would be computationally infeasible.
+To address this, the authors recommend computing the GBP approximation once at the start of the analysis using $\hat{\alpha} = g(\bar{Y}_i)$ and,
+if needed, the maximum likelihood estimate $\hat{\theta}$.
+Once the values of $(a^*, b^*, c^*, d^*)$ are found, $\alpha$ and $\theta$ are treated as unknown again during the subsequent Bayesian inference.
+
+## Python implementation
+
+Now that we have reviewed ...
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+import polars as pl
+
+from scipy import stats
+from scipy.optimize import minimize, minimize_scalar
+from scipy import special
+```
+
+```python
+def gbp_pdf(x, a, b, c, d):
+    log_num = (
+        np.log(c)
+        + (a * c - 1) * (np.log(x) - np.log(d))
+        - (a + b) * np.log1p((x / d) ** c)
+    )
+    log_den = np.log(d) + special.betaln(a, b)
+    return np.exp(log_num - log_den)
+```
+
+
+```python
+def WGBP(family, lam=0.25, x0=np.ones(4), method="Powell"):
+    """Compute parameters for the GBP Approximation
+
+    This function finds the closest Generalized Beta Prime (GBP) distribution
+    to the true pdf of W as measured by the Pearson Chi-squared divergence.
+    """
+    a = family.a
+    b = family.b
+
+    # Quantiles
+    p = np.linspace(0.01, 0.99, num=500)
+
+    # Values of 'w' where p_true and p_gbp are evaluated.
+    w = family.ppf(p=p).flatten()
+    p_true = family.pdf(w=w).flatten()
+
+    # Copied from the R implementation because sometimes p_true has NaNs
+    w = w[~np.isnan(p_true)]
+    p_true = p_true[~np.isnan(p_true)]
+
+    def divergence(log_params):
+        p_gbp = gbp_pdf(w, *np.exp(log_params))
+        log_target = np.log(np.array([a, b, 1, 1]))
+
+        integral = np.sum((1 - p_gbp / p_true) ** 2)
+        penalty = lam * np.sum((log_params - log_target) ** 2)
+        return integral + penalty
+
+    result = minimize(divergence, x0=np.log(x0), method=method)
+
+    if result.success:
+        return np.exp(result.x)
+
+    raise Exception("Minimization didn't converge")
+```
+
+
+```python
+class Family(ABC):
+    @abstractmethod
+    def W_to_R2(self, w):
+        """Convert W values to R^2
+
+        Details are specific to each model family. To be implemented by subclasses.
+        """
+        pass
+
+    @abstractmethod
+    def pdf(self, w):
+        """Probability Density Function (PDF) of W.
+
+        Details are specific to each model family. To be implemented by subclasses.
+        """
+        pass
+
+    def cdf(self, w):
+        """Cumulative Distribution Function (CDF) of W
+
+        Computes values of the CDF of W induced by a Beta(a, b) prior on R-squared.
+        The strategy is to convert W to R-squared and find the CDF of the corresponding R-squared.
+        """
+        return stats.beta.cdf(self.W_to_R2(w), a=self.a, b=self.b)
+
+    def ppf(self, p, bounds=None):
+        """Quantile Function of W
+
+        Computes the quantiles of W induced by a Beta(a, b) prior on R2.
+        It numerically inverts the CDF of W.
+        NOTE: It's quite sensitive to `bounds`.
+        """
+        if bounds is None:
+            # Helper to find suitable bonds
+            ub_candidates = [1, 10, 100, 1_000, 10_000, 100_000, 500_000, 1_000_000]
+            for candidate in ub_candidates:
+                if self.cdf(candidate) > 0.99:
+                    break
+            bounds = (1 / 100_000, candidate)
+
+        log_bounds = (np.log(bounds[0]), np.log(bounds[1]))
+
+        def ppf_scalar(p):
+            def distance(logw):
+                return (self.cdf(w=np.exp(logw)) - p) ** 2
+
+            result = minimize_scalar(distance, bounds=log_bounds)
+            output = result.x
+
+            return np.exp(output)
+
+        return np.array([ppf_scalar(p_i) for p_i in np.atleast_1d(p)])
+
+
+class PoissonFamily(Family):
+    def __init__(self, a, b, intercept):
+        self.a = a
+        self.b = b
+        self.intercept = intercept
+
+    def W_to_R2(self, w):
+        return np.expm1(w) / (np.expm1(w) + np.exp(-self.intercept -0.5 * w))
+
+    def pdf(self, w):
+        a, b, alpha = self.a, self.b, self.intercept
+        f1 = 1 / special.beta(a, b)
+        f2_num = np.expm1(w) ** (a - 1) * np.exp(-b * (alpha + w / 2)) * (3 * np.exp(w) - 1)
+        f2_den = 2 * (np.expm1(w) + np.exp(-alpha - w / 2)) ** (a + b)
+        return f1 * (f2_num / f2_den)
+```
+
+
+## Examples
+
+### Poisson
+
+TO DO: Formulas from the paper
+
+:::: {.carousel .dark .framed autoplay="false" transition="none"}
+
+:::: {.carousel-item image="imgs/poisson/a-0.5_b-0.5_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/poisson/a-1.0_b-1.0_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/poisson/a-1.0_b-4.0_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/poisson/a-4.0_b-1.0_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/poisson/a-4.0_b-4.0_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/poisson/a-0.5_b-0.5_intercept-0.png"}
+:::
+
+:::: {.carousel-item image="imgs/poisson/a-1.0_b-1.0_intercept-0.png"}
+:::
+
+:::: {.carousel-item image="imgs/poisson/a-1.0_b-4.0_intercept-0.png"}
+:::
+
+:::: {.carousel-item image="imgs/poisson/a-4.0_b-1.0_intercept-0.png"}
+:::
+
+:::: {.carousel-item image="imgs/poisson/a-4.0_b-4.0_intercept-0.png"}
+:::
+
+:::: {.carousel-item image="imgs/poisson/a-0.5_b-0.5_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/poisson/a-1.0_b-1.0_intercept-2.png"}
+:::
+
+:::: {.carousel-item image="imgs/poisson/a-1.0_b-4.0_intercept-2.png" caption="I suspect there's a transcription error in the paper for this example"}
+:::
+
+:::: {.carousel-item image="imgs/poisson/a-4.0_b-1.0_intercept-2.png"}
+:::
+
+:::: {.carousel-item image="imgs/poisson/a-4.0_b-4.0_intercept-2.png"}
+:::
+
+:::
+
+### Negative Binomial
+
+TO DO: Formulas from the paper
+
+
+:::: {.carousel .dark .framed autoplay="false" transition="none"}
+
+:::: {.carousel-item image="imgs/nb/a-0.5_b-0.5_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/nb/a-1.0_b-1.0_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/nb/a-1.0_b-4.0_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/nb/a-4.0_b-1.0_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/nb/a-4.0_b-4.0_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/nb/a-0.5_b-0.5_intercept-0.png"}
+:::
+
+:::: {.carousel-item image="imgs/nb/a-1.0_b-1.0_intercept-0.png"}
+:::
+
+:::: {.carousel-item image="imgs/nb/a-1.0_b-4.0_intercept-0.png"}
+:::
+
+:::: {.carousel-item image="imgs/nb/a-4.0_b-1.0_intercept-0.png"}
+:::
+
+:::: {.carousel-item image="imgs/nb/a-4.0_b-4.0_intercept-0.png"}
+:::
+
+:::: {.carousel-item image="imgs/nb/a-0.5_b-0.5_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/nb/a-1.0_b-1.0_intercept-2.png"}
+:::
+
+:::: {.carousel-item image="imgs/nb/a-1.0_b-4.0_intercept-2.png"}
+:::
+
+:::: {.carousel-item image="imgs/nb/a-4.0_b-1.0_intercept-2.png"}
+:::
+
+:::: {.carousel-item image="imgs/nb/a-4.0_b-4.0_intercept-2.png"}
+:::
+
+:::
+
+
+### Logistic
+
+TO DO: Formulas from the paper? No closed form expression available
+
+:::: {.carousel .dark .framed autoplay="false" transition="none"}
+
+:::: {.carousel-item image="imgs/logistic/a-0.5_b-0.5_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/logistic/a-1.0_b-1.0_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/logistic/a-1.0_b-4.0_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/logistic/a-4.0_b-1.0_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/logistic/a-4.0_b-4.0_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/logistic/a-0.5_b-0.5_intercept-0.png"}
+:::
+
+:::: {.carousel-item image="imgs/logistic/a-1.0_b-1.0_intercept-0.png"}
+:::
+
+:::: {.carousel-item image="imgs/logistic/a-1.0_b-4.0_intercept-0.png"}
+:::
+
+:::: {.carousel-item image="imgs/logistic/a-4.0_b-1.0_intercept-0.png"}
+:::
+
+:::: {.carousel-item image="imgs/logistic/a-4.0_b-4.0_intercept-0.png"}
+:::
+
+:::: {.carousel-item image="imgs/logistic/a-0.5_b-0.5_intercept--2.png"}
+:::
+
+:::: {.carousel-item image="imgs/logistic/a-1.0_b-1.0_intercept-2.png"}
+:::
+
+:::: {.carousel-item image="imgs/logistic/a-1.0_b-4.0_intercept-2.png"}
+:::
+
+:::: {.carousel-item image="imgs/logistic/a-4.0_b-1.0_intercept-2.png"}
+:::
+
+:::: {.carousel-item image="imgs/logistic/a-4.0_b-4.0_intercept-2.png"}
+:::
+
+:::
