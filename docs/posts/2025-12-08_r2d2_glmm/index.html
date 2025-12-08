@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-12-06">
+<meta name="dcterms.date" content="2025-12-08">
 
 <title>Getting familiar with the R2D2 prior for GLMMs – Tomi Capretto</title>
 <style>
@@ -215,8 +215,9 @@ window.Quarto = {
   <li><a href="#r2d2-for-normal-regression" id="toc-r2d2-for-normal-regression" class="nav-link" data-scroll-target="#r2d2-for-normal-regression">R2D2 for normal regression</a></li>
   <li><a href="#r2d2-for-glmms" id="toc-r2d2-for-glmms" class="nav-link" data-scroll-target="#r2d2-for-glmms">R2D2 for GLMMs</a></li>
   <li><a href="#python-implementation" id="toc-python-implementation" class="nav-link" data-scroll-target="#python-implementation">Python implementation</a></li>
-  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  <li><a href="#experimental-results" id="toc-experimental-results" class="nav-link" data-scroll-target="#experimental-results">Experimental results</a></li>
   <li><a href="#final-thoughts" id="toc-final-thoughts" class="nav-link" data-scroll-target="#final-thoughts">Final thoughts</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next">What’s next</a></li>
   </ul>
 </nav>
 </nav>
@@ -240,7 +241,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 6, 2025</p>
+      <p class="date">December 8, 2025</p>
     </div>
   </div>
   
@@ -254,7 +255,11 @@ window.Quarto = {
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Something I have to write…</p>
+<p>This blog post exists because I really wanted to write another blog post, not this one. But life is full of surprises, I have to say.</p>
+<p>I just wanted to replicate some results in <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span>, the paper that introduces the R2D2 prior for Generalized Linear Mixed Models (GLMMs). I would read the math, implement what I needed, use PyMC to build a model, obtain a posterior, and write down a couple of conclusions. That would be it.</p>
+<p>While working through the paper, I got completely drawn into it: I found myself re-reading sections several times and implementing almost everything in code. Now, I do feel I can explain how it works in a few minutes, but it took me many hours to grasp the core ideas. Along the way, I wrote a lot of code, examples, and tests that, unfortunately, don’t really fit into the original blog post.</p>
+<p>So here we are, ending up with this extra post. It is one that doesn’t include much code. Instead, it focuses on the explanation I was able to distill while experimenting with this prior. If you prefer to learn by looking at (and playing with) code, feel free to look at <a href="https://gist.github.com/tomicapretto/e6dd0a28d9ae328c4e4abe88b40ced4f">this gist</a>, which contains all the code behind the post.</p>
+<p>Otherwise, welcome! This is my attempt to explain R2D2 for GLMMs, share a few experiments I ran, and wrap up with some conclusions.</p>
 </section>
 <section id="r2d2-for-normal-regression" class="level2">
 <h2 class="anchored" data-anchor-id="r2d2-for-normal-regression">R2D2 for normal regression</h2>
@@ -290,7 +295,6 @@ R^2 &amp;\sim \text{Beta}(a, b) \\
 </section>
 <section id="r2d2-for-glmms" class="level2">
 <h2 class="anchored" data-anchor-id="r2d2-for-glmms">R2D2 for GLMMs</h2>
-<p>The R2D2 prior for Generalized Linear Mixed Models (GLMMs) has been introduced in <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span>.</p>
 <p>Suppose we have a GLMM of the form:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -316,7 +320,7 @@ g(\mu_i) &amp;= \eta_i = \alpha + \boldsymbol{x}_i \boldsymbol{\beta} + \sum_{k=
 </div>
 </div>
 </div>
-<p>To construct the R2D2 prior for GLMMs, the authors specify the following prior model:</p>
+<p>To construct the R2D2 prior for GLMMs, <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span> specify the following prior model:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \beta_j \mid \phi_j, W &amp;\sim\text{Normal}(0, \phi_j W) \\
@@ -375,7 +379,12 @@ V \sim \text{Beta}(a^*, b^*) \implies W = d^*\left[\frac{V}{1 - V}\right]^{1/c^*
 </section>
 <section id="python-implementation" class="level2">
 <h2 class="anchored" data-anchor-id="python-implementation">Python implementation</h2>
-<p>Now that we have reviewed …</p>
+<p>Below I include a bare-bones implementation of a function that computes <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> for the GBP approximation corresponding to a desired <span class="math inline">\(\text{Beta}(a, b)\)</span> prior on <span class="math inline">\(R^2\)</span>. Its purpose is simply to show that minimizing the divergence is not the tedious part; dealing with all the details across different model families is.</p>
+<p>If you want to see the actual code, including all the rough edges and unpleasant implementation details, have a look at <a href="https://gist.github.com/tomicapretto/e6dd0a28d9ae328c4e4abe88b40ced4f">this gist</a>.</p>
+<details>
+<summary>
+Code: Basic implementation
+</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> special</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
@@ -422,7 +431,7 @@ V \sim \text{Beta}(a^*, b^*) \implies W = d^*\left[\frac{V}{1 - V}\right]^{1/c^*
 <span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
 <span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
 <span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">    np.ndarray</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">        Array with the estimated GBP parameters (a*, b*, c*, d*) </span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">        Array with the estimated GBP parameters (a*, b*, c*, d*)</span></span>
 <span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co">        that approximate the true density of W.</span></span>
 <span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
 <span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
@@ -442,12 +451,23 @@ V \sim \text{Beta}(a^*, b^*) \implies W = d^*\left[\frac{V}{1 - V}\right]^{1/c^*
 <span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> result.x</span>
 <span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">"Minimization didn't converge"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </section>
-<section id="examples" class="level2">
-<h2 class="anchored" data-anchor-id="examples">Examples</h2>
+<section id="experimental-results" class="level2">
+<h2 class="anchored" data-anchor-id="experimental-results">Experimental results</h2>
+<p>To evaluate my implementation of the function that computes the hyperparameters of the Generalized Beta Prime distribution, I reproduced the results from Table 5 in <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span> (shown below).</p>
+<p><img src="imgs/table_5.png" class="img-fluid"></p>
+<p>In what follows, we will examine, for three model families and for all combinations of <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and the intercept (denoted <span class="math inline">\(\alpha\)</span> in my code and <span class="math inline">\(\beta_0\)</span> in the paper), the following:</p>
+<p>In what follows, we will see, for three model families, and for all settings of <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and intercept (<span class="math inline">\(\alpha\)</span> in my case, <span class="math inline">\(\beta_0\)</span> in the paper):</p>
+<ul>
+<li>the true probability density function of <span class="math inline">\(W\)</span></li>
+<li>the GBP approximation reported in the paper</li>
+<li>the GBP approximation obtained from my implementation</li>
+<li>the divergence between each approximation and the true density</li>
+</ul>
 <section id="poisson" class="level3">
 <h3 class="anchored" data-anchor-id="poisson">Poisson</h3>
-<p>The relationship between <span class="math inline">\(W\)</span> and <span class="math inline">\(R^2\)</span>, as well as the probability density function of <span class="math inline">\(W\)</span>, in the case of a Poisson regression model with a <span class="math inline">\(\log\)</span> link function, are given in Equations 7 and 8 of <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span>.</p>
+<p>The relationship between <span class="math inline">\(W\)</span> and <span class="math inline">\(R^2\)</span>, as well as the probability density function of <span class="math inline">\(W\)</span>, in the case of a Poisson regression model with a log link function, are given in Equations 7 and 8 of <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span>.</p>
 <p><span class="math display">\[
 \begin{aligned}
 R^2 &amp;= \frac{e^W - 1}{e^W - 1 + e^{-\alpha - \frac{1}{2} W}} \\ \\
@@ -554,10 +574,16 @@ example</p>
       </button>
     
 </div>
+<p>We can highlight a few things:</p>
+<ul>
+<li>The specific hyperparameters I obtain are never exactly the same as the ones in the paper.</li>
+<li>However, the resulting GBP distributions are, in general, qualitatively similar.</li>
+<li><span class="math inline">\(\text{Beta}\)</span> priors with <span class="math inline">\(a=0.5\)</span> and <span class="math inline">\(b=0.5\)</span> yield priors on <span class="math inline">\(W\)</span> with a sharp peak near zero and very heavy tails.</li>
+</ul>
 </section>
 <section id="negative-binomial" class="level3">
-<h3 class="anchored" data-anchor-id="negative-binomial">Negative Binomial</h3>
-<p>In the case of negative binomial regression, again with a <span class="math inline">\(\log\)</span> link function, we also have to consider the overdispersion parameter <span class="math inline">\(\theta &gt; 1\)</span>. Equations 23 and 24 in <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span> show:</p>
+<h3 class="anchored" data-anchor-id="negative-binomial">Negative binomial</h3>
+<p>In the case of negative binomial regression, again with a log link function, we also have to consider the overdispersion parameter <span class="math inline">\(\theta &gt; 1\)</span>. Equations 23 and 24 in <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span> show:</p>
 <p><span class="math display">\[
 \begin{aligned}
 R^2 &amp;= \frac{e^W - 1}{e^W - 1 + \theta e^{-\alpha - \frac{1}{2} W}} \\ \\
@@ -660,6 +686,7 @@ p(w \mid \alpha, a, b) &amp;=
       </button>
     
 </div>
+<p>The conclusions are similar to the ones I wrote above.</p>
 </section>
 <section id="logistic" class="level3">
 <h3 class="anchored" data-anchor-id="logistic">Logistic</h3>
@@ -830,11 +857,20 @@ p(w) \approx \frac{F(w + \delta) - F(w - \delta)}{2 \delta}
       </button>
     
 </div>
+<p>The main, and rather obvious, conclusion is that all resulting priors on <span class="math inline">\(W\)</span> are <em>very</em> heavy-tailed. When you see the horizontal axis extending all the way to 250, that’s only because I manually reduced its upper bound.</p>
+<p>Other than that, the approximation seems to work reasonably well, although I’m not entirely sure how good my judgement is here (after all, my approximation is approximating another approximation!).</p>
 </section>
 </section>
 <section id="final-thoughts" class="level2">
 <h2 class="anchored" data-anchor-id="final-thoughts">Final thoughts</h2>
-<p>Something I have to write…</p>
+<p>Well, it seems I’m done, at least for now. I’m really glad I managed to build a Python implementation that lets me use the R2D2 prior in GLMMs. Before wrapping up, let me share a few concluding notes.</p>
+<p>While experimenting with different values of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, I noticed that <span class="math inline">\(\text{Beta}(0.5,0.5)\)</span> induces a prior on <span class="math inline">\(W\)</span> with most of its mass near zero and heavy tails. I don’t think this is a great choice, other than for testing purposes. Even the uniform <span class="math inline">\(\text{Beta}(1,1)\)</span> is not obviously preferable. Alternatives that are moderately informative such as <span class="math inline">\(\text{Beta}(2,2)\)</span> or <span class="math inline">\(\text{Beta}(4,4)\)</span> already induce a smoother prior on <span class="math inline">\(W\)</span>.</p>
+<p>Regarding specific families, I noticed that for the Poisson and negative binomial models the prior mass tends to concentrate near the origin as the intercept varies (from <span class="math inline">\(-2\)</span> to <span class="math inline">\(0\)</span> and from <span class="math inline">\(0\)</span> to <span class="math inline">\(2\)</span>), although I still do not fully understand why. In the logistic case, the (approximate) prior on <span class="math inline">\(W\)</span> has extremely heavy tails, which I don’t think is desirable.</p>
+<p>From an implementation perspective, there were also a few surprises. The actual value of the divergence turns out to be very sensitive to the choice of the grid over <span class="math inline">\(w\)</span>, and it is easy to tweak a setting and obtain different values for <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span>. Avoiding numerical issues was also not trivial, especially for heavy-tailed families such as the logistic one. If you read the code, you will probably notice several small “robustification” tricks that were necessary to make everything work.</p>
+</section>
+<section id="whats-next" class="level2">
+<h2 class="anchored" data-anchor-id="whats-next">What’s next</h2>
+<p>And now? Time to write the blog post I originally intended to write: using the R2D2 prior in GLMMs with PyMC. Hopefully I’ll be able to finish that one soon!</p>
 
 
 

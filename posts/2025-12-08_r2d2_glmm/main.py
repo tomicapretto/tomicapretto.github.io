@@ -295,9 +295,6 @@ def plot_w_approximations(rows_dict, family, **family_kwargs):
     return None
 
 
-import warnings
-warnings.filterwarnings("error")
-
 if __name__ == "__main__":
     df = pl.read_csv("data/paper_approximations.csv")
 
