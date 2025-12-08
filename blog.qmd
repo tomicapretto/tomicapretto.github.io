@@ -12,5 +12,6 @@ listing:
     sort: "date desc"
     type: default
     page-size: 4
+anchor-sections: false
 page-layout: full
 ---

@@ -7,7 +7,7 @@ execute:
 
 website:
   title: "Tomi Capretto"
-  site-url: https://tomicapretto.github.io
+  site-url: https://tomicapretto.com
   repo-url: https://github.com/tomicapretto/tomicapretto.github.io
   google-analytics: "G-78XRDSRQC8"
   favicon: imgs/mate.png
@@ -24,6 +24,7 @@ website:
 
 format:
   html:
-    theme: cosmo
-    css: styles.css
+    theme:
+      - cosmo
+      - styles.scss
     toc: true
