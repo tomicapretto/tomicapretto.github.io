@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2025-12-08">
+
+<title>Getting familiar with the R2D2 prior for GLMMs – Tomi Capretto</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../imgs/mate.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-98f92bf15ef11c8abfffe40eb57d8d29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/carousel-0.1.0/quarto-carousel.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-78XRDSRQC8"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Tomi Capretto</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About me</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#r2d2-for-normal-regression" id="toc-r2d2-for-normal-regression" class="nav-link" data-scroll-target="#r2d2-for-normal-regression">R2D2 for normal regression</a></li>
+  <li><a href="#r2d2-for-glmms" id="toc-r2d2-for-glmms" class="nav-link" data-scroll-target="#r2d2-for-glmms">R2D2 for GLMMs</a></li>
+  <li><a href="#python-implementation" id="toc-python-implementation" class="nav-link" data-scroll-target="#python-implementation">Python implementation</a></li>
+  <li><a href="#experimental-results" id="toc-experimental-results" class="nav-link" data-scroll-target="#experimental-results">Experimental results</a></li>
+  <li><a href="#final-thoughts" id="toc-final-thoughts" class="nav-link" data-scroll-target="#final-thoughts">Final thoughts</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next">What’s next</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Getting familiar with the R2D2 prior for GLMMs</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 8, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This blog post exists because I really wanted to write another blog post, not this one. But life is full of surprises, I have to say.</p>
+<p>I just wanted to replicate some results in <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span>, the paper that introduces the R2D2 prior for Generalized Linear Mixed Models (GLMMs). I would read the math, implement what I needed, use PyMC to build a model, obtain a posterior, and write down a couple of conclusions. That would be it.</p>
+<p>While working through the paper, I got completely drawn into it: I found myself re-reading sections several times and implementing almost everything in code. Now, I do feel I can explain how it works in a few minutes, but it took me many hours to grasp the core ideas. Along the way, I wrote a lot of code, examples, and tests that, unfortunately, don’t really fit into the original blog post.</p>
+<p>So here we are, ending up with this extra post. It is one that doesn’t include much code. Instead, it focuses on the explanation I was able to distill while experimenting with this prior. If you prefer to learn by looking at (and playing with) code, feel free to look at <a href="https://gist.github.com/tomicapretto/e6dd0a28d9ae328c4e4abe88b40ced4f">this gist</a>, which contains all the code behind the post.</p>
+<p>Otherwise, welcome! This is my attempt to explain R2D2 for GLMMs, share a few experiments I ran, and wrap up with some conclusions.</p>
+</section>
+<section id="r2d2-for-normal-regression" class="level2">
+<h2 class="anchored" data-anchor-id="r2d2-for-normal-regression">R2D2 for normal regression</h2>
+<p>The R2D2 prior for normal regression models has been introduced in <span class="citation" data-cites="Zhang2020">Zhang et al. (<a href="#ref-Zhang2020" role="doc-biblioref">2020</a>)</span>.</p>
+<p>Consider the normal regression model:</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_i \mid \mu_i, \sigma^2 &amp;\underset{iid}{\sim} \text{Normal}(\mu_i, \sigma^2) \\
+\mu_i &amp;= \alpha + \beta_1 X_{1i} + \beta_2 X_{2i} + \dots + \beta_p X_{pi} \\
+&amp;= \alpha + \boldsymbol{X}\boldsymbol{\beta}
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{X}\)</span> is the design matrix, <span class="math inline">\(\alpha\)</span> is the intercept term, and <span class="math inline">\(\boldsymbol{\beta}\)</span> is the vector of coefficients.</p>
+<p>The central idea in the R2D2 prior is to place a prior directly on the coefficient of determination <span class="math inline">\(R^2\)</span>. For the purpose of defining prior distributions, the authors work with the marginal coefficient of determination: a version of <span class="math inline">\(R^2\)</span> that averages over both the design matrix <span class="math inline">\(\boldsymbol{X}\)</span> and the regression coefficients <span class="math inline">\(\boldsymbol{\beta}\)</span>.</p>
+<p>For the linear regression model, the marginal <span class="math inline">\(R^2\)</span> is defined as:</p>
+<p><span class="math display">\[
+R^2 = \frac{\mathbb{V}(\boldsymbol{x}^T \boldsymbol{\beta})}{\mathbb{V}(\boldsymbol{x}^T \boldsymbol{\beta}) + \sigma^2}
+= \frac{\sigma^2 W}{\sigma^2 W + \sigma^2}
+= \frac{W}{W + 1}
+\]</span></p>
+<p>which is the ratio of the marginal variance of the linear predictor to the marginal variance of the outcome.</p>
+<p>Then, the R2D2 prior is specified as:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\beta_j \mid \phi_j, W, \sigma^2  &amp;\sim \text{Normal}(0, \phi_j W \sigma^2) \\
+\boldsymbol{\phi} &amp;\sim \text{Dirichlet}(\xi_1, \dots, \xi_p) \\
+W &amp; = \frac{R^2}{1 - R^2}\\
+R^2 &amp;\sim \text{Beta}(a, b) \\
+\end{aligned}
+\]</span></p>
+<p>The prior on <span class="math inline">\(R^2\)</span> induces a prior on <span class="math inline">\(W\)</span>, which governs the total prior variance of the linear predictor <span class="math inline">\(\boldsymbol{x}^T \boldsymbol{\beta}\)</span>. Combined with the Dirichlet prior on the variance proportions <span class="math inline">\(\boldsymbol{\phi}\)</span>, this results in the <strong><span class="math inline">\(R^2\)</span>-induced Dirichlet Decomposition (R2D2) prior</strong>.</p>
+<p>It can be shown that the induced prior on <span class="math inline">\(W\)</span> is a Beta Prime distribution with parameters <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.</p>
+</section>
+<section id="r2d2-for-glmms" class="level2">
+<h2 class="anchored" data-anchor-id="r2d2-for-glmms">R2D2 for GLMMs</h2>
+<p>Suppose we have a GLMM of the form:</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_i \mid \mu_i, \theta &amp;\underset{iid}{\sim} \mathcal{F}(\mu_i, \theta) \\
+g(\mu_i) &amp;= \eta_i = \alpha + \boldsymbol{x}_i \boldsymbol{\beta} + \sum_{k=1}^{q}u_{k g_k[i]} \\
+\end{aligned}
+\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Notation details
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>There are <span class="math inline">\(n\)</span> observations indexed by <span class="math inline">\(i \in \{1,\dots,n\}\)</span>. The response variable for observation <span class="math inline">\(i\)</span> is denoted <span class="math inline">\(Y_i\)</span>, with mean <span class="math inline">\(\mu_i\)</span>. Conditional on <span class="math inline">\(\mu_i\)</span>, and possibly additional parameters <span class="math inline">\(\theta\)</span>, the response variables <span class="math inline">\(Y_i\)</span> are assumed to be independent and identically distributed (<span class="math inline">\(\mathcal{F}\)</span> represents an arbitrary family). A link function <span class="math inline">\(g(\cdot)\)</span> relates the mean <span class="math inline">\(\mu_i\)</span> to the linear predictor <span class="math inline">\(\eta_i\)</span>.</p>
+<p>The linear predictor consists of an intercept <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(p\)</span> explanatory variables, and <span class="math inline">\(q\)</span> types of random effects. For the <span class="math inline">\(i\)</span>-th observation, the covariates are collected in the vector <span class="math inline">\(\boldsymbol{x}_i = (x_{i1},\dots,x_{ip})\)</span>, and the full set of covariates for all observations forms the design matrix <span class="math inline">\(\boldsymbol{X}\)</span>, of dimension <span class="math inline">\(n \times p\)</span>. It is assumed that <span class="math inline">\(\boldsymbol{X}\)</span> has been standardized so that each column has mean zero and variance one.</p>
+<p>The fixed-effect coefficients form the vector <span class="math inline">\(\boldsymbol{\beta} = (\beta_1, \dots, \beta_p)^T\)</span>. For the <span class="math inline">\(k\)</span>-th random effect, there are <span class="math inline">\(L_k\)</span> levels collected in <span class="math inline">\(\boldsymbol{u}_k = (u_{k1},\dots,u_{kL_k})^T\)</span>, and we use <span class="math inline">\(g_k[i]\)</span> indicate the level of the random effect <span class="math inline">\(k\)</span> for the observation <span class="math inline">\(i\)</span>.</p>
+</div>
+</div>
+</div>
+<p>To construct the R2D2 prior for GLMMs, <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span> specify the following prior model:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\beta_j \mid \phi_j, W &amp;\sim\text{Normal}(0, \phi_j W) \\
+\boldsymbol{u}_k \mid \phi_{p + k}, W &amp;\sim\text{Normal}(0, \phi_{p + k}W \boldsymbol{I}_{L_k})
+\end{aligned}
+\]</span></p>
+<p>The parameter <span class="math inline">\(W &gt; 0\)</span> governs the overall variance of the linear predictor, controlling the total amount of variation in the fixed and random effects. Larger values of <span class="math inline">\(W\)</span> correspond to more flexible models, while smaller values shrink the model toward an intercept-only model.</p>
+<p>The parameters <span class="math inline">\(\phi_j \ge 0\)</span>, which satisfy <span class="math inline">\(\sum_{j=1}^{p+q} \phi_j = 1\)</span>, determine how this total variance <span class="math inline">\(W\)</span> is distributed across the individual fixed and random effect components. The vector of variance proportions <span class="math inline">\(\boldsymbol{\phi} = (\phi_1,\dots,\phi_{p+q})\)</span> is typically given a Dirichlet prior,</p>
+<p><span class="math display">\[
+\boldsymbol{\phi} \sim \text{Dirichlet}(\xi_1, \dots, \xi_{p+q}),
+\]</span></p>
+<p>and in many applications all concentration parameters are set to a common value <span class="math inline">\(\xi_0\)</span>. Larger values of <span class="math inline">\(\xi_0\)</span> shrink the variance proportions toward the uniform allocation <span class="math inline">\(1 / (p+q)\)</span>, while smaller values allow for more dispersed and uncertain allocations across components.</p>
+<p>Like in the linear model case, the R2D2 prior for GLMMs is specified by placing a prior on the marginal <span class="math inline">\(R^2\)</span> that averages over explanatory variables and random effects (<span class="math inline">\(\boldsymbol{X}\)</span> and <span class="math inline">\(\boldsymbol{g}\)</span>) as well as parameters (<span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\boldsymbol{u}_k\)</span>).</p>
+<p>This marginal <span class="math inline">\(R^2\)</span> is defined as:</p>
+<p><span class="math display">\[
+R^2 = \frac{\mathbb{V}(\mathbb{E}(Y \mid \eta))}{\mathbb{V}(\mathbb{E}(Y \mid \eta)) + \mathbb{E}(\mathbb{V}(Y \mid \eta))}
+\]</span></p>
+<p>Given that <span class="math inline">\(R^2\)</span> is based on summaries of the distribution of the linear predictor <span class="math inline">\(\eta\)</span>, and it is assumed that <span class="math inline">\(\eta_i \mid \alpha, W \sim \text{Normal}(\alpha, W)\)</span>, <span class="math inline">\(R^2\)</span> also depends on the parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(W\)</span>.</p>
+<section id="the-details" class="level3">
+<h3 class="anchored" data-anchor-id="the-details">The details</h3>
+<p>The essence of the R2D2 prior for GLMMs is to define a joint prior on <span class="math inline">\((\alpha, W)\)</span> such that the resulting induced prior on <span class="math inline">\(R^2\)</span> is <span class="math inline">\(\text{Beta}(a, b)\)</span>.</p>
+<p><span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span> construct such a prior by decomposing the joint distribution into a marginal prior for <span class="math inline">\(\alpha\)</span> and a conditional prior for <span class="math inline">\(W \mid \alpha\)</span>. They then choose a prior for <span class="math inline">\(W \mid \alpha\)</span> that ensures the induced distribution of <span class="math inline">\(R^2\)</span> is <span class="math inline">\(\text{Beta}(a, b)\)</span> for any fixed value of <span class="math inline">\(\alpha\)</span>. Because this holds conditionally for all <span class="math inline">\(\alpha\)</span>, the marginal distribution of <span class="math inline">\(R^2\)</span> under the joint prior on <span class="math inline">\((\alpha, W)\)</span> is also <span class="math inline">\(\text{Beta}(a, b)\)</span>, regardless of the marginal prior placed on <span class="math inline">\(\alpha\)</span>. Combined with a Dirichlet prior on the variance proportions, this construction yields the R2D2 prior for GLMMs.</p>
+<section id="the-need-for-approximations" class="level4">
+<h4 class="anchored" data-anchor-id="the-need-for-approximations">The need for approximations</h4>
+<p>For some model families, the prior on <span class="math inline">\(W\)</span> that induces <span class="math inline">\(R^2 \sim \text{Beta}(a, b)\)</span> can be derived in closed form. However, since this is not generally possible for GLMMs, the authors propose a unified approximate approach that works across all model families.</p>
+<p>The idea is to place a Generalized Beta Prime (GBP) prior on <span class="math inline">\(W\)</span> and choose its parameters so that the resulting induced distribution of <span class="math inline">\(R^2\)</span> closely matches the target <span class="math inline">\(\text{Beta}(a, b)\)</span> distribution.</p>
+<p>The problem becomes finding the values <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> so that the prior <span class="math inline">\(W \sim \text{GBP}(a^*, b^*, c^*, d^*)\)</span> induces a prior on <span class="math inline">\(R^2\)</span> that is close to <span class="math inline">\(\text{Beta}(a, b)\)</span>.</p>
+<p>Suppose <span class="math inline">\(p(w)\)</span> is the density function of the distribution on <span class="math inline">\(W\)</span> that yields exactly <span class="math inline">\(R^2 \sim \text{Beta}(a, b)\)</span>. To obtain the values of the parameters of the GBP distribution, the authors minimize the Pearson <span class="math inline">\(\chi^2\)</span> divergence between the true density <span class="math inline">\(p(w)\)</span> and its GBP approximation <span class="math inline">\(p_{GBP}(w)\)</span>, with an added regularization term that shrinks the solution toward <span class="math inline">\(\text{GBP}(a^*, b^*, 1, 1)\)</span>, which is the exact solution for certain model families and can be considered the baseline.</p>
+<p>The optimization problem is formulated as:</p>
+<p><span class="math display">\[
+\begin{aligned}
+(a^*, b^*, c^*, d^*) &amp; =
+    \arg\min_{\alpha, \beta, c, d}
+        \int_0^{\infty}
+        \left\{
+            \frac{p_{GBP}(w, \alpha, \beta, c, d) - p(w)}{p(w)}
+        \right\}^2 p(w) dw
+        \\
+&amp; \qquad \qquad \quad
+   + \quad \lambda \left[(\alpha - a)^2 + (\beta - b)^2 + (c - 1)^2 + (d - 1)^2\right]
+\end{aligned}
+\]</span></p>
+<p>Here, <span class="math inline">\(\lambda \ge 0\)</span> is a tuning parameter that controls the amount of the regularization, which the authors suggest setting to <span class="math inline">\(\lambda = 1 / 4\)</span>.</p>
+</section>
+<section id="how-to-use-it" class="level4">
+<h4 class="anchored" data-anchor-id="how-to-use-it">How to use it</h4>
+<p>In practice, specifying the R2D2 prior for GLMMs requires the user to choose the Beta hyperparameters <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> for the desired prior on <span class="math inline">\(R^2\)</span>. One then solves the optimization problem above to find the parameters <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> of the GBP prior on <span class="math inline">\(W\)</span>.</p>
+<p>The resulting prior can be implemented via the transformation:</p>
+<p><span class="math display">\[
+V \sim \text{Beta}(a^*, b^*) \implies W = d^*\left[\frac{V}{1 - V}\right]^{1/c^*} \sim \text{GBP}(a^*, b^*, c^*, d^*)
+\]</span></p>
+<p>When doing inference with MCMC, because the optimal values <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> depend on <span class="math inline">\(\alpha\)</span> and possibly other response-distribution parameters <span class="math inline">\(\theta\)</span>, the approximation should be updated with their values at every iteration.</p>
+<p>However, performing the optimization at every MCMC iteration would be computationally infeasible. To address this, the authors recommend computing the GBP approximation once at the start of the analysis using <span class="math inline">\(\hat{\alpha} = g(\bar{Y}_i)\)</span> and, if needed, the maximum likelihood estimate <span class="math inline">\(\hat{\theta}\)</span>. Once the values of <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> are found, <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\theta\)</span> are treated as unknown again during the subsequent Bayesian inference.</p>
+</section>
+</section>
+</section>
+<section id="python-implementation" class="level2">
+<h2 class="anchored" data-anchor-id="python-implementation">Python implementation</h2>
+<p>Below I include a bare-bones implementation of a function that computes <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span> for the GBP approximation corresponding to a desired <span class="math inline">\(\text{Beta}(a, b)\)</span> prior on <span class="math inline">\(R^2\)</span>. Its purpose is simply to show that minimizing the divergence is not the tedious part; dealing with all the details across different model families is.</p>
+<p>If you want to see the actual code, including all the rough edges and unpleasant implementation details, have a look at <a href="https://gist.github.com/tomicapretto/e6dd0a28d9ae328c4e4abe88b40ced4f">this gist</a>.</p>
+<details>
+<summary>
+Code: Basic implementation
+</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> special</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> penalized_divergence(p_true, p_approx, params_current, params_reference, lam):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Penalized Pearson Chi-squared divergence"""</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    integral <span class="op">=</span> np.<span class="bu">sum</span>((<span class="dv">1</span> <span class="op">-</span> p_approx <span class="op">/</span> p_true) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    penalty <span class="op">=</span> lam <span class="op">*</span> np.<span class="bu">sum</span>((params_current <span class="op">-</span> params_reference) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> integral <span class="op">+</span> penalty</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gbp_pdf(x, a, b, c, d):</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Probability density function of the GBP distribution"""</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    log_num <span class="op">=</span> (</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        np.log(c)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> (a <span class="op">*</span> c <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> (np.log(x) <span class="op">-</span> np.log(d))</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">-</span> (a <span class="op">+</span> b) <span class="op">*</span> np.log1p((x <span class="op">/</span> d) <span class="op">**</span> c)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    log_den <span class="op">=</span> np.log(d) <span class="op">+</span> special.betaln(a, b)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.exp(log_num <span class="op">-</span> log_den)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> WGBP(a, b, w_grid, p_true, lam<span class="op">=</span><span class="fl">0.25</span>, initial_point<span class="op">=</span>np.ones(<span class="dv">4</span>)):</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Compute parameters for the GBP Approximation</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">    Estimate the parameters of the Generalized Beta Prime (GBP) approximation to the</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">    distribution of W induced by a Beta(a, b) prior on R².</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">    a : float</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">        First parameter of the Beta(a, b) prior on R².</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">    b : float</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">        Second parameter of the Beta(a, b) prior on R².</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">    w_grid : np.ndarray</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">        One-dimensional grid of W values where the true and approximate densities are</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">        evaluated.</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">    p_true : callable</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">        Function that returns the true density p(w) when called on `w_grid`.</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">    lam : float, optional</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">        Penalization weight for regularization (default 0.25).</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">    initial_point : np.ndarray, optional</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">        Initial guess for the optimization procedure (default: np.ones(4)).</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">    np.ndarray</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">        Array with the estimated GBP parameters (a*, b*, c*, d*)</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co">        that approximate the true density of W.</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    params_reference <span class="op">=</span> np.array([a, b, <span class="dv">1</span>, <span class="dv">1</span>])</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> divergence(params):</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> penalized_divergence(</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>            p_true<span class="op">=</span>p_true(w_grid),</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>            p_approx<span class="op">=</span>gbp_pdf(w_grid, <span class="op">*</span>params),</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>            params_current<span class="op">=</span>params,</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>            params_reference<span class="op">=</span>params_reference,</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>            lam<span class="op">=</span>lam</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> minimize(divergence, x0<span class="op">=</span>initial_point)</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> result.success:</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> result.x</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">"Minimization didn't converge"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</section>
+<section id="experimental-results" class="level2">
+<h2 class="anchored" data-anchor-id="experimental-results">Experimental results</h2>
+<p>To evaluate my implementation of the function that computes the hyperparameters of the Generalized Beta Prime distribution, I reproduced the results from Table 5 in <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span> (shown below).</p>
+<p><img src="imgs/table_5.png" class="img-fluid"></p>
+<p>In what follows, we will examine, for three model families and for all combinations of <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and the intercept (denoted <span class="math inline">\(\alpha\)</span> in my code and <span class="math inline">\(\beta_0\)</span> in the paper), the following:</p>
+<p>In what follows, we will see, for three model families, and for all settings of <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and intercept (<span class="math inline">\(\alpha\)</span> in my case, <span class="math inline">\(\beta_0\)</span> in the paper):</p>
+<ul>
+<li>the true probability density function of <span class="math inline">\(W\)</span></li>
+<li>the GBP approximation reported in the paper</li>
+<li>the GBP approximation obtained from my implementation</li>
+<li>the divergence between each approximation and the true density</li>
+</ul>
+<section id="poisson" class="level3">
+<h3 class="anchored" data-anchor-id="poisson">Poisson</h3>
+<p>The relationship between <span class="math inline">\(W\)</span> and <span class="math inline">\(R^2\)</span>, as well as the probability density function of <span class="math inline">\(W\)</span>, in the case of a Poisson regression model with a log link function, are given in Equations 7 and 8 of <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span>.</p>
+<p><span class="math display">\[
+\begin{aligned}
+R^2 &amp;= \frac{e^W - 1}{e^W - 1 + e^{-\alpha - \frac{1}{2} W}} \\ \\
+p(w \mid \alpha, a, b) &amp;=
+    \frac{1}{2B(a, b)}
+    \frac
+        {(e^w - 1)^{a - 1} e^{-b(\alpha+ w/2)} (3e^w-1)}
+        {(e^w - 1 + e^{-\alpha - w/2})^{a+b}},
+    \qquad w \ge 0.
+\end{aligned}
+\]</span></p>
+<div id="quarto-carousel-1" class="carousel carousel-dark slide carousel-framed" data-bs-ride="false">
+<div class="carousel-indicators">
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="0" class=" active" aria-current="true" aria-label="Slide 1"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="1" class="" aria-label="Slide 2"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="2" class="" aria-label="Slide 3"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="3" class="" aria-label="Slide 4"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="4" class="" aria-label="Slide 5"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="5" class="" aria-label="Slide 6"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="6" class="" aria-label="Slide 7"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="7" class="" aria-label="Slide 8"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="8" class="" aria-label="Slide 9"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="9" class="" aria-label="Slide 10"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="10" class="" aria-label="Slide 11"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="11" class="" aria-label="Slide 12"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="12" class="" aria-label="Slide 13"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="13" class="" aria-label="Slide 14"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-1" data-bs-slide-to="14" class="" aria-label="Slide 15"></button>
+  
+</div>
+<div class="carousel-inner">
+<div class="carousel-item active no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-0.5_b-0.5_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-0.5_b-0.5_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-1.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-1.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-1.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-1.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-1.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-1.0_b-4.0_intercept-2.png" class="d-block mx-auto">
+<div class="carousel-caption d-none d-md-block">
+<p>I suspect there's a transcription error<br>in the paper for this
+example</p>
+</div>
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-4.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-4.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-4.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-4.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-4.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/poisson/a-4.0_b-4.0_intercept-2.png" class="d-block mx-auto">
+</div>
+</div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#quarto-carousel-1" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+      </button>
+    
+      <button class="carousel-control-next" type="button" data-bs-target="#quarto-carousel-1" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+      </button>
+    
+</div>
+<p>We can highlight a few things:</p>
+<ul>
+<li>The specific hyperparameters I obtain are never exactly the same as the ones in the paper.</li>
+<li>However, the resulting GBP distributions are, in general, qualitatively similar.</li>
+<li><span class="math inline">\(\text{Beta}\)</span> priors with <span class="math inline">\(a=0.5\)</span> and <span class="math inline">\(b=0.5\)</span> yield priors on <span class="math inline">\(W\)</span> with a sharp peak near zero and very heavy tails.</li>
+</ul>
+</section>
+<section id="negative-binomial" class="level3">
+<h3 class="anchored" data-anchor-id="negative-binomial">Negative binomial</h3>
+<p>In the case of negative binomial regression, again with a log link function, we also have to consider the overdispersion parameter <span class="math inline">\(\theta &gt; 1\)</span>. Equations 23 and 24 in <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span> show:</p>
+<p><span class="math display">\[
+\begin{aligned}
+R^2 &amp;= \frac{e^W - 1}{e^W - 1 + \theta e^{-\alpha - \frac{1}{2} W}} \\ \\
+p(w \mid \alpha, a, b) &amp;=
+    \frac{\theta^b}{2B(a, b)}
+    \frac
+        {(e^w - 1)^{a - 1} e^{-b(\alpha+ w/2)} (3e^w-1)}
+        {(e^w - 1 + \theta e^{-\alpha - w/2})^{a+b}},
+    \qquad w \ge 0.
+\end{aligned}
+\]</span></p>
+<div id="quarto-carousel-2" class="carousel carousel-dark slide carousel-framed" data-bs-ride="false">
+<div class="carousel-indicators">
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="0" class=" active" aria-current="true" aria-label="Slide 1"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="1" class="" aria-label="Slide 2"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="2" class="" aria-label="Slide 3"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="3" class="" aria-label="Slide 4"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="4" class="" aria-label="Slide 5"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="5" class="" aria-label="Slide 6"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="6" class="" aria-label="Slide 7"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="7" class="" aria-label="Slide 8"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="8" class="" aria-label="Slide 9"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="9" class="" aria-label="Slide 10"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="10" class="" aria-label="Slide 11"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="11" class="" aria-label="Slide 12"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="12" class="" aria-label="Slide 13"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="13" class="" aria-label="Slide 14"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-2" data-bs-slide-to="14" class="" aria-label="Slide 15"></button>
+  
+</div>
+<div class="carousel-inner">
+<div class="carousel-item active no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-0.5_b-0.5_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-0.5_b-0.5_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-1.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-1.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-1.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-1.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-1.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-1.0_b-4.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-4.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-4.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-4.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-4.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-4.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/nb/a-4.0_b-4.0_intercept-2.png" class="d-block mx-auto">
+</div>
+</div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#quarto-carousel-2" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+      </button>
+    
+      <button class="carousel-control-next" type="button" data-bs-target="#quarto-carousel-2" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+      </button>
+    
+</div>
+<p>The conclusions are similar to the ones I wrote above.</p>
+</section>
+<section id="logistic" class="level3">
+<h3 class="anchored" data-anchor-id="logistic">Logistic</h3>
+<p>Closed-form expressions are not available for logistic regression with a logit link. If you’re insterested in the details, have a look at the callouts below.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Details for <span class="math inline">\(R^2\)</span>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (<a href="#ref-Yanchenko2024" role="doc-biblioref">2024</a>)</span> approximates the coefficient of determination <span class="math inline">\(R^2\)</span> for given <span class="math inline">\(W\)</span> and <span class="math inline">\(\alpha\)</span> using a quasi–Monte Carlo method. Their approximation, denoted <span class="math inline">\(\tilde{R}^2\)</span>, is given by</p>
+<p><span class="math display">\[
+\tilde{R}^2(W \mid \alpha)
+\approx
+    \frac{
+        \tilde{\mu}_2(W \mid \alpha) - \tilde{\mu}_1^2(W \mid \alpha)
+    }
+    {
+        \tilde{\mu}_2(W \mid \alpha) - \tilde{\mu}_1^2(W \mid \alpha)
+        + \tilde{\sigma}^2(W \mid \alpha)
+    }
+\]</span></p>
+<p>To compute this approximation, we need estimates of the conditional moments of the latent variable <span class="math inline">\(\eta = \alpha + z \sqrt{W}\)</span>:</p>
+<p><span class="math display">\[
+\mathrm{E}\{\mu(\eta)^m\} \approx \tilde{\mu}_m(W \mid \alpha)
+= \frac{1}{K-1} \sum_{i=1}^{K-1} \mu(\alpha + z_i \sqrt{W})^m,
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\mathrm{E}\{\sigma^2(\eta)\} \approx \tilde{\sigma}^2(W \mid \alpha)
+= \frac{1}{K-1} \sum_{i=1}^{K-1} \sigma^2(\alpha + z_i \sqrt{W})
+\]</span></p>
+<p>where <span class="math inline">\(z_i\)</span> is the <span class="math inline">\(i/K\)</span> quantile of a standard normal distribution, with <span class="math inline">\(K\)</span> being the number of quantiles used in the approximation. The functions <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> represent:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mu(\eta) &amp;= \mathbb{E}(Y \mid \eta) \\
+\sigma^2(\eta) &amp;= \mathbb{V}(Y \mid \eta)
+\end{aligned}
+\]</span></p>
+<p>which are</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mu(\eta) &amp;= \text{expit}(\eta) \\
+\sigma^2(\eta) &amp;= \mu(\eta) \cdot (1 - \mu(\eta))
+\end{aligned}
+\]</span></p>
+<p>in the case of the logistic regression family.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Details for <span class="math inline">\(p(w)\)</span>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The PDF is the derivative of the CDF, <span class="math display">\[
+p(w) = \frac{d}{dw} F(w).
+\]</span></p>
+<p>Since no closed form is available, we approximate the derivative using a central finite difference, for a small <span class="math inline">\(\delta&gt;0\)</span>:</p>
+<p><span class="math display">\[
+p(w) \approx \frac{F(w + \delta) - F(w - \delta)}{2 \delta}
+\]</span></p>
+<p>Here the CDF of <span class="math inline">\(W\)</span> is computed by first approximating the corresponding <span class="math inline">\(R^2\)</span> value from <span class="math inline">\(W\)</span>, and then evaluating the Beta CDF of <span class="math inline">\(R^2\)</span>.</p>
+</div>
+</div>
+</div>
+<div id="quarto-carousel-3" class="carousel carousel-dark slide carousel-framed" data-bs-ride="false">
+<div class="carousel-indicators">
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="0" class=" active" aria-current="true" aria-label="Slide 1"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="1" class="" aria-label="Slide 2"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="2" class="" aria-label="Slide 3"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="3" class="" aria-label="Slide 4"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="4" class="" aria-label="Slide 5"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="5" class="" aria-label="Slide 6"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="6" class="" aria-label="Slide 7"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="7" class="" aria-label="Slide 8"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="8" class="" aria-label="Slide 9"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="9" class="" aria-label="Slide 10"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="10" class="" aria-label="Slide 11"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="11" class="" aria-label="Slide 12"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="12" class="" aria-label="Slide 13"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="13" class="" aria-label="Slide 14"></button>
+  
+  <button type="button" data-bs-target="#quarto-carousel-3" data-bs-slide-to="14" class="" aria-label="Slide 15"></button>
+  
+</div>
+<div class="carousel-inner">
+<div class="carousel-item active no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-0.5_b-0.5_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-0.5_b-0.5_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-0.5_b-0.5_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-1.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-1.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-1.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-1.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-1.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-1.0_b-4.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-4.0_b-1.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-4.0_b-1.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-4.0_b-1.0_intercept-2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-4.0_b-4.0_intercept--2.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-4.0_b-4.0_intercept-0.png" class="d-block mx-auto">
+</div>
+<div class="carousel-item no-transition" data-bs-interval="3000">
+<img src="imgs/logistic/a-4.0_b-4.0_intercept-2.png" class="d-block mx-auto">
+</div>
+</div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#quarto-carousel-3" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+      </button>
+    
+      <button class="carousel-control-next" type="button" data-bs-target="#quarto-carousel-3" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+      </button>
+    
+</div>
+<p>The main, and rather obvious, conclusion is that all resulting priors on <span class="math inline">\(W\)</span> are <em>very</em> heavy-tailed. When you see the horizontal axis extending all the way to 250, that’s only because I manually reduced its upper bound.</p>
+<p>Other than that, the approximation seems to work reasonably well, although I’m not entirely sure how good my judgement is here (after all, my approximation is approximating another approximation!).</p>
+</section>
+</section>
+<section id="final-thoughts" class="level2">
+<h2 class="anchored" data-anchor-id="final-thoughts">Final thoughts</h2>
+<p>Well, it seems I’m done, at least for now. I’m really glad I managed to build a Python implementation that lets me use the R2D2 prior in GLMMs. Before wrapping up, let me share a few concluding notes.</p>
+<p>While experimenting with different values of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, I noticed that <span class="math inline">\(\text{Beta}(0.5,0.5)\)</span> induces a prior on <span class="math inline">\(W\)</span> with most of its mass near zero and heavy tails. I don’t think this is a great choice, other than for testing purposes. Even the uniform <span class="math inline">\(\text{Beta}(1,1)\)</span> is not obviously preferable. Alternatives that are moderately informative such as <span class="math inline">\(\text{Beta}(2,2)\)</span> or <span class="math inline">\(\text{Beta}(4,4)\)</span> already induce a smoother prior on <span class="math inline">\(W\)</span>.</p>
+<p>Regarding specific families, I noticed that for the Poisson and negative binomial models the prior mass tends to concentrate near the origin as the intercept varies (from <span class="math inline">\(-2\)</span> to <span class="math inline">\(0\)</span> and from <span class="math inline">\(0\)</span> to <span class="math inline">\(2\)</span>), although I still do not fully understand why. In the logistic case, the (approximate) prior on <span class="math inline">\(W\)</span> has extremely heavy tails, which I don’t think is desirable.</p>
+<p>From an implementation perspective, there were also a few surprises. The actual value of the divergence turns out to be very sensitive to the choice of the grid over <span class="math inline">\(w\)</span>, and it is easy to tweak a setting and obtain different values for <span class="math inline">\((a^*, b^*, c^*, d^*)\)</span>. Avoiding numerical issues was also not trivial, especially for heavy-tailed families such as the logistic one. If you read the code, you will probably notice several small “robustification” tricks that were necessary to make everything work.</p>
+</section>
+<section id="whats-next" class="level2">
+<h2 class="anchored" data-anchor-id="whats-next">What’s next</h2>
+<p>And now? Time to write the blog post I originally intended to write: using the R2D2 prior in GLMMs with PyMC. Hopefully I’ll be able to finish that one soon!</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Yanchenko2024" class="csl-entry" role="listitem">
+Yanchenko, Eric, Howard D. Bondell, and Brian J. Reich. 2024. <span>“The R2D2 Prior for Generalized Linear Mixed Models.”</span> <em>The American Statistician</em> 79 (1): 40–49. <a href="https://doi.org/10.1080/00031305.2024.2352010">https://doi.org/10.1080/00031305.2024.2352010</a>.
+</div>
+<div id="ref-Zhang2020" class="csl-entry" role="listitem">
+Zhang, Y. D., B. P. Naughton, H. D. Bondell, and B. J. Reich. 2020. <span>“Bayesian Regression Using a Prior on the Model Fit: The R2-D2 Shrinkage Prior.”</span> <em>Journal of the American Statistical Association</em> 117. <a href="https://doi.org/10.1080/01621459.2020.1825449">https://doi.org/10.1080/01621459.2020.1825449</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/tomicapretto\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright 2025, Tomás Capretto</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

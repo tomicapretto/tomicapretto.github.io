@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../imgs/mate.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-f928ca0a733297228f1a414f5c7e83f0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-98f92bf15ef11c8abfffe40eb57d8d29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -128,7 +129,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -153,6 +154,8 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Tomi Capretto</span>
     </a>
@@ -242,14 +245,14 @@ window.Quarto = {
 <section id="how-to-invoke-alternative-default-priors" class="level3">
 <h3 class="anchored" data-anchor-id="how-to-invoke-alternative-default-priors">How to invoke alternative default priors</h3>
 <p>The <code>Model()</code> class has gained one new argument, <code>automatic_priors</code>, that can be equal to <code>"default"</code> to use Bambi’s default method, or <code>"rstanarm"</code> to use the alternative implementation<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> bmb.Model(<span class="st">"y ~ x + z"</span>, data, automatic_priors<span class="op">=</span><span class="st">"rstanarm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> bmb.Model(<span class="st">"y ~ x + z"</span>, data, automatic_priors<span class="op">=</span><span class="st">"rstanarm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="how-to-use-lkj-priors-for-correlation-matrices-of-group-specific-effects" class="level3">
 <h3 class="anchored" data-anchor-id="how-to-use-lkj-priors-for-correlation-matrices-of-group-specific-effects">How to use LKJ priors for correlation matrices of group-specific effects</h3>
 <p>Group-specific effects can now have non-independent priors. Instead of using independent normal distributions, we can use a multivariate normal distribution whose correlation matrix has an LKJ prior distribution. This distribution depends on a parameter <span class="math inline">\(\eta &gt; 0\)</span>. If <span class="math inline">\(\eta=1\)</span>, the LJK prior is jointly uniform over all correlation matrices of the same dimension. If <span class="math inline">\(\eta &gt;1\)</span> increases, the mode of the distribution is the identity matrix. The larger the value of <span class="math inline">\(\eta\)</span> the more sharply peaked the density is at the identity matrix.</p>
 <p><code>Model</code> has an argument <code>priors_cor</code> where we can pass a dictionary to indicate which groups are going to have a LKJ prior. The keys of the dictionary are the names of the groups, and the values are the values for <span class="math inline">\(\eta\)</span>.</p>
 <p>In the following model, we have a varying intercept and varying slope for the groups given by <code>group</code>. These varying effects have a multivariate normal prior whose covariance matrix depends on a correlation matrix that has a LKJ hyperprior with <span class="math inline">\(\eta=1\)</span>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> bmb.Model(<span class="st">"y ~ x + (x|group)"</span>, data, priors_cor<span class="op">=</span>{<span class="st">"group"</span>: <span class="dv">1</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> bmb.Model(<span class="st">"y ~ x + (x|group)"</span>, data, priors_cor<span class="op">=</span>{<span class="st">"group"</span>: <span class="dv">1</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>
@@ -314,13 +317,14 @@ window.Quarto = {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

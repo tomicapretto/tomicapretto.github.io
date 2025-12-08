@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -59,7 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../imgs/mate.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-f928ca0a733297228f1a414f5c7e83f0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-98f92bf15ef11c8abfffe40eb57d8d29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -113,7 +114,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
@@ -131,7 +132,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -156,6 +157,8 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Tomi Capretto</span>
     </a>
@@ -253,7 +256,7 @@ window.Quarto = {
 <section id="imports" class="level2">
 <h2 class="anchored" data-anchor-id="imports">Imports</h2>
 <div id="2ae38f65" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> bambi <span class="im">as</span> bmb</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -262,7 +265,7 @@ window.Quarto = {
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bambi.plots <span class="im">import</span> plot_cap</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.lines <span class="im">import</span> Line2D</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> expit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> expit</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="the-zero-inflated-poisson-distribution" class="level2">
@@ -325,7 +328,7 @@ Y_i &amp;\sim \text{ZIPoisson}(\mu_i, \psi_i) \\
 <li>The identification of a <em>parent</em> or <em>main</em> parameter. In regression settings this is usually the mean</li>
 </ul>
 <p>In our case, we want to use the ZeroInflatedPoisson distribution from PyMC, which has parameters <code>mu</code> and <code>psi</code>, and <code>mu</code> is the parent parameter.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>likelihood <span class="op">=</span> bmb.Likelihood(<span class="st">"ZeroInflatedPoisson"</span>, params<span class="op">=</span>[<span class="st">"mu"</span>, <span class="st">"psi"</span>], parent<span class="op">=</span><span class="st">"mu"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>likelihood <span class="op">=</span> bmb.Likelihood(<span class="st">"ZeroInflatedPoisson"</span>, params<span class="op">=</span>[<span class="st">"mu"</span>, <span class="st">"psi"</span>], parent<span class="op">=</span><span class="st">"mu"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>That’s it! We have our custom likelihood function.</p>
 </section>
 <section id="create-the-link" class="level3">
@@ -339,16 +342,16 @@ Y_i &amp;\sim \text{ZIPoisson}(\mu_i, \psi_i) \\
 \end{aligned}
 \]</span></p>
 <p>Next, we define them in code. Here we could use <code>bmb.Link</code>, but it’s not needed in our case because both the <span class="math inline">\(\text{log}\)</span> and <span class="math inline">\(\text{logit}\)</span> link functions are already implemented in Bambi. We just need to pass their names and Bambi will know how to handle it <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. We create a dictionary where the keys are the names of the parameters and the values are the link functions.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>links <span class="op">=</span> {<span class="st">"mu"</span>: <span class="st">"log"</span>, <span class="st">"psi"</span>: <span class="st">"logit"</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>links <span class="op">=</span> {<span class="st">"mu"</span>: <span class="st">"log"</span>, <span class="st">"psi"</span>: <span class="st">"logit"</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="create-the-family" class="level3">
 <h3 class="anchored" data-anchor-id="create-the-family">Create the family</h3>
 <p>Finally we can put the pieces together to create the family. Here we have all the code again so we see how simple it is. Notice we need to give the family a name. We can pass whatever we want here.</p>
 <div id="aab2b373" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>likelihood <span class="op">=</span> bmb.Likelihood(<span class="st">"ZeroInflatedPoisson"</span>, params<span class="op">=</span>[<span class="st">"mu"</span>, <span class="st">"psi"</span>], parent<span class="op">=</span><span class="st">"mu"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>likelihood <span class="op">=</span> bmb.Likelihood(<span class="st">"ZeroInflatedPoisson"</span>, params<span class="op">=</span>[<span class="st">"mu"</span>, <span class="st">"psi"</span>], parent<span class="op">=</span><span class="st">"mu"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>links <span class="op">=</span> {<span class="st">"mu"</span>: <span class="st">"log"</span>, <span class="st">"psi"</span>: <span class="st">"logit"</span>}</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>zip_family <span class="op">=</span> bmb.Family(<span class="st">"zip"</span>, likelihood, links)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>zip_family</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>zip_family</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>Family: zip
 Likelihood: Likelihood(  
@@ -386,9 +389,9 @@ Y_i &amp;\sim \text{ZIPoisson}(\mu, \psi) \\
 <h3 class="anchored" data-anchor-id="simulate-the-data">Simulate the data</h3>
 <p>To simulate draws from this ZIPoisson distribution we can use plain NumPy in a very a manual way, simply concatenate a bunch of zeros to an array with draws from a Poisson distribution and we’re done.</p>
 <div id="7d6fcc62" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">121195</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">121195</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.concatenate([np.zeros(<span class="dv">250</span>), rng.poisson(lam<span class="op">=</span><span class="dv">3</span>, size<span class="op">=</span><span class="dv">750</span>)])</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">"response"</span>: x})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">"response"</span>: x})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s explore the data now. A simple barchart is enough to get the information we need.</p>
 <div id="b08917d9" class="cell" data-execution_count="4">
@@ -406,9 +409,9 @@ Y_i &amp;\sim \text{ZIPoisson}(\mu, \psi) \\
 <h3 class="anchored" data-anchor-id="build-and-fit-the-model">Build and fit the model</h3>
 <p>Without much preamble we’re going to build the model. In this basic model we don’t have predictors for any of the parameters. This means we specify an intercept-only model for <span class="math inline">\(\mu\)</span>, and a prior distribution for <span class="math inline">\(\psi\)</span>. Here I use a Beta distribution that guarantees the values of <span class="math inline">\(\psi\)</span> are bounded between 0 and 1.</p>
 <div id="ff463924" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>priors <span class="op">=</span> {<span class="st">"psi"</span>: bmb.Prior(<span class="st">"Beta"</span>, alpha<span class="op">=</span><span class="dv">3</span>, beta<span class="op">=</span><span class="dv">3</span>)}</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>priors <span class="op">=</span> {<span class="st">"psi"</span>: bmb.Prior(<span class="st">"Beta"</span>, alpha<span class="op">=</span><span class="dv">3</span>, beta<span class="op">=</span><span class="dv">3</span>)}</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> bmb.Model(<span class="st">"response ~ 1"</span>, df, family<span class="op">=</span>zip_family, priors<span class="op">=</span>priors)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>model</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>       Formula: response ~ 1
         Family: zip
@@ -425,7 +428,7 @@ Y_i &amp;\sim \text{ZIPoisson}(\mu, \psi) \\
 </div>
 <p>And now… let’s get the sampler running!</p>
 <div id="18327ad6" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> model.fit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> model.fit()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -464,8 +467,8 @@ NUTS: [response_psi, Intercept]</code></pre>
 </div>
 <p>It worked fast, without warnings or errors, I would say that’s a great start. The next question is: does the fit make sense? I’m not going to investigate it thoroughly now. A visualization of the posterior predictive distribution will be enough.</p>
 <div id="4658b537" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>model.predict(idata, kind<span class="op">=</span><span class="st">"pps"</span>) <span class="co"># get draws from the posterior predictive distribution</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(idata)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>model.predict(idata, kind<span class="op">=</span><span class="st">"pps"</span>) <span class="co"># get draws from the posterior predictive distribution</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(idata)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -493,7 +496,7 @@ Y_i &amp;\sim \text{ZIPoisson}(\mu_i, \psi_i) \\
 <h3 class="anchored" data-anchor-id="simulate-the-data-1">Simulate the data</h3>
 <p>This time we use NumPy to generate random values for the predictor, but we use <code>pm.draw()</code> to get draws from a <code>ZeroInflatedPoisson</code> distribution.</p>
 <div id="0a9e057f" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">121195</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">121195</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.sort(rng.uniform(<span class="fl">0.2</span>, <span class="dv">3</span>, size<span class="op">=</span><span class="dv">1000</span>))</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>b0, b1 <span class="op">=</span> <span class="fl">0.2</span>, <span class="fl">0.9</span></span>
@@ -502,7 +505,7 @@ Y_i &amp;\sim \text{ZIPoisson}(\mu_i, \psi_i) \\
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>psi <span class="op">=</span> expit(a0 <span class="op">+</span> a1 <span class="op">*</span> x)</span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> pm.draw(pm.ZeroInflatedPoisson.dist(mu<span class="op">=</span>mu, psi<span class="op">=</span>psi))</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">"y"</span>: y, <span class="st">"x"</span>: x})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">"y"</span>: y, <span class="st">"x"</span>: x})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Visualizations are the key to understand how the predictor is associated with the parameters of the likelihood.</p>
 <div id="7a1eccc5" class="cell" data-execution_count="9">
@@ -535,9 +538,9 @@ Y_i &amp;\sim \text{ZIPoisson}(\mu_i, \psi_i) \\
 <h3 class="anchored" data-anchor-id="build-and-fit-the-model-again">Build and fit the model (again)</h3>
 <p>It’s time to define the new model. Since we model both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\psi\)</span> components as a function of the predictor, they both need a model formula. This is when we use <code>bmb.Formula()</code>. The first formula is the one for the <code>parent</code> parameter, which is <span class="math inline">\(\mu\)</span>, and the following formulas are for the non-parent parameters. In this case, we only have <span class="math inline">\(\psi\)</span>. Finally notice we don’t need to create the family again, we just reuse it.</p>
 <div id="0c0c4ea3" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> bmb.Formula(<span class="st">"y ~ x"</span>, <span class="st">"psi ~ x"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> bmb.Formula(<span class="st">"y ~ x"</span>, <span class="st">"psi ~ x"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> bmb.Model(formula, df, family<span class="op">=</span>zip_family)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>model</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>       Formula: y ~ x
                 psi ~ x
@@ -559,8 +562,8 @@ Y_i &amp;\sim \text{ZIPoisson}(\mu_i, \psi_i) \\
 <p>The model summary contains so much information. It shows the priors for the parameters in the linear predictors of both parameters in different sections. First we have the priors for <code>mu</code> below <code>target = mu</code>, and then the priors for <code>psi</code> below <code>target = psi</code>.</p>
 <p>It’s also helpful to show a graph representation of the model.</p>
 <div id="eb20e79b" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model.build()</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>model.graph()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model.build()</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>model.graph()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <div>
 <figure class="figure">
@@ -571,7 +574,7 @@ Y_i &amp;\sim \text{ZIPoisson}(\mu_i, \psi_i) \\
 </div>
 <p>Model fitting is the same way as always.</p>
 <div id="3d73acec" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> model.fit(random_seed<span class="op">=</span><span class="dv">121195</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> model.fit(random_seed<span class="op">=</span><span class="dv">121195</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -613,13 +616,13 @@ NUTS: [Intercept, x, psi_Intercept, psi_x]</code></pre>
 <h3 class="anchored" data-anchor-id="evaluate-the-inference">Evaluate the inference</h3>
 <p>Because it’s a simulated scenario, we know the true parameter values. This allows us to verify if the posteriors are recovering them.</p>
 <div id="d5b2d3bf" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">7</span>), layout<span class="op">=</span><span class="st">"constrained"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">7</span>), layout<span class="op">=</span><span class="st">"constrained"</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    idata,</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"Intercept"</span>, <span class="st">"x"</span>, <span class="st">"psi_Intercept"</span>, <span class="st">"psi_x"</span>], </span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    ref_val<span class="op">=</span>[b0, b1, a0, a1],</span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span>axes</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -634,7 +637,7 @@ NUTS: [Intercept, x, psi_Intercept, psi_x]</code></pre>
 <h3 class="anchored" data-anchor-id="show-off-bambi-a-little-more">Show-off Bambi a little more</h3>
 <p>Before concluding I would like to show-off another function I’ve been working recently, <code>plot_cap()</code>. This function allows us to see how a model parameter evolves as we change values of one or more predictors. It’s so flexible we can get plots for both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\psi\)</span>.</p>
 <div id="e6784d54" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>plot_cap(model, idata, <span class="st">"x"</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>]) <span class="co"># By default it plots the "parent" parameter</span></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>plot_cap(model, idata, <span class="st">"x"</span>, target<span class="op">=</span><span class="st">"psi"</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
@@ -651,7 +654,7 @@ NUTS: [Intercept, x, psi_Intercept, psi_x]</code></pre>
 <span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>handles <span class="op">=</span> [Line2D([], [], color<span class="op">=</span><span class="st">"black"</span>, ls<span class="op">=</span><span class="st">"--"</span>), Line2D([], [], color<span class="op">=</span><span class="st">"C0"</span>)]</span>
 <span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> (<span class="st">"True"</span>, <span class="st">"Estimate"</span>)</span>
 <span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].legend(handles, labels, loc<span class="op">=</span><span class="st">"upper left"</span>)</span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].legend(handles, labels, loc<span class="op">=</span><span class="st">"upper right"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].legend(handles, labels, loc<span class="op">=</span><span class="st">"upper right"</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -689,9 +692,9 @@ NUTS: [Intercept, x, psi_Intercept, psi_x]</code></pre>
 <li>Define link functions</li>
 <li>Use them to instantiate a Family object</li>
 </ul>
-<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>likelihood <span class="op">=</span> bmb.Likelihood(<span class="st">"ZeroInflatedPoisson"</span>, params<span class="op">=</span>[<span class="st">"mu"</span>, <span class="st">"psi"</span>], parent<span class="op">=</span><span class="st">"mu"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>likelihood <span class="op">=</span> bmb.Likelihood(<span class="st">"ZeroInflatedPoisson"</span>, params<span class="op">=</span>[<span class="st">"mu"</span>, <span class="st">"psi"</span>], parent<span class="op">=</span><span class="st">"mu"</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>links <span class="op">=</span> {<span class="st">"mu"</span>: <span class="st">"log"</span>, <span class="st">"psi"</span>: <span class="st">"logit"</span>}</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>zip_family <span class="op">=</span> bmb.Family(<span class="st">"zero-inflated-poisson"</span>, likelihood, links)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>zip_family <span class="op">=</span> bmb.Family(<span class="st">"zero-inflated-poisson"</span>, likelihood, links)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>
@@ -758,13 +761,14 @@ NUTS: [Intercept, x, psi_Intercept, psi_x]</code></pre>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

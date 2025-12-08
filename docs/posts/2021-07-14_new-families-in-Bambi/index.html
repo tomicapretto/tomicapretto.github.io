@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -59,7 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../imgs/mate.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-f928ca0a733297228f1a414f5c7e83f0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-98f92bf15ef11c8abfffe40eb57d8d29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -113,7 +114,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
@@ -131,7 +132,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -156,6 +157,8 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Tomi Capretto</span>
     </a>
@@ -241,11 +244,11 @@ window.Quarto = {
 <p>I’m very happy I could contribute with many exciting changes to <a href="https://bambinos.github.io/bambi">Bambi</a>. Some changes, such as the reorganization of the default priors and built-in families, are not visible to the user but make the codebase more modular and easier to read. Other changes, such as the ones I’m going to describe here, have a direct impact on what you can do with Bambi.</p>
 <p>Today I’ll describe two new built-in families that have been added to Bambi. The first one, already described in my previous post, is the <code>"t"</code> family. This can be used to make linear regressions more robust to outliers. The second one the <code>"beta"</code> family which can be used to model ratings and proportions.</p>
 <div id="cell-2" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> bambi <span class="im">as</span> bmb</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="robust-linear-regression-with-the-t-family." class="level2">
@@ -266,7 +269,7 @@ y_i \sim \text{StudentT}(\mu_i, \lambda, \nu)
 <p>where the <span class="math inline">\(\mu_{\beta_j}\)</span> and <span class="math inline">\(\sigma_{\beta_j}\)</span> are estimated from the data. By default, <span class="math inline">\(\nu=2\)</span>, but it is also possible to assign it a probability distribution (as we’re going to see below).</p>
 <p>Before seeing how this new family works, let’s simulate some data. On this opportunity, we’re using the same dataset than in the <a href="https://tcapretto.netlify.app/post/2021-07-05-robust-linear-regression-with-bambi/">previous post</a>. This is a toy dataset with one predictor <code>x</code>, one response <code>y</code>, and some outliers contaminating the beautiful linear relationship between the variables.</p>
 <div id="cell-4" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>size <span class="op">=</span> <span class="dv">100</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>size <span class="op">=</span> <span class="dv">100</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>true_intercept <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>true_slope <span class="op">=</span> <span class="dv">2</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -276,12 +279,12 @@ y_i \sim \text{StudentT}(\mu_i, \lambda, \nu)
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>x_out <span class="op">=</span> np.append(x, [<span class="fl">0.1</span>, <span class="fl">0.15</span>, <span class="fl">0.2</span>])</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>y_out <span class="op">=</span> np.append(y, [<span class="dv">8</span>, <span class="dv">6</span>, <span class="dv">9</span>])</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.DataFrame(<span class="bu">dict</span>(x <span class="op">=</span> x_out, y <span class="op">=</span> y_out))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.DataFrame(<span class="bu">dict</span>(x <span class="op">=</span> x_out, y <span class="op">=</span> y_out))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-5" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ax.scatter(data[<span class="st">"x"</span>], data[<span class="st">"y"</span>], s<span class="op">=</span><span class="dv">70</span>, ec<span class="op">=</span><span class="st">"black"</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ax.scatter(data[<span class="st">"x"</span>], data[<span class="st">"y"</span>], s<span class="op">=</span><span class="dv">70</span>, ec<span class="op">=</span><span class="st">"black"</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -294,8 +297,8 @@ y_i \sim \text{StudentT}(\mu_i, \lambda, \nu)
 <h3 class="anchored" data-anchor-id="model-specification-and-fit">Model specification and fit</h3>
 <p>Using this new family is extremely easy. It is almost as simple as running a default normal linear regression. The only difference is that we need to add the <code>family="t"</code> argument to the <code>Model()</code> instantiation.</p>
 <div id="cell-7" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> bmb.Model(<span class="st">"y ~ x"</span>, data, family<span class="op">=</span><span class="st">"t"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> bmb.Model(<span class="st">"y ~ x"</span>, data, family<span class="op">=</span><span class="st">"t"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>Formula: y ~ x
 Family name: T
@@ -313,7 +316,7 @@ Priors:
 </div>
 <p>The output above shows information about the family being used and the parameters for the default priors. Next, we just do <code>model.fit()</code> to run the sampler.</p>
 <div id="cell-9" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> model.fit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> model.fit()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -352,10 +355,10 @@ NUTS: [y_nu, y_sigma, x, Intercept]</code></pre>
 <h3 class="anchored" data-anchor-id="use-custom-priors">Use custom priors</h3>
 <p>Let’s say we are not happy with having a fixed value for the degrees of freedom and we want to assign it a prior distribution. Is that a problem? Of course not!</p>
 <div id="cell-11" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use a Gamma prior for the degrees of freedom</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use a Gamma prior for the degrees of freedom</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> bmb.Model(<span class="st">"y ~ x"</span>, data, family<span class="op">=</span><span class="st">"t"</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>model.set_priors({<span class="st">"nu"</span>: bmb.Prior(<span class="st">"Gamma"</span>, alpha<span class="op">=</span><span class="dv">3</span>, beta<span class="op">=</span><span class="dv">1</span>)})</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>model</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>Formula: y ~ x
 Family name: T
@@ -373,7 +376,7 @@ Priors:
 </div>
 <p>And hit the inference button</p>
 <div id="cell-13" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> model.fit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> model.fit()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -412,8 +415,8 @@ NUTS: [y_nu, y_sigma, x, Intercept]</code></pre>
 <h3 class="anchored" data-anchor-id="explore-results">Explore results</h3>
 <p>First of all we can see the marginal posteriors for the parameters in the model and their respective traces</p>
 <div id="cell-15" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>az.plot_trace(idata)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>az.plot_trace(idata)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -424,7 +427,7 @@ NUTS: [y_nu, y_sigma, x, Intercept]</code></pre>
 </div>
 <p>And it is also good to explore the posterior distribution of regression lines</p>
 <div id="cell-17" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, num<span class="op">=</span><span class="dv">200</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>posterior_stacked <span class="op">=</span> idata.posterior.stack(samples<span class="op">=</span>(<span class="st">"chain"</span>, <span class="st">"draw"</span>))</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>intercepts <span class="op">=</span> posterior_stacked[<span class="st">"Intercept"</span>].values</span>
@@ -441,7 +444,7 @@ NUTS: [y_nu, y_sigma, x, Intercept]</code></pre>
 <span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    ax.plot(x, a <span class="op">+</span> b <span class="op">*</span> x, color <span class="op">=</span><span class="st">"0.5"</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, zorder<span class="op">=-</span><span class="dv">1</span>)</span>
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co"># True regression line</span></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>ax.plot(x, true_intercept <span class="op">+</span> true_slope <span class="op">*</span> x, color<span class="op">=</span><span class="st">"k"</span>, lw<span class="op">=</span><span class="dv">2</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>ax.plot(x, true_intercept <span class="op">+</span> true_slope <span class="op">*</span> x, color<span class="op">=</span><span class="st">"k"</span>, lw<span class="op">=</span><span class="dv">2</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -486,18 +489,18 @@ y_i \sim \text{Beta}(g^{-1}(\mu_i), \kappa)
 <p>Here we are going to use the <code>GasolineYield</code> dataset from the <code>betareg</code> R package. This dataset is about the proportion of crude oil converted to gasoline. The response variable is the proportion of crude oil after distillation and fractionation. In this example, we use the temperature at which gasoline has vaporized in Fahrenheit degrees (<code>"temp"</code>) and a factor that indicates ten unique combinations of gravity, pressure and temperature (<code>"batch"</code>).</p>
 <p>The following is just a re-ordering of the categories in the <code>"batch"</code> variable so it matches the original contrasts used in the <code>betareg</code> package.</p>
 <div id="cell-21" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/gasoline.csv"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/gasoline.csv"</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"batch"</span>] <span class="op">=</span> pd.Categorical(</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  data[<span class="st">"batch"</span>], </span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>], </span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  ordered<span class="op">=</span><span class="va">True</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Next, we define the model. The only difference is that we indicate <code>family="beta"</code>. Bambi handles all the rest for us.</p>
 <div id="cell-23" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note this model does not include an intercept</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note this model does not include an intercept</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> bmb.Model(<span class="st">"yield ~ 0 + temp + batch"</span>, data, family<span class="op">=</span><span class="st">"beta"</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>model</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>Formula: yield ~ 0 + temp + batch
 Family name: Beta
@@ -515,7 +518,7 @@ Priors:
 </div>
 <p>And <code>model.fit()</code> is all we need to ask the sampler to start running.</p>
 <div id="cell-25" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> model.fit(draws<span class="op">=</span><span class="dv">2000</span>, target_accept<span class="op">=</span><span class="fl">0.95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> model.fit(draws<span class="op">=</span><span class="dv">2000</span>, target_accept<span class="op">=</span><span class="fl">0.95</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -555,13 +558,13 @@ The number of effective samples is smaller than 10% for some parameters.</code><
 <h3 class="anchored" data-anchor-id="explore-results-1">Explore results</h3>
 <p>Once we got the posterior, we explore it. This time we’re going to plot highest density intervals for the marginal posteriors corresponding to the parameters in the model.</p>
 <div id="cell-27" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> az.summary(idata, kind<span class="op">=</span><span class="st">"stats"</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> az.summary(idata, kind<span class="op">=</span><span class="st">"stats"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -573,84 +576,84 @@ The number of effective samples is smaller than 10% for some parameters.</code><
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">temp</td>
+<th data-quarto-table-cell-role="th">temp</th>
 <td>0.011</td>
 <td>0.001</td>
 <td>0.010</td>
 <td>0.012</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">batch[10]</td>
+<th data-quarto-table-cell-role="th">batch[10]</th>
 <td>-6.111</td>
 <td>0.244</td>
 <td>-6.586</td>
 <td>-5.656</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">batch[1]</td>
+<th data-quarto-table-cell-role="th">batch[1]</th>
 <td>-4.388</td>
 <td>0.201</td>
 <td>-4.766</td>
 <td>-4.010</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">batch[2]</td>
+<th data-quarto-table-cell-role="th">batch[2]</th>
 <td>-4.799</td>
 <td>0.191</td>
 <td>-5.167</td>
 <td>-4.453</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">batch[3]</td>
+<th data-quarto-table-cell-role="th">batch[3]</th>
 <td>-4.551</td>
 <td>0.185</td>
 <td>-4.892</td>
 <td>-4.207</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">batch[4]</td>
+<th data-quarto-table-cell-role="th">batch[4]</th>
 <td>-5.055</td>
 <td>0.211</td>
 <td>-5.442</td>
 <td>-4.635</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">batch[5]</td>
+<th data-quarto-table-cell-role="th">batch[5]</th>
 <td>-4.980</td>
 <td>0.213</td>
 <td>-5.415</td>
 <td>-4.591</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">batch[6]</td>
+<th data-quarto-table-cell-role="th">batch[6]</th>
 <td>-5.073</td>
 <td>0.215</td>
 <td>-5.468</td>
 <td>-4.668</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">batch[7]</td>
+<th data-quarto-table-cell-role="th">batch[7]</th>
 <td>-5.571</td>
 <td>0.212</td>
 <td>-5.973</td>
 <td>-5.170</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">batch[8]</td>
+<th data-quarto-table-cell-role="th">batch[8]</th>
 <td>-5.617</td>
 <td>0.233</td>
 <td>-6.030</td>
 <td>-5.149</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">batch[9]</td>
+<th data-quarto-table-cell-role="th">batch[9]</th>
 <td>-5.729</td>
 <td>0.250</td>
 <td>-6.201</td>
 <td>-5.264</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">yield_kappa</td>
+<th data-quarto-table-cell-role="th">yield_kappa</th>
 <td>263.233</td>
 <td>86.097</td>
 <td>115.416</td>
@@ -663,11 +666,11 @@ The number of effective samples is smaller than 10% for some parameters.</code><
 </div>
 </div>
 <div id="cell-28" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">"row"</span>] <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">12</span>))</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">"panel"</span>] <span class="op">=</span> [<span class="st">"1-Temperature"</span>] <span class="op">+</span> [<span class="st">"2-Batch"</span>] <span class="op">*</span> <span class="dv">10</span> <span class="op">+</span> [<span class="st">"3-Precision"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">"row"</span>] <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">12</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">"panel"</span>] <span class="op">=</span> [<span class="st">"1-Temperature"</span>] <span class="op">+</span> [<span class="st">"2-Batch"</span>] <span class="op">*</span> <span class="dv">10</span> <span class="op">+</span> [<span class="st">"3-Precision"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-29" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="fl">5.33</span>), sharey<span class="op">=</span><span class="va">True</span>, dpi<span class="op">=</span><span class="dv">200</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="fl">5.33</span>), sharey<span class="op">=</span><span class="va">True</span>, dpi<span class="op">=</span><span class="dv">200</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>fig.subplots_adjust(left<span class="op">=</span><span class="fl">0.12</span>, right<span class="op">=</span><span class="fl">0.975</span>, wspace<span class="op">=</span><span class="fl">0.1</span>, bottom<span class="op">=</span><span class="fl">0.12</span>, top<span class="op">=</span><span class="fl">0.925</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>fig.set_facecolor(<span class="st">"w"</span>)</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -684,7 +687,7 @@ The number of effective samples is smaller than 10% for some parameters.</code><
 <span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>fig.text(<span class="fl">0.5</span>, <span class="fl">0.025</span>, <span class="st">"Marginal posterior"</span>, size<span class="op">=</span><span class="dv">12</span>, ha<span class="op">=</span><span class="st">"center"</span>)</span>
 <span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>fig.text(<span class="fl">0.02</span>, <span class="fl">0.5</span>, <span class="st">"Parameter"</span>, size<span class="op">=</span><span class="dv">12</span>, va<span class="op">=</span><span class="st">"center"</span>, rotation<span class="op">=</span><span class="dv">90</span>)</span>
 <span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>fig.savefig(<span class="st">"imgs/plot.png"</span>, dpi<span class="op">=</span><span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>fig.savefig(<span class="st">"imgs/plot.png"</span>, dpi<span class="op">=</span><span class="dv">200</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -750,13 +753,14 @@ The number of effective samples is smaller than 10% for some parameters.</code><
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
