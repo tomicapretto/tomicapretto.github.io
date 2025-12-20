@@ -10,7 +10,2441 @@
 <atom:link href="https://tomicapretto.com/blog.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Mon, 08 Dec 2025 03:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 18 Dec 2025 03:00:00 GMT</lastBuildDate>
+<item>
+  <title>R2D2 for mixed-effects logistic regression</title>
+  <link>https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This blog post is a continuation of <a href="../../posts/2025-12-08_r2d2_glmm/index.html">my previous post on R2D2 priors for GLMMs</a>, where I shared some notes from reading the paper.</p>
+<p>The goal is to replicate the example in Section 4.1 in which the authors use the R2D2 prior in a mixed-effects logistic regression model applied to the <code>gambia</code> dataset from the <code>{geoR}</code> package in R.</p>
+<p>First, I implement the model in PyMC and obtain results similar to those reported in the paper and then, I show how alternative priors and a different parameterization can make inference faster, more stable, and less uncertain.</p>
+<p>Without further ado, let’s get into it.</p>
+<div id="417b9cc3" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> arviz <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> az</span>
+<span id="cb1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> plt</span>
+<span id="cb1-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> numpy <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> np</span>
+<span id="cb1-4"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> polars <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> pl</span>
+<span id="cb1-5"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> pymc <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> pm</span>
+<span id="cb1-6"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> xarray <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> xr</span>
+<span id="cb1-7"></span>
+<span id="cb1-8"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> scipy <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> special</span>
+<span id="cb1-9"></span>
+<span id="cb1-10"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> utils <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> WGBP, LogisticFamily</span>
+<span id="cb1-11"></span>
+<span id="cb1-12">random_seed <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">sum</span>(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">map</span>(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">ord</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gambia"</span>))</span>
+<span id="cb1-13"></span>
+<span id="cb1-14"></span>
+<span id="cb1-15"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> compute_conditional_R2(pi):</span>
+<span id="cb1-16">    mu_var <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pi.var(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"__obs__"</span>)</span>
+<span id="cb1-17">    var_mean <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (pi <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> (<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> pi)).mean(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"__obs__"</span>)</span>
+<span id="cb1-18">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> mu_var <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> (mu_var <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> var_mean)</span>
+<span id="cb1-19"></span>
+<span id="cb1-20"></span>
+<span id="cb1-21"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> plot_priors(ds, var_names, axes):</span>
+<span id="cb1-22">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> ax, var_name <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">zip</span>(axes, var_names):</span>
+<span id="cb1-23">        var_dims <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ds[var_name].dims</span>
+<span id="cb1-24"></span>
+<span id="cb1-25">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(var_dims) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>:</span>
+<span id="cb1-26">            dim_name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> var_dims[<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]</span>
+<span id="cb1-27">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> i, (_, arr) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">enumerate</span>(ds[var_name].groupby(dim_name)):</span>
+<span id="cb1-28">                az.plot_dist(arr, color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"C</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>i<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>, ax<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>ax)</span>
+<span id="cb1-29">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span>:</span>
+<span id="cb1-30">            az.plot_dist(ds[var_name], ax<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>ax)</span>
+<span id="cb1-31"></span>
+<span id="cb1-32">        ax.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(title<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>var_name, yticks<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[])</span>
+<span id="cb1-33"></span>
+<span id="cb1-34">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> axes</span></code></pre></div></div>
+</details>
+</div>
+</section>
+<section id="the-data" class="level2">
+<h2 class="anchored" data-anchor-id="the-data">The data</h2>
+<p>The dataset contains data related to <img src="https://latex.codecogs.com/png.latex?n%20=%202035"> children from <img src="https://latex.codecogs.com/png.latex?L%20=%2065"> villages in The Gambia, Africa. The response variable <img src="https://latex.codecogs.com/png.latex?Y_i"> (<code>pos</code>) equals 1 if child <img src="https://latex.codecogs.com/png.latex?i"> tested positive for malaria and 0 oterwise. There are <img src="https://latex.codecogs.com/png.latex?p=5"> additional explanatory variables:</p>
+<ul>
+<li><code>age</code>: the child’s age.</li>
+<li><code>netuse</code>: whether the child regularly sleeps under a bed net.</li>
+<li><code>treated</code>: whether the bed net was treated.</li>
+<li><code>green</code>: a measure of vegetation greenness in the immediate vecinity of the village.</li>
+<li><code>phc</code>: whether the village has a health center.</li>
+</ul>
+<div id="cf0c832c" class="cell center-table-80" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1">df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pl.read_csv(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gambia.csv"</span>)</span>
+<span id="cb2-2">df_locations <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (</span>
+<span id="cb2-3">    df.select(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"x"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"y"</span>)</span>
+<span id="cb2-4">    .unique(maintain_order<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb2-5">    .with_columns(location<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>pl.row_index())</span>
+<span id="cb2-6">)</span>
+<span id="cb2-7">df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df.join(df_locations, on<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"x"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"y"</span>])</span>
+<span id="cb2-8">df</span></code></pre></div></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div><style>
+.dataframe > thead > tr,
+.dataframe > tbody > tr {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (2_035, 9)</small>
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">x</th>
+<th data-quarto-table-cell-role="th">y</th>
+<th data-quarto-table-cell-role="th">pos</th>
+<th data-quarto-table-cell-role="th">age</th>
+<th data-quarto-table-cell-role="th">netuse</th>
+<th data-quarto-table-cell-role="th">treated</th>
+<th data-quarto-table-cell-role="th">green</th>
+<th data-quarto-table-cell-role="th">phc</th>
+<th data-quarto-table-cell-role="th">location</th>
+</tr>
+<tr class="even">
+<td>f64</td>
+<td>i64</td>
+<td>i64</td>
+<td>i64</td>
+<td>i64</td>
+<td>i64</td>
+<td>f64</td>
+<td>i64</td>
+<td>u32</td>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>349631.3</td>
+<td>1458055</td>
+<td>1</td>
+<td>1783</td>
+<td>0</td>
+<td>0</td>
+<td>40.85</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>349631.3</td>
+<td>1458055</td>
+<td>0</td>
+<td>404</td>
+<td>1</td>
+<td>0</td>
+<td>40.85</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>349631.3</td>
+<td>1458055</td>
+<td>0</td>
+<td>452</td>
+<td>1</td>
+<td>0</td>
+<td>40.85</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>349631.3</td>
+<td>1458055</td>
+<td>1</td>
+<td>566</td>
+<td>1</td>
+<td>0</td>
+<td>40.85</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>349631.3</td>
+<td>1458055</td>
+<td>0</td>
+<td>598</td>
+<td>1</td>
+<td>0</td>
+<td>40.85</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr class="odd">
+<td>622086.1</td>
+<td>1474011</td>
+<td>1</td>
+<td>1705</td>
+<td>1</td>
+<td>0</td>
+<td>50.1</td>
+<td>1</td>
+<td>64</td>
+</tr>
+<tr class="even">
+<td>622086.1</td>
+<td>1474011</td>
+<td>1</td>
+<td>1704</td>
+<td>1</td>
+<td>0</td>
+<td>50.1</td>
+<td>1</td>
+<td>64</td>
+</tr>
+<tr class="odd">
+<td>622086.1</td>
+<td>1474011</td>
+<td>1</td>
+<td>1733</td>
+<td>0</td>
+<td>0</td>
+<td>50.1</td>
+<td>1</td>
+<td>64</td>
+</tr>
+<tr class="even">
+<td>622086.1</td>
+<td>1474011</td>
+<td>0</td>
+<td>1825</td>
+<td>0</td>
+<td>0</td>
+<td>50.1</td>
+<td>1</td>
+<td>64</td>
+</tr>
+<tr class="odd">
+<td>622086.1</td>
+<td>1474011</td>
+<td>0</td>
+<td>1836</td>
+<td>1</td>
+<td>0</td>
+<td>50.1</td>
+<td>1</td>
+<td>64</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>The <code>{geoR}</code> package also includes the border data for The Gambia, which we use to create the following visualization:</p>
+<div id="cell-fig-map" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">df_borders <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pl.read_csv(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gambia_borders.csv"</span>)</span>
+<span id="cb3-2"></span>
+<span id="cb3-3">df_avg <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (</span>
+<span id="cb3-4">    df.group_by(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"location"</span>)</span>
+<span id="cb3-5">    .agg(</span>
+<span id="cb3-6">        pl.col(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pos"</span>).mean(),</span>
+<span id="cb3-7">        pl.col(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"x"</span>).first(),</span>
+<span id="cb3-8">        pl.col(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"y"</span>).first()</span>
+<span id="cb3-9">    )</span>
+<span id="cb3-10">)</span>
+<span id="cb3-11"></span>
+<span id="cb3-12">fig, ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplots(figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6</span>))</span>
+<span id="cb3-13"></span>
+<span id="cb3-14">ax.plot(df_borders[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"x"</span>], df_borders[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"y"</span>], color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"0.5"</span>, lw<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb3-15">points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ax.scatter(</span>
+<span id="cb3-16">    df_avg[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"x"</span>],</span>
+<span id="cb3-17">    df_avg[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"y"</span>],</span>
+<span id="cb3-18">    s<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">80</span>,</span>
+<span id="cb3-19">    c<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>df_avg[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pos"</span>],</span>
+<span id="cb3-20">    cmap<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"viridis"</span></span>
+<span id="cb3-21">)</span>
+<span id="cb3-22"></span>
+<span id="cb3-23">fig.colorbar(</span>
+<span id="cb3-24">    points,</span>
+<span id="cb3-25">    label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Proportion of positive malaria blood tests"</span>,</span>
+<span id="cb3-26">    ax<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>ax,</span>
+<span id="cb3-27">    pad<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.06</span>,</span>
+<span id="cb3-28">    fraction<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.05</span>,</span>
+<span id="cb3-29">    aspect<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span>,</span>
+<span id="cb3-30">    orientation<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"horizontal"</span>,</span>
+<span id="cb3-31">)</span>
+<span id="cb3-32">ax.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(</span>
+<span id="cb3-33">    aspect<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"equal"</span>,</span>
+<span id="cb3-34">    xlim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(df_borders[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"x"</span>].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">min</span>() <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span>, df_borders[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"x"</span>].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">max</span>() <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span>),</span>
+<span id="cb3-35">    xticks<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[],</span>
+<span id="cb3-36">    yticks<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[],</span>
+<span id="cb3-37">    xlabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Latitude"</span>,</span>
+<span id="cb3-38">    ylabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Longitude"</span>,</span>
+<span id="cb3-39">)</span>
+<span id="cb3-40"></span>
+<span id="cb3-41">ax.text(</span>
+<span id="cb3-42">    x<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.995</span>,</span>
+<span id="cb3-43">    y<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.01</span>,</span>
+<span id="cb3-44">    s<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"Positivity range: (</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>df_avg[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'pos'</span>]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">min</span>()<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:.2f}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">, </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>df_avg[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'pos'</span>]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">max</span>()<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">: .2f}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">)"</span>,</span>
+<span id="cb3-45">    ha<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"right"</span>,</span>
+<span id="cb3-46">    va<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bottom"</span>,</span>
+<span id="cb3-47">    transform<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>ax.transAxes,</span>
+<span id="cb3-48">)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-map" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/fig-map-output-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Proportion of positive tests per village in The Gambia, Africa.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Figure&nbsp;1 shows that positivity rates vary widely across villages, ranging from 0% to 93%. There is spatial correlation in these rates: villages located near high-positivity villages tend to have higher positivity themselves, and the same holds for low-positivity villages. At a broader regional scale, positivity rates are highest in the eastern part of the country, moderate in the west, and lowest in the central region. This spatial correlation is mostly local, with nearby villages showing similar rates while villages farther apart show little or no association.</p>
+<p>Below, we compute the distance matrix following the approach of <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (2024)</span> and then display it.</p>
+<div id="97949036" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> pl_scale(name):</span>
+<span id="cb4-2">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> (pl.col(name) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> pl.col(name).mean()) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> pl.col(name).std()</span>
+<span id="cb4-3"></span>
+<span id="cb4-4">X_geo_std_unique <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (</span>
+<span id="cb4-5">    df.with_columns(</span>
+<span id="cb4-6">        x_std<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>pl_scale(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"x"</span>),</span>
+<span id="cb4-7">        y_std<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>pl_scale(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"y"</span>)</span>
+<span id="cb4-8">    )</span>
+<span id="cb4-9">    .select(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"x_std"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"y_std"</span>)</span>
+<span id="cb4-10">    .unique(maintain_order<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb4-11">    .to_numpy()</span>
+<span id="cb4-12">)</span>
+<span id="cb4-13"></span>
+<span id="cb4-14"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Compute pairwise squared distances</span></span>
+<span id="cb4-15">diff <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> X_geo_std_unique[:, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>, :] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> X_geo_std_unique[<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>, :, :] <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># shape: (65, 65, 2)</span></span>
+<span id="cb4-16">dist <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.sqrt(np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">sum</span>(diff<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, axis<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># shape: (65, 65)</span></span>
+<span id="cb4-17"></span>
+<span id="cb4-18">fig, ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplots(figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>))</span>
+<span id="cb4-19">img <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ax.imshow(dist)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb4-20"></span>
+<span id="cb4-21">fig.colorbar(img, label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Distance"</span>, ax<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>ax, pad<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.05</span>, fraction<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.045</span>)</span>
+<span id="cb4-22">ax.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(xlabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Location ID"</span>, ylabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Location ID"</span>, aspect<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"equal"</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="the-model" class="level2">
+<h2 class="anchored" data-anchor-id="the-model">The model</h2>
+<p>The following model description is adapted from Section 4.1 in <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (2024)</span>:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0AY_i%20%5Cmid%20%5Cpi_i%20&amp;%5Csim%20%5Ctext%7BBernoulli%7D(%5Cpi_i)%20%5C%5C%0A%5Ctext%7Blogit%7D(%5Cpi_i)%20=%20%5Ceta_i%20&amp;=%20%5Calpha%20+%20%7B%5Cbf%20X%7D_i%5Cboldsymbol%5Cbeta+%5Cgamma_%7Bg%5Bi%5D%7D%20%5C%5C%0A%5Calpha%20&amp;%5Csim%20%5Ctext%7BNormal%7D(%5Cmu_0,%20%5Ctau_0%5E2)%20%5C%5C%0A%5Cboldsymbol%7B%5Cbeta%7D%20&amp;%5Csim%20%5Ctext%7BMVN%7D(0,%20%5Cfrac%7B1%7D%7B5%7D%20%5Cphi_1%20W%20%5Cmathbf%7BI%7D)%20%20%5C%5C%0A%5Cboldsymbol%7B%5Cgamma%7D%20&amp;%5Csim%20%5Ctext%7BMVN%7D(0,%20%5Cphi_2%20W%20%5Cmathbf%7BC%7D)%20%5C%5C%0AC_%7Bij%7D%20&amp;=%20%5Ctext%7BCor%7D(%5Cgamma_i,%20%5Cgamma_j)%20=%20e%5E%7B-d_%7Bij%7D%20/%20%5Crho%7D%20&amp;%20%5Ctext%7Bfor%20all%20%7D%20i,%20j%20%20%5C%5C%0A%5Crho%20&amp;%5Csim%20%5Ctext%7BUniform%7D(0,%202r)%20%5C%5C%0AW%20&amp;%5Csim%20%5Ctext%7BGBP%7D(a%5E*,%20b%5E*,%20c%5E*,%20d%5E*)%20%5C%5C%0A(%5Cphi_1,%20%5Cphi_2)%20&amp;%5Csim%20%5Ctext%7BDirichlet%7D(%5Cxi_1,%20%5Cxi_2)%0A%5Cend%7Baligned%7D%0A"></p>
+<p><img src="https://latex.codecogs.com/png.latex?d_%7Bij%7D"> is the (standardized) distance between villages <img src="https://latex.codecogs.com/png.latex?i"> and <img src="https://latex.codecogs.com/png.latex?j">, and <img src="https://latex.codecogs.com/png.latex?%5Crho%20%3E%200"> is the spatial range parameter.</p>
+<p>For the fixed quantities, we have: <img src="https://latex.codecogs.com/png.latex?%5Cmu_0%20=%200">, <img src="https://latex.codecogs.com/png.latex?%5Ctau_0%5E2%20=%203">, <img src="https://latex.codecogs.com/png.latex?%5Cxi_1%20=%20%5Cxi_2%20=%201">, and <img src="https://latex.codecogs.com/png.latex?r"> is the maximum distance between pairs of villages.</p>
+<p>The parameters <img src="https://latex.codecogs.com/png.latex?(a%5E*,%20b%5E*,%20c%5E*,%20d%5E*)"> of the GBP prior are found using the <code>WGBP</code> function I built for <a href="../../posts/2025-12-08_r2d2_glmm/index.html">my previous blogpost</a>. For <img src="https://latex.codecogs.com/png.latex?R%5E2%20%5Csim%20%5Ctext%7BBeta%7D(a=1,%20b=1)">, we have:</p>
+<div id="84454d6a" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">family <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> LogisticFamily(a<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, b<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, intercept<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>special.logit(df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pos"</span>].mean()))</span>
+<span id="cb5-2">params <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> WGBP(family)</span>
+<span id="cb5-3">params</span></code></pre></div></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>array([1.36752202, 0.61766941, 0.82137832, 1.79821958])</code></pre>
+</div>
+</div>
+<section id="pymc-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="pymc-implementation">PyMC implementation</h3>
+<p>Before creating the model, we need one more simple data preparation step:</p>
+<div id="6a96ae61" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-6" style="background: #f1f3f5;"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-6-1" class="code-annotation-target">y <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df.get_column(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pos"</span>).to_numpy()</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-6-2" class="code-annotation-target">X <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df.select(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"age"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"netuse"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"treated"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"green"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"phc"</span>).to_numpy()</span>
+<span id="annotated-cell-6-3">X_std <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (X <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> X.mean(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> X.std(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-6-4" class="code-annotation-target">village_idx <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df.get_column(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"location"</span>).to_numpy()</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-6-5" class="code-annotation-target">r <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> dist.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">max</span>()</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-6-6" class="code-annotation-target">p <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> X.shape[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1">The vector with the observed values of <img src="https://latex.codecogs.com/png.latex?Y_i">.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="2,3" data-code-annotation="2">The design matrix for the fixed effects <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7BX%7D">, standardized.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="4" data-code-annotation="3">The village index for each observation.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="4">Maximum distance between villages.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="6" data-code-annotation="5">Number of predictors.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>And the implementation in PyMC is:</p>
+<div id="7208b3b2" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-7" style="background: #f1f3f5;"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-7-1">coords <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="annotated-cell-7-2">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"__obs__"</span>: np.arange(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(y)),</span>
+<span id="annotated-cell-7-3">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"predictors"</span>: [<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"age"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"netuse"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"treated"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"green"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"phc"</span>],</span>
+<span id="annotated-cell-7-4">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"village"</span>: np.unique(village_idx),</span>
+<span id="annotated-cell-7-5">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"village_bis"</span>: np.unique(village_idx),</span>
+<span id="annotated-cell-7-6">}</span>
+<span id="annotated-cell-7-7"></span>
+<span id="annotated-cell-7-8"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">with</span> pm.Model(coords<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>coords) <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> model:</span>
+<span id="annotated-cell-7-9">    rho <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.Uniform(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"rho"</span>, lower<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, upper<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> r)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-7-10" class="code-annotation-target">    C <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.exp(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>dist <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> rho)</span>
+<span id="annotated-cell-7-11"></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-7-12" class="code-annotation-target">    V <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.Beta(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"V"</span>, alpha<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>params[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>], beta<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>params[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>])</span>
+<span id="annotated-cell-7-13">    W <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.Deterministic(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"W"</span>, ((V <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> (<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> V)) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span> (<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> params[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>])) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> params[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>])</span>
+<span id="annotated-cell-7-14"></span>
+<span id="annotated-cell-7-15">    phi <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.Dirichlet(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"phi"</span>, a<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>np.ones(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>))</span>
+<span id="annotated-cell-7-16">    alpha <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.Normal(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"alpha"</span>, mu<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, sigma<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.5</span>)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-7-17" class="code-annotation-target">    beta <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.Normal(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"beta"</span>, mu<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, sigma<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>((<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> p) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> W <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> phi[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.5</span>, dims<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"predictors"</span>)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-7-18" class="code-annotation-target">    gamma <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.MvNormal(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gamma"</span>, mu<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, cov<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>phi[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> W <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> C, dims<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"village"</span>)</span>
+<span id="annotated-cell-7-19"></span>
+<span id="annotated-cell-7-20">    eta <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> alpha <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> X_std <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">@</span> beta <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> gamma[village_idx]</span>
+<span id="annotated-cell-7-21">    pi <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.Deterministic(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pi"</span>, pm.math.sigmoid(eta), dims<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"__obs__"</span>)</span>
+<span id="annotated-cell-7-22"></span>
+<span id="annotated-cell-7-23">    pm.Bernoulli(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"y"</span>, p<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>pi, observed<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>y, dims<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"__obs__"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="10" data-code-annotation="1"><code>C</code> is a matrix of shape <code>(65, 65)</code> that depends both on data (distance matrix) and a parameter (the spatial range parameter, <img src="https://latex.codecogs.com/png.latex?%5Crho">).</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="12,13" data-code-annotation="2">We use the fact that if <img src="https://latex.codecogs.com/png.latex?V%20%5Csim%20%5Ctext%7BBeta%7D(a%5E*,%20b%5E*)">, then <img src="https://latex.codecogs.com/png.latex?W%20=%20d%5E*%20(V%20/%20(1%20-%20V))%5E%7B1/c%5E*%7D%20%5Csim%20%5Ctext%7BGBP%7D(a%5E*,%20b%5E*,%20c%5E*,%20d%5E*)">.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="17" data-code-annotation="3">The prior on <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7B%5Cbeta%7D"> uses a diagonal covariance matrix, so we can use <code>pm.Normal</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="18" data-code-annotation="4">The prior on <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7B%5Cgamma%7D"> does not, so we have to use <code>pm.MvNormal</code>.</span>
+</dd>
+</dl>
+</div>
+</div>
+<div id="9535bec3" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-10-output-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The original paper obtains 10000 draws from 1 chain, here I’m going to get 10000 draws from 4 chains. Keep in mind that while I’m using NUTS, they used a Gibbs sampler.</p>
+<div id="1406ac9d" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">with</span> model:</span>
+<span id="cb7-2">    idata <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.sample(</span>
+<span id="cb7-3">        draws<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2500</span>, target_accept<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.9</span>, random_seed<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>random_seed, progressbar<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span></span>
+<span id="cb7-4">    )</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [rho, V, phi, alpha, beta, gamma]
+Sampling 4 chains for 1_000 tune and 2_500 draw iterations (4_000 + 10_000 draws total) took 78 seconds.
+The effective sample size per chain is smaller than 100 for some parameters.  A higher number is needed for reliable rhat and ess computation. See https://arxiv.org/abs/1903.08008 for details</code></pre>
+</div>
+</div>
+<p>Before diving into the traceplots, we compute the conditional bayesian <img src="https://latex.codecogs.com/png.latex?R%5E2"> introduced in <span class="citation" data-cites="Gelman2019">Gelman et al. (2019)</span>, which is also computed and presented in the vignettes of the paper.</p>
+<div id="9e6de65e" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1">idata.posterior[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"R2_conditional"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> compute_conditional_R2(idata.posterior[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pi"</span>])</span></code></pre></div></div>
+</div>
+<p>Looking at the traceplots, we can notice some signs of high autocorrelation and poor mixing in <img src="https://latex.codecogs.com/png.latex?%5Calpha"> as well as correlation between the <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i"> parameters. On the other hand, traces for <img src="https://latex.codecogs.com/png.latex?%5Cbeta_j"> look fine.</p>
+<div id="b734fcaf" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1">az.plot_trace(idata, var_names<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"alpha"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"beta"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gamma"</span>], backend_kwargs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>{<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"layout"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"constrained"</span>})<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Traces for <img src="https://latex.codecogs.com/png.latex?W">, <img src="https://latex.codecogs.com/png.latex?%5Crho">, and the conditional <img src="https://latex.codecogs.com/png.latex?R%5E2"> look healthy, although the marginal posterior for the first two have long tails.</p>
+<div id="2ebc8e68" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1">az.plot_trace(idata, var_names<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"W"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"rho"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"R2_conditional"</span>], backend_kwargs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>{<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"layout"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"constrained"</span>})<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>If you run the code in the <a href="https://github.com/eyanchenko/r2d2glmm/tree/main/vignettes">vignettes</a>, you should find that the marginal posteriors are very similar to mine, at least by visual inspection, which allow us to conclude the implementation above is a succesful one.</p>
+</section>
+<section id="a-closer-look" class="level3">
+<h3 class="anchored" data-anchor-id="a-closer-look">A closer look</h3>
+<p>The blog post could have finished in the previous section. It already shows how to use the R2D2 prior for mixed-effects logistic regressions in PyMC, and the results obtained are similar to those in the paper.</p>
+<p>However, we can take a look at a few diagnostic measures, which will help us identify areas where the model could be improved.</p>
+<section id="chains-dont-mix-well" class="level4">
+<h4 class="anchored" data-anchor-id="chains-dont-mix-well">Chains don’t mix well</h4>
+<p>I previously mentioned issues related to mixing and autocorrelation, which we can confirm by inspecting the default output of <code>arviz.summary</code> applied to <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i">.</p>
+<div id="c3677809" class="cell center-table-70" data-execution_count="14">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1">pl.from_pandas(az.summary(idata, var_names<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"alpha"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gamma"</span>]).reset_index(names<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"param"</span>))</span></code></pre></div></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<div><style>
+.dataframe > thead > tr,
+.dataframe > tbody > tr {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (66, 10)</small>
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">param</th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">sd</th>
+<th data-quarto-table-cell-role="th">hdi_3%</th>
+<th data-quarto-table-cell-role="th">hdi_97%</th>
+<th data-quarto-table-cell-role="th">mcse_mean</th>
+<th data-quarto-table-cell-role="th">mcse_sd</th>
+<th data-quarto-table-cell-role="th">ess_bulk</th>
+<th data-quarto-table-cell-role="th">ess_tail</th>
+<th data-quarto-table-cell-role="th">r_hat</th>
+</tr>
+<tr class="even">
+<td>str</td>
+<td>f64</td>
+<td>f64</td>
+<td>f64</td>
+<td>f64</td>
+<td>f64</td>
+<td>f64</td>
+<td>f64</td>
+<td>f64</td>
+<td>f64</td>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>"alpha"</td>
+<td>-0.392</td>
+<td>0.794</td>
+<td>-1.733</td>
+<td>1.133</td>
+<td>0.058</td>
+<td>0.103</td>
+<td>250.0</td>
+<td>248.0</td>
+<td>1.01</td>
+</tr>
+<tr class="even">
+<td>"gamma[0]"</td>
+<td>0.297</td>
+<td>0.872</td>
+<td>-1.396</td>
+<td>1.722</td>
+<td>0.058</td>
+<td>0.094</td>
+<td>303.0</td>
+<td>283.0</td>
+<td>1.01</td>
+</tr>
+<tr class="odd">
+<td>"gamma[1]"</td>
+<td>-0.272</td>
+<td>0.846</td>
+<td>-1.769</td>
+<td>1.216</td>
+<td>0.059</td>
+<td>0.098</td>
+<td>274.0</td>
+<td>258.0</td>
+<td>1.01</td>
+</tr>
+<tr class="even">
+<td>"gamma[2]"</td>
+<td>-0.225</td>
+<td>0.868</td>
+<td>-1.802</td>
+<td>1.268</td>
+<td>0.06</td>
+<td>0.096</td>
+<td>282.0</td>
+<td>267.0</td>
+<td>1.01</td>
+</tr>
+<tr class="odd">
+<td>"gamma[3]"</td>
+<td>-0.95</td>
+<td>0.911</td>
+<td>-2.615</td>
+<td>0.609</td>
+<td>0.059</td>
+<td>0.091</td>
+<td>321.0</td>
+<td>277.0</td>
+<td>1.01</td>
+</tr>
+<tr class="even">
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr class="odd">
+<td>"gamma[60]"</td>
+<td>0.728</td>
+<td>0.856</td>
+<td>-0.783</td>
+<td>2.276</td>
+<td>0.057</td>
+<td>0.094</td>
+<td>295.0</td>
+<td>268.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td>"gamma[61]"</td>
+<td>-0.586</td>
+<td>0.836</td>
+<td>-2.014</td>
+<td>1.047</td>
+<td>0.057</td>
+<td>0.096</td>
+<td>292.0</td>
+<td>275.0</td>
+<td>1.01</td>
+</tr>
+<tr class="odd">
+<td>"gamma[62]"</td>
+<td>0.241</td>
+<td>0.842</td>
+<td>-1.377</td>
+<td>1.725</td>
+<td>0.056</td>
+<td>0.094</td>
+<td>296.0</td>
+<td>272.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td>"gamma[63]"</td>
+<td>1.803</td>
+<td>0.983</td>
+<td>0.037</td>
+<td>3.678</td>
+<td>0.054</td>
+<td>0.079</td>
+<td>427.0</td>
+<td>379.0</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td>"gamma[64]"</td>
+<td>0.286</td>
+<td>0.847</td>
+<td>-1.195</td>
+<td>1.906</td>
+<td>0.056</td>
+<td>0.092</td>
+<td>303.0</td>
+<td>274.0</td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>The truncated output is enough to see some symptoms of poor mixing (<img src="https://latex.codecogs.com/png.latex?%5Chat%7BR%7D%20%3E%201">) and high autocorrelation (low ESS).</p>
+</section>
+<section id="priors-are-too-wide" class="level4">
+<h4 class="anchored" data-anchor-id="priors-are-too-wide">Priors are too wide</h4>
+<p>Have a look at marginal priors for some parameters:</p>
+<div id="5f2ece99" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">with</span> model:</span>
+<span id="cb13-2">    idata.extend(pm.sample_prior_predictive(draws<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2000</span>, random_seed<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>random_seed))</span>
+<span id="cb13-3"></span>
+<span id="cb13-4">fig, axes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplots(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>), layout<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"constrained"</span>)</span>
+<span id="cb13-5">plot_priors(idata.prior, [<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"W"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"beta"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gamma"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"alpha"</span>], axes.ravel())<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling: [V, alpha, beta, gamma, phi, rho, y]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-16-output-2.png" class="img-fluid figure-img"></p>
+<figcaption>Marginal prior for W, <img src="https://latex.codecogs.com/png.latex?%5Cbeta_j">, <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i">, and <img src="https://latex.codecogs.com/png.latex?%5Calpha">.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A flat prior on the marginal <img src="https://latex.codecogs.com/png.latex?R%5E2"> induces a very heavy-tailed prior on <img src="https://latex.codecogs.com/png.latex?W">, which in turn leads to heavy-tailed priors for <img src="https://latex.codecogs.com/png.latex?%5Cbeta_j"> and <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i">.</p>
+<p>For <img src="https://latex.codecogs.com/png.latex?%5Calpha">, the prior is not as heavy-tailed, but in a logistic regression context it could be made more concentrated, as the current specification still assigns non-negligible prior mass to implausible values.</p>
+</section>
+<section id="correlations-between-alpha-and-gamma_i-are-too-large" class="level4">
+<h4 class="anchored" data-anchor-id="correlations-between-alpha-and-gamma_i-are-too-large">Correlations between <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i"> are too large</h4>
+<div id="90adbf63" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1">np.sort(xr.corr(idata.posterior.gamma, idata.posterior.alpha, dim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"chain"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"draw"</span>))).<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">round</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span></code></pre></div></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>array([-0.95, -0.95, -0.94, -0.93, -0.93, -0.93, -0.93, -0.93, -0.93,
+       -0.92, -0.92, -0.92, -0.92, -0.92, -0.92, -0.92, -0.92, -0.92,
+       -0.92, -0.92, -0.92, -0.91, -0.91, -0.91, -0.91, -0.91, -0.91,
+       -0.91, -0.91, -0.91, -0.91, -0.9 , -0.9 , -0.9 , -0.9 , -0.9 ,
+       -0.9 , -0.9 , -0.9 , -0.89, -0.89, -0.89, -0.89, -0.88, -0.88,
+       -0.88, -0.88, -0.88, -0.88, -0.88, -0.88, -0.88, -0.88, -0.87,
+       -0.86, -0.86, -0.85, -0.85, -0.84, -0.84, -0.83, -0.81, -0.8 ,
+       -0.79, -0.76])</code></pre>
+</div>
+</div>
+<p>The correlation between <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and each of the <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i"> is always negative and large. Some negative correlation is expected in models with <img src="https://latex.codecogs.com/png.latex?L+1"> intercept-like parameters (a global intercept plus <img src="https://latex.codecogs.com/png.latex?L"> group effects) but only <img src="https://latex.codecogs.com/png.latex?L"> identifiable group means: when the global intercept <img src="https://latex.codecogs.com/png.latex?%5Calpha"> increases, the group-level deviations <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i"> can offset it by decreasing.</p>
+<p>This dependence creates a narrow, tilted geometry in the posterior, which makes it harder for NUTS to explore efficiently.</p>
+</section>
+<section id="correlations-between-gamma_i-and-gamma_j-are-too-large" class="level4">
+<h4 class="anchored" data-anchor-id="correlations-between-gamma_i-and-gamma_j-are-too-large">Correlations between <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i"> and <img src="https://latex.codecogs.com/png.latex?%5Cgamma_j"> are too large</h4>
+<p>Finally, let’s have a look at the correlation between the <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i"> themselves:</p>
+<div id="4cb14248" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1">corr_matrix <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.corrcoef(idata.posterior.gamma.stack(sample<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"chain"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"draw"</span>)).to_numpy())</span>
+<span id="cb17-2"></span>
+<span id="cb17-3">idxs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.tril_indices(corr_matrix.shape[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>], k<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb17-4">fig, ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplots()</span>
+<span id="cb17-5">ax.hist(corr_matrix[idxs], bins<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>, density<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb17-6">ax.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(xlabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"$</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">text</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{cor}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">(</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">gamma_i, </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">gamma_j)$"</span>, ylabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Density"</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Not only is the correlation between <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and the <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i"> large in magnitude, but the <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i"> are also highly correlated with one another. Here these correlations are all positive. As before, this strong dependence makes the posterior geometry more difficult, so NUTS has a harder time exploring it efficiently.</p>
+<p>A quick way to assess how much redundancy there is among parameters is to look at the eigenvalues of the correlation matrix, as in Principal Component Analysis. The ratio between the eigenvalues and the number of variables indicates the fraction of the total variability that is captured by the corresponding principal component.</p>
+<div id="ceea0fd5" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1">eigenvals_1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.linalg.eigvals(corr_matrix)</span>
+<span id="cb18-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(eigenvals_1[:<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>])</span>
+<span id="cb18-3"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>((eigenvals_1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> eigenvals_1.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">sum</span>())[:<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># n variables = sum(eigenvalues)</span></span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[52.15967642  2.12718578  0.57736294]
+[0.80245656 0.03272594 0.00888251]</code></pre>
+</div>
+</div>
+<p>About 80% of the total variability in the posterior for <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7B%5Cgamma%7D"> can be captured by a single coordinate. That’s a lot of redundancy!</p>
+</section>
+</section>
+</section>
+<section id="an-alternative-proposal" class="level2">
+<h2 class="anchored" data-anchor-id="an-alternative-proposal">An alternative proposal</h2>
+<p>I’m going to reimplement the same model, with a few tweaks:</p>
+<ul>
+<li>I’m going to use a more informative prior on the marginal <img src="https://latex.codecogs.com/png.latex?R%5E2">. This will result in a more sensible prior for <img src="https://latex.codecogs.com/png.latex?W"> in the context of a logistic regression model.</li>
+<li>I will decrease the prior variance for <img src="https://latex.codecogs.com/png.latex?%5Calpha">, a value of <img src="https://latex.codecogs.com/png.latex?3"> is larger than what we need in this context.</li>
+<li>Finally, I’m going to change the model parametrization, see details when I write the model in PyMC.</li>
+</ul>
+<p>For the marginal <img src="https://latex.codecogs.com/png.latex?R%5E2"> I’m going to use a <img src="https://latex.codecogs.com/png.latex?%5Ctext%7BBeta%7D(2,%2010)"> prior. The resulting prior on <img src="https://latex.codecogs.com/png.latex?W"> concentrates most of the probability mass in a range that is more sensible than a <img src="https://latex.codecogs.com/png.latex?%5Ctext%7BBeta%7D(1,%201)">, as you can see in Figure&nbsp;2.</p>
+<div id="cell-fig-r2-prior" class="cell" data-execution_count="19">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> utils <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> gbp_pdf</span>
+<span id="cb20-2"></span>
+<span id="cb20-3">family <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> LogisticFamily(a<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, b<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>, intercept<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>special.logit(df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pos"</span>].mean()))</span>
+<span id="cb20-4">params_2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> WGBP(family)</span>
+<span id="cb20-5"></span>
+<span id="cb20-6">params_dict <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb20-7">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"$R^2 </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">sim </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">text</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{Beta}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">(1, 1)$"</span>: params,</span>
+<span id="cb20-8">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"$R^2 </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">sim </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">text</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{Beta}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">(2, 10)$"</span>: params_2,</span>
+<span id="cb20-9">}</span>
+<span id="cb20-10"></span>
+<span id="cb20-11">fig, ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplots()</span>
+<span id="cb20-12">x_grid <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.linspace(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.01</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>, num<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">200</span>)</span>
+<span id="cb20-13"></span>
+<span id="cb20-14"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> key, values <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> params_dict.items():</span>
+<span id="cb20-15">    ax.plot(x_grid, gbp_pdf(x_grid, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>values), label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>key)</span>
+<span id="cb20-16"></span>
+<span id="cb20-17">ax.axhline(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, ls<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"--"</span>, color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"0.5"</span>)</span>
+<span id="cb20-18">ax.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(xlabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"W"</span>, ylabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Density"</span>)</span>
+<span id="cb20-19">ax.legend()<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-r2-prior" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-r2-prior-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/fig-r2-prior-output-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r2-prior-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: The Beta(1, 1) prior on <img src="https://latex.codecogs.com/png.latex?R%5E2"> induces much heavier-tailed prior on <img src="https://latex.codecogs.com/png.latex?W"> than Beta(2, 10).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The implementation in PyMC looks almost exactly the same:</p>
+<div id="43ac27ff" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-18" style="background: #f1f3f5;"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-18-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">with</span> pm.Model(coords<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>coords) <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> model_2:</span>
+<span id="annotated-cell-18-2">    rho <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.Uniform(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"rho"</span>, lower<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, upper<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> r)</span>
+<span id="annotated-cell-18-3">    C <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.exp(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>dist <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> rho)</span>
+<span id="annotated-cell-18-4"></span>
+<span id="annotated-cell-18-5">    V <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.Beta(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"V"</span>, alpha<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>params_2[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>], beta<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>params_2[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>])</span>
+<span id="annotated-cell-18-6">    W <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.Deterministic(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"W"</span>, (V <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> (<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> V)) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span> (<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> params_2[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> params_2[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>])</span>
+<span id="annotated-cell-18-7"></span>
+<span id="annotated-cell-18-8">    phi <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.Dirichlet(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"phi"</span>, a<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>np.ones(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>))</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-18" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-18-9" class="code-annotation-target">    alpha <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.Normal(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"alpha"</span>, mu<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, sigma<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.75</span>)</span>
+<span id="annotated-cell-18-10">    beta <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.Normal(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"beta"</span>, mu<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, sigma<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> p <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> W <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> phi[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.5</span>, dims<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"predictors"</span>)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-18" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-18-11" class="code-annotation-target">    gamma <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.MvNormal(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gamma"</span>, mu<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>alpha, cov<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>phi[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> W <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> C, dims<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"village"</span>)</span>
+<span id="annotated-cell-18-12"></span>
+<span id="annotated-cell-18-13">    eta <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> X_std <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">@</span> beta <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> gamma[village_idx]</span>
+<span id="annotated-cell-18-14">    pi <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.Deterministic(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pi"</span>, pm.math.sigmoid(eta), dims<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"__obs__"</span>)</span>
+<span id="annotated-cell-18-15"></span>
+<span id="annotated-cell-18-16">    pm.Bernoulli(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"y"</span>, p<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>pi, observed<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>y, dims<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"__obs__"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-18" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-18" data-code-lines="9" data-code-annotation="1">The prior standard deviation of <img src="https://latex.codecogs.com/png.latex?%5Calpha"> is now 0.75, instead of <img src="https://latex.codecogs.com/png.latex?%5Csqrt%7B3%7D">.</span>
+</dd>
+<dt data-target-cell="annotated-cell-18" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-18" data-code-lines="11" data-code-annotation="2">Change the parameterization for <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7B%5Cgamma%7D">. I center the prior for <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i"> directly around <img src="https://latex.codecogs.com/png.latex?%5Calpha">, instead of centering them around 0 and then computing <img src="https://latex.codecogs.com/png.latex?%5Calpha%20+%20%5Cgamma_i">.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>Before doing inference, let’s check the prior:</p>
+<div id="8dc322ee" class="cell" data-execution_count="21">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">with</span> model_2:</span>
+<span id="cb21-2">    idata_2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pm.sample_prior_predictive(draws<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2000</span>, random_seed<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>random_seed)</span>
+<span id="cb21-3"></span>
+<span id="cb21-4">fig, axes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplots(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>), layout<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"constrained"</span>)</span>
+<span id="cb21-5">plot_priors(idata_2.prior, [<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"W"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"beta"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gamma"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"alpha"</span>], axes.ravel())<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Sampling: [V, alpha, beta, gamma, phi, rho, y]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-22-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>If we look at the marginal priors of the parameters we inspected before, we can see they span a more reasonable range now. The marginal priors for the <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i"> are still a bit too wide, but they are not as heavy-tailed as before.</p>
+<p>Next, we get 1000 draws across four chains using NUTS. Sampling is faster than before and completes without warnings.</p>
+<div id="e26421bd" class="cell" data-execution_count="22">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">with</span> model_2:</span>
+<span id="cb23-2">    idata_2.extend(pm.sample(target_accept<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.9</span>, random_seed<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>random_seed, progressbar<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>))</span>
+<span id="cb23-3"></span>
+<span id="cb23-4">idata_2.posterior[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"R2_conditional"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> compute_conditional_R2(idata_2.posterior[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pi"</span>])</span></code></pre></div></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [rho, V, phi, alpha, beta, gamma]
+Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 19 seconds.</code></pre>
+</div>
+</div>
+<p>All the traces look healthier than before:</p>
+<div id="61e8b910" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1">az.plot_trace(idata_2, var_names<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"alpha"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"beta"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gamma"</span>], backend_kwargs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>{<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"layout"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"constrained"</span>})<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="fa0cbc6b" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1">az.plot_trace(idata_2, var_names<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"W"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"rho"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"R2_conditional"</span>], backend_kwargs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>{<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"layout"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"constrained"</span>})<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-25-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>If we inspect the correlation between the global intercept <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and the group-level deviations <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i">, they look much better now:</p>
+<div id="d9529a39" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1">np.sort(xr.corr(idata_2.posterior.gamma, idata_2.posterior.alpha, dim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"chain"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"draw"</span>))).<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">round</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)</span></code></pre></div></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>array([-0.101, -0.099, -0.099, -0.09 , -0.076, -0.072, -0.071, -0.046,
+       -0.045, -0.044, -0.043, -0.037, -0.036, -0.034, -0.026, -0.019,
+       -0.018, -0.016, -0.015, -0.013, -0.012, -0.011, -0.008, -0.005,
+       -0.003, -0.002, -0.002,  0.002,  0.003,  0.01 ,  0.011,  0.014,
+        0.015,  0.017,  0.018,  0.019,  0.02 ,  0.022,  0.025,  0.033,
+        0.04 ,  0.05 ,  0.053,  0.055,  0.059,  0.059,  0.06 ,  0.061,
+        0.064,  0.064,  0.067,  0.071,  0.073,  0.073,  0.075,  0.077,
+        0.077,  0.082,  0.084,  0.097,  0.097,  0.1  ,  0.104,  0.108,
+        0.125])</code></pre>
+</div>
+</div>
+<p>Something similar applies to the correlation between the <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i"> themselves. While not all correlations are negligible in magnitude, their distribution is now centered around zero.</p>
+<div id="df2f4c18" class="cell" data-execution_count="26">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1">corr_matrix <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.corrcoef(idata_2.posterior.gamma.stack(sample<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"chain"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"draw"</span>)).to_numpy())</span>
+<span id="cb29-2">idxs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.tril_indices(corr_matrix.shape[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>], k<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb29-3">fig, ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplots()</span>
+<span id="cb29-4">ax.hist(corr_matrix[idxs], bins<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>, density<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb29-5">ax.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(xlabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"$</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">text</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{cor}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">(</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">gamma_i, </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">gamma_j)$"</span>, ylabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Density"</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-27-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Looking at the eigenvalues, the share of variability captured by the first dimension drops from 80% to 15%, indicating that the correlations within <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7B%5Cgamma%7D"> have decreased substantially.</p>
+<div id="15f1448e" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1">eigenvals_2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.linalg.eigvals(corr_matrix)</span>
+<span id="cb30-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(eigenvals_2[:<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>])</span>
+<span id="cb30-3"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>((eigenvals_2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> eigenvals_2.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">sum</span>())[:<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># n variables = sum(eigenvalues)</span></span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[9.89843255 2.38709994 2.14716362]
+[0.15228358 0.03672461 0.03303329]</code></pre>
+</div>
+</div>
+<p>All in all, posterior geometry seems nicer to NUTS.</p>
+</section>
+<section id="some-comparisons" class="level2">
+<h2 class="anchored" data-anchor-id="some-comparisons">Some comparisons</h2>
+<p>A question I had after rewriting the model with some changes was: how does this affect the posterior?</p>
+<p>Let’s compare some (marginal) posteriors between the two models. I’m going to start with <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and <img src="https://latex.codecogs.com/png.latex?%5Cbeta_j">.</p>
+<div id="4923ed7d" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1">fig, axes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplots(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7</span>), gridspec_kw<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>{<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"height_ratios"</span>: [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]})</span>
+<span id="cb32-2"></span>
+<span id="cb32-3">az.plot_forest(</span>
+<span id="cb32-4">    [idata, idata_2], </span>
+<span id="cb32-5">    var_names<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"alpha"</span>,</span>
+<span id="cb32-6">    combined<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>,</span>
+<span id="cb32-7">    model_names<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Original model"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Adapted model"</span>],</span>
+<span id="cb32-8">    ax<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>axes[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]</span>
+<span id="cb32-9">)</span>
+<span id="cb32-10">az.plot_forest(</span>
+<span id="cb32-11">    [idata, idata_2],</span>
+<span id="cb32-12">    var_names<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"beta"</span>,</span>
+<span id="cb32-13">    combined<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>,</span>
+<span id="cb32-14">    ax<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>axes[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]</span>
+<span id="cb32-15">)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb32-16"></span>
+<span id="cb32-17">axes[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(title<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>)</span>
+<span id="cb32-18">axes[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(title<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>, xlabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Parameter value"</span>)</span>
+<span id="cb32-19">axes[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>].get_legend().remove()<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-29-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In both cases, the posterior for <img src="https://latex.codecogs.com/png.latex?%5Calpha"> is centered at essentially the same value,but the adapted model produces a more concentrated distribution. This is expected since we used a more informative prior for <img src="https://latex.codecogs.com/png.latex?%5Calpha"> and reduced its posterior correlation with <img src="https://latex.codecogs.com/png.latex?%5Cboldsymbol%7B%5Cgamma%7D">. For <img src="https://latex.codecogs.com/png.latex?%5Cbeta_j">, they look the same.</p>
+<p>Let’s have a look at a few <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i">:</p>
+<div id="645fb85b" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1">ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> az.plot_forest(</span>
+<span id="cb33-2">    [idata, idata_2],</span>
+<span id="cb33-3">    var_names<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gamma"</span>,</span>
+<span id="cb33-4">    combined<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>,</span>
+<span id="cb33-5">    model_names<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Original model"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Adapted model"</span>],</span>
+<span id="cb33-6">    coords<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>{<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"village"</span>: np.arange(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">65</span>, step<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>)}</span>
+<span id="cb33-7">)</span>
+<span id="cb33-8">ax[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>].axvline(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"0.5"</span>, lw<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, ls<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"--"</span>)</span>
+<span id="cb33-9">ax[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(xlabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Parameter value"</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-30-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In some cases, the marginal posterior for <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i"> is closer to 0. In others, it is farther away. But in every case, the adapted model produces a more concentrated posterior, indicating reduced uncertainty.</p>
+<p>To wrap up, let’s compare the posterior distribution of the conditional <img src="https://latex.codecogs.com/png.latex?R%5E2"> under the two models:</p>
+<div id="bef036a3" class="cell" data-execution_count="31">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1">ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> az.plot_dist(idata.posterior[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"R2_conditional"</span>], label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Original model"</span>)</span>
+<span id="cb34-2">az.plot_dist(idata_2.posterior[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"R2_conditional"</span>], label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Adapted model"</span>, color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"C1"</span>, ax<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>ax)</span>
+<span id="cb34-3">ax.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(xlabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Conditional $R^2$"</span>, ylabel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Posterior density"</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-31-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>They are essentially identical: the changes to the priors and parameterization do not affect the posterior distribution of the conditional <img src="https://latex.codecogs.com/png.latex?R%5E2">.</p>
+</section>
+<section id="whats-next" class="level2">
+<h2 class="anchored" data-anchor-id="whats-next">What’s next</h2>
+<p>With this post, I returned to the example where I started. It’s been quite a ride. I think this is the most challenging of the examples in <span class="citation" data-cites="Yanchenko2024">Yanchenko, Bondell, and Reich (2024)</span>.</p>
+<p>Next, I’ll publish another post reproducing the remaining examples, where <img src="https://latex.codecogs.com/png.latex?W"> has a closed-form solution. But that will have to wait until next year. Now, it’s time to go on vacation.</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+<div id="ref-Gelman2019" class="csl-entry">
+Gelman, Andrew, Ben Goodrich, Jonah Gabry, and Aki Vehtari. 2019. <span>“R-Squared for Bayesian Regression Models.”</span> <em>The American Statistician</em> 73 (3): 307–9. <a href="https://doi.org/10.1080/00031305.2018.1549100">https://doi.org/10.1080/00031305.2018.1549100</a>.
+</div>
+<div id="ref-Yanchenko2024" class="csl-entry">
+Yanchenko, Eric, Howard D. Bondell, and Brian J. Reich. 2024. <span>“The R2D2 Prior for Generalized Linear Mixed Models.”</span> <em>The American Statistician</em> 79 (1): 40–49. <a href="https://doi.org/10.1080/00031305.2024.2352010">https://doi.org/10.1080/00031305.2024.2352010</a>.
+</div>
+</div></section></div> ]]></description>
+  <category>Bayesian</category>
+  <category>Statistics</category>
+  <category>R2D2</category>
+  <category>PyMC</category>
+  <category>GLMM</category>
+  <guid>https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/</guid>
+  <pubDate>Thu, 18 Dec 2025 03:00:00 GMT</pubDate>
+  <media:content url="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic" medium="image"/>
+</item>
 <item>
   <title>Getting familiar with the R2D2 prior for GLMMs</title>
   <link>https://tomicapretto.com/posts/2025-12-08_r2d2_glmm/</link>
