@@ -10,10 +10,10 @@
 <atom:link href="https://tomicapretto.com/blog.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Thu, 18 Dec 2025 03:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 20 Dec 2025 03:00:00 GMT</lastBuildDate>
 <item>
   <title>R2D2 for mixed-effects logistic regression</title>
-  <link>https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/</link>
+  <link>https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/</link>
   <description><![CDATA[ 
 
 
@@ -612,7 +612,7 @@ font-style: inherit;">;</span></span></code></pre></div></div>
 <div id="fig-map" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/fig-map-output-1.png" class="img-fluid figure-img">
+<img src="https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/index_files/figure-html/fig-map-output-1.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Proportion of positive tests per village in The Gambia, Africa.
@@ -748,7 +748,7 @@ font-style: inherit;">;</span></span></code></pre></div></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/index_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1089,7 +1089,7 @@ font-style: inherit;">"__obs__"</span>)</span><div class="code-annotation-gutter
 <div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-10-output-1.svg" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/index_files/figure-html/cell-10-output-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1159,7 +1159,7 @@ font-style: inherit;">;</span></span></code></pre></div></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/index_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1186,7 +1186,7 @@ font-style: inherit;">;</span></span></code></pre></div></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/index_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1444,7 +1444,7 @@ font-style: inherit;">;</span></span></code></pre></div></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-16-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/index_files/figure-html/cell-16-output-2.png" class="img-fluid figure-img"></p>
 <figcaption>Marginal prior for W, <img src="https://latex.codecogs.com/png.latex?%5Cbeta_j">, <img src="https://latex.codecogs.com/png.latex?%5Cgamma_i">, and <img src="https://latex.codecogs.com/png.latex?%5Calpha">.</figcaption>
 </figure>
 </div>
@@ -1551,7 +1551,7 @@ font-style: inherit;">;</span></span></code></pre></div></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/index_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1717,7 +1717,7 @@ font-style: inherit;">;</span></span></code></pre></div></div>
 <div id="fig-r2-prior" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-r2-prior-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/fig-r2-prior-output-1.png" class="img-fluid figure-img">
+<img src="https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/index_files/figure-html/fig-r2-prior-output-1.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r2-prior-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: The Beta(1, 1) prior on <img src="https://latex.codecogs.com/png.latex?R%5E2"> induces much heavier-tailed prior on <img src="https://latex.codecogs.com/png.latex?W"> than Beta(2, 10).
@@ -1961,7 +1961,7 @@ font-style: inherit;">;</span></span></code></pre></div></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-22-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/index_files/figure-html/cell-22-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2024,7 +2024,7 @@ font-style: inherit;">;</span></span></code></pre></div></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/index_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2050,7 +2050,7 @@ font-style: inherit;">;</span></span></code></pre></div></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-25-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/index_files/figure-html/cell-25-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2147,7 +2147,7 @@ font-style: inherit;">;</span></span></code></pre></div></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-27-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/index_files/figure-html/cell-27-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2286,7 +2286,7 @@ font-style: inherit;">;</span></span></code></pre></div></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-29-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/index_files/figure-html/cell-29-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2363,7 +2363,7 @@ font-style: inherit;">;</span></span></code></pre></div></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-30-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/index_files/figure-html/cell-30-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2412,7 +2412,7 @@ font-style: inherit;">;</span></span></code></pre></div></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/index_files/figure-html/cell-31-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/index_files/figure-html/cell-31-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2441,9 +2441,9 @@ Yanchenko, Eric, Howard D. Bondell, and Brian J. Reich. 2024. <span>“The R2D2 
   <category>R2D2</category>
   <category>PyMC</category>
   <category>GLMM</category>
-  <guid>https://tomicapretto.com/posts/2025-12-18_r2d2_logistic/</guid>
-  <pubDate>Thu, 18 Dec 2025 03:00:00 GMT</pubDate>
-  <media:content url="https://tomicapretto.com/posts/2025-12-18_r2d2_logistic" medium="image"/>
+  <guid>https://tomicapretto.com/posts/2025-12-20_r2d2_logistic/</guid>
+  <pubDate>Sat, 20 Dec 2025 03:00:00 GMT</pubDate>
+  <media:content url="https://tomicapretto.com/posts/2025-12-20_r2d2_logistic" medium="image"/>
 </item>
 <item>
   <title>Getting familiar with the R2D2 prior for GLMMs</title>
