@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,15 +69,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../imgs/mate.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-39a3871fdf2718eb69a35b86f715a234.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-2e2df350b03da9d131679f784b1d5ec3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -129,7 +128,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+      if (mathElements[i].tagName == "SPAN") {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -154,8 +153,6 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Tomi Capretto</span>
     </a>
@@ -255,21 +252,21 @@ window.Quarto = {
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> formulae <span class="im">import</span> design_matrices</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> formulae <span class="im">import</span> design_matrices</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="problem" class="level2">
 <h2 class="anchored" data-anchor-id="problem">Problem</h2>
 <p>Here we will be comparing design matrices for the group-specific terms in a mixed-effects model obtained with both <strong>lme4</strong> and <strong>formulae</strong>. We’re using the dataset <code>Pixel</code> that comes with the R package <strong>nlme</strong>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"Pixel"</span>, <span class="at">package =</span> <span class="st">"nlme"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Pixel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"Pixel"</span>, <span class="at">package =</span> <span class="st">"nlme"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Pixel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Grouped Data: pixel ~ day | Dog/Side
   Dog Side day  pixel
@@ -283,7 +280,7 @@ window.Quarto = {
 </div>
 <p>We’re not interested in how to fit a certain model here. We’re interested in constructing the design matrix for group-specific effects with different characteristics. We use the following formula</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">=</span> <span class="er">~</span> (<span class="dv">0</span> <span class="sc">+</span> day <span class="sc">|</span> Dog) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Side <span class="sc">/</span> Dog)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">=</span> <span class="er">~</span> (<span class="dv">0</span> <span class="sc">+</span> day <span class="sc">|</span> Dog) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Side <span class="sc">/</span> Dog)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>where each part can be interpreted as follows</p>
 <ul>
@@ -291,11 +288,11 @@ window.Quarto = {
 <li><code>(1 | Side / Dog)</code> is equivalent to <code>(1 | Side) + (1 | Dog:Side)</code>. This means there’s a varying intercept for each <code>Side</code> and a varying intercept for each combination of <code>Dog</code> and <code>Side</code>. In other words, we have a nested group-specific intercept, where <code>Dog</code> is nested within <code>Side</code>.</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lme4_terms <span class="ot">=</span> <span class="fu">mkReTrms</span>(<span class="fu">findbars</span>(f1), <span class="fu">model.frame</span>(<span class="fu">subbars</span>(f1), <span class="at">data =</span> Pixel))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lme4_terms <span class="ot">=</span> <span class="fu">mkReTrms</span>(<span class="fu">findbars</span>(f1), <span class="fu">model.frame</span>(<span class="fu">subbars</span>(f1), <span class="at">data =</span> Pixel))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>lme4_terms</code> contains much more information than what we need for this post. We mostly use <code>lme4_terms$Ztlist</code>, which is a list that contains the transpose of the group-specific effects model matrix, separated by term. These matrices are stored as sparse matrices of <code>dgCMatrix</code> class. If we want to have the sub-matrix for a given group-specific term as a base R matrix, we have to do <code>as.matrix(t(lme4_terms$Ztlist$[["term"]]))</code>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(lme4_terms<span class="sc">$</span>Ztlist)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(lme4_terms<span class="sc">$</span>Ztlist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "1 | Dog:Side"  "0 + day | Dog" "1 | Side"     </code></pre>
 </div>
@@ -303,26 +300,26 @@ window.Quarto = {
 <p>We have three group-specific terms. The first and the last ones are the group-specific intercepts we mentioned. These are the result of the nested group-specific intercept <code>(1 | Side / Dog)</code>. <code>Dog</code> is nested within <code>Side</code> and consequently there’s an intercept varying among <code>Side</code> and another varying among <code>Dog</code> within <code>Side</code>. The second term, <code>0 + day | Dog</code>, represents varying slope of <code>day</code> for each level of <code>Dog</code>.</p>
 <p>We finally store the sub-matrix for each term in different objects that we’ll later use when comparing results with those obtained with <strong>formulae</strong>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>day_by_dog <span class="ot">=</span> <span class="fu">as.matrix</span>(<span class="fu">t</span>(lme4_terms<span class="sc">$</span>Ztlist<span class="sc">$</span><span class="st">`</span><span class="at">0 + day | Dog</span><span class="st">`</span>))</span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>day_by_dog <span class="ot">=</span> <span class="fu">as.matrix</span>(<span class="fu">t</span>(lme4_terms<span class="sc">$</span>Ztlist<span class="sc">$</span><span class="st">`</span><span class="at">0 + day | Dog</span><span class="st">`</span>))</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>intercept_by_side <span class="ot">=</span> <span class="fu">as.matrix</span>(<span class="fu">t</span>(lme4_terms<span class="sc">$</span>Ztlist<span class="sc">$</span><span class="st">`</span><span class="at">1 | Side</span><span class="st">`</span>))</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>intercept_by_side_dog <span class="ot">=</span> <span class="fu">as.matrix</span>(<span class="fu">t</span>(lme4_terms<span class="sc">$</span>Ztlist<span class="sc">$</span><span class="st">`</span><span class="at">1 | Dog:Side</span><span class="st">`</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>intercept_by_side_dog <span class="ot">=</span> <span class="fu">as.matrix</span>(<span class="fu">t</span>(lme4_terms<span class="sc">$</span>Ztlist<span class="sc">$</span><span class="st">`</span><span class="at">1 | Dog:Side</span><span class="st">`</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>On the other hand, in Python, we use <code>design_matrices()</code> from the <strong>formulae</strong> library to obtain a <code>DesignMatrices</code> object. All the information associated with the group-specific terms is contained in the <code>.group</code> attribute and the sub-matrix corresponding to a particular term is accessed with <code>.group[term_name]</code>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dm <span class="op">=</span> design_matrices(<span class="st">"(0 + day | Dog) + (1 | Side / Dog)"</span>, r.Pixel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dm <span class="op">=</span> design_matrices(<span class="st">"(0 + day | Dog) + (1 | Side / Dog)"</span>, r.Pixel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>There’s a dictionary called <code>terms_info</code> within <code>dm.group</code>. To see the names of the group-specific effects we just retrieve the keys.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dm.group.terms.keys()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dm.group.terms.keys()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>dict_keys(['day|Dog', '1|Side', '1|Side:Dog'])</code></pre>
 </div>
 </div>
 <p>Names differ a little with the ones from <strong>lme4</strong>, but they represent the same thing.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>day_by_dog <span class="op">=</span> dm.group[<span class="st">'day|Dog'</span>]</span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>day_by_dog <span class="op">=</span> dm.group[<span class="st">'day|Dog'</span>]</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>intercept_by_side <span class="op">=</span> dm.group[<span class="st">'1|Side'</span>]</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>intercept_by_side_dog <span class="op">=</span> dm.group[<span class="st">'1|Side:Dog'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>intercept_by_side_dog <span class="op">=</span> dm.group[<span class="st">'1|Side:Dog'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now let’s compare those matrices!</p>
 </section>
@@ -341,7 +338,7 @@ window.Quarto = {
 <p>In this first case, both panels are representing the same data so we can happily conclude the result obtained with <strong>formulae</strong> matches the one from <strong>lme4</strong>. Yay!!</p>
 <p>But we’re humans and our eyes can fail so it’s better to always check appropiately with</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(py<span class="sc">$</span>day_by_dog <span class="sc">==</span> day_by_dog)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(py<span class="sc">$</span>day_by_dog <span class="sc">==</span> day_by_dog)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
@@ -359,7 +356,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(py<span class="sc">$</span>intercept_by_side <span class="sc">==</span> intercept_by_side)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(py<span class="sc">$</span>intercept_by_side <span class="sc">==</span> intercept_by_side)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
@@ -379,14 +376,14 @@ window.Quarto = {
 </div>
 <p>But don’t worry. We’re not giving up. We still have things to do<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. We can check what are the groups being represented in the columns of the matrices we’re plotting.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(intercept_by_side_dog)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(intercept_by_side_dog)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "1:L"  "1:R"  "10:L" "10:R" "2:L"  "2:R"  "3:L"  "3:R"  "4:L"  "4:R" 
 [11] "5:L"  "5:R"  "6:L"  "6:R"  "7:L"  "7:R"  "8:L"  "8:R"  "9:L"  "9:R" </code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dm.group.terms[<span class="st">"1|Side:Dog"</span>].labels</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dm.group.terms[<span class="st">"1|Side:Dog"</span>].labels</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['1|Side[L]:Dog[1]', '1|Side[L]:Dog[10]', '1|Side[L]:Dog[2]', '1|Side[L]:Dog[3]', '1|Side[L]:Dog[4]', '1|Side[L]:Dog[5]', '1|Side[L]:Dog[6]', '1|Side[L]:Dog[7]', '1|Side[L]:Dog[8]', '1|Side[L]:Dog[9]', '1|Side[R]:Dog[1]', '1|Side[R]:Dog[10]', '1|Side[R]:Dog[2]', '1|Side[R]:Dog[3]', '1|Side[R]:Dog[4]', '1|Side[R]:Dog[5]', '1|Side[R]:Dog[6]', '1|Side[R]:Dog[7]', '1|Side[R]:Dog[8]', '1|Side[R]:Dog[9]']</code></pre>
 </div>
@@ -394,7 +391,7 @@ window.Quarto = {
 <p>And there it is! Matrices differ because columns are representing different groups. In <strong>lme4</strong>, groups are looping first along <code>Dog</code> and then along <code>Side</code>, while in <strong>formulae</strong> it is the other way around.</p>
 <p>We can simply re-order the columns of one of the matrices and generate and check whether they match or not.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>intercept_by_side_dog_f <span class="ot">=</span> <span class="fu">as.data.frame</span>(py<span class="sc">$</span>intercept_by_side_dog)</span>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>intercept_by_side_dog_f <span class="ot">=</span> <span class="fu">as.data.frame</span>(py<span class="sc">$</span>intercept_by_side_dog)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(intercept_by_side_dog_f) <span class="ot">=</span> py<span class="sc">$</span>dm<span class="sc">$</span>group<span class="sc">$</span>terms[[<span class="st">"1|Side:Dog"</span>]]<span class="sc">$</span>groups</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>names_lme4_order <span class="ot">=</span> <span class="fu">paste</span>(</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"L"</span>, <span class="st">"R"</span>), <span class="dv">10</span>),</span>
@@ -403,7 +400,7 @@ window.Quarto = {
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>intercept_by_side_dog_f <span class="ot">=</span> intercept_by_side_dog_f[names_lme4_order] <span class="sc">%&gt;%</span></span>
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unname</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unname</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -415,7 +412,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(intercept_by_side_dog_f <span class="sc">==</span> intercept_by_side_dog)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(intercept_by_side_dog_f <span class="sc">==</span> intercept_by_side_dog)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
@@ -427,20 +424,20 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="another-formula">Another formula</h2>
 <p>This other formula contains an interaction between categorical variables as the expression of the group-specific term, which is something we’re not covering above. In this case, we are going to subset the data so the design matrices are smaller and we can understand what’s going on with more ease.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset data</span></span>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset data</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>Pixel2 <span class="ot">=</span> Pixel <span class="sc">%&gt;%</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Dog <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), day <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Dog =</span> forcats<span class="sc">::</span><span class="fu">fct_drop</span>(Dog))</span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create terms with lme4</span></span>
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>f2 <span class="ot">=</span> <span class="er">~</span> day <span class="sc">+</span>  (<span class="dv">0</span> <span class="sc">+</span> Dog<span class="sc">:</span>Side <span class="sc">|</span> day)</span>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>lme4_terms <span class="ot">=</span> <span class="fu">mkReTrms</span>(<span class="fu">findbars</span>(f2), <span class="fu">model.frame</span>(<span class="fu">subbars</span>(f2), <span class="at">data =</span> Pixel2))</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>dog_and_side_by_day <span class="ot">=</span> <span class="fu">as.matrix</span>(<span class="fu">t</span>(lme4_terms<span class="sc">$</span>Ztlist<span class="sc">$</span><span class="st">`</span><span class="at">0 + Dog:Side | day</span><span class="st">`</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>dog_and_side_by_day <span class="ot">=</span> <span class="fu">as.matrix</span>(<span class="fu">t</span>(lme4_terms<span class="sc">$</span>Ztlist<span class="sc">$</span><span class="st">`</span><span class="at">0 + Dog:Side | day</span><span class="st">`</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And now with <code>design_matrices()</code> in Python.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create terms with</span></span>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create terms with</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>dm <span class="op">=</span> design_matrices(<span class="st">"(0 + Dog:Side|day)"</span>, r.Pixel2)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>dog_and_side_by_day <span class="op">=</span> dm.group[<span class="st">"Dog:Side|day"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>dog_and_side_by_day <span class="op">=</span> dm.group[<span class="st">"Dog:Side|day"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="design-matrix-for-dogsideday" class="level3">
 <h3 class="anchored" data-anchor-id="design-matrix-for-dogsideday">Design matrix for <code>(Dog:Side|day)</code></h3>
@@ -456,20 +453,20 @@ window.Quarto = {
 </div>
 <p>We have the same problem than above, matrices don’t match. So we know what to do: look at the groups represented in the columns.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dog_and_side_by_day)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dog_and_side_by_day)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "2" "2" "2" "2" "2" "2" "4" "4" "4" "4" "4" "4" "6" "6" "6" "6" "6" "6"</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dm.group.terms[<span class="st">"Dog:Side|day"</span>].labels</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dm.group.terms[<span class="st">"Dog:Side|day"</span>].labels</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['Dog[1]:Side[L]|day[2.0]', 'Dog[1]:Side[R]|day[2.0]', 'Dog[2]:Side[L]|day[2.0]', 'Dog[2]:Side[R]|day[2.0]', 'Dog[3]:Side[L]|day[2.0]', 'Dog[3]:Side[R]|day[2.0]', 'Dog[1]:Side[L]|day[4.0]', 'Dog[1]:Side[R]|day[4.0]', 'Dog[2]:Side[L]|day[4.0]', 'Dog[2]:Side[R]|day[4.0]', 'Dog[3]:Side[L]|day[4.0]', 'Dog[3]:Side[R]|day[4.0]', 'Dog[1]:Side[L]|day[6.0]', 'Dog[1]:Side[R]|day[6.0]', 'Dog[2]:Side[L]|day[6.0]', 'Dog[2]:Side[R]|day[6.0]', 'Dog[3]:Side[L]|day[6.0]', 'Dog[3]:Side[R]|day[6.0]']</code></pre>
 </div>
 </div>
 <p>But this they represent the same groups<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. We can look if there’s a difference in how the interactions are ordered within each group.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>lme4_terms<span class="sc">$</span>cnms</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>lme4_terms<span class="sc">$</span>cnms</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$day
 [1] "Dog1:SideL" "Dog2:SideL" "Dog3:SideL" "Dog1:SideR" "Dog2:SideR"
@@ -478,7 +475,7 @@ window.Quarto = {
 </div>
 <p>And again, thankfully, we see there’s a difference in how columns are being ordered. Let’s see if matrices match after we reorder the one obtained with <strong>formulae</strong>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>dog_and_side_by_day_f <span class="ot">=</span> <span class="fu">as.data.frame</span>(py<span class="sc">$</span>dog_and_side_by_day)</span>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>dog_and_side_by_day_f <span class="ot">=</span> <span class="fu">as.data.frame</span>(py<span class="sc">$</span>dog_and_side_by_day)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dog_and_side_by_day_f) <span class="ot">=</span> py<span class="sc">$</span>dm<span class="sc">$</span>group<span class="sc">$</span>terms[[<span class="st">"Dog:Side|day"</span>]]<span class="sc">$</span>labels</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>side <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"L"</span>, <span class="st">"R"</span>), <span class="at">each =</span> <span class="dv">3</span>), <span class="dv">3</span>)</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>dog <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">6</span>)</span>
@@ -486,7 +483,7 @@ window.Quarto = {
 <span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>names_lme4_order <span class="ot">=</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"Dog[{dog}]:Side[{side}]|day[{day}]"</span>)</span>
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>dog_and_side_by_day_f <span class="ot">=</span> dog_and_side_by_day_f[names_lme4_order] <span class="sc">%&gt;%</span></span>
 <span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unname</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unname</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -498,7 +495,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(dog_and_side_by_day_f <span class="sc">==</span> dog_and_side_by_day)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(dog_and_side_by_day_f <span class="sc">==</span> dog_and_side_by_day)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
@@ -571,14 +568,13 @@ window.Quarto = {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
