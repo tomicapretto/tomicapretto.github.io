@@ -1,0 +1,15 @@
+---
+title: "Software"
+page-layout: full
+listing:
+  - id: gallery
+    template: gallery.ejs
+    contents: data.yml
+format:
+  html:
+    css: style.css
+---
+
+
+::: {#gallery}
+:::

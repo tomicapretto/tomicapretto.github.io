@@ -1,0 +1,71 @@
+- category: Python
+  description: "Python is my primary language these days. Here are the main packages I've developed or contributed to."
+  tiles:
+  - title: Bambi
+    subtitle: A Bayesian model-building interface in Python
+    path: https://bambinos.github.io
+    image: imgs/bambi.png
+  - title: PyMC
+    subtitle: Probabilistic programming in Python
+    path: https://docs.pymc.io
+    image: imgs/pymc.png
+  - title: ArviZ
+    subtitle: Tools for Exploratory Analysis of Bayesian Models
+    path: https://python.arviz.org
+    image: imgs/arviz.png
+  - title: Formulae
+    subtitle: Mixed effects models via simple formulae strings
+    path: https://bambinos.github.io/formulae/
+    image: imgs/formulae.png
+  - title: FlexiText
+    subtitle: Draw text with multiple styles in Matplotlib
+    path: https://tomicapretto.com/flexitext/
+    image: imgs/flexitext.png
+- category: R & Shiny
+  description: "R used to be my main programming language. I built several Shiny apps, both for fun and professionally."
+  tiles:
+    - title: shiny-hmc
+      subtitle: Learn about Hamiltonian Monte Carlo sampling
+      path: https://github.com/tomicapretto/shiny-hmc
+      image: imgs/shiny-hmc.gif
+    - title: shiny-math
+      subtitle: Math inputs for Shiny apps
+      path: https://github.com/tomicapretto/shinymath
+      image: imgs/shinymath.gif
+    - title: latex2r
+      subtitle: Convert LaTeX equations to R expressions
+      path: https://github.com/tomicapretto/latex2r
+      image: imgs/latex2r.png
+    - title: rbingo
+      subtitle: A system to manage and play bingo games
+      path: https://github.com/tomicapretto/rbingo
+      image: imgs/rbingo.png
+    - title: samp
+      subtitle: Visualize sampling distributions
+      path: https://github.com/tomicapretto/samp
+      image: imgs/samp.gif
+    - title: whackamole
+      subtitle: Play Whack-A-Mole in R
+      path: https://github.com/tomicapretto/whackamole
+      image: imgs/whackamole.gif
+    - title: Play-With-Regression
+      subtitle: Explore Ordinary Least Square Regression
+      path: https://github.com/tomicapretto/playwithregression
+      image: imgs/ols.gif
+    - title: Interactive functions (ifuns)
+      subtitle: Explore mathematical functions interactively
+      path: https://github.com/tomicapretto/ifuns
+      image: imgs/ifuns.gif
+- category: Quarto
+  description: |
+    For the past few years, I've been using Quarto extensively to create all kinds of documents,
+    here I share some of the extensions and templates I've created.
+  tiles:
+    - title: quarto-carousel
+      subtitle: Bootstrap carousel in Quarto documents
+      path: https://github.com/tomicapretto/quarto-carousel
+      image: imgs/quarto-carousel.png
+    - title: quarto-curso-plantilla
+      subtitle: Quarto template for course website
+      path: https://github.com/tomicapretto/quarto-curso-plantilla
+      image: imgs/quarto-curso-plantilla.png

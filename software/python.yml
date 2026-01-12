@@ -1,0 +1,25 @@
+- title: Bambi
+  subtitle: A Bayesian model-building interface in Python
+  path: https://bambinos.github.io
+  image: imgs/bambi.png
+  categories: [modeling, statistics]
+- title: PyMC
+  subtitle: Probabilistic programming in Python
+  path: https://docs.pymc.io
+  image: imgs/pymc.png
+  categories: [modeling, statistics]
+- title: ArviZ
+  subtitle: Tools for Exploratory Analysis of Bayesian Models
+  path: https://python.arviz.org
+  image: imgs/arviz.png
+  categories: [visualization, diagnostics]
+- title: Formulae
+  subtitle: A simple formula interface for mixed effects statistical models in Python
+  path: https://bambinos.github.io/formulae/
+  image: imgs/formulae.png
+  categories: [modeling, statistics]
+- title: Flexitext
+  subtitle: Draw text with multiple styles in Matplotlib plots
+  path: https://tomicapretto.com/flexitext/
+  image: imgs/flexitext.png
+  categories: [visualization, matplotlib]

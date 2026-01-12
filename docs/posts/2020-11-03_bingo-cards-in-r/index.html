@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../imgs/mate.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-2e2df350b03da9d131679f784b1d5ec3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-39a3871fdf2718eb69a35b86f715a234.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -128,7 +129,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -166,6 +167,10 @@ window.Quarto = {
   <li class="nav-item">
     <a class="nav-link" href="../../blog.html"> 
 <span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../software/index.html"> 
+<span class="menu-text">Software</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../about.html"> 
@@ -319,18 +324,18 @@ window.Quarto = {
 <p>If we represent empty slots with a 0 and filled slots with a 1, getting all permutations between four 0s and five 1s is as simple as calling <code>combinat::permn(c(rep(0, 4), rep(1, 5)))</code>. However, this is not what we want because not all the returned layouts are valid rows. We need to select only those row layouts that are valid in a bingo card.</p>
 <p>The following function, <code>find_window()</code>, receives a numeric vector <code>x</code> and looks for find windows of length <code>width</code> where all the elements are equal to <code>what</code>. If such a window is found, the function returns <code>TRUE</code>, otherwise it returns <code>FALSE</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>find_window <span class="ot">&lt;-</span> <span class="cf">function</span>(x, width, what) {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>find_window <span class="ot">&lt;-</span> <span class="cf">function</span>(x, width, what) {</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(<span class="fu">length</span>(x) <span class="sc">-</span> width)) {</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">all</span>(x[i<span class="sc">:</span>(i <span class="sc">+</span> width)] <span class="sc">==</span> what)) {</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">return</span>(<span class="cn">TRUE</span>)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        }</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">FALSE</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then we write a function called <code>get_rows()</code> that generates all the possible row layouts and uses <code>find_window()</code> to select the layouts that satisfy our conditions.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>get_rows <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>get_rows <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get all row layouts</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    rows <span class="ot">&lt;-</span> combinat<span class="sc">::</span><span class="fu">permn</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">5</span>)))</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Keep rows with at most two consecutive empty slots</span></span>
@@ -338,7 +343,7 @@ window.Quarto = {
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Keep rows with at most three consecutive filled slots</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    rows <span class="ot">&lt;-</span> rows[<span class="sc">!</span><span class="fu">vapply</span>(rows, find_window, <span class="fu">logical</span>(<span class="dv">1</span>), <span class="dv">3</span>, <span class="dv">1</span>)]</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(rows)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="sampling-valid-cards" class="level3">
@@ -356,7 +361,7 @@ window.Quarto = {
 <p>Once we’re done, we end up with <span class="math inline">\(N\)</span> bingo card layouts that are valid in terms of our requirements above.</p>
 <p>This idea is implemented in a function called <code>get_cards()</code>. It receives the rows we generate with <code>get_rows()</code> and the number of card layouts we want to generate. Finally it returns a list whose elements are vectors of length 3 with the row indexes<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>get_cards <span class="ot">&lt;-</span> <span class="cf">function</span>(rows, <span class="at">cards_n =</span> <span class="dv">2000</span>) {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>get_cards <span class="ot">&lt;-</span> <span class="cf">function</span>(rows, <span class="at">cards_n =</span> <span class="dv">2000</span>) {</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    rows_n <span class="ot">&lt;-</span> <span class="fu">length</span>(rows)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    cards <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>, cards_n)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -385,7 +390,7 @@ window.Quarto = {
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    dups <span class="ot">&lt;-</span> <span class="fu">duplicated</span>(<span class="fu">lapply</span>(cards, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="dv">1</span>))</span>
 <span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"There are "</span>, <span class="fu">sum</span>(dups), <span class="st">" duplicated cards."</span>)</span>
 <span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(cards)</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="sampling-valid-strips" class="level3">
@@ -393,7 +398,7 @@ window.Quarto = {
 <p>This is the much like what we did above, with two differences. Instead of sampling three row layouts, we sample six card layouts. Instead of checking if the number of filled slots per column are between 1 and 3, we check if they match a number between 9 and 11 specific to each of them.</p>
 <p>Then, we have <code>get_strips()</code>. It receives a list called <code>cards</code> where each element contains the three row indexes corresponding to each card layout. <code>rows</code> is a list of row layouts and <code>strips_n</code> controls how many strip layouts we want to generate.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>get_strips <span class="ot">&lt;-</span> <span class="cf">function</span>(cards, rows, <span class="at">strips_n =</span> <span class="dv">100</span>) {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>get_strips <span class="ot">&lt;-</span> <span class="cf">function</span>(cards, rows, <span class="at">strips_n =</span> <span class="dv">100</span>) {</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    valid_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9</span>, <span class="fu">rep</span>(<span class="dv">10</span>, <span class="dv">7</span>), <span class="dv">11</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    cards_n <span class="ot">&lt;-</span> <span class="fu">length</span>(cards)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    strips <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>, strips_n)</span>
@@ -432,7 +437,7 @@ window.Quarto = {
 <span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    dups <span class="ot">&lt;-</span> <span class="fu">duplicated</span>(strips)</span>
 <span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"There are "</span>, <span class="fu">sum</span>(dups), <span class="st">" duplicatd layouts.</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(strips)</span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="a-last-but-not-least-step" class="level3">
@@ -440,7 +445,7 @@ window.Quarto = {
 <p>I’ve never seen a bingo game where you are given empty layouts and are asked to put numbers yourself. So let’s wrap this up and fill our empty cards!</p>
 <p><code>fill_strips()</code> receives the strip layouts we generated, randomly selects <code>n</code> of them, and, also randomly, fills the slots the cards with numbers. Of course, the first column contains numbers from 1 to 9, the second column contains numbers from 10 to 19… and so on until the last column, that has numbers from 80 to 90.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fill_strips <span class="ot">&lt;-</span> <span class="cf">function</span>(strips, <span class="at">n =</span> <span class="dv">100</span>) {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fill_strips <span class="ot">&lt;-</span> <span class="cf">function</span>(strips, <span class="at">n =</span> <span class="dv">100</span>) {</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Numbers that go in each column</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    numbers <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="dv">10</span><span class="sc">:</span><span class="dv">19</span>, <span class="dv">20</span><span class="sc">:</span><span class="dv">29</span>, <span class="dv">30</span><span class="sc">:</span><span class="dv">39</span>, <span class="dv">40</span><span class="sc">:</span><span class="dv">49</span>, <span class="dv">50</span><span class="sc">:</span><span class="dv">59</span>, <span class="dv">60</span><span class="sc">:</span><span class="dv">69</span>, <span class="dv">70</span><span class="sc">:</span><span class="dv">79</span>, <span class="dv">80</span><span class="sc">:</span><span class="dv">90</span>)</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Row indexes corresponding to each card in the strip</span></span>
@@ -466,20 +471,20 @@ window.Quarto = {
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    strips <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">sample</span>(strips, n, <span class="at">replace =</span> <span class="cn">TRUE</span>), fill_strip)</span>
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"There are "</span>, <span class="fu">sum</span>(<span class="fu">duplicated</span>(strips)), <span class="st">" duplicated strips.</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(strips)</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>And we finally get our bingo strips :)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">0303456</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">0303456</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>rows <span class="ot">&lt;-</span> <span class="fu">get_rows</span>()</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>cards <span class="ot">&lt;-</span> <span class="fu">get_cards</span>(rows, <span class="dv">1000</span>)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>strips <span class="ot">&lt;-</span> <span class="fu">get_strips</span>(cards, rows, <span class="dv">20</span>)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>strips <span class="ot">&lt;-</span> <span class="fu">fill_strips</span>(strips, <span class="dv">50</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Output messages have been suppressed</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Output messages have been suppressed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s check some of them</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>strips[[<span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>strips[[<span class="dv">1</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9]
  [1,]    0   11   20    0   48    0    0   74   80
@@ -503,7 +508,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>strips[[<span class="dv">30</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>strips[[<span class="dv">30</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9]
  [1,]    0    0   25    0   43   50    0   74   80
@@ -534,15 +539,15 @@ window.Quarto = {
 <p>In this last part of the post we make use of the <code>grid</code> package. For those who haven’t heard of it, it is the low level plotting library behind <code>ggplot2</code>, for example.</p>
 <p>Here we have a little function, <code>make_grid()</code>, that given a number of rows and columns returns the <em>natural parent coordinates</em> of the borders the grid that defines the rectangles within each card.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>make_grid <span class="ot">&lt;-</span> <span class="cf">function</span>(rows, cols) {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>make_grid <span class="ot">&lt;-</span> <span class="cf">function</span>(rows, cols) {</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    lines_rows <span class="ot">&lt;-</span> grid<span class="sc">::</span><span class="fu">unit</span>((<span class="dv">0</span><span class="sc">:</span>rows) <span class="sc">/</span> rows, <span class="st">"npc"</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    lines_cols <span class="ot">&lt;-</span> grid<span class="sc">::</span><span class="fu">unit</span>((<span class="dv">0</span><span class="sc">:</span>cols) <span class="sc">/</span> cols, <span class="st">"npc"</span>)</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="st">"row"</span> <span class="ot">=</span> lines_rows, <span class="st">"col"</span> <span class="ot">=</span> lines_cols))</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>And now we have the main function used to plot the bingo strips. Since the function is quite large, I prefer to explain how it works with comments in the body.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>plot_strips <span class="ot">&lt;-</span> <span class="cf">function</span>(strips, <span class="at">col =</span> <span class="st">"#8e44ad"</span>, <span class="at">width_row =</span> <span class="fl">0.925</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>plot_strips <span class="ot">&lt;-</span> <span class="cf">function</span>(strips, <span class="at">col =</span> <span class="st">"#8e44ad"</span>, <span class="at">width_row =</span> <span class="fl">0.925</span>,</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">width_col =</span> <span class="fl">0.975</span>) {</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># `rows` and `cols` are the dimensions of each card</span></span>
@@ -645,14 +650,14 @@ window.Quarto = {
 <span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a>        }</span>
 <span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a>        grid<span class="sc">::</span><span class="fu">popViewport</span>()</span>
 <span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now, all we need is to pass the <code>strips</code> generated above to <code>plot_strips()</code> and wrap that call within <code>grDevices::pdf()</code> and <code>grDevices::dev.off()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Height and width are in inches and here they correspond to legal paper size</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Height and width are in inches and here they correspond to legal paper size</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>grDevices<span class="sc">::</span><span class="fu">pdf</span>(<span class="st">"imgs/strips.pdf"</span>, <span class="at">height =</span> <span class="dv">14</span>, <span class="at">width =</span> <span class="fl">8.5</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_strips</span>(strips)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>grDevices<span class="sc">::</span><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>grDevices<span class="sc">::</span><span class="fu">dev.off</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>If it works, you’ll have a 25 pages pdf with bingo cards that look like this one</p>
 <center>
@@ -731,13 +736,14 @@ window.Quarto = {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -1086,7 +1092,7 @@ window.Quarto = {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Copyright 2025, Tomás Capretto</p>
+<p>Copyright 2026, Tomás Capretto</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

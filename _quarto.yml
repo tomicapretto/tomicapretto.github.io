@@ -16,10 +16,12 @@ website:
     right:
       - text: Blog
         href: blog.qmd
+      - text: Software
+        href: software/index.qmd
       - text: About me
         href: about.qmd
   page-footer:
-    center: "Copyright 2025, Tomás Capretto"
+    center: "Copyright 2026, Tomás Capretto"
     background: primary
 
 format:

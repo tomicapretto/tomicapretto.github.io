@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -59,7 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../imgs/mate.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-2e2df350b03da9d131679f784b1d5ec3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-39a3871fdf2718eb69a35b86f715a234.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -113,10 +114,10 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -132,7 +133,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -170,6 +171,10 @@ window.Quarto = {
   <li class="nav-item">
     <a class="nav-link" href="../../blog.html"> 
 <span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../software/index.html"> 
+<span class="menu-text">Software</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../about.html"> 
@@ -249,7 +254,7 @@ window.Quarto = {
 <div id="1342516b" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> preliz <span class="im">as</span> pz</span>
@@ -324,7 +329,7 @@ window.Quarto = {
 <span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>].set_axisbelow(<span class="va">True</span>)</span>
 <span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">1</span>].set_axisbelow(<span class="va">True</span>)</span>
 <span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig, axes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig, axes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <section id="introduction" class="level2">
@@ -363,7 +368,7 @@ T(t) = T_\text{env} + (T(0)- T_\text{env}) \, e^{-rt}
 <div id="cell-fig-cooling" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>T_0, T_env <span class="op">=</span> <span class="dv">80</span>, <span class="dv">24</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>T_0, T_env <span class="op">=</span> <span class="dv">80</span>, <span class="dv">24</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>time_grid <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">24</span>, num<span class="op">=</span><span class="dv">200</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
@@ -387,7 +392,7 @@ T(t) = T_\text{env} + (T(0)- T_\text{env}) \, e^{-rt}
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].legend()</span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Tiempo"</span>, ylabel<span class="op">=</span><span class="st">"Temperatura"</span>)<span class="op">;</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Tiempo"</span>, ylabel<span class="op">=</span><span class="st">"$</span><span class="ch">\\</span><span class="st">log(T(t) - T_</span><span class="ch">\\</span><span class="st">text</span><span class="sc">{ambiente}</span><span class="st">)$"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Tiempo"</span>, ylabel<span class="op">=</span><span class="st">"$</span><span class="ch">\\</span><span class="st">log(T(t) - T_</span><span class="ch">\\</span><span class="st">text</span><span class="sc">{ambiente}</span><span class="st">)$"</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-cooling" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -417,7 +422,7 @@ Figure&nbsp;1
 <p>The parameter of greatest interest is <span class="math inline">\(\beta\)</span>, which represents the cooling rate of the water in the thermos. First, we know that its value must be positive, since the initial water temperature drops to the ambient temperature. Furthermore, based on the curves shown in <a href="#fig-cooling" class="quarto-xref">Figure&nbsp;1</a>, we can assume that a reasonable range for this parameter is in the interval <span class="math inline">\((0, 1)\)</span>. This range implies that the water in the thermos would reach room temperature, at worst, about 5 hours after filling it.</p>
 <p>Using <a href="https://preliz.readthedocs.io/en/latest/">PreliZ</a>, we can obtain the parameters of a gamma distribution that satisfy our requirements.</p>
 <div id="9e31efcc" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pz.maxent(pz.Gamma(), lower<span class="op">=</span><span class="fl">0.001</span>, upper<span class="op">=</span><span class="dv">1</span>, mass<span class="op">=</span><span class="fl">0.99</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pz.maxent(pz.Gamma(), lower<span class="op">=</span><span class="fl">0.001</span>, upper<span class="op">=</span><span class="dv">1</span>, mass<span class="op">=</span><span class="fl">0.99</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -429,7 +434,7 @@ Figure&nbsp;1
 <p>Another unknown parameter in our model is <span class="math inline">\(\sigma\)</span>, the conditional standard deviation. It is important to note that this deviation is not expressed in degrees Celsius, as it describes the variability of <span class="math inline">\(\log(T(t_i) - T_\text{env})\)</span>, and not the variability of <span class="math inline">\(T(t_i)\)</span>.</p>
 <p>Looking at the right panel of <a href="#fig-cooling" class="quarto-xref">Figure&nbsp;1</a>, we can see that the range of variation in the response covers only a few units. Therefore, in this case, we will opt for a moderately informative gamma distribution, which concentrates a high probability in the interval <span class="math inline">\((0.05, 0.3)\)</span>.</p>
 <div id="034ec8bb" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pz.maxent(pz.Gamma(), lower<span class="op">=</span><span class="fl">0.05</span>, upper<span class="op">=</span><span class="fl">0.3</span>, mass<span class="op">=</span><span class="fl">0.95</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pz.maxent(pz.Gamma(), lower<span class="op">=</span><span class="fl">0.05</span>, upper<span class="op">=</span><span class="fl">0.3</span>, mass<span class="op">=</span><span class="fl">0.95</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -450,20 +455,20 @@ Figure&nbsp;1
 <h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>From the photo shared in X’s post, the following time and temperature values can be obtained:</p>
 <div id="02384a55" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>T_env <span class="op">=</span> <span class="dv">24</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>T_env <span class="op">=</span> <span class="dv">24</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">180</span>, <span class="dv">320</span>, <span class="dv">500</span>]) <span class="op">/</span> <span class="dv">60</span> <span class="co"># en horas</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"stanley"</span>: np.array([<span class="fl">80.0</span>, <span class="fl">70.0</span>, <span class="fl">65.0</span>, <span class="fl">60.0</span>]),</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"aluminio"</span>: np.array([<span class="fl">80.0</span>, <span class="fl">62.5</span>, <span class="fl">57.5</span>, <span class="fl">50.0</span>]),</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"lumilagro"</span>: np.array([<span class="fl">75.0</span>, <span class="fl">65.0</span>, <span class="fl">60.0</span>, <span class="fl">55.0</span>]),</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nn-rosa"</span>: np.array([<span class="fl">80.0</span>, <span class="fl">47.5</span>, <span class="fl">37.5</span>, <span class="fl">30.0</span>])</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>It should be noted that the value of the ambient temperature (<code>T_env</code>) is an assumption, as it does not appear in any of the posts.</p>
 <div id="cell-fig-data" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fig.subplots_adjust(bottom<span class="op">=</span><span class="fl">0.2</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (brand, temperatures) <span class="kw">in</span> <span class="bu">enumerate</span>(data.items()):</span>
@@ -486,7 +491,7 @@ Figure&nbsp;1
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    bbox_transform<span class="op">=</span>fig.transFigure,</span>
 <span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    handletextpad<span class="op">=</span><span class="fl">0.1</span>,</span>
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    columnspacing<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-data" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -510,7 +515,7 @@ Figure&nbsp;2
 <h3 class="anchored" data-anchor-id="model-1-a-thermos-known-intercept">Model 1: A thermos + known intercept</h3>
 <p>Before we start working with a model that considers all brands together, let’s work with a model for the brand <code>“stanley”</code> only.</p>
 <div id="156f6045" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model_1:</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model_1:</span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-7-2" class="code-annotation-target"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a>    T_0 <span class="op">=</span> pm.Data(<span class="st">"T_0"</span>, data[<span class="st">"stanley"</span>].item(<span class="dv">0</span>))</span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-7-3" class="code-annotation-target"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a>    alpha <span class="op">=</span> pm.Deterministic(<span class="st">"alpha"</span>, np.log(T_0 <span class="op">-</span> T_env))</span>
 <span id="annotated-cell-7-4"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> pm.Gamma(<span class="st">"beta"</span>, alpha<span class="op">=</span><span class="fl">3.3</span>, beta<span class="op">=</span><span class="dv">9</span>)</span>
@@ -521,7 +526,7 @@ Figure&nbsp;2
 <span id="annotated-cell-7-9"><a href="#annotated-cell-7-9" aria-hidden="true" tabindex="-1"></a>display(model_1.to_graphviz())</span>
 <span id="annotated-cell-7-10"><a href="#annotated-cell-7-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-7-11"><a href="#annotated-cell-7-11" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_1:</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-7-12" class="code-annotation-target"><a href="#annotated-cell-7-12" aria-hidden="true" tabindex="-1"></a>    idata_1 <span class="op">=</span> pm.sample(random_seed<span class="op">=</span>random_seed, target_accept<span class="op">=</span><span class="fl">0.95</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-7-12" class="code-annotation-target"><a href="#annotated-cell-7-12" aria-hidden="true" tabindex="-1"></a>    idata_1 <span class="op">=</span> pm.sample(random_seed<span class="op">=</span>random_seed, target_accept<span class="op">=</span><span class="fl">0.95</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
@@ -564,12 +569,12 @@ NUTS: [beta, sigma]</code></pre>
 </div>
 <p>Next, we use <code>az.summary()</code> to obtain a summary of the marginal posteriors:</p>
 <div id="c49f2130" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>az.summary(idata_1, var_names<span class="op">=</span>[<span class="st">"beta"</span>, <span class="st">"sigma"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>az.summary(idata_1, var_names<span class="op">=</span>[<span class="st">"beta"</span>, <span class="st">"sigma"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -586,7 +591,7 @@ NUTS: [beta, sigma]</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">beta</td>
+<th data-quarto-table-cell-role="th">beta</th>
 <td>0.059</td>
 <td>0.010</td>
 <td>0.041</td>
@@ -598,7 +603,7 @@ NUTS: [beta, sigma]</code></pre>
 <td>1.0</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">sigma</td>
+<th data-quarto-table-cell-role="th">sigma</th>
 <td>0.095</td>
 <td>0.047</td>
 <td>0.024</td>
@@ -617,7 +622,7 @@ NUTS: [beta, sigma]</code></pre>
 </div>
 <p>For both parameters, the effective sample size is large enough, and the chains converge and mix correctly. <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <div id="cell-fig-posterior-summary-1" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plot_estimated_curves(idata<span class="op">=</span>idata_1, x<span class="op">=</span>time, y<span class="op">=</span>data[<span class="st">"stanley"</span>], T_env<span class="op">=</span>T_env)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plot_estimated_curves(idata<span class="op">=</span>idata_1, x<span class="op">=</span>time, y<span class="op">=</span>data[<span class="st">"stanley"</span>], T_env<span class="op">=</span>T_env)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-posterior-summary-1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -637,7 +642,7 @@ Figure&nbsp;3
 <h3 class="anchored" data-anchor-id="model-2-one-thermos-unknown-intercept">Model 2: One thermos + unknown intercept</h3>
 <p>In this second model, we still work with a single thermos. The difference is that instead of fixing the initial temperature to the observed value, we assign it a highly informative prior distribution. This way, we continue incorporating the information we already have, but we don’t force the regression line to pass through a fixed point.</p>
 <div id="633429bb" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model_2:</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model_2:</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    T_0 <span class="op">=</span> pm.Normal(<span class="st">"T_0"</span>, mu<span class="op">=</span><span class="dv">80</span>, sigma<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    alpha <span class="op">=</span> pm.Deterministic(<span class="st">"alpha"</span>, np.log(T_0 <span class="op">-</span> T_env))</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> pm.Gamma(<span class="st">"beta"</span>, alpha<span class="op">=</span><span class="fl">3.34</span>, beta<span class="op">=</span><span class="fl">12.8</span>)</span>
@@ -648,7 +653,7 @@ Figure&nbsp;3
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>display(model_2.to_graphviz())</span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_2:</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    idata_2 <span class="op">=</span> pm.sample(random_seed<span class="op">=</span>random_seed, target_accept<span class="op">=</span><span class="fl">0.95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    idata_2 <span class="op">=</span> pm.sample(random_seed<span class="op">=</span>random_seed, target_accept<span class="op">=</span><span class="fl">0.95</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -674,12 +679,12 @@ NUTS: [T_0, beta, sigma]</code></pre>
 </div>
 </div>
 <div id="e85dc913" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>az.summary(idata_2, var_names<span class="op">=</span>[<span class="st">"T_0"</span>, <span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"sigma"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>az.summary(idata_2, var_names<span class="op">=</span>[<span class="st">"T_0"</span>, <span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"sigma"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -696,7 +701,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">T_0</td>
+<th data-quarto-table-cell-role="th">T_0</th>
 <td>79.993</td>
 <td>0.508</td>
 <td>79.056</td>
@@ -708,7 +713,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <td>1.0</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">alpha</td>
+<th data-quarto-table-cell-role="th">alpha</th>
 <td>4.025</td>
 <td>0.009</td>
 <td>4.008</td>
@@ -720,7 +725,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <td>1.0</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">beta</td>
+<th data-quarto-table-cell-role="th">beta</th>
 <td>0.059</td>
 <td>0.010</td>
 <td>0.040</td>
@@ -732,7 +737,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <td>1.0</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">sigma</td>
+<th data-quarto-table-cell-role="th">sigma</th>
 <td>0.096</td>
 <td>0.049</td>
 <td>0.022</td>
@@ -750,7 +755,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 </div>
 </div>
 <div id="a89dae32" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plot_estimated_curves(idata<span class="op">=</span>idata_2, x<span class="op">=</span>time, y<span class="op">=</span>data[<span class="st">"stanley"</span>], T_env<span class="op">=</span>T_env)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plot_estimated_curves(idata<span class="op">=</span>idata_2, x<span class="op">=</span>time, y<span class="op">=</span>data[<span class="st">"stanley"</span>], T_env<span class="op">=</span>T_env)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -760,7 +765,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 </div>
 </div>
 <div id="67572218" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>az.plot_forest([idata_1, idata_2], model_names<span class="op">=</span>[<span class="st">"Modelo 1"</span>, <span class="st">"Modelo 2"</span>], var_names<span class="op">=</span>[<span class="st">"beta"</span>, <span class="st">"sigma"</span>], combined<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>az.plot_forest([idata_1, idata_2], model_names<span class="op">=</span>[<span class="st">"Modelo 1"</span>, <span class="st">"Modelo 2"</span>], var_names<span class="op">=</span>[<span class="st">"beta"</span>, <span class="st">"sigma"</span>], combined<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -776,7 +781,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <p>Now that we are familiar with the model for a single brand, we can extend it to work with all brands.</p>
 <p>Instead of having a single <code>T_0</code>, <code>alpha</code>, and <code>beta</code>, we will have one for each brand. In PyMC, this is achieved using <code>dims</code>, which allows us to work with vectors of random variables instead of scalars.</p>
 <div id="d4eeedf3" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="annotated-cell-14"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-14-1" class="code-annotation-target"><a href="#annotated-cell-14-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.log(np.concatenate([temps <span class="cf">for</span> temps <span class="kw">in</span> data.values()]) <span class="op">-</span> T_env)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-14"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-14-1" class="code-annotation-target"><a href="#annotated-cell-14-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.log(np.concatenate([temps <span class="cf">for</span> temps <span class="kw">in</span> data.values()]) <span class="op">-</span> T_env)</span>
 <span id="annotated-cell-14-2"><a href="#annotated-cell-14-2" aria-hidden="true" tabindex="-1"></a>times <span class="op">=</span> np.tile(time, <span class="dv">4</span>)</span>
 <span id="annotated-cell-14-3"><a href="#annotated-cell-14-3" aria-hidden="true" tabindex="-1"></a>brand_idx <span class="op">=</span> np.repeat(np.arange(<span class="dv">4</span>), <span class="dv">4</span>)</span>
 <span id="annotated-cell-14-4"><a href="#annotated-cell-14-4" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {</span>
@@ -794,7 +799,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <span id="annotated-cell-14-16"><a href="#annotated-cell-14-16" aria-hidden="true" tabindex="-1"></a>display(model_3.to_graphviz())</span>
 <span id="annotated-cell-14-17"><a href="#annotated-cell-14-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-14-18"><a href="#annotated-cell-14-18" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_3:</span>
-<span id="annotated-cell-14-19"><a href="#annotated-cell-14-19" aria-hidden="true" tabindex="-1"></a>    idata_3 <span class="op">=</span> pm.sample(random_seed<span class="op">=</span>random_seed, target_accept<span class="op">=</span><span class="fl">0.95</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-14-19"><a href="#annotated-cell-14-19" aria-hidden="true" tabindex="-1"></a>    idata_3 <span class="op">=</span> pm.sample(random_seed<span class="op">=</span>random_seed, target_accept<span class="op">=</span><span class="fl">0.95</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-14" data-target-annotation="1">1</dt>
@@ -829,12 +834,12 @@ NUTS: [T_0, beta, sigma]</code></pre>
 </div>
 <p>Let’s look at the posterior summary returned by <code>az.summary()</code>.</p>
 <div id="8ff34e6b" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>az.summary(idata_3, var_names<span class="op">=</span>[<span class="st">"T_0"</span>, <span class="st">"beta"</span>, <span class="st">"sigma"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>az.summary(idata_3, var_names<span class="op">=</span>[<span class="st">"T_0"</span>, <span class="st">"beta"</span>, <span class="st">"sigma"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -851,7 +856,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">T_0[stanley]</td>
+<th data-quarto-table-cell-role="th">T_0[stanley]</th>
 <td>79.971</td>
 <td>0.487</td>
 <td>79.047</td>
@@ -863,7 +868,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <td>1.0</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">T_0[aluminio]</td>
+<th data-quarto-table-cell-role="th">T_0[aluminio]</th>
 <td>79.895</td>
 <td>0.493</td>
 <td>79.028</td>
@@ -875,7 +880,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <td>1.0</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">T_0[lumilagro]</td>
+<th data-quarto-table-cell-role="th">T_0[lumilagro]</th>
 <td>74.971</td>
 <td>0.483</td>
 <td>74.097</td>
@@ -887,7 +892,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <td>1.0</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">T_0[nn-rosa]</td>
+<th data-quarto-table-cell-role="th">T_0[nn-rosa]</th>
 <td>79.933</td>
 <td>0.487</td>
 <td>79.015</td>
@@ -899,7 +904,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <td>1.0</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">beta[stanley]</td>
+<th data-quarto-table-cell-role="th">beta[stanley]</th>
 <td>0.056</td>
 <td>0.005</td>
 <td>0.047</td>
@@ -911,7 +916,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <td>1.0</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">beta[aluminio]</td>
+<th data-quarto-table-cell-role="th">beta[aluminio]</th>
 <td>0.096</td>
 <td>0.005</td>
 <td>0.086</td>
@@ -923,7 +928,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <td>1.0</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">beta[lumilagro]</td>
+<th data-quarto-table-cell-role="th">beta[lumilagro]</th>
 <td>0.063</td>
 <td>0.005</td>
 <td>0.053</td>
@@ -935,7 +940,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <td>1.0</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">beta[nn-rosa]</td>
+<th data-quarto-table-cell-role="th">beta[nn-rosa]</th>
 <td>0.269</td>
 <td>0.005</td>
 <td>0.259</td>
@@ -947,7 +952,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <td>1.0</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">sigma</td>
+<th data-quarto-table-cell-role="th">sigma</th>
 <td>0.050</td>
 <td>0.014</td>
 <td>0.028</td>
@@ -969,7 +974,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <p>Finally, we observe that the effective sample sizes range from 2000 to 4000, exceeding in all cases those obtained in the previous models. This suggests that the posterior has a geometry more accessible to the NUTS sampler used by PyMC.</p>
 <p>Using the <code>az.plot_forest()</code> function, we can obtain a summary of the marginal distribution of <code>beta</code> for each brand:</p>
 <div id="1ec2edf3" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>az.plot_forest(idata_3, var_names<span class="op">=</span><span class="st">"beta"</span>, combined<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>az.plot_forest(idata_3, var_names<span class="op">=</span><span class="st">"beta"</span>, combined<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -981,13 +986,13 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <p>As mentioned earlier, the “nn-rosa” shows the highest heat loss, followed by the “aluminio” thermos, and finally the “lumilagro” and “stanley” thermoses. At first glance, it might seem that the “stanley” has a better ability to retain heat, although this plot alone does not allow us to draw definitive conclusions.</p>
 <p>Although the <code>sigma</code> parameter is not inherently relevant, it is interesting to explore its posterior distribution, as it provides a measure of the random uncertainty around our regression line.</p>
 <div id="764917bc" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>az.plot_forest(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>az.plot_forest(</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    [idata_2, idata_3],</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    model_names<span class="op">=</span>[<span class="st">"Modelo 2"</span>, <span class="st">"Modelo 3"</span>],</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span><span class="st">"sigma"</span>,</span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    combined<span class="op">=</span><span class="va">True</span>,</span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>)</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -999,7 +1004,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <p>By using the data from all thermoses in this third model, we obtain an estimate of <code>sigma</code> with considerably less uncertainty.</p>
 <p>Finally, we can visualize the estimated curves for each thermos, both on their original scale and on the transformed scale:</p>
 <div id="667b84b2" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, brand <span class="kw">in</span> <span class="bu">enumerate</span>(data):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, brand <span class="kw">in</span> <span class="bu">enumerate</span>(data):</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    fig, axes <span class="op">=</span> plot_estimated_curves(</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>        idata<span class="op">=</span>idata_3.sel(brand<span class="op">=</span>brand),</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span>time,</span>
@@ -1007,7 +1012,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        T_env<span class="op">=</span>T_env,</span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span><span class="ss">f"C</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>,</span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    fig.suptitle(<span class="ss">f"Marca: </span><span class="sc">{</span>brand<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    fig.suptitle(<span class="ss">f"Marca: </span><span class="sc">{</span>brand<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1043,7 +1048,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <h3 class="anchored" data-anchor-id="model-4-all-brands-partial-pooling-for">Model 4: All brands + partial pooling for $$</h3>
 <p>Finally, we will create a hierarchical model in which we assume that the cooling rates <span class="math inline">\(\beta\)</span> belong to a common population. By sharing information across thermoses in this way, we expect to obtain more precise and stable posteriors, reflecting both the individual characteristics of each thermos and the overall trend of the population.</p>
 <div id="b6cd07d4" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="annotated-cell-19"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-19-1"><a href="#annotated-cell-19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model_4:</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-19"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-19-1"><a href="#annotated-cell-19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model_4:</span>
 <span id="annotated-cell-19-2"><a href="#annotated-cell-19-2" aria-hidden="true" tabindex="-1"></a>    T_0 <span class="op">=</span> pm.Normal(<span class="st">"T_0"</span>, mu<span class="op">=</span>[v.item(<span class="dv">0</span>) <span class="cf">for</span> v <span class="kw">in</span> data.values()], sigma<span class="op">=</span><span class="fl">0.5</span>, dims<span class="op">=</span><span class="st">"brand"</span>)</span>
 <span id="annotated-cell-19-3"><a href="#annotated-cell-19-3" aria-hidden="true" tabindex="-1"></a>    alpha <span class="op">=</span> pm.Deterministic(<span class="st">"alpha"</span>, np.log(T_0 <span class="op">-</span> T_env), dims<span class="op">=</span><span class="st">"brand"</span>)</span>
 <span id="annotated-cell-19-4"><a href="#annotated-cell-19-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1063,7 +1068,7 @@ NUTS: [T_0, beta, sigma]</code></pre>
 <span id="annotated-cell-19-18"><a href="#annotated-cell-19-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-19-19"><a href="#annotated-cell-19-19" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model_4:</span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-19-20" class="code-annotation-target"><a href="#annotated-cell-19-20" aria-hidden="true" tabindex="-1"></a>    idata_4 <span class="op">=</span> pm.sample_prior_predictive(draws<span class="op">=</span><span class="dv">1000</span>, random_seed<span class="op">=</span>random_seed)</span>
-<span id="annotated-cell-19-21"><a href="#annotated-cell-19-21" aria-hidden="true" tabindex="-1"></a>    idata_4.extend(pm.sample(random_seed<span class="op">=</span>random_seed, target_accept<span class="op">=</span><span class="fl">0.95</span>))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-19-21"><a href="#annotated-cell-19-21" aria-hidden="true" tabindex="-1"></a>    idata_4.extend(pm.sample(random_seed<span class="op">=</span>random_seed, target_accept<span class="op">=</span><span class="fl">0.95</span>))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-19" data-target-annotation="1">1</dt>
@@ -1102,13 +1107,13 @@ NUTS: [T_0, beta_mu, beta_sigma, beta, sigma]</code></pre>
 </div>
 <p>Below are the marginal posteriors of <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\sigma\)</span> for both the non-hierarchical and hierarchical models:</p>
 <div id="cd727274" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>az.plot_forest(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>az.plot_forest(</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    [idata_3, idata_4],</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    model_names<span class="op">=</span>[<span class="st">"Modelo 3"</span>, <span class="st">"Modelo 4"</span>],</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"beta"</span>, <span class="st">"sigma"</span>],</span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    combined<span class="op">=</span><span class="va">True</span>,</span>
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>)</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1120,7 +1125,7 @@ NUTS: [T_0, beta_mu, beta_sigma, beta, sigma]</code></pre>
 <p>Visually, we can conclude that there are no differences between the marginal posteriors of the two models. In other words, the partial pooling provided by the hierarchical model is practically nonexistent.</p>
 <p>To understand why no differences are observed between the models, we can examine the prior and posterior of the population mean and standard deviation of <span class="math inline">\(\beta\)</span> (<code>beta_mu</code> and <code>beta_sigma</code>).</p>
 <div id="cell-fig-prior-posterior" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>az.plot_dist_comparison(idata_4, var_names<span class="op">=</span>[<span class="st">"beta_mu"</span>, <span class="st">"beta_sigma"</span>], figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">15</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>az.plot_dist_comparison(idata_4, var_names<span class="op">=</span>[<span class="st">"beta_mu"</span>, <span class="st">"beta_sigma"</span>], figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">15</span>))<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-prior-posterior" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1147,9 +1152,9 @@ Figure&nbsp;4
 P(\beta_j = \min\left\{\beta_1, \beta_2, \beta_3, \beta_4 \right\} ) \qquad \forall j \in {1, 2, 3, 4}
 \]</span></p>
 <div id="e719b168" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>beta_argmin <span class="op">=</span> idata_4.posterior[<span class="st">"beta"</span>].argmin(axis<span class="op">=-</span><span class="dv">1</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>beta_argmin <span class="op">=</span> idata_4.posterior[<span class="st">"beta"</span>].argmin(axis<span class="op">=-</span><span class="dv">1</span>)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>p_min <span class="op">=</span> [(beta_argmin <span class="op">==</span> j).mean().item() <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>)]</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">dict</span>(<span class="bu">zip</span>(data, p_min))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">dict</span>(<span class="bu">zip</span>(data, p_min))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="22">
 <pre><code>{'stanley': 0.826, 'aluminio': 0.0, 'lumilagro': 0.174, 'nn-rosa': 0.0}</code></pre>
 </div>
@@ -1161,9 +1166,9 @@ P(\beta_j = \min\left\{\beta_1, \beta_2, \beta_3, \beta_4 \right\} ) \qquad \for
 P(\beta_j = \max\left\{\beta_1, \beta_2, \beta_3, \beta_4 \right\} ) \qquad \forall j \in {1, 2, 3, 4}
 \]</span></p>
 <div id="5dac73d0" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>beta_argmax <span class="op">=</span> idata_4.posterior[<span class="st">"beta"</span>].argmax(axis<span class="op">=-</span><span class="dv">1</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>beta_argmax <span class="op">=</span> idata_4.posterior[<span class="st">"beta"</span>].argmax(axis<span class="op">=-</span><span class="dv">1</span>)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>p_max <span class="op">=</span> [(beta_argmax <span class="op">==</span> j).mean().item() <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>)]</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="bu">dict</span>(<span class="bu">zip</span>(data, p_max))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="bu">dict</span>(<span class="bu">zip</span>(data, p_max))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="23">
 <pre><code>{'stanley': 0.0, 'aluminio': 0.0, 'lumilagro': 0.0, 'nn-rosa': 1.0}</code></pre>
 </div>
@@ -1176,14 +1181,14 @@ P(\beta_j = \max\left\{\beta_1, \beta_2, \beta_3, \beta_4 \right\} ) \qquad \for
 <h3 class="anchored" data-anchor-id="inference-based-on-uniform-priors">Inference based on uniform priors</h3>
 <p>It is reasonable to ask whether the effort involved in specifying priors is worthwhile. Below, we fit the multi-brand model using uniform priors and compare the results with those obtained previously.</p>
 <div id="749a1d42" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model_5:</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model_5:</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    alpha <span class="op">=</span> pm.Flat(<span class="st">"alpha"</span>, dims<span class="op">=</span><span class="st">"brand"</span>)</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> pm.Flat(<span class="st">"beta"</span>, dims<span class="op">=</span><span class="st">"brand"</span>)</span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.Uniform(<span class="st">"sigma"</span>, lower<span class="op">=</span><span class="dv">0</span>, upper<span class="op">=</span><span class="dv">100</span>)</span>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> pm.Deterministic(<span class="st">"mu"</span>, alpha[brand_idx] <span class="op">-</span> beta[brand_idx] <span class="op">*</span> times)</span>
 <span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>y)</span>
 <span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    idata_5 <span class="op">=</span> pm.sample(random_seed<span class="op">=</span>random_seed, target_accept<span class="op">=</span><span class="fl">0.99</span>, progressbar<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    idata_5 <span class="op">=</span> pm.sample(random_seed<span class="op">=</span>random_seed, target_accept<span class="op">=</span><span class="fl">0.99</span>, progressbar<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
@@ -1192,13 +1197,13 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </div>
 </div>
 <div id="7f592572" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>az.plot_forest(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>az.plot_forest(</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    [idata_4, idata_5],</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    model_names<span class="op">=</span>[<span class="st">"Priors informativos"</span>, <span class="st">"Priors uniformes"</span>],</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"alpha"</span>],</span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    combined<span class="op">=</span><span class="va">True</span>,</span>
 <span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>)</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1208,14 +1213,14 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </div>
 </div>
 <div id="9c35e760" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> az.plot_forest(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> az.plot_forest(</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    [idata_4, idata_5],</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    model_names<span class="op">=</span>[<span class="st">"Priors informativos"</span>, <span class="st">"Priors uniformes"</span>],</span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"beta"</span>],</span>
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    combined<span class="op">=</span><span class="va">True</span>,</span>
 <span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>)</span>
 <span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].grid(axis<span class="op">=</span><span class="st">"x"</span>, ls<span class="op">=</span><span class="st">"--"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].grid(axis<span class="op">=</span><span class="st">"x"</span>, ls<span class="op">=</span><span class="st">"--"</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1225,13 +1230,13 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </div>
 </div>
 <div id="4711f25a" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> az.plot_forest(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> az.plot_forest(</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    [idata_4, idata_5],</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    model_names<span class="op">=</span>[<span class="st">"Priors informativos"</span>, <span class="st">"Priors uniformes"</span>],</span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"sigma"</span>],</span>
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    combined<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>)</span>
 <span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].grid(axis<span class="op">=</span><span class="st">"x"</span>, ls<span class="op">=</span><span class="st">"--"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].grid(axis<span class="op">=</span><span class="st">"x"</span>, ls<span class="op">=</span><span class="st">"--"</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1241,17 +1246,17 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </div>
 </div>
 <div id="58f058b9" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>beta_argmin <span class="op">=</span> idata_5.posterior[<span class="st">"beta"</span>].argmin(axis<span class="op">=-</span><span class="dv">1</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>beta_argmin <span class="op">=</span> idata_5.posterior[<span class="st">"beta"</span>].argmin(axis<span class="op">=-</span><span class="dv">1</span>)</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>p_min <span class="op">=</span> [(beta_argmin <span class="op">==</span> j).mean().item() <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>)]</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="bu">dict</span>(<span class="bu">zip</span>(data, p_min))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="bu">dict</span>(<span class="bu">zip</span>(data, p_min))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
 <pre><code>{'stanley': 0.74575, 'aluminio': 0.001, 'lumilagro': 0.25325, 'nn-rosa': 0.0}</code></pre>
 </div>
 </div>
 <div id="b86f86cc" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>beta_argmax <span class="op">=</span> idata_5.posterior[<span class="st">"beta"</span>].argmax(axis<span class="op">=-</span><span class="dv">1</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>beta_argmax <span class="op">=</span> idata_5.posterior[<span class="st">"beta"</span>].argmax(axis<span class="op">=-</span><span class="dv">1</span>)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>p_max <span class="op">=</span> [(beta_argmax <span class="op">==</span> j).mean().item() <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>)]</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="bu">dict</span>(<span class="bu">zip</span>(data, p_max))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="bu">dict</span>(<span class="bu">zip</span>(data, p_max))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="29">
 <pre><code>{'stanley': 0.0, 'aluminio': 0.0, 'lumilagro': 0.0, 'nn-rosa': 1.0}</code></pre>
 </div>
@@ -1329,13 +1334,14 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -1684,7 +1690,7 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Copyright 2025, Tomás Capretto</p>
+<p>Copyright 2026, Tomás Capretto</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;
