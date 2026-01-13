@@ -18,8 +18,8 @@ website:
         href: blog.qmd
       - text: Software
         href: software/index.qmd
-      - text: About me
-        href: about.qmd
+      - text: Teaching
+        href: teaching.qmd
   page-footer:
     center: "Copyright 2026, Tomás Capretto"
     background: primary

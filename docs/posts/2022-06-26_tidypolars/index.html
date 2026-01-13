@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -59,7 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -69,15 +69,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../imgs/mate.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-39a3871fdf2718eb69a35b86f715a234.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-0fbf2871b5adb720f3a1d5e30297a3f5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -114,7 +113,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 </script>
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
@@ -147,8 +146,8 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <span class="menu-text">Software</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html"> 
-<span class="menu-text">About me</span></a>
+    <a class="nav-link" href="../../teaching.html"> 
+<span class="menu-text">Teaching</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -216,21 +215,21 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <p>In this blogpost I’m going to show how to perform the same task with <a href="https://pandas.pydata.org/">pandas</a>, the most popular library for data analysis in Python, and <a href="https://tidypolars.readthedocs.io/en/latest/">tidypolars</a>, a new library to do data analysis with tabular data inspired on the tidyverse.</p>
 <p>The task consists of computing a variable transformation that relies on grouped aggregations. In particular, we will be computing the standardized version of a numeric variable by group.</p>
 <div id="cell-2" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> palmerpenguins</span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> palmerpenguins</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tidypolars <span class="im">as</span> tp</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tidypolars <span class="im">import</span> col</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tidypolars <span class="im">import</span> col</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>I’m going to work with the famous palmer penguins dataset. In Python this can be loaded very easily thanks to the <code>palmerpenguins</code> library.</p>
 <div id="cell-4" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> palmerpenguins.load_penguins()</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> palmerpenguins.load_penguins()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -246,7 +245,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
+<td data-quarto-table-cell-role="th">0</td>
 <td>Adelie</td>
 <td>Torgersen</td>
 <td>39.1</td>
@@ -257,7 +256,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <td>2007</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
+<td data-quarto-table-cell-role="th">1</td>
 <td>Adelie</td>
 <td>Torgersen</td>
 <td>39.5</td>
@@ -268,7 +267,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <td>2007</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
+<td data-quarto-table-cell-role="th">2</td>
 <td>Adelie</td>
 <td>Torgersen</td>
 <td>40.3</td>
@@ -279,7 +278,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <td>2007</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
+<td data-quarto-table-cell-role="th">3</td>
 <td>Adelie</td>
 <td>Torgersen</td>
 <td>NaN</td>
@@ -290,7 +289,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <td>2007</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">4</th>
+<td data-quarto-table-cell-role="th">4</td>
 <td>Adelie</td>
 <td>Torgersen</td>
 <td>36.7</td>
@@ -301,7 +300,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <td>2007</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">...</th>
+<td data-quarto-table-cell-role="th">...</td>
 <td>...</td>
 <td>...</td>
 <td>...</td>
@@ -312,7 +311,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <td>...</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">339</th>
+<td data-quarto-table-cell-role="th">339</td>
 <td>Chinstrap</td>
 <td>Dream</td>
 <td>55.8</td>
@@ -323,7 +322,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <td>2009</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">340</th>
+<td data-quarto-table-cell-role="th">340</td>
 <td>Chinstrap</td>
 <td>Dream</td>
 <td>43.5</td>
@@ -334,7 +333,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <td>2009</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">341</th>
+<td data-quarto-table-cell-role="th">341</td>
 <td>Chinstrap</td>
 <td>Dream</td>
 <td>49.6</td>
@@ -345,7 +344,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <td>2009</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">342</th>
+<td data-quarto-table-cell-role="th">342</td>
 <td>Chinstrap</td>
 <td>Dream</td>
 <td>50.8</td>
@@ -356,7 +355,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <td>2009</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">343</th>
+<td data-quarto-table-cell-role="th">343</td>
 <td>Chinstrap</td>
 <td>Dream</td>
 <td>50.2</td>
@@ -377,12 +376,12 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="data-wrangling-with-pandas">Data wrangling with <strong>pandas</strong></h2>
 <p>Before seeing an example using tidypolars I’m going to perform some basic data wrangling with pandas. One of the first things one usually do with a data frame is exploring its first rows visually. The <code>.head()</code> method comes very handy.</p>
 <div id="cell-6" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -398,7 +397,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
+<td data-quarto-table-cell-role="th">0</td>
 <td>Adelie</td>
 <td>Torgersen</td>
 <td>39.1</td>
@@ -409,7 +408,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <td>2007</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
+<td data-quarto-table-cell-role="th">1</td>
 <td>Adelie</td>
 <td>Torgersen</td>
 <td>39.5</td>
@@ -420,7 +419,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <td>2007</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
+<td data-quarto-table-cell-role="th">2</td>
 <td>Adelie</td>
 <td>Torgersen</td>
 <td>40.3</td>
@@ -431,7 +430,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <td>2007</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
+<td data-quarto-table-cell-role="th">3</td>
 <td>Adelie</td>
 <td>Torgersen</td>
 <td>NaN</td>
@@ -442,7 +441,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <td>2007</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">4</th>
+<td data-quarto-table-cell-role="th">4</td>
 <td>Adelie</td>
 <td>Torgersen</td>
 <td>36.7</td>
@@ -460,13 +459,13 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 </div>
 <p>I’m going to work with the <code>species</code>, <code>sex</code>, and <code>body_mass_g</code> columns only. To subset the dataframe we only need to pass the name of these columns as a list within brackets.</p>
 <div id="cell-8" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data[[<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>]].reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data[[<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>]].reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -477,31 +476,31 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
+<td data-quarto-table-cell-role="th">0</td>
 <td>Adelie</td>
 <td>male</td>
 <td>3750.0</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
+<td data-quarto-table-cell-role="th">1</td>
 <td>Adelie</td>
 <td>female</td>
 <td>3800.0</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
+<td data-quarto-table-cell-role="th">2</td>
 <td>Adelie</td>
 <td>female</td>
 <td>3250.0</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
+<td data-quarto-table-cell-role="th">3</td>
 <td>Adelie</td>
 <td>NaN</td>
 <td>NaN</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">4</th>
+<td data-quarto-table-cell-role="th">4</td>
 <td>Adelie</td>
 <td>female</td>
 <td>3450.0</td>
@@ -514,17 +513,17 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 </div>
 <p>I add the <code>.reset_index(drop=True)</code> to avoid some <code>SettingWithCopyWarning</code>s later. I also want to drop any observations with missing values so I use <code>.dropna()</code> to do that.</p>
 <div id="cell-10" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.dropna()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.dropna()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Suppose now I want to standardize the variable <code>body_mass_g</code>. Pandas vectorized operations make it extremely easy. One can save the result in a new column in a very intuitive way as well.</p>
 <div id="cell-12" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"body_mass_z"</span>] <span class="op">=</span> (data[<span class="st">"body_mass_g"</span>] <span class="op">-</span> data[<span class="st">"body_mass_g"</span>].mean()) <span class="op">/</span> data[<span class="st">"body_mass_g"</span>].std()</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>data.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"body_mass_z"</span>] <span class="op">=</span> (data[<span class="st">"body_mass_g"</span>] <span class="op">-</span> data[<span class="st">"body_mass_g"</span>].mean()) <span class="op">/</span> data[<span class="st">"body_mass_g"</span>].std()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -536,35 +535,35 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
+<td data-quarto-table-cell-role="th">0</td>
 <td>Adelie</td>
 <td>male</td>
 <td>3750.0</td>
 <td>-0.567621</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
+<td data-quarto-table-cell-role="th">1</td>
 <td>Adelie</td>
 <td>female</td>
 <td>3800.0</td>
 <td>-0.505525</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
+<td data-quarto-table-cell-role="th">2</td>
 <td>Adelie</td>
 <td>female</td>
 <td>3250.0</td>
 <td>-1.188572</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">4</th>
+<td data-quarto-table-cell-role="th">4</td>
 <td>Adelie</td>
 <td>female</td>
 <td>3450.0</td>
 <td>-0.940192</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">5</th>
+<td data-quarto-table-cell-role="th">5</td>
 <td>Adelie</td>
 <td>male</td>
 <td>3650.0</td>
@@ -580,7 +579,7 @@ gtag('config', 'G-78XRDSRQC8', { 'anonymize_ip': true});
 <p>The way to perform such operations in pandas is to use the <code>.groupby()</code> method. Then one can select the desired column and compute the aggregation.</p>
 <p>For example, to compute the mean body mass by species we can do the following.</p>
 <div id="cell-14" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>species
 Adelie       3706.164384
@@ -591,7 +590,7 @@ Name: body_mass_g, dtype: float64</code></pre>
 </div>
 <p>We obtained a pandas Series with three values, the mean for each species. If we want to obtain a Series of the same length than the original data, it is, for each row the mean of the species the observation belongs to, we can use <code>.transform()</code>.</p>
 <div id="cell-16" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].transform(<span class="st">"mean"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].transform(<span class="st">"mean"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>0      3706.164384
 1      3706.164384
@@ -609,7 +608,7 @@ Name: body_mass_g, Length: 333, dtype: float64</code></pre>
 </div>
 <p>The same can be done with other transformations such as the standard deviation.</p>
 <div id="cell-18" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].transform(<span class="st">"std"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].transform(<span class="st">"std"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>0      458.620135
 1      458.620135
@@ -627,16 +626,16 @@ Name: body_mass_g, Length: 333, dtype: float64</code></pre>
 </div>
 <p>Now, putting all the pieces together, we can compute the standardized body mass by species.</p>
 <div id="cell-20" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"body_mass_z"</span>] <span class="op">=</span> (</span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"body_mass_z"</span>] <span class="op">=</span> (</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    (data[<span class="st">"body_mass_g"</span>] <span class="op">-</span> data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].transform(<span class="st">"mean"</span>)) </span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span> data.groupby(<span class="st">"species"</span>)[<span class="st">"body_mass_g"</span>].transform(<span class="st">"std"</span>)</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>data.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -648,35 +647,35 @@ Name: body_mass_g, Length: 333, dtype: float64</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
+<td data-quarto-table-cell-role="th">0</td>
 <td>Adelie</td>
 <td>male</td>
 <td>3750.0</td>
 <td>0.095582</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
+<td data-quarto-table-cell-role="th">1</td>
 <td>Adelie</td>
 <td>female</td>
 <td>3800.0</td>
 <td>0.204604</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
+<td data-quarto-table-cell-role="th">2</td>
 <td>Adelie</td>
 <td>female</td>
 <td>3250.0</td>
 <td>-0.994645</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">4</th>
+<td data-quarto-table-cell-role="th">4</td>
 <td>Adelie</td>
 <td>female</td>
 <td>3450.0</td>
 <td>-0.558555</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">5</th>
+<td data-quarto-table-cell-role="th">5</td>
 <td>Adelie</td>
 <td>male</td>
 <td>3650.0</td>
@@ -690,16 +689,16 @@ Name: body_mass_g, Length: 333, dtype: float64</code></pre>
 </div>
 <p>It’s also possible to add more variables to the groups. For example, this is how we can perform the same compution considering groups given by species and sex.</p>
 <div id="cell-22" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"body_mass_z"</span>] <span class="op">=</span> (</span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"body_mass_z"</span>] <span class="op">=</span> (</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    (data[<span class="st">"body_mass_g"</span>] <span class="op">-</span> data.groupby([<span class="st">"species"</span>, <span class="st">"sex"</span>])[<span class="st">"body_mass_g"</span>].transform(<span class="st">"mean"</span>)) </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span> data.groupby([<span class="st">"species"</span>, <span class="st">"sex"</span>])[<span class="st">"body_mass_g"</span>].transform(<span class="st">"std"</span>)</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>data.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -711,35 +710,35 @@ Name: body_mass_g, Length: 333, dtype: float64</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
+<td data-quarto-table-cell-role="th">0</td>
 <td>Adelie</td>
 <td>male</td>
 <td>3750.0</td>
 <td>-0.846261</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
+<td data-quarto-table-cell-role="th">1</td>
 <td>Adelie</td>
 <td>female</td>
 <td>3800.0</td>
 <td>1.600580</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
+<td data-quarto-table-cell-role="th">2</td>
 <td>Adelie</td>
 <td>female</td>
 <td>3250.0</td>
 <td>-0.441145</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">4</th>
+<td data-quarto-table-cell-role="th">4</td>
 <td>Adelie</td>
 <td>female</td>
 <td>3450.0</td>
 <td>0.301301</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">5</th>
+<td data-quarto-table-cell-role="th">5</td>
 <td>Adelie</td>
 <td>male</td>
 <td>3650.0</td>
@@ -753,12 +752,12 @@ Name: body_mass_g, Length: 333, dtype: float64</code></pre>
 </div>
 <p>And finally, I can sort by the standardized body mass in ascending order.</p>
 <div id="cell-24" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data.sort_values(<span class="st">"body_mass_z"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data.sort_values(<span class="st">"body_mass_z"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -770,77 +769,77 @@ Name: body_mass_g, Length: 333, dtype: float64</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">314</th>
+<td data-quarto-table-cell-role="th">314</td>
 <td>Chinstrap</td>
 <td>female</td>
 <td>2700.0</td>
 <td>-2.899080</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">192</th>
+<td data-quarto-table-cell-role="th">192</td>
 <td>Gentoo</td>
 <td>female</td>
 <td>3950.0</td>
 <td>-2.591611</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">195</th>
+<td data-quarto-table-cell-role="th">195</td>
 <td>Gentoo</td>
 <td>male</td>
 <td>4750.0</td>
 <td>-2.346530</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">298</th>
+<td data-quarto-table-cell-role="th">298</td>
 <td>Chinstrap</td>
 <td>female</td>
 <td>2900.0</td>
 <td>-2.198147</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">119</th>
+<td data-quarto-table-cell-role="th">119</td>
 <td>Adelie</td>
 <td>male</td>
 <td>3325.0</td>
 <td>-2.071711</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">...</th>
+<td data-quarto-table-cell-role="th">...</td>
 <td>...</td>
 <td>...</td>
 <td>...</td>
 <td>...</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">114</th>
+<td data-quarto-table-cell-role="th">114</td>
 <td>Adelie</td>
 <td>female</td>
 <td>3900.0</td>
 <td>1.971803</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">109</th>
+<td data-quarto-table-cell-role="th">109</td>
 <td>Adelie</td>
 <td>male</td>
 <td>4775.0</td>
 <td>2.109234</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">284</th>
+<td data-quarto-table-cell-role="th">284</td>
 <td>Chinstrap</td>
 <td>female</td>
 <td>4150.0</td>
 <td>2.182685</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">313</th>
+<td data-quarto-table-cell-role="th">313</td>
 <td>Chinstrap</td>
 <td>male</td>
 <td>4800.0</td>
 <td>2.377631</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">169</th>
+<td data-quarto-table-cell-role="th">169</td>
 <td>Gentoo</td>
 <td>male</td>
 <td>6300.0</td>
@@ -861,15 +860,15 @@ Name: body_mass_g, Length: 333, dtype: float64</code></pre>
 <p>Tidypolars does not rely on any pandas data structure because it’s built on top of polars, not pandas. In addition, it works with a new data frame structure called <code>Tibble</code>, borrowing its name from the <code>tibble</code> in the R package of the same name.</p>
 <p>We can convert a pandas DataFrame to a tibble with the <code>.from_pandas()</code> function.</p>
 <div id="cell-26" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>tibble <span class="op">=</span> tp.from_pandas(palmerpenguins.load_penguins())</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(tibble)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>tibble <span class="op">=</span> tp.from_pandas(palmerpenguins.load_penguins())</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(tibble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>tidypolars.tibble.Tibble</code></pre>
 </div>
 </div>
 <p>We still have a <code>.head()</code> method that prints the first rows. The representation is very similar to a pandas data frame.</p>
 <div id="cell-28" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tibble.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tibble.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div>
 <style scoped="">
@@ -1096,7 +1095,7 @@ null
 <p>To filter rows we can use the <code>.filter()</code> method. In the next chunk of code we use <code>col("*")</code> to select all columns, <code>tp.is_not_null()</code> to flag observations with non-null values, and <code>.filter()</code> to use those booleans to actually perform the filtering.</p>
 <p><strong>Update:</strong> See <a href="">this issue</a> where the main author of tidypolars lets me know that we can use the <code>.drop_null()</code> method instead.</p>
 <div id="cell-30" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tibble.drop_null()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tibble.drop_null()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <div>
 <style scoped="">
@@ -1842,7 +1841,7 @@ i64
 </div>
 <p>It’s very easy to select columns with the <code>.select()</code> method.</p>
 <div id="cell-32" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tibble.select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tibble.select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <div>
 <style scoped="">
@@ -2183,11 +2182,11 @@ null
 </div>
 <p>What’s even better, we can chain these operations. This is where one can start seeing how powerful this approach is.</p>
 <div id="cell-34" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    tibble</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    .drop_null()</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <div>
 <style scoped="">
@@ -2528,7 +2527,7 @@ f64
 </div>
 <p>We then have the <code>.summarise()</code> method to compute summaries (or aggregations) by groups. Note we use functions available in the tidypolars namespace such as <code>tp.mean()</code>.</p>
 <div id="cell-36" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    tibble</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    .drop_null()</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
@@ -2536,7 +2535,7 @@ f64
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        body_mass_mean<span class="op">=</span>tp.mean(<span class="st">"body_mass_g"</span>),</span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        by<span class="op">=</span><span class="st">"species"</span></span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <div>
 <style scoped="">
@@ -2620,7 +2619,7 @@ f64
 </div>
 <p>If we want to get a behavior similar to <code>.groupby()</code> and <code>.transform()</code> in pandas, we can use another verb, <code>mutate()</code>.</p>
 <div id="cell-38" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    tibble</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    .drop_null()</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
@@ -2628,7 +2627,7 @@ f64
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        body_mass_mean<span class="op">=</span>tp.mean(<span class="st">"body_mass_g"</span>),</span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        by<span class="op">=</span><span class="st">"species"</span></span>
 <span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 <style scoped="">
@@ -3050,7 +3049,7 @@ f64
 </div>
 <p>This verb is very powerful. We can compute more complex expressions, such as the one involved in the standardization of a variable.</p>
 <div id="cell-40" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    tibble</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    .drop_null()</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
@@ -3058,7 +3057,7 @@ f64
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>        body_mass_z<span class="op">=</span>(col(<span class="st">"body_mass_g"</span>) <span class="op">-</span> tp.mean(<span class="st">"body_mass_g"</span>)) <span class="op">/</span> tp.sd(<span class="st">"body_mass_g"</span>),</span>
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        by<span class="op">=</span><span class="st">"species"</span></span>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <div>
 <style scoped="">
@@ -3480,7 +3479,7 @@ f64
 </div>
 <p>And finally, we can use the <code>.arrange()</code> verb to sort observations by the standardized body mass in ascending order.</p>
 <div id="cell-42" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    tibble</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    .drop_null()</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    .select(<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>)</span>
@@ -3489,7 +3488,7 @@ f64
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>        by<span class="op">=</span><span class="st">"species"</span></span>
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    .arrange(<span class="st">"body_mass_z"</span>)</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <div>
 <style scoped="">
@@ -3911,7 +3910,7 @@ f64
 </div>
 <p>We can make it even clearer if we wrap the standardization operation within a function.</p>
 <div id="cell-44" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> standardize(name):</span>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> standardize(name):</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (col(name) <span class="op">-</span> tp.mean(name)) <span class="op">/</span> tp.sd(name)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>(</span>
@@ -3923,7 +3922,7 @@ f64
 <span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>        by<span class="op">=</span><span class="st">"species"</span></span>
 <span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    .arrange(<span class="st">"body_mass_z"</span>)</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <div>
 <style scoped="">
@@ -4351,18 +4350,18 @@ f64
 <section id="with-pandas" class="level3">
 <h3 class="anchored" data-anchor-id="with-pandas">With <strong>pandas</strong></h3>
 <div id="cell-47" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> palmerpenguins.load_penguins()</span>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> palmerpenguins.load_penguins()</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data[[<span class="st">"species"</span>, <span class="st">"sex"</span>, <span class="st">"body_mass_g"</span>]].dropna().reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"body_mass_z"</span>] <span class="op">=</span> (</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    (data[<span class="st">"body_mass_g"</span>] <span class="op">-</span> data.groupby([<span class="st">"species"</span>, <span class="st">"sex"</span>])[<span class="st">"body_mass_g"</span>].transform(<span class="st">"mean"</span>)) </span>
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span> data.groupby([<span class="st">"species"</span>, <span class="st">"sex"</span>])[<span class="st">"body_mass_g"</span>].transform(<span class="st">"std"</span>)</span>
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>data.sort_values(<span class="st">"body_mass_z"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>data.sort_values(<span class="st">"body_mass_z"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="22">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -4374,77 +4373,77 @@ f64
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">303</th>
+<td data-quarto-table-cell-role="th">303</td>
 <td>Chinstrap</td>
 <td>female</td>
 <td>2700.0</td>
 <td>-2.899080</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">185</th>
+<td data-quarto-table-cell-role="th">185</td>
 <td>Gentoo</td>
 <td>female</td>
 <td>3950.0</td>
 <td>-2.591611</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">188</th>
+<td data-quarto-table-cell-role="th">188</td>
 <td>Gentoo</td>
 <td>male</td>
 <td>4750.0</td>
 <td>-2.346530</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">287</th>
+<td data-quarto-table-cell-role="th">287</td>
 <td>Chinstrap</td>
 <td>female</td>
 <td>2900.0</td>
 <td>-2.198147</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">113</th>
+<td data-quarto-table-cell-role="th">113</td>
 <td>Adelie</td>
 <td>male</td>
 <td>3325.0</td>
 <td>-2.071711</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">...</th>
+<td data-quarto-table-cell-role="th">...</td>
 <td>...</td>
 <td>...</td>
 <td>...</td>
 <td>...</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">108</th>
+<td data-quarto-table-cell-role="th">108</td>
 <td>Adelie</td>
 <td>female</td>
 <td>3900.0</td>
 <td>1.971803</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">103</th>
+<td data-quarto-table-cell-role="th">103</td>
 <td>Adelie</td>
 <td>male</td>
 <td>4775.0</td>
 <td>2.109234</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">273</th>
+<td data-quarto-table-cell-role="th">273</td>
 <td>Chinstrap</td>
 <td>female</td>
 <td>4150.0</td>
 <td>2.182685</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">302</th>
+<td data-quarto-table-cell-role="th">302</td>
 <td>Chinstrap</td>
 <td>male</td>
 <td>4800.0</td>
 <td>2.377631</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">163</th>
+<td data-quarto-table-cell-role="th">163</td>
 <td>Gentoo</td>
 <td>male</td>
 <td>6300.0</td>
@@ -4461,11 +4460,11 @@ f64
 <section id="with-tidypolars" class="level3">
 <h3 class="anchored" data-anchor-id="with-tidypolars">With <strong>tidypolars</strong></h3>
 <div id="cell-49" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> standardize(name):</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (col(name) <span class="op">-</span> tp.mean(name)) <span class="op">/</span> tp.sd(name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> standardize(name):</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (col(name) <span class="op">-</span> tp.mean(name)) <span class="op">/</span> tp.sd(name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-50" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>tibble <span class="op">=</span> tp.from_pandas(palmerpenguins.load_penguins())</span>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>tibble <span class="op">=</span> tp.from_pandas(palmerpenguins.load_penguins())</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    tibble</span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    .drop_null()</span>
@@ -4475,7 +4474,7 @@ f64
 <span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>        by<span class="op">=</span>[<span class="st">"species"</span>, <span class="st">"sex"</span>]</span>
 <span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    .arrange(<span class="st">"body_mass_z"</span>)</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="24">
 <div>
 <style scoped="">
@@ -4958,14 +4957,13 @@ f64
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

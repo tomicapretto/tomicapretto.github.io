@@ -1,15 +1,28 @@
 ---
-title: "Welcome!"
+title: "About me"
 image: "data/imgs/profile_2023.png"
 toc: false
 about:
   id: summary
   template: solana
+  links:
+  - text: Twitter
+    url: "https://twitter.com/tomicapretto"
+    icon: twitter
+  - text: GitHub
+    url: "https://github.com/tomicapretto"
+    icon: github
+  - text: LinkedIn
+    url: "https://www.linkedin.com/in/tom%C3%A1s-capretto-a89873106/"
+    icon: linkedin
+  - text: Email
+    url: "mailto:tomicapretto@gmail.com"
+    icon: envelope
 ---
 
-:::{#summary}
+:::: {#summary}
 
-I'm a Data Scientist at [PyMC Labs](https://www.pymc-labs.com/).
+I am a Data Scientist at [PyMC Labs](https://www.pymc-labs.com/) and a Professor at [UNR](https://www.unr.edu/).
 
 I create tools to make statistics easier for everybody.
 
@@ -19,89 +32,6 @@ I enjoy sharing what I do on this website.
 
 :::
 
-# What I'm working on
-
-::: {.grid}
-
-::: {.g-col-12}
-
-<div class="card">
-<div class="grid grid-card">
-<div class="g-col-12 g-col-sm-10 order-2 order-sm-1 text-center text-sm-start">
-<div class="card-body">
-<h5 class="card-title">Statistical Consulting</h5>
-<p class="card-text">
-    We use statistics to help companies solve challenging business problems.
-</p>
-<p class="no-margin">
-<a href="https://pymc-labs.com/" class="stretched-link">
-    Learn more about our work
-</a>
-</p>
-</div>
-</div>
-<div class="g-col-12 g-col-sm-2 order-1 order-sm-2 text-center text-sm-start grid-img">
-<p class="no-margin">
-<img src="imgs/pymc-labs.png" class="card-img">
-</p>
-</div>
-</div>
-</div>
-
-:::
-
-::: {.g-col-12}
-
-<div class="card">
-<div class="grid grid-card">
-<div class="g-col-12 g-col-sm-10 order-2 order-sm-1 text-center text-sm-start">
-<div class="card-body">
-<h5 class="card-title">Intuitive Bayes</h5>
-<p class="card-text">
-    I'm co-developing interactive courses to teach Statistics intuitively.
-</p>
-<p class="no-margin">
-<a href="https://www.intuitivebayes.com/advanced-regression" class="stretched-link">
-    Sign up for the Advanced Regression course
-</a>
-</p>
-</div>
-</div>
-<div class="g-col-12 g-col-sm-2 order-1 order-sm-2 text-center text-sm-start grid-img">
-<p class="no-margin">
-<img src="imgs/ib.png" class="card-img">
-</p>
-</div>
-</div>
-</div>
-
-:::
-
-::: {.g-col-12}
-
-<div class="card">
-<div class="grid grid-card">
-<div class="g-col-12 g-col-sm-10 order-2 order-sm-1 text-center text-sm-start">
-<div class="card-body">
-<h5 class="card-title">Bambi: Bayesian Model Building Interface</h5>
-<p class="card-text">
-    A Python library to make Bayesian modeling easier and more flexible.
-</p>
-<p class="no-margin">
-<a href="https://github.com/bambinos/bambi" class="stretched-link">
-    Check the repository
-</a>
-</p>
-</div>
-</div>
-<div class="g-col-12 g-col-sm-2 order-1 order-sm-2 text-center text-sm-start grid-img">
-<p class="no-margin">
-<img src="imgs/bambi.png" class="card-img">
-</p>
-</div>
-</div>
-</div>
-
-:::
+:::: {#socials}
 
 :::

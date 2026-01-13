@@ -1,0 +1,101 @@
+---
+title: Teaching
+toc: false
+---
+
+
+```{=html}
+<div class="grid">
+
+    <!-- Estadistica bayesiana -->
+    <div class="g-col-12">
+        <div class="card">
+            <div class="grid grid-card">
+
+                <div class="g-col-12 g-col-sm-10 order-2 order-sm-1 text-center text-sm-start">
+                    <div class="card-body">
+                        <h5 class="card-title">Estadística Bayesiana</h5>
+                        <div class="card-text" bis_skin_checked="1">
+                            <p>
+                                <i class="fa-solid fa-graduation-cap" aria-label="graduation-cap"></i>&nbsp; Licenciatura en Estadística<br>
+                                <i class="fa-solid fa-university" aria-label="university"></i> &nbsp; Facultad de Ciencias Económicas y Estadística (UNR)<br>
+                            </p>
+                        </div>
+                        <p class="no-margin">
+                            <a href="https://ee-unr.github.io/estadistica-bayesiana/" class="stretched-link">
+                            Course webpage
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="g-col-12 g-col-sm-2 order-1 order-sm-2 text-center text-sm-start grid-img">
+                    <p class="no-margin">
+                        <img src="imgs/eb_logo.png" class="card-img">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Programación 2 -->
+    <div class="g-col-12">
+        <div class="card">
+            <div class="grid grid-card">
+                <div class="g-col-12 g-col-sm-10 order-2 order-sm-1 text-center text-sm-start">
+                    <div class="card-body">
+                        <h5 class="card-title">Programación 2</h5>
+                        <div class="card-text" bis_skin_checked="1">
+                            <p>
+                                <i class="fa-solid fa-graduation-cap" aria-label="graduation-cap"></i>&nbsp; Ciclo de Formación Técnica - Estadística y Ciencia de Datos<br>
+                                <i class="fa-solid fa-university" aria-label="university"></i> &nbsp; Facultad de Ciencias Económicas y Estadística (UNR)<br>
+                            </p>
+                        </div>
+                        <p class="no-margin">
+                            <a href="https://ee-unr.github.io/programacion-2/" class="stretched-link">
+                            Course webpage
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="g-col-12 g-col-sm-2 order-1 order-sm-2 text-center text-sm-start grid-img">
+                    <p class="no-margin">
+                        <img src="imgs/programacion2_logo.png" class="card-img">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Intuitive Bayes -->
+    <div class="g-col-12">
+        <div class="card">
+            <div class="grid grid-card">
+                <div class="g-col-12 g-col-sm-10 order-2 order-sm-1 text-center text-sm-start">
+                    <div class="card-body">
+                        <h5 class="card-title">Intuitive Bayes</h5>
+                        <p class="card-text">
+                            I have co-developed an online course to teach Statistics intuitively.
+                        </p>
+                        <p class="no-margin">
+                            <a href="https://www.intuitivebayes.com/advanced-regression" class="stretched-link">
+                                Sign up for the Advanced Regression course
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="g-col-12 g-col-sm-2 order-1 order-sm-2 text-center text-sm-start grid-img">
+                    <p class="no-margin">
+                        <img src="imgs/ib.png" class="card-img">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+```
+
+<!-- {{< fa brands github >}} -->
