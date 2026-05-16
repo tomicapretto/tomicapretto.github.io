@@ -22,13 +22,11 @@ about:
 
 :::: {#summary}
 
-I am a Data Scientist at [PyMC Labs](https://www.pymc-labs.com/) and a Professor at [UNR](https://www.unr.edu/).
+Consultant in statistics, data science, and statistical computing.
 
-I create tools to make statistics easier for everybody.
+University professor and educator.
 
-I write educational content and I teach.
-
-I enjoy sharing what I do on this website.
+Here I share [blog posts](blog.qmd), [software projects](software/index.qmd), and [teaching material](teaching.qmd).
 
 :::
 
